@@ -1,4 +1,4 @@
-	<!DOCTYPE html>
+<!DOCTYPE html>
 	<html lang="en">
 
 	<head>
@@ -42,9 +42,11 @@
 
 
 
-		<div id="login-page" class="row">
-			<div class="col s12 z-depth-4 card-panel">
-				<form class="login-form" action="<?= base_url('login') ?>" method="post">
+    <div class="col s12 z-depth-4 card-panel rounded">
+				<form class="login-form" action="<?= base_url('register') ?>" method="post">
+                    <center>
+                <h1 >Daftar Pengguna Baru</h1>
+                </center>
 					<div class="row">
 						<div class="input-field col s12 center">
 							<img src="<?= base_url('assets/images/favicon/simkopsis-brand.png') ?>" alt="" class=" responsive-img valign profile-image-login">
@@ -92,7 +94,7 @@
 				</form>
 			</div>
 		</div>
-
+		
 
 
 		<!-- ================================================

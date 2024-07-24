@@ -5,6 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	
 	$route['login'] = 'AuthController/login';
 	$route['logout'] = 'AuthController/logout';
+	$route['register'] = 'AuthController/register';
 
 
 	/*

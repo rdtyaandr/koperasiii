@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-$config['base_url'] = 'http://localhost/simkopsis/';
+$config['base_url'] = 'http://localhost/kop_bps/';
 
 $config['index_page'] = '';
 

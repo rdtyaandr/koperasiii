@@ -68,4 +68,9 @@
 			$query = array('pengguna_isDelete' => 0);
 			return parent::update_table_with_status('simkopsis_pengguna','pengguna_id',$penggunaID,$query);
 		}
+
+		public function insert_pengguna($data)
+    {
+        return $this->db->insert('pengguna', $data);
+    }
 	}
