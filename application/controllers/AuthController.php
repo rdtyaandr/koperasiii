@@ -42,8 +42,8 @@
 						// Set data sesi pengguna
 						$sessionData = array(
 							'user_id' => $pengguna['pengguna_id'],
-							'username' => $pengguna['pengguna_username'],
-							'name' => $pengguna['pengguna_nama'],
+							'username' => $pengguna['nama_lengkap'],
+							'name' => $pengguna['username'],
 							'level' => $pengguna['pengguna_hak_akses'],
 							'login' => true
 						);
@@ -73,38 +73,40 @@
 			redirect('login');
 		}
 
-		// Fungsi untuk register pengguna baru
-		public function register()
-		{
-			// Jika form register disubmit
-			if (isset($_POST['register'])){
-				$username = parent::post('username');
-				$password = parent::post('password');
-				$nama = parent::post('nama');
-				$hakAkses = parent::post('hak_akses');
-				
-				// Data pengguna baru
-				$dataPengguna = array(
-					'pengguna_username' => $username,
-					'pengguna_password' => md5($password),
-					'pengguna_nama' => $nama,
-					'pengguna_hak_akses' => $hakAkses
-				);
-				
-				// Simpan data pengguna baru ke database
-				$insert = parent::model('AuthModel')->insert_pengguna($dataPengguna);
-				
-				// Jika penyimpanan berhasil
-				if ($insert){
-					parent::alert('alert','register-success');
-					redirect('login');
-				}else{
-					parent::alert('alert','register-failed');
-				}
+	// Fungsi untuk register pengguna baru
+	public function register()
+	{
+		// Jika form register disubmit
+		if (isset($_POST['register'])) {
+			$fullName = parent::post('full_name');
+			$username = parent::post('username');
+			$email = parent::post('email');
+			$satker = parent::post('satker');
+			$password = parent::post('password');
+
+			// Data pengguna baru
+			$dataPengguna = array(
+				'nama_lengkap' => $fullName,
+				'username' => $username,
+				'email' => $email,
+				'satker' => $satker,
+				'password' => md5($password)
+			);
+
+			// Simpan data pengguna baru ke database
+			$insert = $this->AuthModel->insert_pengguna($dataPengguna);
+
+			// Jika penyimpanan berhasil
+			if ($insert) {
+				parent::alert('alert', 'register-success');
+				redirect('login');
+			} else {
+				parent::alert('alert', 'register-failed');
 			}
-			
-			// Set judul halaman dan tampilkan halaman register
-			$data['title'] = 'Daftar - Sistem Koperasi Syariah';
-			parent::authPage('auth/register',$data);
 		}
+
+		// Set judul halaman dan tampilkan halaman register
+		$data['title'] = 'Daftar - Sistem Koperasi Syariah';
+		parent::authPage('auth/register', $data);
+	}
 	}
