@@ -103,8 +103,26 @@
                 </li>
 
                 <li class="bold">
+                    <a href="<?= base_url('barang')?>" class="waves-effect waves-cyan">
+                        <i class="mdi-social-people"></i> Data Barang
+                    </a>
+                </li>
+
+                <li class="bold">
+                    <a href="<?= base_url('gudang')?>" class="waves-effect waves-cyan">
+                        <i class="mdi-social-people"></i> Data Gudang
+                    </a>
+                </li>
+
+                <li class="bold">
+                    <a href="<?= base_url('transaksi')?>" class="waves-effect waves-cyan">
+                        <i class="mdi-social-people"></i> Data Transaksi
+                    </a>
+                </li>
+
+                <li class="bold">
                     <a href="<?= base_url('anggota')?>" class="waves-effect waves-cyan">
-                        <i class="mdi-social-people"></i> Anggota
+                        <i class="mdi-social-people"></i> Data Anggota
                     </a>
                 </li>
 
@@ -203,6 +221,9 @@
                 <li class="li-hover"><p class="ultra-small margin more-text">Akun</p></li>
                 <li>
                     <a href="<?= base_url('profil')?>"><i class="mdi-action-account-circle"></i> Profil</a>
+                </li>
+                <li>
+                    <a href="<?= base_url('pesan')?>"><i class="mdi-action-account-circle"></i> Pesan</a>
                 </li>
                 <li>
                     <a href="<?= base_url('bantuan')?>"><i class="mdi-action-help"></i> Bantuan</a>
