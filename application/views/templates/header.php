@@ -8,7 +8,13 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="description" content="Materialize is a Material Design Admin Template,It's modern, responsive and based on Material Design by Google. ">
     <meta name="keywords" content="materialize, admin template, dashboard template, flat admin template, responsive admin template,">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?= $title ?> - Koperasi</title>
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
     <!-- Favicons and Meta Tags -->
     <link rel="icon" href="<?= base_url('assets/images/favicon/icon.png') ?>" sizes="32x32">
@@ -98,30 +104,24 @@
                         <p class="ultra-small margin more-text">Menu Utama</p>
                     </li>
                     <li class="bold active">
-                        <a href="<?= base_url() ?>" class="waves-effect waves-dark"><i class="mdi-action-dashboard"></i> Dashboard</a>
+                        <a href="<?= base_url() ?>" class="waves-effect waves-dark"><i class="mdi-action-trending-up"></i> Dashboard</a>
                     </li>
 
                     <li class="bold">
                         <a href="<?= base_url('barang') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-social-people"></i> Data Barang
-                        </a>
-                    </li>
-
-                    <li class="bold">
-                        <a href="<?= base_url('gudang') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-social-people"></i> Data Gudang
+                            <i class="mdi-action-shopping-cart"></i> Data Barang
                         </a>
                     </li>
 
                     <li class="bold">
                         <a href="<?= base_url('transaksi') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-social-people"></i> Data Transaksi
+                            <i class="mdi-action-swap-vert"></i> Data Transaksi
                         </a>
                     </li>
 
                     <li class="bold">
                         <a href="<?= base_url('anggota') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-social-people"></i> Data Anggota
+                            <i class="mdi-social-group"></i> Data Anggota
                         </a>
                     </li>
 
@@ -197,17 +197,13 @@
                         <ul class="collapsible collapsible-accordion">
                             <li class="bold">
                                 <a class="collapsible-header waves-effect waves-cyan">
-                                    <i class="mdi-action-book"></i> Laporan
+                                    <i class="mdi-action-history"></i> Histori
                                 </a>
                                 <div class="collapsible-body">
                                     <ul>
-                                        <li><a href="<?= base_url('laporan-anggota') ?>">Buku Anggota</a>
+                                        <li><a href="<?= base_url('histori-barang') ?>">Barang</a>
                                         </li>
-                                        <li><a href="<?= base_url('laporan-simpanan') ?>">Daftar Simpanan</a>
-                                        </li>
-                                        <li><a href="<?= base_url('laporan-pinjaman') ?>">Daftar Pinjaman</a>
-                                        </li>
-                                        <li><a href="<?= base_url('laporan-tagihan-koperasi') ?>">Daftar Tagihan</a>
+                                        <li><a href="<?= base_url('histori-transaksi') ?>">Transaksi</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -226,7 +222,7 @@
                         <a href="<?= base_url('profil') ?>"><i class="mdi-action-account-circle"></i> Profil</a>
                     </li>
                     <li>
-                        <a href="<?= base_url('pesan') ?>"><i class="mdi-action-account-circle"></i> Pesan</a>
+                        <a href="<?= base_url('pesan') ?>"><i class="mdi-communication-message"></i> Pesan</a>
                     </li>
                     <li>
                         <a href="<?= base_url('bantuan') ?>"><i class="mdi-action-help"></i> Bantuan</a>
@@ -235,7 +231,7 @@
                         <a href="<?= base_url('pengaturan') ?>"><i class="mdi-action-settings"></i> Pengaturan</a>
                     </li>
                     <li>
-                        <a href="#logoutModal" class="modal-trigger"><i class="mdi-action-exit-to-app "></i> Keluar</a>
+                        <a href="#logoutModal" class="modal-trigger"><i class="mdi-action-exit-to-app"></i> Keluar</a>
                     </li>
                     <!-- end main menu -->
                 </ul>

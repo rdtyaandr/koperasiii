@@ -14,7 +14,7 @@
 
 		public function index()
 		{
-			$data['title'] = 'Dashboard Admin';
+			$data['title'] = 'Dashboard';
 
 			parent::template('admin/dashboard',$data);
 		}
