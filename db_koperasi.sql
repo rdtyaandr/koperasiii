@@ -22,8 +22,10 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
+  CREATE DATABASE IF NOT EXISTS db_koperasi;
 
 --
+USE db_koperasi;
 -- Table structure for table `simkopsis_anggota`
 --
 

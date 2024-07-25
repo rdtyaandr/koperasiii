@@ -8,7 +8,14 @@ $route['login'] = 'AuthController/login';
 $route['logout'] = 'AuthController/logout';
 $route['register'] = 'AuthController/register';
 
+//Untuk Rute User
+/*
+* laporan routes user
+* */
+$route['home'] = 'usercontroller';
 
+
+//Untuk Admin
 /*
 * laporan routes modul
 * */

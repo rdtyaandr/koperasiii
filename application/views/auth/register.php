@@ -28,7 +28,7 @@
 	<link href="<?= base_url('assets/css/layouts/page-center.css') ?>" type="text/css" rel="stylesheet" media="screen,projection">
 </head>
 
-<body class="teal">
+<body class="#0091ea light-blue accent-4">
 
 	<div id="register-page" class="row">
 		<div class="col s12 z-depth-4 card-panel">

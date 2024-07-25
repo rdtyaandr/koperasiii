@@ -22,7 +22,8 @@
 					<th>Pekerjaan</th>
 					<th>Pendapatan</th>
 					<?php
-					if ($this->session->userdata('level') == 'pengurus'):
+					if ($this->session->userdata('level') == 'ketua'):
+						elseif($this->session->userdata('level') == 'operator'):
 						?>
 						<th class="center">Aksi</th>
 					<?php
@@ -47,7 +48,7 @@
 						<td class="grey-text text-darken-1"><?= $value['anggota_pekerjaan'] ?></td>
 						<td class="grey-text text-darken-1"><?= $value['anggota_pendapatan'] ?></td>
 						<?php
-						if ($this->session->userdata('level') == 'pengurus'):
+						if ($this->session->userdata('level') == 'user'):
 							?>
 							<td>
 								<div class="row">
@@ -96,7 +97,8 @@
 
 <!-- Floating Action Button -->
 <?php
-if ($this->session->userdata('level') == 'pengurus'):
+if ($this->session->userdata('level') == 'operator'):
+elseif ($this->session->userdata('level') == 'ketua'):
 	?>
 	<div class="fixed-action-btn" style="bottom: 50px; right: 19px;">
 		<a class="btn-floating btn-large teal" href="<?= base_url('anggota/tambah') ?>">
