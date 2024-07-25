@@ -10,15 +10,11 @@
 		<meta name="keywords" content="materialize, admin template, dashboard template, flat admin template, responsive admin template,">
 		<title><?= $title ?></title>
 
-		<!-- Favicons-->
-		<link rel="icon" href="<?= base_url('assets/images/favicon/order-app-logo.png') ?>" sizes="32x32">
-		<!-- Favicons-->
-		<link rel="apple-touch-icon-precomposed" href="<?= base_url('assets/images/favicon/apple-touch-icon-152x152.png') ?>">
-		<!-- For iPhone -->
+		<!-- Favicons and Meta Tags -->
+		<link rel="icon" href="<?= base_url('assets/images/favicon/icon.png') ?>" sizes="32x32">
+		<link rel="apple-touch-icon-precomposed" href="<?= base_url('assets/images/favicon/icon.png') ?>">
 		<meta name="msapplication-TileColor" content="#00bcd4">
-		<meta name="msapplication-TileImage" content="images/favicon/mstile-144x144.png">
-		<!-- For Windows Phone -->
-
+		<meta name="msapplication-TileImage" content="images/favicon/icon.png">
 
 		<!-- CORE CSS-->
 		<link href="<?= base_url('assets/css/materialize.css') ?>" type="text/css" rel="stylesheet" media="screen,projection">
@@ -38,17 +34,15 @@
 
 	</head>
 
-	<body class="teal">
-
-
+	<body class="blue darken-2">
 
 		<div id="login-page" class="row">
 			<div class="col s12 z-depth-4 card-panel">
 				<form class="login-form" action="<?= base_url('login') ?>" method="post">
 					<div class="row">
 						<div class="input-field col s12 center">
-							<img src="<?= base_url('assets/images/favicon/simkopsis-brand.png') ?>" alt="" class=" responsive-img valign profile-image-login">
-							<p class="center login-form-text">sistem informasi koperasi syariah</p>
+							<img src="<?= base_url('assets/images/favicon/icon.png') ?>" alt="" class=" responsive-img valign profile-image-login">
+							<p class="center login-form-text">sistem koperasi bps jawa timur</p>
 						</div>
 					</div>
 					<div class="row margin">
@@ -74,18 +68,12 @@
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<button type="submit" name="login" class="btn waves-effect waves-light col s12">Login</button>
+							<button type="submit" name="login" class="btn blue waves-effect waves-dark col s12">Login</button>
 						</div>
 					</div>
-
 					<div class="row">
-						<div class="input-field ">
-							<p class="margin right-align medium-small">
-								Repost by <a href="https://stokcoding.com/" title="StokCoding.com" target="_blank">StokCoding.com</a>
-							</p>
-						</div>
+						<label>Tidak punya akun? Klik <a href="<?= base_url('register') ?>">Daftar Akun</a></label>
 					</div>
-
 				</form>
 			</div>
 		</div>

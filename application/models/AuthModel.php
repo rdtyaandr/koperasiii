@@ -10,8 +10,8 @@
 		public function get_pengguna($username,$password)
 		{
 			$user = array(
-				'pengguna_username' => $username,
-				'pengguna_password' => $password
+				'username' => $username,
+				'password' => $password
 			);
 			
 			return parent::get_object_of_row('simkopsis_pengguna',$user);
@@ -68,4 +68,9 @@
 			$query = array('pengguna_isDelete' => 0);
 			return parent::update_table_with_status('simkopsis_pengguna','pengguna_id',$penggunaID,$query);
 		}
+
+		public function insert_pengguna($data)
+    {
+        return parent::insert_with_status('simkopsis_pengguna', $data);
+    }
 	}

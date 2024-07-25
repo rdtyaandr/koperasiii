@@ -10,18 +10,13 @@
         content="Materialize is a Material Design Admin Template,It's modern, responsive and based on Material Design by Google. ">
     <meta name="keywords"
         content="materialize, admin template, dashboard template, flat admin template, responsive admin template,">
-    <title><?= $title ?> - Koperasi Badan Pusat Statistik Jawa Timur</title>
+    <title><?= $title ?> - Koperasi</title>
 
-    <!-- Favicons-->
-    <link rel="icon" href="<?= base_url('assets/images/favicon/simkopsis-icon.png') ?>" sizes="32x32">
-    <!-- Favicons-->
-    <link rel="apple-touch-icon-precomposed"
-        href="<?= base_url('assets/images/favicon/apple-touch-icon-152x152.png') ?>">
-    <!-- For iPhone -->
+    <!-- Favicons and Meta Tags -->
+    <link rel="icon" href="<?= base_url('assets/images/favicon/icon.png') ?>" sizes="32x32">
+    <link rel="apple-touch-icon-precomposed" href="<?= base_url('assets/images/favicon/icon.png') ?>">
     <meta name="msapplication-TileColor" content="#00bcd4">
-    <meta name="msapplication-TileImage" content="images/favicon/mstile-144x144.png">
-    <!-- For Windows Phone -->
-
+    <meta name="msapplication-TileImage" content="images/favicon/icon.png">
 
     <!-- CORE CSS-->
     <link href="<?= base_url('assets/css/materialize.css') ?>" type="text/css" rel="stylesheet"
@@ -61,14 +56,17 @@
     <header id="header" class="page-topbar">
         <!-- start header nav-->
         <div class="navbar-fixed">
-            <nav class="navbar-color">
+            <nav class="navbar-color blue darken-2">
                 <div class="nav-wrapper">
                     <ul class="left">
                         <li>
                             <h1 class="logo-wrapper">
                                 <a href="<?= base_url() ?>" class="brand-logo darken-1">
-                                    <img src="<?= base_url('assets/images/simkopsis-white-brand.png') ?>"
-                                        alt="simkopsis logo">
+                                    <img src="<?= base_url('assets/images/favicon/icon.png') ?>" alt="bps logo"
+                                        class="responsive-img hide-on-med-and-down" style="width: 9%; height: auto;">
+                                    <span class="brand-logo"
+                                        style="font-size: 1.4rem; line-height: 50%; display: inline-block; letter-spacing: 0.03em;">KOPERASI
+                                        BPS</span>
                                 </a>
                             </h1>
                         </li>
@@ -117,31 +115,31 @@
                         <p class="ultra-small margin more-text">Menu Utama</p>
                     </li>
                     <li class="bold active">
-                        <a href="<?= base_url() ?>" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i>
+                        <a href="<?= base_url() ?>" class="waves-effect waves-dark"><i class="mdi-action-dashboard"></i>
                             Dashboard</a>
                     </li>
 
                     <li class="bold">
                         <a href="<?= base_url('barang') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-action-shopping-cart"></i> Data Barang
+                            <i class="mdi-social-people"></i> Data Barang
                         </a>
                     </li>
 
                     <li class="bold">
                         <a href="<?= base_url('gudang') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-action-store"></i> Data Gudang
+                            <i class="mdi-social-people"></i> Data Gudang
                         </a>
                     </li>
 
                     <li class="bold">
                         <a href="<?= base_url('transaksi') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-action-assignment"></i> Data Transaksi
+                            <i class="mdi-social-people"></i> Data Transaksi
                         </a>
                     </li>
 
                     <li class="bold">
                         <a href="<?= base_url('anggota') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-social-person"></i> Data Anggota
+                            <i class="mdi-social-people"></i> Data Anggota
                         </a>
                     </li>
 
@@ -258,7 +256,7 @@
                     <!-- end main menu -->
                 </ul>
                 <a href="#" data-activates="slide-out"
-                    class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only teal"
+                    class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only blue darken-2"
                     style="box-shadow: 0px 0px 0px transparent !important;">
                     <i class="mdi-navigation-menu"></i>
                 </a>
