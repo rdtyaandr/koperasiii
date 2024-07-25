@@ -3,11 +3,11 @@
         <div class="col s12">
             <div class="card hoverable" style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
                 <div class="card-content">
-                    <span class="card-title" style="font-size: 2em; color: #00796B; text-align: center;">Dashboard</span>
-                    <p id="current-datetime" class="right" style="font-size: 1.2em; font-weight: bold; color: #FFFFFF; background-color: #00796B; padding: 10px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); text-align: center;"></p>
+                    <span class="card-title blue-text" style="font-size: 2em; text-align: center;">Dashboard</span>
+                    <p id="current-datetime" class="right blue" style="font-size: 1.2em; font-weight: bold; color: #FFFFFF; padding: 10px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); text-align: center;"></p>
                     <div class="row" style="margin-top: 15px;">
                         <div class="col s12 m6 l3">
-                            <div class="card teal lighten-2 white-text" style="border-radius: 8px;">
+                            <div class="card blue lighten-1 white-text" style="border-radius: 8px;">
                                 <div class="card-content">
                                     <span class="card-title">Users</span>
                                     <h4 style="font-size: 2em;">1,234</h4>
@@ -15,7 +15,7 @@
                             </div>
                         </div>
                         <div class="col s12 m6 l3">
-                            <div class="card lime lighten-2 white-text" style="border-radius: 8px;">
+                            <div class="card green lighten-1 white-text" style="border-radius: 8px;">
                                 <div class="card-content">
                                     <span class="card-title">Orders</span>
                                     <h4 style="font-size: 2em;">567</h4>
@@ -23,7 +23,7 @@
                             </div>
                         </div>
                         <div class="col s12 m6 l3">
-                            <div class="card amber lighten-2 white-text" style="border-radius: 8px;">
+                            <div class="card orange lighten-1 white-text" style="border-radius: 8px;">
                                 <div class="card-content">
                                     <span class="card-title">Sales</span>
                                     <h4 style="font-size: 2em;">$12,345</h4>
@@ -31,7 +31,7 @@
                             </div>
                         </div>
                         <div class="col s12 m6 l3">
-                            <div class="card red lighten-2 white-text" style="border-radius: 8px;">
+                            <div class="card red darken-1 white-text" style="border-radius: 8px;">
                                 <div class="card-content">
                                     <span class="card-title">Issues</span>
                                     <h4 style="font-size: 2em;">23</h4>
