@@ -10,8 +10,8 @@
 		public function get_pengguna($username,$password)
 		{
 			$user = array(
-				'pengguna_username' => $username,
-				'pengguna_password' => $password
+				'username' => $username,
+				'password' => $password
 			);
 			
 			return parent::get_object_of_row('simkopsis_pengguna',$user);
@@ -71,6 +71,6 @@
 
 		public function insert_pengguna($data)
     {
-        return $this->db->insert('pengguna', $data);
+        return parent::insert_with_status('simkopsis_pengguna', $data);
     }
 	}

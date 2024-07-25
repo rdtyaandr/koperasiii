@@ -78,17 +78,8 @@
 						</div>
 					</div>
 					<div class="row">
-						<label >Jika Tidak Punya akun Klik</label><a href="<?= base_url('register')?>">Daftar Akun</a>
+						<label>Tidak punya akun? Klik <a href="<?= base_url('register') ?>">Daftar Akun</a></label>
 					</div>
-
-					<div class="row">
-						<div class="input-field ">
-							<p class="margin right-align medium-small">
-								Repost by <a href="https://stokcoding.com/" title="StokCoding.com" target="_blank">StokCoding.com</a>
-							</p>
-						</div>
-					</div>
-
 				</form>
 			</div>
 		</div>
