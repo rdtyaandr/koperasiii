@@ -84,6 +84,11 @@ $route['transaksi/hapus/(:any)'] = 'TransaksiController/hapus/$1';
 $route['transaksi/(:any)'] = 'TransaksiController/detail/$1';
 
 /*
+* pengguna modul routes
+* */
+$route['pengguna'] = 'PenggunaController/index';
+$route['pengguna/ubah/(:any)'] = 'PenggunaController/ubah/$1';
+/*
 * akun modul routes
 * */
 $route['profil'] = 'ProfilController';

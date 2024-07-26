@@ -124,6 +124,11 @@
                             <i class="mdi-social-group"></i> Data Anggota
                         </a>
                     </li>
+                    <li class="bold">
+    <a href="<?= base_url('pengguna') ?>" class="waves-effect waves-cyan">
+        <i class="material-icons">person</i> Data pengguna
+    </a>
+</li>
 
                     <li class="no-padding">
                         <ul class="collapsible collapsible-accordion">

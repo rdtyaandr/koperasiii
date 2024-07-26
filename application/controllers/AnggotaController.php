@@ -5,7 +5,7 @@ class AnggotaController extends GLOBAL_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$model = array('AnggotaModel');
+			$model = array('AnggotaModel');
 		$this->load->model($model);
 		if (!parent::hasLogin()) {
 			$this->session->set_flashdata('alert', 'belum_login');
