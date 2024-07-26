@@ -107,11 +107,6 @@
                         </a>
                     </li>
 
-                    <li class="bold">
-                        <a href="<?= base_url('gudang') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-social-people"></i> Data Gudang
-                        </a>
-                    </li>
 
                     <li class="bold">
                         <a href="<?= base_url('transaksi') ?>" class="waves-effect waves-cyan">

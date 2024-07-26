@@ -7,6 +7,15 @@
                     <p id="current-datetime" class="right" style="font-size: 1.2em; font-weight: bold; color: #FFFFFF; background-color: #00796B; padding: 10px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); text-align: center;"></p>
                     
                 </div>
+                <div class="row">
+    <div class="col s12 m5">
+      <div class="card-panel #e1f5fe light-blue lighten-5" style="border-radius: 10px; margin-left:1.2em">
+      <p>Saldo Pinjaman: Rp. <?= number_format($loan['saldo_pinjaman'], 0, ',', '.') ?></p>
+      <p>Batas Pinjaman: Rp. <?= number_format($loan['batas_pinjaman'], 0, ',', '.') ?></p>
+        </span>
+      </div>
+    </div>
+  </div>
             </div>
         </div>
     </div>

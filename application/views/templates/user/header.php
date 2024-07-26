@@ -48,13 +48,14 @@
     <header id="header" class="page-topbar">
         <!-- start header nav-->
         <div class="navbar-fixed">
-            <nav class="navbar-color">
+            <nav class="navbar-color blue darken-2">
                 <div class="nav-wrapper">
                     <ul class="left">
                         <li>
                             <h1 class="logo-wrapper">
                                 <a href="<?= base_url() ?>" class="brand-logo darken-1">
-                                    <img src="<?= base_url('assets/images/simkopsis-white-brand.png') ?>" alt="simkopsis logo">
+                                    <img src="<?= base_url('assets/images/favicon/icon.png') ?>" alt="bps logo" class="responsive-img hide-on-med-and-down" style="width: 9%; height: auto;">
+                                    <span class="brand-logo" style="font-size: 1.4rem; line-height: 50%; display: inline-block; letter-spacing: 0.03em;">KOPERASI BPS</span>
                                 </a>
                             </h1>
                         </li>
@@ -104,120 +105,7 @@
                         <a href="<?= base_url('home') ?>" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Halaman Utama</a>
                     </li>
 
-                    <li class="bold">
-                        <a href="<?= base_url('barang') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-social-people"></i> Data Barang
-                        </a>
-                    </li>
-
-                    <li class="bold">
-                        <a href="<?= base_url('gudang') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-social-people"></i> Data Gudang
-                        </a>
-                    </li>
-
-                    <li class="bold">
-                        <a href="<?= base_url('transaksi') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-social-people"></i> Data Transaksi
-                        </a>
-                    </li>
-
-                    <li class="bold">
-                        <a href="<?= base_url('anggota') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-social-people"></i> Data Anggota
-                        </a>
-                    </li>
-
-                    <li class="no-padding">
-                        <ul class="collapsible collapsible-accordion">
-                            <li class="bold">
-                                <a class="collapsible-header waves-effect waves-cyan">
-                                    <i class="mdi-action-account-balance-wallet"></i> Simpanan
-                                </a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li><a href="<?= base_url('simpanan-amanah') ?>">Amanah</a>
-                                        </li>
-                                        <li><a href="<?= base_url('simpanan-qurban-aqikah') ?>">Qurban/Aqikah</a>
-                                        </li>
-                                        <li><a href="<?= base_url('simpanan-umrah') ?>">Umrah</a>
-                                        </li>
-                                        <li><a href="<?= base_url('simpanan-idul-fitri') ?>">Idul Fitri</a>
-                                        </li>
-                                        <li><a href="<?= base_url('simpanan-wadiah') ?>">Wadi'ah</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="no-padding">
-                        <ul class="collapsible collapsible-accordion">
-                            <li class="bold">
-                                <a class="collapsible-header waves-effect waves-cyan">
-                                    <i class="mdi-action-credit-card"></i> Pinjaman
-                                </a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li><a href="<?= base_url('pinjaman-mudharabah') ?>">Mudharabah</a>
-                                        </li>
-                                        <li><a href="<?= base_url('pinjaman-murabahah') ?>">Murabhahah</a>
-                                        </li>
-                                        <li><a href="<?= base_url('pinjaman-musyarakah') ?>">Musyarakah</a>
-                                        </li>
-                                        <li><a href="<?= base_url('pinjaman-ijarah') ?>">Ijarah</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="no-padding">
-                        <ul class="collapsible collapsible-accordion">
-                            <li class="bold">
-                                <a class="collapsible-header waves-effect waves-cyan">
-                                    <i class="mdi-editor-border-color"></i> Angsuran
-                                </a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li><a href="<?= base_url('angsuran-mudharabah') ?>">Mudharabah</a>
-                                        </li>
-                                        <li><a href="<?= base_url('angsuran-murabahah') ?>">Murabhahah</a>
-                                        </li>
-                                        <li><a href="<?= base_url('angsuran-musyarakah') ?>">Musyarakah</a>
-                                        </li>
-                                        <li><a href="<?= base_url('angsuran-ijarah') ?>">Ijarah</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="no-padding">
-                        <ul class="collapsible collapsible-accordion">
-                            <li class="bold">
-                                <a class="collapsible-header waves-effect waves-cyan">
-                                    <i class="mdi-action-book"></i> Laporan
-                                </a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li><a href="<?= base_url('laporan-anggota') ?>">Buku Anggota</a>
-                                        </li>
-                                        <li><a href="<?= base_url('laporan-simpanan') ?>">Daftar Simpanan</a>
-                                        </li>
-                                        <li><a href="<?= base_url('laporan-pinjaman') ?>">Daftar Pinjaman</a>
-                                        </li>
-                                        <li><a href="<?= base_url('laporan-tagihan-koperasi') ?>">Daftar Tagihan</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-
+                   
                     <li class="li-hover">
                         <div class="divider"></div>
                     </li>
@@ -233,9 +121,6 @@
                     </li>
                     <li>
                         <a href="<?= base_url('bantuan') ?>"><i class="mdi-action-help"></i> Bantuan</a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url('pengaturan') ?>"><i class="mdi-action-settings"></i> Pengaturan</a>
                     </li>
                     <li>
                         <a href="#logoutModal" class="modal-trigger"><i class="mdi-action-exit-to-app "></i> Keluar</a>
