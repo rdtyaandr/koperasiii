@@ -1,10 +1,9 @@
-                    
                     </div>
                     <!--end container-->
-                    
+
                     </section>
                     <!-- END CONTENT -->
-                    
+
                     <!-- //////////////////////////////////////////////////////////////////////////// -->
                     <!-- START RIGHT SIDEBAR NAV-->
                     <aside id="right-sidebar-nav">
@@ -73,114 +72,115 @@
                         </ul>
                     </aside>
                     <!-- LEFT RIGHT SIDEBAR NAV-->
-                    
+
                     </div>
                     <!-- END WRAPPER -->
-                
-                </div>
-                <!-- END MAIN -->
-    
-            <!-- ================================================
+
+                    </div>
+                    <!-- END MAIN -->
+
+                    <!-- ================================================
             Scripts
             ================================================ -->
-            
-            <!-- jQuery Library -->
-            <script type="text/javascript" src="<?= base_url('assets/js/plugins/jquery-1.11.2.min.js')?>"></script>
-            <!--materialize js-->
-            <script type="text/javascript" src="<?= base_url('assets/js/materialize.min.js')?>"></script>
-            <!--scrollbar-->
-            <script type="text/javascript" src="<?= base_url('assets/js/plugins/perfect-scrollbar/perfect-scrollbar.min.js')?>"></script>
-            <!--numeral js-->
-            <script type="text/javascript" src="<?= base_url('assets/js/plugins/numeral/numeral.min.js')?>"></script>
-            <!-- easy autocomplete -->
-            <script type="text/javascript" src="<?= base_url('assets/js/plugins/easy-autocomplete/jquery.easy-autocomplete.js')?>"></script>
-            <script type="text/javascript" src="<?= base_url('assets/js/app/anggotaSearch.js?v=1.0.0')?>"></script>
 
-            <script type="text/javascript" src="<?= base_url('assets/js/plugins/jquery-input-mask/jquery.mask.js')?>"></script>
-            <script type="text/javascript" src="<?= base_url('assets/js/app/maskConfig.js')?>"></script>
-            <!-- dataTables js plugins-->
-            <script type="text/javascript" src="<?= base_url('assets/js/plugins/dtables/jquery.dataTables.min.js')?>"></script>
-            <script type="text/javascript" src="<?= base_url('assets/js/plugins/dtables/dataTables.material.min.js')?>"></script>
-            <!-- dataTables js plugins-->
-            <script type="text/javascript" src="<?= base_url('assets/js/plugins/printThis.js')?>"></script>
-            <!-- chartist -->
-            <script type="text/javascript" src="<?= base_url('assets/js/plugins/chartist-js/chartist.min.js')?>"></script>
+                    <!-- Compiled and minified JavaScript -->
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+                    <!-- jQuery Library -->
+                    <script type="text/javascript" src="<?= base_url('assets/js/plugins/jquery-1.11.2.min.js') ?>"></script>
+                    <!--materialize js-->
+                    <script type="text/javascript" src="<?= base_url('assets/js/materialize.min.js') ?>"></script>
+                    <!--scrollbar-->
+                    <script type="text/javascript" src="<?= base_url('assets/js/plugins/perfect-scrollbar/perfect-scrollbar.min.js') ?>"></script>
+                    <!--numeral js-->
+                    <script type="text/javascript" src="<?= base_url('assets/js/plugins/numeral/numeral.min.js') ?>"></script>
+                    <!-- easy autocomplete -->
+                    <script type="text/javascript" src="<?= base_url('assets/js/plugins/easy-autocomplete/jquery.easy-autocomplete.js') ?>"></script>
+                    <script type="text/javascript" src="<?= base_url('assets/js/app/anggotaSearch.js?v=1.0.0') ?>"></script>
 
-            <!-- sparkline -->
-            <script type="text/javascript" src="<?= base_url('assets/js/plugins/sparkline/jquery.sparkline.min.js')?>"></script>
-            <script type="text/javascript" src="<?= base_url('assets/js/plugins/sparkline/sparkline-script.js')?>"></script>
-            
-            
-            <!--plugins.js - Some Specific JS codes for Plugin Settings-->
-            <script type="text/javascript" src="<?= base_url('assets/js/plugins.min.js')?>"></script>
-            <!--custom-script.js - Add your own theme custom JS-->
-            <script type="text/javascript" src="<?= base_url('assets/js/custom-script.js')?>"></script>
-            <!-- Toast Notification -->
-            <script type="text/javascript">
-               
-                setInterval(function () {
-                    $('.user-welcome').fadeOut('slow');
-                },2500);
-                setInterval(function () {
-                    $('#card-alert').fadeOut('slow');
-                },2500);
+                    <script type="text/javascript" src="<?= base_url('assets/js/plugins/jquery-input-mask/jquery.mask.js') ?>"></script>
+                    <script type="text/javascript" src="<?= base_url('assets/js/app/maskConfig.js') ?>"></script>
+                    <!-- dataTables js plugins-->
+                    <script type="text/javascript" src="<?= base_url('assets/js/plugins/dtables/jquery.dataTables.min.js') ?>"></script>
+                    <script type="text/javascript" src="<?= base_url('assets/js/plugins/dtables/dataTables.material.min.js') ?>"></script>
+                    <!-- dataTables js plugins-->
+                    <script type="text/javascript" src="<?= base_url('assets/js/plugins/printThis.js') ?>"></script>
+                    <!-- chartist -->
+                    <script type="text/javascript" src="<?= base_url('assets/js/plugins/chartist-js/chartist.min.js') ?>"></script>
 
-                function printContent(el) {
-                    var restorepage = document.body.innerHTML;
-                    var printcontent = document.getElementById(el).innerHTML;
-                    document.body.innerHTML = printcontent;
-                    window.print();
-                    document.body.innerHTML = restorepage;
-                }
-            </script>
-            <script type="text/javascript">
-                $(document).ready(function() {
+                    <!-- sparkline -->
+                    <script type="text/javascript" src="<?= base_url('assets/js/plugins/sparkline/jquery.sparkline.min.js') ?>"></script>
+                    <script type="text/javascript" src="<?= base_url('assets/js/plugins/sparkline/sparkline-script.js') ?>"></script>
 
-                    var baseURL = window.location.origin+'/order-app';
-                    
-                    $('#pelanggan-table').DataTable( {
-                        "order": [[ 1, "asc" ]],
-                        "pageLength": 10,
-                        language: {
-                            url: baseURL+'/assets/js/plugins/dtables/indonesia.json'
-                        },
-                        columnDefs: [
-                            {
-                                targets: [ 0, 1, 2 ],
-                                className: 'mdl-data-table__cell--non-numeric'
-                            }
-                        ]
-                    } );
 
-                    $('#barang-table').DataTable({
-                        "order": [[ 5, "asc" ]],
-                        "pageLength": 10,
-                        language: {
-                            url: baseURL+'/assets/js/plugins/dtables/indonesia.json'
-                        },
-                        columnDefs: [
-                            {
-                                targets: [ 0, 1, 2 ],
-                                className: 'mdl-data-table__cell--non-numeric'
-                            }
-                        ]
-                    });
+                    <!--plugins.js - Some Specific JS codes for Plugin Settings-->
+                    <script type="text/javascript" src="<?= base_url('assets/js/plugins.min.js') ?>"></script>
+                    <!--custom-script.js - Add your own theme custom JS-->
+                    <script type="text/javascript" src="<?= base_url('assets/js/custom-script.js') ?>"></script>
+                    <!-- Toast Notification -->
+                    <script type="text/javascript">
+                        setInterval(function() {
+                            $('.user-welcome').fadeOut('slow');
+                        }, 2500);
+                        setInterval(function() {
+                            $('#card-alert').fadeOut('slow');
+                        }, 2500);
 
-                    $('#pesanan-table').DataTable({
-                        "order": [[ 5, "desc" ]],
-                        "pageLength": 10,
-                        language: {
-                            url: baseURL+'/assets/js/plugins/dtables/indonesia.json'
-                        },
-                        columnDefs: [
-                            {
-                                targets: [ 0, 1, 2 ],
-                                className: 'mdl-data-table__cell--non-numeric'
-                            }
-                        ]
-                    });
-                } );
-            </script>
-        </body>
-    
-    </html>
+                        function printContent(el) {
+                            var restorepage = document.body.innerHTML;
+                            var printcontent = document.getElementById(el).innerHTML;
+                            document.body.innerHTML = printcontent;
+                            window.print();
+                            document.body.innerHTML = restorepage;
+                        }
+                    </script>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+
+                            var baseURL = window.location.origin + '/order-app';
+
+                            $('#pelanggan-table').DataTable({
+                                "order": [
+                                    [1, "asc"]
+                                ],
+                                "pageLength": 10,
+                                language: {
+                                    url: baseURL + '/assets/js/plugins/dtables/indonesia.json'
+                                },
+                                columnDefs: [{
+                                    targets: [0, 1, 2],
+                                    className: 'mdl-data-table__cell--non-numeric'
+                                }]
+                            });
+
+                            $('#barang-table').DataTable({
+                                "order": [
+                                    [5, "asc"]
+                                ],
+                                "pageLength": 10,
+                                language: {
+                                    url: baseURL + '/assets/js/plugins/dtables/indonesia.json'
+                                },
+                                columnDefs: [{
+                                    targets: [0, 1, 2],
+                                    className: 'mdl-data-table__cell--non-numeric'
+                                }]
+                            });
+
+                            $('#pesanan-table').DataTable({
+                                "order": [
+                                    [5, "desc"]
+                                ],
+                                "pageLength": 10,
+                                language: {
+                                    url: baseURL + '/assets/js/plugins/dtables/indonesia.json'
+                                },
+                                columnDefs: [{
+                                    targets: [0, 1, 2],
+                                    className: 'mdl-data-table__cell--non-numeric'
+                                }]
+                            });
+                        });
+                    </script>
+                    </body>
+
+                    </html>

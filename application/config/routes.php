@@ -19,10 +19,9 @@ $route['home'] = 'usercontroller';
 /*
 * laporan routes modul
 * */
-$route['laporan-anggota'] = 'LaporanController/anggota';
-$route['laporan-simpanan'] = 'LaporanController/simpananAnggota';
-$route['laporan-pinjaman'] = 'LaporanController/pinjamanAnggota';
-$route['laporan-tagihan-koperasi'] = 'LaporanController/tagihanKoperasi';
+$route['history-barang'] = 'HistoryController/anggota';
+$route['history-gudang'] = 'HistoryController/simpananAnggota';
+$route['history-transaksi'] = 'HistoryController/pinjamanAnggota';
 
 /*
 * angsuran routes modul
@@ -74,15 +73,6 @@ $route['barang/tambah'] = 'BarangController/tambah';
 $route['barang/ubah/(:any)'] = 'BarangController/ubah/$1';
 $route['barang/hapus/(:any)'] = 'BarangController/hapus/$1';
 $route['barang/(:any)'] = 'BarangController/detail/$1';
-
-/*
-* gudang modul routes
-* */
-$route['gudang'] = 'GudangController';
-$route['gudang/tambah'] = 'GudangController/tambah';
-$route['gudang/ubah/(:any)'] = 'GudangController/ubah/$1';
-$route['gudang/hapus/(:any)'] = 'GudangController/hapus/$1';
-$route['gudang/(:any)'] = 'GudangController/detail/$1';
 
 /*
 * transaksi modul routes
