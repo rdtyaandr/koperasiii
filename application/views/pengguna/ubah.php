@@ -16,9 +16,13 @@
                         <input type="text" id="email" name="email" value="<?= $Pengguna['email'] ?>" required>
                         <label for="email">Email</label>
                     </div>
-                    <div class="input-field col s12">
+                    <div class="input-field col s12" style="position: relative;">
                         <input type="password" id="password" name="password" value="<?= $Pengguna['password'] ?>" required>
                         <label for="password">Password</label>
+                        <label class="show-password">
+                            <input type="checkbox" id="show-password" />
+                            <span>Tampilkan Password</span>
+                        </label>
                     </div>
                     <div class="input-field col s12">
                         <input type="text" id="satker" name="satker" value="<?= $Pengguna['satker'] ?>" required>
@@ -28,7 +32,6 @@
                         <input type="text" id="pengguna_hak_akses" name="pengguna_hak_akses" value="<?= $Pengguna['pengguna_hak_akses'] ?>" required>
                         <label for="pengguna_hak_akses">Hak Akses Sebagai</label>
                     </div>
-
                 </div>
                 <div class="row">
                     <div class="col s12 right-align">
@@ -59,7 +62,7 @@
         color: #9e9e9e;
     }
 
-    .input-field input:focus+label {
+    .input-field input:focus + label {
         color: #1e88e5 !important;
     }
 
@@ -67,4 +70,29 @@
         border-bottom: 1px solid #1e88e5 !important;
         box-shadow: 0 1px 0 0 #1e88e5 !important;
     }
+
+    .show-password {
+        position: absolute;
+        top: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .show-password input[type="checkbox"] {
+        margin-right: 50rex;
+        display: flex;
+        position: absolute;
+    }
+    
 </style>
+
+<script>
+    document.getElementById('show-password').addEventListener('change', function() {
+        var passwordInput = document.getElementById('password');
+        if (this.checked) {
+            passwordInput.type = 'text';
+        } else {
+            passwordInput.type = 'password';
+        }
+    });
+</script>

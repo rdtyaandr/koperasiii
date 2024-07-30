@@ -33,7 +33,7 @@ class AuthController extends GLOBAL_Controller
                 $password = parent::post('password');
                 
                 // Ambil data pengguna dari database
-                $dataPengguna = parent::model('AuthModel')->get_pengguna($username, md5($password));
+                $dataPengguna = parent::model('AuthModel')->get_pengguna($username, ($password));
                 
                 // Jika data pengguna ditemukan
                 if ($dataPengguna->num_rows() > 0){
@@ -56,9 +56,14 @@ class AuthController extends GLOBAL_Controller
                     // Cek level pengguna dan arahkan sesuai level
                     if ($pengguna['pengguna_hak_akses'] == 'user') {
                         // Arahkan ke dashboard pengguna
+                        parent::alert('alert','user-welcome');
                         redirect('home');
-                    } else {
+                    }elseif ($pengguna['pengguna_hak_akses'] == 'operator') {
                         // Arahkan ke halaman utama
+                        parent::alert('alert','operator-welcome');
+                        redirect('main');
+                    }else{
+                        parent::alert('alert','user-welcome');
                         redirect(base_url());
                     }
                 } else {
@@ -97,7 +102,7 @@ class AuthController extends GLOBAL_Controller
                 'username' => $username,
                 'email' => $email,
                 'satker' => $satker,
-                'password' => md5($password),
+                'password' => $password,
 				'pengguna_hak_akses' => 'user'
             );
 

@@ -38,6 +38,20 @@
 						<img src="<?= base_url('assets/images/favicon/icon.png') ?>" alt="" class=" responsive-img valign profile-image-login">
 						<p class="center login-form-text">sistem koperasi bps jawa timur</p>
 					</div>
+					<?php if ($this->session->flashdata('alert') === 'error-login') : ?>
+							<div id="card-alert" class="card red lighten-5 animated slideInDown" style="display: none;">
+								<div class="card-content red-text" style=" !important;">
+									<p>Pastikan isi dengan benar</p>
+								</div>
+							</div>
+						<?php endif; ?>
+						
+<script>
+    $(document).ready(function() {
+        $('#card-alert').fadeIn().delay(2000).fadeOut();
+    });
+</script>
+
 				</div>
 				<div class="row margin">
 					<div class="input-field col s12">

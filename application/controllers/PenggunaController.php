@@ -52,10 +52,10 @@ class PenggunaController extends GLOBAL_Controller {
         $hapus = parent::model('PenggunaModel')->hapus($query);
         if ($hapus > 0) {
             parent::alert('alert', 'sukses_hapus');
-            redirect('barang');
+            redirect('pengguna');
         } else {
             parent::alert('alert', 'gagal_hapus');
-            redirect('barang');
+            redirect('pengguna');
         }
     }
 

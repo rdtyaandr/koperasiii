@@ -13,8 +13,11 @@ $route['register'] = 'AuthController/register';
 * laporan routes user
 * */
 $route['home'] = 'usercontroller';
-
-
+//Rute Untuk Operator
+/*
+* laporan routes user
+* */
+$route['main'] = 'OperatorController';
 //Untuk Admin
 /*
 * laporan routes modul
@@ -88,6 +91,7 @@ $route['transaksi/(:any)'] = 'TransaksiController/detail/$1';
 * */
 $route['pengguna'] = 'PenggunaController/index';
 $route['pengguna/ubah/(:any)'] = 'PenggunaController/ubah/$1';
+$route['pengguna/hapus/(:any)'] = 'PenggunaController/hapus/$1';
 /*
 * akun modul routes
 * */
@@ -100,3 +104,10 @@ $route['pengaturan'] = 'PengaturanController';
 $route['default_controller'] = 'AdminController';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+
+
+
+// Tambahkan di routes.php
+$route['notification/account_change'] = 'notification/account_change';
+$route['notification/out_of_stock'] = 'notification/out_of_stock';

@@ -42,7 +42,7 @@
                             <?php endforeach; ?>
                     <?php else : ?>
                         <tr>
-                            <td colspan="10" class="center-align">Tidak ada data barang.</td>
+                            <td colspan="10" class="center-align">Tidak ada Pengguna yang Terdaftar.</td>
                         </tr>
                     <?php endif; ?>
                             </tr>

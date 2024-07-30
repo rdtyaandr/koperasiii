@@ -85,6 +85,14 @@ class GLOBAL_Controller extends CI_Controller {
         $this->load->view('templates/user/footer', $data);
     }
 
+    // Metode untuk memuat template operator dengan konten dan data yang diberikan
+    public function op_template($content,$data)
+    {
+               $this->load->view('templates/operator/header', $data);
+        $this->load->view($content, $data);
+        $this->load->view('templates/operator/footer', $data); 
+    }
+
     // Metode untuk memuat halaman autentikasi
     public function authPage($content, $data)
     {

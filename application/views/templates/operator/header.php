@@ -8,18 +8,19 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="description" content="Materialize is a Material Design Admin Template,It's modern, responsive and based on Material Design by Google. ">
     <meta name="keywords" content="materialize, admin template, dashboard template, flat admin template, responsive admin template,">
-    <title><?= $title ?> - Sistem Informasi Koperasi Bps Jatim</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><?= $title ?> - Koperasi</title>
 
-    <!-- Favicons-->
-    <link rel="icon" href="<?= base_url('assets/images/favicon/icon.png') ?>" sizes="32x32">
-    <!-- Favicons-->
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Favicons and Meta Tags -->
     <link rel="icon" href="<?= base_url('assets/images/favicon/icon.png') ?>" sizes="32x32">
     <link rel="apple-touch-icon-precomposed" href="<?= base_url('assets/images/favicon/icon.png') ?>">
-    <!-- For iPhone -->
     <meta name="msapplication-TileColor" content="#00bcd4">
-    <meta name="msapplication-TileImage" content="images/favicon/mstile-144x144.png">
-    <!-- For Windows Phone -->
-
+    <meta name="msapplication-TileImage" content="images/favicon/icon.png">
 
     <!-- CORE CSS-->
     <link href="<?= base_url('assets/css/materialize.css') ?>" type="text/css" rel="stylesheet" media="screen,projection">
@@ -103,15 +104,46 @@
                         <p class="ultra-small margin more-text">Menu Utama</p>
                     </li>
                     <li class="bold active">
-                        <a href="<?= base_url('home') ?>" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Halaman Utama</a>
+                        <a href="<?= base_url() ?>" class="waves-effect waves-dark"><i class="mdi-action-trending-up"></i> Dashboard</a>
                     </li>
 
-                   
-                    <li class="li-hover">
-                        <p class="ultra-small margin more-text">Menu Pinjaman </p>
+                    <li class="bold">
+                        <a href="<?= base_url('barang') ?>" class="waves-effect waves-cyan">
+                            <i class="mdi-action-shopping-cart"></i> Data Barang
+                        </a>
                     </li>
-                    <li class="bold active">
-                        <a href="<?= base_url('pengajuan') ?>" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Pengajuan Pinjaman</a>
+
+                    <li class="bold">
+                        <a href="<?= base_url('transaksi') ?>" class="waves-effect waves-cyan">
+                            <i class="mdi-action-swap-vert"></i> Data Transaksi
+                        </a>
+                    </li>
+
+
+                    <li class="li-hover">
+                        <p class="ultra-small margin more-text">Menu Utama</p>
+                    </li>
+
+                    <li class="no-padding">
+                        <ul class="collapsible collapsible-accordion">
+                            <li class="bold">
+                                <a class="collapsible-header waves-effect waves-cyan">
+                                    <i class="mdi-action-history"></i> Histori
+                                </a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        <li><a href="<?= base_url('histori-barang') ?>">Barang</a>
+                                        </li>
+                                        <li><a href="<?= base_url('histori-transaksi') ?>">Transaksi</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="li-hover">
+                        <div class="divider"></div>
                     </li>
 
                     <li class="li-hover">
@@ -121,17 +153,20 @@
                         <a href="<?= base_url('profil') ?>"><i class="mdi-action-account-circle"></i> Profil</a>
                     </li>
                     <li>
-                        <a href="<?= base_url('pesan') ?>"><i class="mdi-action-account-circle"></i> Pesan</a>
+                        <a href="<?= base_url('pesan') ?>"><i class="mdi-communication-message"></i> Pesan</a>
                     </li>
                     <li>
                         <a href="<?= base_url('bantuan') ?>"><i class="mdi-action-help"></i> Bantuan</a>
                     </li>
                     <li>
-                        <a href="#logoutModal" class="modal-trigger"><i class="mdi-action-exit-to-app "></i> Keluar</a>
+                        <a href="<?= base_url('pengaturan') ?>"><i class="mdi-action-settings"></i> Pengaturan</a>
+                    </li>
+                    <li>
+                        <a href="#logoutModal" class="modal-trigger"><i class="mdi-action-exit-to-app"></i> Keluar</a>
                     </li>
                     <!-- end main menu -->
                 </ul>
-                <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only teal" style="box-shadow: 0px 0px 0px transparent !important;">
+                <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only blue darken-2" style="box-shadow: 0px 0px 0px transparent !important;">
                     <i class="mdi-navigation-menu"></i>
                 </a>
             </aside>
