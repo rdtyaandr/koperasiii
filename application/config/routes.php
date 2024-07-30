@@ -1,11 +1,24 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/*
+* login dan register routes modul
+* */
 $route['login'] = 'AuthController/login';
 $route['logout'] = 'AuthController/logout';
 $route['register'] = 'AuthController/register';
 
-
+//Untuk Rute User
+/*
+* laporan routes user
+* */
+$route['home'] = 'usercontroller';
+//Rute Untuk Operator
+/*
+* laporan routes user
+* */
+$route['main'] = 'OperatorController';
+//Untuk Admin
 /*
 * laporan routes modul
 * */
@@ -92,6 +105,12 @@ $route['transaksi/hapus/(:any)'] = 'TransaksiController/hapus/$1';
 $route['transaksi/(:any)'] = 'TransaksiController/detail/$1';
 
 /*
+* pengguna modul routes
+* */
+$route['pengguna'] = 'PenggunaController/index';
+$route['pengguna/ubah/(:any)'] = 'PenggunaController/ubah/$1';
+$route['pengguna/hapus/(:any)'] = 'PenggunaController/hapus/$1';
+/*
 * akun modul routes
 * */
 $route['profil'] = 'ProfilController';
@@ -103,3 +122,10 @@ $route['pengaturan'] = 'PengaturanController';
 $route['default_controller'] = 'AdminController';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+
+
+
+// Tambahkan di routes.php
+$route['notification/account_change'] = 'notification/account_change';
+$route['notification/out_of_stock'] = 'notification/out_of_stock';

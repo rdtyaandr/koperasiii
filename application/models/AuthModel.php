@@ -69,7 +69,8 @@
 			return parent::update_table_with_status('tb_pengguna','pengguna_id',$penggunaID,$query);
 		}
 
-		public function insert_pengguna($data)
+    // Metode untuk memasukkan pengguna baru dengan status
+    public function insert_pengguna($data)
     {
         return parent::insert_with_status('tb_pengguna', $data);
     }
