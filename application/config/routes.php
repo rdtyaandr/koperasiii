@@ -26,7 +26,8 @@ $route['angsuran-ijarah'] = 'AngsuranController/angsuranIjarah';
 * pinjaman routes modul
 * */
 // view
-$route['pinjaman-mudharabah'] = 'PinjamanController/pinjamanMudharabah';
+$route['pengajuan'] = 'PinjamanController/pinjamanPengajuan';
+$route['mutasi'] = 'PinjamanController/pinjamanMutasi';
 $route['pinjaman-murabahah'] = 'PinjamanController/pinjamanMurabahah';
 $route['pinjaman-musyarakah'] = 'PinjamanController/pinjamanMusyarakah';
 $route['pinjaman-ijarah'] = 'PinjamanController/pinjamanIjarah';
@@ -91,14 +92,7 @@ $route['pesan'] = 'PesanController';
 $route['bantuan'] = 'BantuanController';
 $route['pengaturan'] = 'PengaturanController';
 
-/*
-     * pinjaman routes modul
-     * */
-    // view
-	$route['mutasi'] = 'PinjamanController/pinjamanMutasi';
-	$route['approve'] = 'PinjamanController/pinjamanMurabahah';
-	$route['laporan_pinjaman'] = 'PinjamanController/pinjamanMusyarakah';
-	$route['pinjaman-ijarah'] = 'PinjamanController/pinjamanIjarah';
+
 
 
 $route['default_controller'] = 'AdminController';

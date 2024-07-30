@@ -47,6 +47,8 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/plugins/dataTables.material.min.css') ?>" type="text/css"
         media="screen,projection">
 
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 </head>
 
@@ -72,7 +74,7 @@
                         </li>
                     </ul>
                     <div class="header-search-wrapper hide-on-med-and-down">
-                        <i class="mdi-action-search"></i>
+                        <i class="material-icons">search</i>
                         <input type="text" name="Search" class="header-search-input z-depth-2"
                             placeholder="Cari di Aplikasi" />
                     </div>
@@ -115,39 +117,39 @@
                         <p class="ultra-small margin more-text">Menu Utama</p>
                     </li>
                     <li class="bold active">
-                        <a href="<?= base_url() ?>" class="waves-effect waves-dark"><i class="mdi-action-dashboard"></i>
+                        <a href="<?= base_url() ?>" class="waves-effect waves-dark"><i class="material-icons">dashboard</i>
                             Dashboard</a>
                     </li>
 
                     <li class="bold">
                         <a href="<?= base_url('barang') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-social-people"></i> Data Barang
+                            <i class="material-icons">inventory</i> Data Barang
                         </a>
                     </li>
 
                     <li class="bold">
                         <a href="<?= base_url('gudang') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-social-people"></i> Data Gudang
+                            <i class="material-icons">store</i> Data Gudang
                         </a>
                     </li>
 
                     <li class="bold">
                         <a href="<?= base_url('transaksi') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-social-people"></i> Data Transaksi
+                            <i class="material-icons">receipt</i> Data Transaksi
                         </a>
                     </li>
 
                     <li class="bold">
                         <a href="<?= base_url('anggota') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-social-people"></i> Data Anggota
+                            <i class="material-icons">group</i> Data Anggota
                         </a>
                     </li>
-
+<!--
                     <li class="no-padding">
                         <ul class="collapsible collapsible-accordion">
                             <li class="bold">
                                 <a class="collapsible-header waves-effect waves-cyan">
-                                    <i class="mdi-action-account-balance-wallet"></i> Simpanan
+                                    <i class="material-icons">savings</i> Simpanan
                                 </a>
                                 <div class="collapsible-body">
                                     <ul>
@@ -166,20 +168,18 @@
                             </li>
                         </ul>
                     </li>
-
+-->
                     <li class="no-padding">
                         <ul class="collapsible collapsible-accordion">
                             <li class="bold">
                                 <a class="collapsible-header waves-effect waves-cyan">
-                                    <i class="mdi-action-credit-card"></i> Pinjamanan
+                                    <i class="material-icons">account_balance</i> Pinjamanan
                                 </a>
                                 <div class="collapsible-body">
                                     <ul>
+                                        <li><a href="<?= base_url('pengajuan') ?>">Pengajuan</a>
+                                        </li>
                                         <li><a href="<?= base_url('mutasi') ?>">Mutasi</a>
-                                        </li>
-                                        <li><a href="<?= base_url('approve') ?>">Approve</a>
-                                        </li>
-                                        <li><a href="<?= base_url('laporan_pinjam') ?>">Laporan Pinjam</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -191,7 +191,7 @@
                         <ul class="collapsible collapsible-accordion">
                             <li class="bold">
                                 <a class="collapsible-header waves-effect waves-cyan">
-                                    <i class="mdi-editor-border-color"></i> Angsuran
+                                    <i class="material-icons">payments</i> Angsuran
                                 </a>
                                 <div class="collapsible-body">
                                     <ul>
@@ -213,7 +213,7 @@
                         <ul class="collapsible collapsible-accordion">
                             <li class="bold">
                                 <a class="collapsible-header waves-effect waves-cyan">
-                                    <i class="mdi-action-book"></i> Laporan
+                                    <i class="material-icons">description</i> Laporan
                                 </a>
                                 <div class="collapsible-body">
                                     <ul>
@@ -239,26 +239,26 @@
                         <p class="ultra-small margin more-text">Akun</p>
                     </li>
                     <li>
-                        <a href="<?= base_url('profil') ?>"><i class="mdi-action-account-circle"></i> Profil</a>
+                        <a href="<?= base_url('profil') ?>"><i class="material-icons">person</i> Profil</a>
                     </li>
                     <li>
-                        <a href="<?= base_url('pesan') ?>"><i class="mdi-action-account-circle"></i> Pesan</a>
+                        <a href="<?= base_url('pesan') ?>"><i class="material-icons">mail</i> Pesan</a>
                     </li>
                     <li>
-                        <a href="<?= base_url('bantuan') ?>"><i class="mdi-action-help"></i> Bantuan</a>
+                        <a href="<?= base_url('bantuan') ?>"><i class="material-icons">help</i> Bantuan</a>
                     </li>
                     <li>
-                        <a href="<?= base_url('pengaturan') ?>"><i class="mdi-action-settings"></i> Pengaturan</a>
+                        <a href="<?= base_url('pengaturan') ?>"><i class="material-icons">settings</i> Pengaturan</a>
                     </li>
                     <li>
-                        <a href="#logoutModal" class="modal-trigger"><i class="mdi-action-exit-to-app "></i> Keluar</a>
+                        <a href="#logoutModal" class="modal-trigger"><i class="material-icons">exit_to_app</i> Keluar</a>
                     </li>
                     <!-- end main menu -->
                 </ul>
                 <a href="#" data-activates="slide-out"
                     class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only blue darken-2"
                     style="box-shadow: 0px 0px 0px transparent !important;">
-                    <i class="mdi-navigation-menu"></i>
+                    <i class="material-icons">menu</i>
                 </a>
             </aside>
             <!-- END LEFT SIDEBAR NAV-->
