@@ -14,7 +14,7 @@
 				'password' => $password
 			);
 			
-			return parent::get_object_of_row('simkopsis_pengguna',$user);
+			return parent::get_object_of_row('tb_pengguna',$user);
 		}
 		
 		public function get_data_pengguna($id)
@@ -23,7 +23,7 @@
 				'pengguna_id' => $id,
 				'pengguna_isDelete' => 0
 			);
-			return parent::get_array_of_row('simkopsis_pengguna',$query);
+			return parent::get_array_of_row('tb_pengguna',$query);
 		}
 		
 		public function get_penggunas()
@@ -31,18 +31,18 @@
 			$query = array(
 				'pengguna_isDelete'	=> 0
 			);
-			return parent::get_object_of_row('simkopsis_pengguna',$query)->result_array();
+			return parent::get_object_of_row('tb_pengguna',$query)->result_array();
 		}
 		
 		public function tambah_pengguna($pengguna)
 		{
-			return parent::insert_with_status('simkopsis_pengguna',$pengguna);
+			return parent::insert_with_status('tb_pengguna',$pengguna);
 		}
 		
 		public function ubah_pengguna($id,$pengguna)
 		{
 			return parent::update_table_with_status(
-				'simkopsis_pengguna',
+				'tb_pengguna',
 				'pengguna_id',
 				$id,
 				$pengguna
@@ -54,23 +54,23 @@
 			$query = array(
 				'pengguna_isDelete' => 1
 			);
-			return parent::update_table_with_status('simkopsis_pengguna','pengguna_id',$id,$query);
+			return parent::update_table_with_status('tb_pengguna','pengguna_id',$id,$query);
 		}
 		
 		public function get_arsip_pengguna()
 		{
 			$query = array('pengguna_isDelete' => 1);
-			return parent::get_object_of_row('simkopsis_pengguna',$query)->result_array();
+			return parent::get_object_of_row('tb_pengguna',$query)->result_array();
 		}
 		
 		public function restore_pengguna($penggunaID)
 		{
 			$query = array('pengguna_isDelete' => 0);
-			return parent::update_table_with_status('simkopsis_pengguna','pengguna_id',$penggunaID,$query);
+			return parent::update_table_with_status('tb_pengguna','pengguna_id',$penggunaID,$query);
 		}
 
 		public function insert_pengguna($data)
     {
-        return parent::insert_with_status('simkopsis_pengguna', $data);
+        return parent::insert_with_status('tb_pengguna', $data);
     }
 	}

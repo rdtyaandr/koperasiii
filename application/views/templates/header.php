@@ -13,8 +13,6 @@
 
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
     <!-- Favicons and Meta Tags -->
     <link rel="icon" href="<?= base_url('assets/images/favicon/icon.png') ?>" sizes="32x32">
@@ -40,32 +38,33 @@
     <!-- dataTables css plugins-->
     <link rel="stylesheet" href="<?= base_url('assets/css/plugins/material.min.css') ?>" type="text/css" media="screen,projection">
     <link rel="stylesheet" href="<?= base_url('assets/css/plugins/dataTables.material.min.css') ?>" type="text/css" media="screen,projection">
-
-
 </head>
+
 
 <body>
 
     <!-- START HEADER -->
     <header id="header" class="page-topbar">
-        <!-- start header nav-->
         <div class="navbar-fixed">
-            <nav class="navbar-color blue darken-2">
-                <div class="nav-wrapper">
-                    <ul class="left">
+            <nav class="navbar-color blue darken-2" style="position: relative;">
+                <div class="nav-wrapper" style="display: flex; align-items: center; height: 64px;"> <!-- Pastikan tinggi tetap -->
+                    <ul class="left" style="display: flex; align-items: center;"> <!-- Tambahkan display flex di sini -->
                         <li>
-                            <h1 class="logo-wrapper">
-                                <a href="<?= base_url() ?>" class="brand-logo darken-1">
+                            <h1 class="logo-wrapper" style="display: flex; align-items: center;"> <!-- Tambahkan display flex di sini -->
+                                <a href="<?= base_url() ?>" class="brand-logo darken-1" style="display: flex; align-items: center;"> <!-- Tambahkan display flex di sini -->
                                     <img src="<?= base_url('assets/images/favicon/icon.png') ?>" alt="bps logo" class="responsive-img hide-on-med-and-down" style="width: 9%; height: auto;">
-                                    <span class="brand-logo" style="font-size: 1.4rem; line-height: 50%; display: inline-block; letter-spacing: 0.03em;">KOPERASI BPS</span>
+                                    <span class="brand-logo" style="font-size: 1.5rem; line-height: 1; display: inline-block; letter-spacing: 0.03em; margin-left: 30px;">KOPERASI BPS</span>
                                 </a>
                             </h1>
                         </li>
                     </ul>
-                    <div class="header-search-wrapper hide-on-med-and-down">
+                    <div class="header-search-wrapper hide-on-med-and-down"> <!-- Tambahkan margin-left: auto untuk memindahkan ke kanan -->
                         <i class="mdi-action-search"></i>
                         <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Cari di Aplikasi" />
                     </div>
+                    <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating hide-on-large-only blue darken-2" style="position: absolute; left: 10px; top: 10px; box-shadow: 0px 0px 0px transparent !important;">
+                        <i class="mdi-navigation-menu"></i>
+                    </a>
                 </div>
             </nav>
         </div>
@@ -84,7 +83,7 @@
             <aside id="left-sidebar-nav">
                 <ul id="slide-out" class="side-nav fixed leftside-navigation">
                     <!--user profile -->
-                    <li class="user-details cyan darken-2">
+                    <li class="user-details">
                         <div class="row">
                             <div class="col col s4 m4 l4">
                                 <img src="<?= base_url('assets/images/admin.png') ?>" alt="" class="circle responsive-img valign profile-image">
@@ -104,23 +103,37 @@
                         <p class="ultra-small margin more-text">Menu Utama</p>
                     </li>
                     <li class="bold active">
-                        <a href="<?= base_url() ?>" class="waves-effect waves-dark"><i class="mdi-action-trending-up"></i> Dashboard</a>
+                        <a href="<?= base_url() ?>"><i class="mdi-action-trending-up"></i> Dashboard</a>
+                    </li>
+
+                    <li class="no-padding">
+                        <ul class="collapsible collapsible-accordion">
+                            <li class="bold">
+                                <a class="collapsible-header">
+                                    <i class="mdi-action-account-balance-wallet"></i> Master Data
+                                </a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        <li><a href="<?= base_url('barang') ?>">Barang</a>
+                                        </li>
+                                        <li><a href="<?= base_url('kategori') ?>">Kategori</a>
+                                        </li>
+                                        <li><a href="<?= base_url('satuan') ?>">Satuan</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
                     </li>
 
                     <li class="bold">
-                        <a href="<?= base_url('barang') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-action-shopping-cart"></i> Data Barang
-                        </a>
-                    </li>
-
-                    <li class="bold">
-                        <a href="<?= base_url('transaksi') ?>" class="waves-effect waves-cyan">
+                        <a href="<?= base_url('transaksi') ?>">
                             <i class="mdi-action-swap-vert"></i> Data Transaksi
                         </a>
                     </li>
 
                     <li class="bold">
-                        <a href="<?= base_url('anggota') ?>" class="waves-effect waves-cyan">
+                        <a href="<?= base_url('anggota') ?>">
                             <i class="mdi-social-group"></i> Data Anggota
                         </a>
                     </li>
@@ -128,7 +141,7 @@
                     <li class="no-padding">
                         <ul class="collapsible collapsible-accordion">
                             <li class="bold">
-                                <a class="collapsible-header waves-effect waves-cyan">
+                                <a class="collapsible-header">
                                     <i class="mdi-action-account-balance-wallet"></i> Simpanan
                                 </a>
                                 <div class="collapsible-body">
@@ -152,7 +165,7 @@
                     <li class="no-padding">
                         <ul class="collapsible collapsible-accordion">
                             <li class="bold">
-                                <a class="collapsible-header waves-effect waves-cyan">
+                                <a class="collapsible-header">
                                     <i class="mdi-action-credit-card"></i> Pinjaman
                                 </a>
                                 <div class="collapsible-body">
@@ -174,7 +187,7 @@
                     <li class="no-padding">
                         <ul class="collapsible collapsible-accordion">
                             <li class="bold">
-                                <a class="collapsible-header waves-effect waves-cyan">
+                                <a class="collapsible-header">
                                     <i class="mdi-editor-border-color"></i> Angsuran
                                 </a>
                                 <div class="collapsible-body">
@@ -196,7 +209,7 @@
                     <li class="no-padding">
                         <ul class="collapsible collapsible-accordion">
                             <li class="bold">
-                                <a class="collapsible-header waves-effect waves-cyan">
+                                <a class="collapsible-header">
                                     <i class="mdi-action-history"></i> Histori
                                 </a>
                                 <div class="collapsible-body">
@@ -235,9 +248,6 @@
                     </li>
                     <!-- end main menu -->
                 </ul>
-                <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only blue darken-2" style="box-shadow: 0px 0px 0px transparent !important;">
-                    <i class="mdi-navigation-menu"></i>
-                </a>
             </aside>
             <!-- END LEFT SIDEBAR NAV-->
 
@@ -291,6 +301,14 @@
                             <div id="card-alert" class="card red lighten-5 animated slideInDown">
                                 <div class="card-content red-text">
                                     <p>GAGAL : Kesalahan saat menghapus data</p>
+                                </div>
+                            </div>
+                        <?php
+                            break;
+                        case 'error-delete-used': ?>
+                            <div id="card-alert" class="card red lighten-5 animated slideInDown">
+                                <div class="card-content red-text">
+                                    <p>GAGAL : Data ini tidak dapat dihapus karena masih digunakan.</p>
                                 </div>
                             </div>
                         <?php

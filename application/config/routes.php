@@ -65,6 +65,24 @@ $route['barang/hapus/(:any)'] = 'BarangController/hapus/$1';
 $route['barang/(:any)'] = 'BarangController/detail/$1';
 
 /*
+* kategori modul routes
+* */
+$route['kategori'] = 'KategoriController';
+$route['kategori/tambah'] = 'KategoriController/tambah';
+$route['kategori/ubah/(:any)'] = 'KategoriController/ubah/$1';
+$route['kategori/hapus/(:any)'] = 'KategoriController/hapus/$1';
+$route['kategori/(:any)'] = 'KategoriController/detail/$1';
+
+/*
+* satuan modul routes
+* */
+$route['satuan'] = 'SatuanController';
+$route['satuan/tambah'] = 'SatuanController/tambah';
+$route['satuan/ubah/(:any)'] = 'SatuanController/ubah/$1';
+$route['satuan/hapus/(:any)'] = 'SatuanController/hapus/$1';
+$route['satuan/(:any)'] = 'SatuanController/detail/$1';
+
+/*
 * transaksi modul routes
 * */
 $route['transaksi'] = 'TransaksiController';
