@@ -1,35 +1,74 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 class ProfilController extends GLOBAL_Controller {
-
-    public function __construct() {
+    
+    // Konstruktor kelas Profile
+    public function __construct()
+    {
         parent::__construct();
-        $model = array('ProfilModel','AuthModel');
-        $this->load->model($model);
-        if (!parent::hasLogin()) {
-			$this->session->set_flashdata('alert', 'belum_login');
-			redirect(base_url('login'));
+        
+        // Mengecek apakah user sudah login
+        if (!$this->hasLogin()) {
+            redirect('login'); // Mengarahkan ke halaman login jika belum login
+        }
+        
+        // Memuat model User
+        $this->load->model('ProfilModel');
+    }
+    
+    // Menentukan template berdasarkan hak akses pengguna
+    private function loadTemplate($content, $data)
+    {
+        switch ($this->userLevel) {
+            case 'user':
+                $this->user_template($content, $data);
+                break;
+            case 'operator':
+                $this->op_template($content, $data);
+                break;
+            case 'admin':
+                $this->template($content, $data);
+                break;
+            default:
+                show_error('Hak akses tidak dikenal.', 403);
+                break;
         }
     }
-
-    public function index($id) {
-        $data['profil'] = parent::model('ProfilModel')->getProfilById($id); // Mengambil data profil berdasarkan ID
-
-        // Menentukan template berdasarkan hak akses
-        if ($this->session->userdata('pengguna_hak_akses') === 'operator') {
-            parent::operator_template('profil/index', $data);  // Memuat view untuk operator
-        } elseif ($this->session->userdata('pengguna_hak_akses') === 'user') {
-           parent::user_template('profil/index', $data); // Memuat view untuk user
-        } elseif ($this->session->userdata('pengguna_hak_akses') === 'ketua') {
-            parent::template('profil/index', $data) ; // Memuat view untuk admin
-        }
+    
+    // Metode untuk menampilkan profil pengguna
+    public function index()
+    {
+        $data['user'] = $this->ProfilModel->getUserById($this->userId);
+        $this->loadTemplate('profile/view', $data);
     }
-
-    public function edit($id) {
-        if ($this->input->post()) {
-            $this->ProfilModel->updateProfil($id, $this->input->post()); // Memperbarui data profil
-            redirect('profil/detail/' . $id); // Redirect ke halaman detail setelah edit
+    
+    // Metode untuk menampilkan form ubah profil
+    public function edit()
+    {
+        $data['user'] = $this->ProfilModel->getUserById($this->userId);
+        $this->loadTemplate('profile/edit', $data);
+    }
+    
+    // Metode untuk memproses perubahan profil
+    public function update()
+    {
+        $this->form_validation->set_rules('username', 'Username', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+        
+        if ($this->form_validation->run() === FALSE) {
+            $this->edit();
+        } else {
+            $userData = array(
+                'username' => $this->post('username'),
+                'email' => $this->post('email'),
+                'level' => $this->post('pengguna_hak_akses')
+            );
+            
+            $this->ProfilModel->updateUser($this->userId, $userData);
+            $this->alert('success', 'Profil berhasil diperbarui');
+            redirect('profile');
         }
-        $data['profil'] = $this->ProfilModel->getProfilById($id); // Mengambil data profil untuk ditampilkan di form
-        $this->load->view('profil/edit', $data); // Memuat view edit profil
     }
 }
+?>
