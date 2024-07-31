@@ -82,9 +82,8 @@
                     <!-- ================================================
             Scripts
             ================================================ -->
-
-                    <!-- Compiled and minified JavaScript -->
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+                    <!-- sweetalert library -->
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                     <!-- jQuery Library -->
                     <script type="text/javascript" src="<?= base_url('assets/js/plugins/jquery-1.11.2.min.js') ?>"></script>
                     <!--materialize js-->

@@ -1,13 +1,19 @@
-<div class="container" style="margin-top: 10px;">
+<div class="container" style="margin-top: 30px;">
     <div class="row">
         <div class="col s12">
             <div class="card hoverable" style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
                 <div class="card-content">
-                    <span class="card-title blue-text" style="font-size: 2em; text-align: center;"><?= $title ?></span>
-                    <p id="current-datetime" class="right blue" style="font-size: 1.2em; font-weight: bold; color: #FFFFFF; padding: 10px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); text-align: center;"></p>
+                    <div class="row">
+                        <div class="col s12">
+                            <span class="card-title blue-text text-darken-2" style="font-size: 2em; text-align: center; font-weight: bold;"><?= $title ?></span>
+                        </div>
+                        <div class="col s12">
+                            <p id="current-datetime" class="blue-text" style="font-size: 1.2em; font-weight: bold; text-align: center;"></p>
+                        </div>
+                    </div>
                     <div class="row" style="margin-top: 15px;">
                         <div class="col s12 m6 l3">
-                            <div class="card blue lighten-1 white-text" style="border-radius: 8px;">
+                            <div class="card blue darken-2 white-text hoverable" style="border-radius: 8px;">
                                 <div class="card-content">
                                     <span class="card-title">Users</span>
                                     <h4 style="font-size: 2em;">1,234</h4>
@@ -15,7 +21,7 @@
                             </div>
                         </div>
                         <div class="col s12 m6 l3">
-                            <div class="card green lighten-1 white-text" style="border-radius: 8px;">
+                            <div class="card green darken-2 white-text hoverable" style="border-radius: 8px;">
                                 <div class="card-content">
                                     <span class="card-title">Orders</span>
                                     <h4 style="font-size: 2em;">567</h4>
@@ -23,7 +29,7 @@
                             </div>
                         </div>
                         <div class="col s12 m6 l3">
-                            <div class="card orange lighten-1 white-text" style="border-radius: 8px;">
+                            <div class="card orange darken-2 white-text hoverable" style="border-radius: 8px;">
                                 <div class="card-content">
                                     <span class="card-title">Sales</span>
                                     <h4 style="font-size: 2em;">$12,345</h4>
@@ -31,7 +37,7 @@
                             </div>
                         </div>
                         <div class="col s12 m6 l3">
-                            <div class="card red darken-1 white-text" style="border-radius: 8px;">
+                            <div class="card red darken-2 white-text hoverable" style="border-radius: 8px;">
                                 <div class="card-content">
                                     <span class="card-title">Issues</span>
                                     <h4 style="font-size: 2em;">23</h4>
@@ -41,7 +47,7 @@
                     </div>
                     <div class="row" style="margin-top: 20px;">
                         <div class="col s12">
-                            <div class="card" style="border-radius: 8px;">
+                            <div class="card hoverable" style="border-radius: 8px;">
                                 <div class="card-content">
                                     <span class="card-title">Sales Overview</span>
                                     <div id="sales-chart" class="ct-chart" style="height: 250px;"></div>
@@ -49,7 +55,7 @@
                             </div>
                         </div>
                         <div class="col s12 m6">
-                            <div class="card" style="border-radius: 8px;">
+                            <div class="card hoverable" style="border-radius: 8px;">
                                 <div class="card-content">
                                     <span class="card-title">User Growth</span>
                                     <div id="user-growth-chart" class="ct-chart" style="height: 250px;"></div>
@@ -57,7 +63,7 @@
                             </div>
                         </div>
                         <div class="col s12 m6">
-                            <div class="card" style="border-radius: 8px;">
+                            <div class="card hoverable" style="border-radius: 8px;">
                                 <div class="card-content">
                                     <span class="card-title">Revenue</span>
                                     <div id="revenue-chart" class="ct-chart" style="height: 250px;"></div>
@@ -132,3 +138,30 @@
         showLabel: true
     });
 </script>
+
+<style>
+    .card-title {
+        font-weight: bold;
+    }
+
+    .card-content {
+        padding-bottom: 0;
+    }
+
+    .card {
+        margin-top: 20px;
+        border-radius: 8px;
+    }
+
+    .ct-chart {
+        height: 250px;
+    }
+
+    .hoverable {
+        transition: box-shadow 0.25s;
+    }
+
+    .hoverable:hover {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+</style>

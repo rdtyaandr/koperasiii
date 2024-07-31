@@ -102,5 +102,12 @@ class GLOBAL_Model extends CI_Model {
     {
         return $this->db->query($query);
     }
+
+	public function is_used($table, $column, $value)
+	{
+		$this->db->where($column, $value);
+		$query = $this->db->get($table);
+		return $query->num_rows() > 0;
+	}
 }
 ?>
