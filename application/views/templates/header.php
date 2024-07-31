@@ -28,6 +28,7 @@
     <link href="<?= base_url('assets/js/plugins/easy-autocomplete/easy-autocomplete.themes.css') ?>" type="text/css" rel="stylesheet" media="screen,projection">
 
     <!-- Custome CSS-->
+    <!-- <link href="<?= base_url('assets/css/dropdown.css'); ?>" type="text/css" rel="stylesheet" media="screen,projection"> -->
     <link href="<?= base_url('assets/css/custom/custom-style.css') ?>" type="text/css" rel="stylesheet" media="screen,projection">
 
 
@@ -138,10 +139,10 @@
                         </a>
                     </li>
                     <li class="bold">
-    <a href="<?= base_url('pengguna') ?>" class="waves-effect waves-cyan">
-        <i class="material-icons">person</i> Data pengguna
-    </a>
-</li>
+                        <a href="<?= base_url('pengguna') ?>" class="waves-effect waves-cyan">
+                            <i class="material-icons">person</i> Data pengguna
+                        </a>
+                    </li>
 
                     <li class="no-padding">
                         <ul class="collapsible collapsible-accordion">
