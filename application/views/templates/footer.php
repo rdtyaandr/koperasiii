@@ -110,7 +110,6 @@
                     <script type="text/javascript" src="<?= base_url('assets/js/plugins/sparkline/jquery.sparkline.min.js') ?>"></script>
                     <script type="text/javascript" src="<?= base_url('assets/js/plugins/sparkline/sparkline-script.js') ?>"></script>
 
-
                     <!--plugins.js - Some Specific JS codes for Plugin Settings-->
                     <script type="text/javascript" src="<?= base_url('assets/js/plugins.min.js') ?>"></script>
                     <!--custom-script.js - Add your own theme custom JS-->
