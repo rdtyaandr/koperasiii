@@ -11,6 +11,12 @@
         </div>
     </div>
     <div class="row">
+    <?php if ($this->session->flashdata('alert') === 'error-login') : ?>
+							<div id="card-alert" class="card red lighten-5 animated slideInDown ">
+								<div class="card-content red-text " style="padding: 6px !important;">
+								</div>
+							</div>
+						<?php endif; ?>
         <div class="col s12">
             <div class="card hoverable" style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
                 <div class="card-content">
@@ -53,6 +59,11 @@
         </div>
     </div>
 </div>
+<div class="fixed-action-btn" style="bottom: 50px; right: 19px;">
+		<a class="btn-floating btn-large teal" href="<?= base_url('pengguna/tambah') ?>">
+			<i class="mdi-av-playlist-add"></i>
+		</a>
+	</div>
 
 <script src="<?= base_url('assets/js/plugins/chartist-js/chartist.min.js') ?>"></script>
 <script>

@@ -59,4 +59,33 @@ class PenggunaController extends GLOBAL_Controller {
         }
     }
 
+    public function tambah()
+    {
+        if (isset($_POST['tambah'])) {
+
+			$data = array(
+				'nama_lengkap' => parent::post('nama_lengkap'),
+				'username' => parent::post('username'),
+				'email' => parent::post('email'),
+				'satker' => parent::post('satker'),
+				'password' => parent::post('password'),
+				'pengguna_hak_akses' => parent::post('level')
+			);
+
+			$simpan = parent::model('PenggunaModel')->tambah($data);
+
+			if ($simpan > 0) {
+				parent::alert('alert', 'sukses_tambah');
+				redirect('pengguna');
+			} else {
+				parent::alert('alert', 'gagal_tambah');
+				redirect('pengguna');
+			}
+		} else {
+			$data['title'] = 'tambah pengguna koperasi baru';
+
+			parent::template('pengguna/tambah', $data);
+    }
+}
+
 }

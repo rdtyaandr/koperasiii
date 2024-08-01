@@ -237,7 +237,7 @@
                         <p class="ultra-small margin more-text">Akun</p>
                     </li>
                     <li>
-                        <a href="<?= base_url('profil') ?>"><i class="mdi-action-account-circle"></i> Profil</a>
+                        <a href="<?= base_url('profile') ?>"><i class="mdi-action-account-circle"></i> Profil</a>
                     </li>
                     <li>
                         <a href="<?= base_url('pesan') ?>"><i class="mdi-communication-message"></i> Pesan</a>
@@ -332,7 +332,70 @@
                                     <p>GAGAL : Kesalahan saat mengubah data</p>
                                 </div>
                             </div>
+                            
                     <?php
                             break;
                     }
-                    ?>
+                    ?>  
+
+<style>
+        .alert {
+            padding: 20px;
+            background-color: #f44336;
+            color: white;
+            margin-bottom: 15px;
+        }
+        .alert.success {background-color: #4CAF50;}
+        .alert.info {background-color: #2196F3;}
+        .alert.warning {background-color: #ff9800;}
+        .alert.danger {background-color: #f44336;}
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .closebtn:hover {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+<?php if ($this->session->flashdata('alert')): ?>
+    <div class="alert <?php echo $this->session->flashdata('alert'); ?>">
+        <?php
+            switch ($this->session->flashdata('alert')) {
+                case 'belum_login':
+                    echo "Anda belum login. Silakan login terlebih dahulu.";
+                    break;
+                case 'sukses_tambah':
+                    echo "Pengguna berhasil ditambahkan.";
+                    break;
+                case 'gagal_tambah':
+                    echo "Pengguna gagal ditambahkan.";
+                    break;
+                case 'sukses_ubah':
+                    echo "Pengguna berhasil diubah.";
+                    break;
+                case 'gagal_ubah':
+                    echo "Pengguna gagal diubah.";
+                    break;
+                case 'sukses_hapus':
+                    echo "Pengguna berhasil dihapus.";
+                    break;
+                case 'gagal_hapus':
+                    echo "Pengguna gagal dihapus.";
+                    break;
+                default:
+                    echo "Terjadi kesalahan.";
+                    break;
+            }
+        ?>
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    </div>
+<?php endif; ?>

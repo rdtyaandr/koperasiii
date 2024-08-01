@@ -21,7 +21,11 @@ class BarangController extends GLOBAL_Controller
         $data['satuan'] = parent::model('SatuanModel')->lihat_semua();
         $data['barang'] = parent::model('BarangModel')->lihat_semua();
 
-        parent::template('barang/index', $data);
+        if ($this->session->userdata('level') == 'admin'){
+            parent::template('barang/index', $data);
+        }elseif ($this->session->userdata('level') == 'operator') {
+            parent::op_template('barang/index', $data);
+        }
     }
 
     public function tambah()
@@ -54,7 +58,11 @@ class BarangController extends GLOBAL_Controller
         } else {
             $data['title'] = 'Tambah Barang';
 
-            parent::template('barang/tambah', $data);
+            if ($this->session->userdata('level') == 'admin'){
+                parent::template('barang/tambah', $data);
+            }elseif ($this->session->userdata('level') == 'operator') {
+                parent::op_template('barang/tambah', $data);
+            }
         }
     }
 
@@ -89,7 +97,11 @@ class BarangController extends GLOBAL_Controller
             $query = array('id_barang' => $id);
             $data['barang'] = parent::model('BarangModel')->lihat_barang($query);
 
-            parent::template('barang/ubah', $data);
+            if ($this->session->userdata('level') == 'admin'){
+                parent::template('barang/ubah', $data);
+            }elseif ($this->session->userdata('level') == 'operator') {
+                parent::op_template('barang/ubah', $data);
+            }
         }
     }
 

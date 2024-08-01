@@ -22,7 +22,7 @@
 					<th>Pekerjaan</th>
 					<th>Pendapatan</th>
 					<?php
-					if ($this->session->userdata('level') == 'ketua'):
+					if ($this->session->userdata('level') == 'admin'):
 						elseif($this->session->userdata('level') == 'operator'):
 						?>
 						<th class="center">Aksi</th>
@@ -98,7 +98,7 @@
 <!-- Floating Action Button -->
 <?php
 if ($this->session->userdata('level') == 'operator'):
-elseif ($this->session->userdata('level') == 'ketua'):
+elseif ($this->session->userdata('level') == 'admin'):
 	?>
 	<div class="fixed-action-btn" style="bottom: 50px; right: 19px;">
 		<a class="btn-floating btn-large teal" href="<?= base_url('anggota/tambah') ?>">

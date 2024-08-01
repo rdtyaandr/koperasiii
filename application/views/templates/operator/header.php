@@ -14,7 +14,6 @@
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
     <!-- Favicons and Meta Tags -->
     <link rel="icon" href="<?= base_url('assets/images/favicon/icon.png') ?>" sizes="32x32">
@@ -150,7 +149,7 @@
                         <p class="ultra-small margin more-text">Akun</p>
                     </li>
                     <li>
-                        <a href="<?= base_url('profil') ?>"><i class="mdi-action-account-circle"></i> Profil</a>
+                        <a href="<?= base_url('profile') ?>"><i class="mdi-action-account-circle"></i> Profil</a>
                     </li>
                     <li>
                         <a href="<?= base_url('pesan') ?>"><i class="mdi-communication-message"></i> Pesan</a>

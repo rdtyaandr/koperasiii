@@ -17,7 +17,11 @@ class KategoriController extends GLOBAL_Controller
     {
         $data['title'] = 'Data Kategori';
         $data['kategori'] = parent::model('KategoriModel')->lihat_semua();
-        parent::template('kategori/index', $data);
+        if ($this->session->userdata('level') == 'admin'){
+            parent::template('kategori/index', $data);
+        }elseif ($this->session->userdata('level') == 'operator') {
+            parent::op_template('kategori/index', $data);
+        }
     }
 
     public function tambah()

@@ -17,7 +17,12 @@ class TransaksiController extends GLOBAL_Controller
     {
         $data['title'] = 'Data Transaksi';
         $data['transaksi'] = parent::model('TransaksiModel')->lihat_semua();
-        parent::template('transaksi/index', $data);
+        
+        if ($this->session->userdata('level') == 'admin'){
+            parent::template('transaksi/index', $data);
+        }elseif ($this->session->userdata('level') == 'operator') {
+            parent::op_template('transaksi/index', $data);
+        }
     }
 
     public function tambah()
@@ -44,7 +49,11 @@ class TransaksiController extends GLOBAL_Controller
             }
         } else {
             $data['title'] = 'Tambah Transaksi';
-            parent::template('transaksi/tambah', $data);
+            if ($this->session->userdata('level') == 'admin'){
+                parent::template('transaksi/tambah', $data);
+            }elseif ($this->session->userdata('level') == 'operator') {
+                parent::op_template('transaksi/tambah', $data);
+            }
         }
     }
 
@@ -72,7 +81,11 @@ class TransaksiController extends GLOBAL_Controller
             $data['title'] = 'Ubah Transaksi';
             $query = array('id_transaksi' => $id);
             $data['transaksi'] = parent::model('TransaksiModel')->lihat_transaksi($query);
-            parent::template('transaksi/ubah', $data);
+            if ($this->session->userdata('level') == 'admin'){
+                parent::template('transaksi/ubah', $data);
+            }elseif ($this->session->userdata('level') == 'operator') {
+                parent::op_template('transaksi/ubah', $data);
+            }
         }
     }
 

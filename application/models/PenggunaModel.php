@@ -24,4 +24,7 @@ class PenggunaModel extends GLOBAL_Model {
     {
         return parent::delete_row_with_status('tb_pengguna', $query);
     }
+    public function tambah($data){
+		return parent::insert_with_status('tb_pengguna',$data);
+	}
 }
