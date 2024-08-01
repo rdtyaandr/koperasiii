@@ -8,33 +8,39 @@ class TransaksiModel extends GLOBAL_Model
         parent::__construct();
     }
 
-    // Fungsi untuk menambah transaksi baru
-    public function tambah($data)
+    // Fungsi untuk menyimpan transaksi utama
+    public function insert_transaksi($data)
     {
-        return parent::insert_with_status('tb_transaksi', $data);
+        $this->db->insert('tb_transaksi', $data);
+        return $this->db->insert_id(); // Mengembalikan ID transaksi yang baru disimpan
     }
 
-    // Fungsi untuk mengubah data transaksi berdasarkan ID
-    public function ubah($id, $data)
+    // Fungsi untuk menyimpan detail transaksi
+    public function insert_transaksi_detail($data)
     {
-        return parent::update_table_with_status('tb_transaksi', 'id_transaksi', $id, $data);
+        $this->db->insert_batch('tb_detransaksi', $data);
     }
 
-    // Fungsi untuk menghapus data transaksi berdasarkan ID
-    public function hapus($id)
+    // Fungsi untuk mendapatkan semua transaksi
+    public function get_all_transaksi()
     {
-        return parent::delete_row_with_status('tb_transaksi', array('id_transaksi' => $id));
+        return $this->db->get('tb_transaksi')->result();
     }
 
-    // Fungsi untuk mengambil semua data transaksi
-    public function lihat_semua()
+    // Fungsi untuk mendapatkan detail transaksi berdasarkan ID transaksi
+    public function get_transaksi_detail($id_transaksi)
     {
-        return parent::get_array_of_table('tb_transaksi');
+        $this->db->where('id_transaksi', $id_transaksi);
+        return $this->db->get('tb_detransaksi')->result();
     }
 
-    // Fungsi untuk mengambil data transaksi berdasarkan query tertentu
-    public function lihat_transaksi($query)
+    // Fungsi untuk menghapus transaksi dan detailnya
+    public function delete_transaksi($id_transaksi)
     {
-        return parent::get_array_of_row('tb_transaksi', $query);
+        $this->db->where('id_transaksi', $id_transaksi);
+        $this->db->delete('tb_transaksi');
+
+        $this->db->where('id_transaksi', $id_transaksi);
+        $this->db->delete('tb_detransaksi');
     }
 }
