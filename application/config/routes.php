@@ -1,18 +1,30 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+/*
+* login dan register routes modul
+* */
 $route['login'] = 'AuthController/login';
 $route['logout'] = 'AuthController/logout';
 $route['register'] = 'AuthController/register';
 
-
+//Untuk Rute User
+/*
+* laporan routes user
+* */
+$route['home'] = 'usercontroller';
+//Rute Untuk Operator
+/*
+* laporan routes user
+* */
+$route['main'] = 'OperatorController';
+//Untuk Admin
 /*
 * laporan routes modul
 * */
-$route['laporan-anggota'] = 'LaporanController/anggota';
-$route['laporan-simpanan'] = 'LaporanController/simpananAnggota';
-$route['laporan-pinjaman'] = 'LaporanController/pinjamanAnggota';
-$route['laporan-tagihan-koperasi'] = 'LaporanController/tagihanKoperasi';
+$route['history-barang'] = 'HistoryController/anggota';
+$route['history-gudang'] = 'HistoryController/simpananAnggota';
+$route['history-transaksi'] = 'HistoryController/pinjamanAnggota';
 
 /*
 * angsuran routes modul
@@ -25,19 +37,17 @@ $route['angsuran-ijarah'] = 'AngsuranController/angsuranIjarah';
 /*
 * pinjaman routes modul
 * */
+
 // view
-$route['pengajuan'] = 'PinjamanController/pinjamanPengajuan';
-$route['mutasi'] = 'PinjamanController/pinjamanMutasi';
-$route['pinjaman-murabahah'] = 'PinjamanController/pinjamanMurabahah';
-$route['pinjaman-musyarakah'] = 'PinjamanController/pinjamanMusyarakah';
-$route['pinjaman-ijarah'] = 'PinjamanController/pinjamanIjarah';
-
-// insert
-$route['pinjaman-mudharabah/tambah'] = 'PinjamanController/tambahMudharabah';
-
+$route['pinjaman'] = 'PinjamanController';
+$route['pinjaman/tambah'] = 'PinjamanController/tambah';
+$route['pinjaman/simpanPinjaman'] = 'PinjamanController/simpanPinjaman';
 //disposisi
-$route['pinjaman/setuju/(:any)'] = 'PinjamanController/setuju/$1';
-$route['pinjaman/tolak/(:any)'] = 'PinjamanController/tolak/$1';
+$route['pinjaman/approve/(:any)'] = 'PinjamanController/approve/$1';
+$route['pinjaman/cancel/(:any)'] = 'PinjamanController/cancel/$1';
+$route['pinjaman/delete/(:any)'] = 'PinjamanController/delete/$1';
+
+
 
 /*
 * simpanan routes modul
@@ -67,15 +77,6 @@ $route['barang/hapus/(:any)'] = 'BarangController/hapus/$1';
 $route['barang/(:any)'] = 'BarangController/detail/$1';
 
 /*
-* gudang modul routes
-* */
-$route['gudang'] = 'GudangController';
-$route['gudang/tambah'] = 'GudangController/tambah';
-$route['gudang/ubah/(:any)'] = 'GudangController/ubah/$1';
-$route['gudang/hapus/(:any)'] = 'GudangController/hapus/$1';
-$route['gudang/(:any)'] = 'GudangController/detail/$1';
-
-/*
 * transaksi modul routes
 * */
 $route['transaksi'] = 'TransaksiController';
@@ -84,6 +85,12 @@ $route['transaksi/ubah/(:any)'] = 'TransaksiController/ubah/$1';
 $route['transaksi/hapus/(:any)'] = 'TransaksiController/hapus/$1';
 $route['transaksi/(:any)'] = 'TransaksiController/detail/$1';
 
+/*
+* pengguna modul routes
+* */
+$route['pengguna'] = 'PenggunaController/index';
+$route['pengguna/ubah/(:any)'] = 'PenggunaController/ubah/$1';
+$route['pengguna/hapus/(:any)'] = 'PenggunaController/hapus/$1';
 /*
 * akun modul routes
 * */
@@ -98,3 +105,15 @@ $route['pengaturan'] = 'PengaturanController';
 $route['default_controller'] = 'AdminController';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+$route['pinjaman/save_pinjaman'] = 'pinjamanController/save_pinjaman';
+
+
+
+
+// Tambahkan di routes.php
+$route['notification/account_change'] = 'notification/account_change';
+$route['notification/out_of_stock'] = 'notification/out_of_stock';
+
+//pinjaman 
+

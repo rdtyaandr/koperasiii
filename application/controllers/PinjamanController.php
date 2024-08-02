@@ -2,94 +2,112 @@
 
 class PinjamanController extends GLOBAL_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('PinjamanModel');
+        if (!parent::hasLogin()) {
+            $this->session->set_flashdata('alert', 'belum_login');
+            redirect(base_url('login'));
+        }
+    }
 
-	public function __construct()
-	{
-		parent::__construct();
-		$model = array('PinjamanModel');
-		$this->load->model($model);
-		if (!parent::hasLogin()) {
-			$this->session->set_flashdata('alert', 'belum_login');
-			redirect(base_url('login'));
-		}
-	}
+    public function index()
+    {
+        $data['title'] = 'Pinjaman';
+        $data['pengajuan'] = $this->PinjamanModel->get_all_pinjaman();
+        if ($this->session->userdata('level') == 'ketua')
+            parent::template('pinjaman/index', $data);
+            elseif($this->session->userdata('level') == 'user')
+                parent::user_template('pinjaman/index', $data);
 
-	/*
-	 * get modul
-	 * */
-	public function pinjamanPengajuan()
-	{
-		$data['title'] = 'Pinjaman Pengajuan';
-		$data['mudharabah'] = parent::model('PinjamanModel')->lihat_semua()->result_array();
+    }
 
-		parent::template('pinjaman/pengajuan', $data);
-	}
+    public function tambah()
+    {
+        if ($this->input->post()) {
+            $data = [
+                'nama_anggota' => $this->input->post('nama_anggota'),
+                'jenis_pinjaman' => $this->input->post('jenis_pinjaman'),
+                'tanggal_pinjam' => $this->input->post('tanggal_pinjam'),
+                'jumlah_pinjaman' => $this->input->post('jumlah_pinjaman'),
+                'lama_pinjaman' => $this->input->post('lama_pinjaman'),
+                'waktu_pengajuan' => date('Y-m-d H:i:s'),
+                'status' => 'Menunggu Persetujuan'
+            ];
 
-	public function pinjamanMurabahah()
-	{
-		$data['title'] = 'Pinjaman Murabahah';
-		$data['murabahah'] = parent::model('PinjamanModel')->lihat_semua()->result_array();
+            $this->PinjamanModel->insert_pinjaman($data);
 
-		parent::template('pinjaman/murabahah', $data);
-	}
+            if ($this->db->affected_rows() > 0) {
+                redirect('pinjaman');
+            } else {
+                $this->session->set_flashdata('error', 'Gagal menyimpan pengajuan pinjaman.');
+                redirect('pinjaman/tambah');
+            }
+        } else {
+            $data['title'] = 'Tambah Pengajuan' ;
+            if ($this->session->userdata('level') == 'ketua')
+            parent::template('pinjaman/tambah', $data);
+            elseif($this->session->userdata('level') == 'user')
+                parent::user_template('pinjaman/tambah', $data);
+        }
+    }
 
-	public function pinjamanMusyarakah()
-	{
-		$data['title'] = 'Pinjaman Musyarakah';
-		$data['musyarakah'] = parent::model('PinjamanModel')->lihat_semua()->result_array();
+    // Mengupdate status pinjaman
+    public function update_status()
+    {
+        $id = $this->input->post('id');
+        $status = $this->input->post('status');
 
-		parent::template('pinjaman/musyarakah', $data);
-	}
+        $newStatus = ($status === 'approved') ? 'Telah Disetujui oleh Admin' : 'Dibatalkan oleh Admin';
+        $result = $this->PinjamanModel->update_status($id, $newStatus);
 
-	public function pinjamanIjarah()
-	{
-		$data['title'] = 'Pinjaman Ijarah';
-		$data['ijarah'] = parent::model('PinjamanModel')->lihat_semua()->result_array();
+        if ($result) {
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Gagal memperbarui status.']);
+        }
+    }
 
-		parent::template('pinjaman/ijarah', $data);
-	}
+    // Approve a loan
+    public function approve($id)
+    {
+        $this->load->model('PinjamanModel');
 
-	/*
-	 * insert modul
-	 * */
-	public function pinjamanMutasi()
-	{
-		$data['title'] = 'Pinjaman Mutasi';
-		$data['mudharabah'] = parent::model('PinjamanModel')->lihat_semua()->result_array();
+        if ($this->PinjamanModel->updateStatus($id, 'Telah Disetujui oleh Admin')) {
+            $this->session->set_flashdata('message', 'Pinjaman berhasil disetujui.');
+        } else {
+            $this->session->set_flashdata('message', 'Gagal menyetujui pinjaman.');
+        }
 
-		parent::template('pinjaman/mutasi', $data);
-	}
-	public function setuju($id)
-	{
-		$data = array(
-			'pinjaman_status' => 'setuju',
-		);
+        redirect('pinjaman');
+    }
 
-		$update = parent::model('PinjamanModel')->ubah($id, $data);
+    // Cancel a loan
+    public function cancel($id)
+    {
+        $this->load->model('PinjamanModel');
 
-		if ($update > 0) {
-			parent::alert('alert', 'sukses_setuju');
-			redirect(base_url());
-		} else {
-			parent::alert('alert', 'gagal_setuju');
-			redirect(base_url());
-		}
-	}
+        if ($this->PinjamanModel->updateStatus($id, 'Dibatalkan oleh Admin')) {
+            $this->session->set_flashdata('message', 'Pinjaman berhasil dibatalkan.');
+        } else {
+            $this->session->set_flashdata('message', 'Gagal membatalkan pinjaman.');
+        }
 
-	public function tolak($id)
-	{
-		$data = array(
-			'pinjaman_status' => 'tolak',
-		);
+        redirect('pinjaman');
+    }
 
-		$update = parent::model('PinjamanModel')->ubah($id, $data);
+    // Delete a loan
+    public function delete($id)
+    {
+        $this->load->model('PinjamanModel');
 
-		if ($update > 0) {
-			parent::alert('alert', 'sukses_tolak');
-			redirect(base_url());
-		} else {
-			parent::alert('alert', 'gagal_tolak');
-			redirect(base_url());
-		}
-	}
+        if ($this->PinjamanModel->deleteLoan($id)) {
+            $this->session->set_flashdata('message', 'Pinjaman berhasil dihapus.');
+        } else {
+            $this->session->set_flashdata('message', 'Gagal menghapus pinjaman.');
+        }
+
+        redirect('pinjaman');
+    }
 }

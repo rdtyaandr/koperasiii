@@ -1,6 +1,6 @@
 <?php
 
-class AdminController extends GLOBAL_Controller
+class TransaksiController extends GLOBAL_Controller
 {
     public function __construct()
     {
@@ -11,13 +11,10 @@ class AdminController extends GLOBAL_Controller
         }
     }
 
+
     public function index()
     {
-        $data['title'] = 'Dashboard';
-
-        parent::template('admin/dashboard', $data);
+        $data['title'] = 'Data Transaksi';
+        parent::template('transaksi/index', $data);
     }
-
-
 }
-?>
