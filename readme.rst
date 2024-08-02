@@ -1,13 +1,9 @@
 ###################
-Sistem Informasi Koperasi Syariah
+Sistem Koperasi BPS Jawa Timur
 ###################
 
-Sistem Informasi Koperasi Simpan Pinjam Syariah berbasi web, Copyright 2019 digtive.id
-
+Sistem Koperasi BPS Jawa Timur berbasis web, Copyright 2024 
 
 *******************
-writen by bagussjm,jbenastey
+written @rdtyaandr_
 *******************
-
-Creative Crew
-

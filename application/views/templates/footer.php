@@ -82,9 +82,8 @@
                     <!-- ================================================
             Scripts
             ================================================ -->
-
-                    <!-- Compiled and minified JavaScript -->
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+                    <!-- sweetalert library -->
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                     <!-- jQuery Library -->
                     <script type="text/javascript" src="<?= base_url('assets/js/plugins/jquery-1.11.2.min.js') ?>"></script>
                     <!--materialize js-->
@@ -110,7 +109,6 @@
                     <!-- sparkline -->
                     <script type="text/javascript" src="<?= base_url('assets/js/plugins/sparkline/jquery.sparkline.min.js') ?>"></script>
                     <script type="text/javascript" src="<?= base_url('assets/js/plugins/sparkline/sparkline-script.js') ?>"></script>
-
 
                     <!--plugins.js - Some Specific JS codes for Plugin Settings-->
                     <script type="text/javascript" src="<?= base_url('assets/js/plugins.min.js') ?>"></script>

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 30, 2024 at 04:34 AM
+-- Generation Time: Jul 30, 2024 at 08:25 AM
 -- Server version: 8.0.30
--- PHP Version: 8.1.10
+-- PHP Version: 8.3.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,24 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `notifications`
+-- Table structure for table `tb_anggota`
 --
 
-CREATE TABLE `notifications` (
-  `id` int NOT NULL,
-  `pengguna_id` int NOT NULL,
-  `message` text NOT NULL,
-  `is_read` tinyint(1) NOT NULL DEFAULT '0',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `simkopsis_anggota`
---
-
-CREATE TABLE `simkopsis_anggota` (
+CREATE TABLE `tb_anggota` (
   `anggota_id` int NOT NULL,
   `anggota_nama` varchar(100) NOT NULL,
   `anggota_jk` enum('L','P') NOT NULL,
@@ -61,111 +47,18 @@ CREATE TABLE `simkopsis_anggota` (
   `anggota_date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `simkopsis_anggota`
---
-
-INSERT INTO `simkopsis_anggota` (`anggota_id`, `anggota_nama`, `anggota_jk`, `anggota_tempat_lahir`, `anggota_tanggal_lahir`, `anggota_nik`, `anggota_agama`, `anggota_nama_ibu`, `anggota_alamat`, `anggota_pekerjaan`, `anggota_pendidikan`, `anggota_status_kawin`, `anggota_nomor_hp`, `anggota_email`, `anggota_pendapatan`, `anggota_dokumen`, `anggota_date_created`) VALUES
-(2, 'sasa', 'P', 'surabaya', '2024-07-02', '4234432432423', 'Islam', 'sasa', 'ndsadsaind', 'magangan', 'SD', 'janda', '2131123213', 'sasa@magang.go', 500, NULL, '2024-07-25 09:23:28');
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `simkopsis_angsuran`
+-- Table structure for table `tb_angsuran`
 --
 
-CREATE TABLE `simkopsis_angsuran` (
+CREATE TABLE `tb_angsuran` (
   `angsuran_id` int NOT NULL,
   `angsuran_pinjaman_id` int NOT NULL,
   `angsuran_jumlah` double NOT NULL,
   `angsuran_date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `simkopsis_level`
---
-
-CREATE TABLE `simkopsis_level` (
-  `id` int NOT NULL,
-  `level_pengguna` varchar(128) NOT NULL
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `simkopsis_level`
---
-
-INSERT INTO `simkopsis_level` (`id`, `level_pengguna`) VALUES
-(1, 'Ketua'),
-(2, 'pengurus'),
-(3, 'user');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `simkopsis_pengguna`
---
-
-CREATE TABLE `simkopsis_pengguna` (
-  `pengguna_id` int NOT NULL,
-  `nama_lengkap` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `username` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `email` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `satker` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `password` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `pengguna_hak_akses` enum('ketua','operator','user') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `pengguna_date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `pengguna_date_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `simkopsis_pengguna`
---
-
-INSERT INTO `simkopsis_pengguna` (`pengguna_id`, `nama_lengkap`, `username`, `email`, `satker`, `password`, `pengguna_hak_akses`, `pengguna_date_created`, `pengguna_date_update`) VALUES
-(7, 'bambang suharjo', 'bambang', 'bambang@kompas.idn', 'IDK', '123', 'ketua', '2024-07-27 19:31:02', '2024-07-27 19:31:02'),
-(8, 'bang sat', 'sat ', 'satrio213@magang.io', 'MAGANG', '123', 'operator', '2024-07-29 08:19:45', '2024-07-29 08:19:45'),
-(9, 'user', 'user', 'user@gmail.gblok', 'IDK', '123', 'user', '2024-07-29 08:26:01', '2024-07-29 08:26:01');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `simkopsis_pinjaman`
---
-
-CREATE TABLE `simkopsis_pinjaman` (
-  `pinjaman_id` int NOT NULL,
-  `pinjaman_anggota_id` int NOT NULL,
-  `pinjaman_jenis` enum('mudharobah','murabahah','musyarakah','ijarah') NOT NULL,
-  `pinjaman_total` double NOT NULL,
-  `pinjaman_tenggat` int NOT NULL,
-  `pinjaman_keterangan` text NOT NULL,
-  `pinjaman_date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `simkopsis_simpanan`
---
-
-CREATE TABLE `simkopsis_simpanan` (
-  `simpanan_id` int NOT NULL,
-  `simpanan_anggota_id` int NOT NULL,
-  `simpanan_jenis` enum('amanah','kurban','pendidikan','umroh','idul_fitri','wadiah') NOT NULL,
-  `simpanan_total` double NOT NULL,
-  `simpanan_keterangan` text NOT NULL,
-  `simpanan_date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `simkopsis_simpanan`
---
-
-INSERT INTO `simkopsis_simpanan` (`simpanan_id`, `simpanan_anggota_id`, `simpanan_jenis`, `simpanan_total`, `simpanan_keterangan`, `simpanan_date_created`) VALUES
-(1, 0, 'amanah', 50, 'SIMPANAN AMANAH : Simpanan bersifat umum yang penyimpanan dan penarikannya dapat dilakukan kapan saja oleh nasabah pada jam kerja. Simpanan awal Rp 25.000 dan selanjutnya minimal Rp 10.000.', '2024-07-26 10:57:22'),
-(2, 0, 'amanah', 25000, 'SIMPANAN AMANAH : Simpanan bersifat umum yang penyimpanan dan penarikannya dapat dilakukan kapan saja oleh nasabah pada jam kerja. Simpanan awal Rp 25.000 dan selanjutnya minimal Rp 10.000.', '2024-07-26 10:57:46');
 
 -- --------------------------------------------------------
 
@@ -178,38 +71,159 @@ CREATE TABLE `tb_barang` (
   `kode_barang` varchar(100) NOT NULL,
   `nama_barang` varchar(100) NOT NULL,
   `detail_barang` varchar(100) NOT NULL,
-  `satuan` varchar(100) NOT NULL,
-  `kategori` varchar(100) NOT NULL,
+  `id_satuan` int NOT NULL,
+  `id_kategori` int NOT NULL,
   `harga_beli` int NOT NULL,
   `harga_jual` int NOT NULL,
   `stok` int NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `tb_barang`
 --
 
-INSERT INTO `tb_barang` (`id_barang`, `kode_barang`, `nama_barang`, `detail_barang`, `satuan`, `kategori`, `harga_beli`, `harga_jual`, `stok`, `created_at`, `updated_at`) VALUES
-(2, 'BR002', 'LAKBAN HITAM', 'Merk A', 'PCS', 'ATK', 19200, 23040, 6, '2020-12-01 07:31:03', '0000-00-00 00:00:00'),
-(3, 'BR003', 'TINTA EPRINT CAIR ', 'Merk A', 'PCS', 'ATK', 42000, 50400, 0, '2020-12-01 07:31:34', '0000-00-00 00:00:00'),
-(4, 'BR004', 'KERTAS F4', 'Merk A', 'RIM', 'ATK', 50000, 60000, -19, '2020-12-01 07:32:13', '0000-00-00 00:00:00'),
-(5, 'BR005', 'PULPEN AE7', 'Merk A', 'PCS', 'ATK', 1800, 2160, 0, '2020-12-01 07:34:08', '0000-00-00 00:00:00'),
-(6, 'BR006', 'LEM STIK 24', 'Merk A', 'PCS', 'ATK', 4800, 5760, -10, '2020-12-01 07:34:58', '0000-00-00 00:00:00'),
-(7, 'BR007', 'KALKULATOR CITIZEN', 'Merk A', 'PCS', 'ATK', 162000, 194400, 0, '2020-12-01 07:36:12', '0000-00-00 00:00:00'),
-(8, 'BR008', 'KERTAS 1 PLY', 'Merk A', 'DUS', 'ATK', 295000, 354000, 0, '2020-12-01 07:36:43', '0000-00-00 00:00:00'),
-(9, 'BR009', 'ODNERD GEMA', 'Merk A', 'PCS', 'ATK', 24000, 28800, 0, '2020-12-01 07:38:09', '0000-00-00 00:00:00'),
-(10, 'BR0010', 'AMPLOP PUTIH KECIL', 'Merk A', 'PCS', 'ATK', 19200, 23040, 0, '2020-12-01 07:39:47', '0000-00-00 00:00:00'),
-(11, 'BR0011', 'KWITANSI TELLER', 'Merk B', 'PCS', 'PRC', 11400, 13680, 0, '2020-12-01 07:41:23', '0000-00-00 00:00:00'),
-(12, 'BR0012', 'AMPLOP UANG SEDANG', 'Merk B', 'PCS', 'PRC', 1500, 1800, 0, '2020-12-01 07:44:16', '0000-00-00 00:00:00'),
-(13, 'BR0013', 'BUKTI KAS 50', 'Merk B', 'PCS', 'PRC', 3600, 4320, 0, '2020-12-01 07:45:10', '2020-12-02 05:42:33'),
-(15, 'BR0014', 'Pita Epson 2180', 'Merk A', 'PCS', 'SUP', 100000, 120000, -8, '2020-12-02 13:23:09', '0000-00-00 00:00:00'),
-(16, 'BR0015', 'Tisu Basah', 'Merk Mitu', 'PCS', 'AKB', 20000, 24000, 67, '2020-12-02 13:23:36', '0000-00-00 00:00:00'),
-(18, 'BR0017', 'Bumbu Penyedap', 'Merek Masako', 'PCS', 'ATK', 2500, 3000, -770, '2024-07-09 15:34:10', '2024-07-12 01:02:52'),
-(19, 'BR0018', 'Minuman Bersoda', 'Merek Coca Cola', 'PCS', 'SUP', 5000, 6000, 5, '2024-07-12 15:36:05', '0000-00-00 00:00:00'),
-(20, 'KJ817', 'Kopi', 'Merek Abc', 'PCS', 'SUP', 2500, 3000, 30, '2024-07-15 08:40:39', '0000-00-00 00:00:00'),
-(21, 'br0019', 'Mie Instan', 'Indomie', 'DUS', 'PRC', 32000, 38400, 90, '2024-07-15 11:41:12', '2024-07-22 03:38:05');
+INSERT INTO `tb_barang` (`id_barang`, `kode_barang`, `nama_barang`, `detail_barang`, `id_satuan`, `id_kategori`, `harga_beli`, `harga_jual`, `stok`, `created_at`, `updated_at`) VALUES
+(45, '-', 'yuyuouuuuu', '-', 4, 35, 96969, 76979679, 73, '2024-07-30 03:39:07', '2024-07-30 07:37:27'),
+(46, '-', 'jukukkkkhkhjh', '-', 15, 35, 5668565, 68556865, 6, '2024-07-30 03:47:26', '2024-07-30 07:37:33'),
+(47, '-', 'uhhigiuiyiy', '-', 6, 35, 685865, 86586, 86, '2024-07-30 03:52:46', '2024-07-30 07:37:42'),
+(48, '', 'baju', '', 9, 36, 976976, 79769, 76, '2024-07-30 04:07:44', '2024-07-30 07:37:38'),
+(49, '', 'Asus Rog', 'Sampo Merek Panteen', 6, 39, 12000, 15000, 10, '2024-07-30 06:31:39', '2024-07-30 06:31:39');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_kategori`
+--
+
+CREATE TABLE `tb_kategori` (
+  `id_kategori` int NOT NULL,
+  `nama_kategori` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `tb_kategori`
+--
+
+INSERT INTO `tb_kategori` (`id_kategori`, `nama_kategori`, `created_at`, `updated_at`) VALUES
+(35, 'Minuman', '2024-07-30 03:52:07', '2024-07-30 03:52:07'),
+(36, 'Makanan', '2024-07-30 03:52:18', '2024-07-30 03:52:18'),
+(38, 'ATK', '2024-07-30 06:28:16', '2024-07-30 06:28:16'),
+(39, 'AKM (Alat kamar mandi)', '2024-07-30 06:30:25', '2024-07-30 06:30:25');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_pengguna`
+--
+
+CREATE TABLE `tb_pengguna` (
+  `pengguna_id` int NOT NULL,
+  `nama_lengkap` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `username` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `satker` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `password` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `pengguna_hak_akses` enum('user','operator','admin') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `pengguna_date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tb_pengguna`
+--
+
+INSERT INTO `tb_pengguna` (`pengguna_id`, `nama_lengkap`, `username`, `email`, `satker`, `password`, `pengguna_hak_akses`, `pengguna_date_created`) VALUES
+(3, 'a', 'a', 'adit@gmail.com', 'ipds', '0cc175b9c0f1b6a831c399e269772661', 'user', '2024-07-25 08:01:44'),
+(4, 'b', 'b', 'sandhikagalih@unpas.ac.id', 'ipds', '92eb5ffee6ae2fec3ad71c777531578f', 'user', '2024-07-25 09:11:38');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_pinjaman`
+--
+
+CREATE TABLE `tb_pinjaman` (
+  `pinjaman_id` int NOT NULL,
+  `pinjaman_anggota_id` int NOT NULL,
+  `pinjaman_jenis` enum('mudharobah','murabahah','musyarakah','ijarah') NOT NULL,
+  `pinjaman_total` double NOT NULL,
+  `pinjaman_tenggat` int NOT NULL,
+  `pinjaman_keterangan` text NOT NULL,
+  `pinjaman_date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_satuan`
+--
+
+CREATE TABLE `tb_satuan` (
+  `id_satuan` int NOT NULL,
+  `nama_satuan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `tb_satuan`
+--
+
+INSERT INTO `tb_satuan` (`id_satuan`, `nama_satuan`, `created_at`, `updated_at`) VALUES
+(4, 'Unit', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
+(5, 'Karton/boks', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
+(6, 'Dus/paket', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
+(7, 'Palet', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
+(8, 'm²', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
+(9, 'm³', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
+(10, 'Kg', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
+(11, 'Pon', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
+(12, 'Kemasan', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
+(13, 'PCS', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
+(14, 'Buah', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
+(15, 'Biji', '2024-07-30 08:32:12', '2024-07-30 08:32:12');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_simpanan`
+--
+
+CREATE TABLE `tb_simpanan` (
+  `simpanan_id` int NOT NULL,
+  `simpanan_anggota_id` int NOT NULL,
+  `simpanan_jenis` enum('amanah','kurban','pendidikan','umroh','idul_fitri','wadiah') NOT NULL,
+  `simpanan_total` double NOT NULL,
+  `simpanan_keterangan` text NOT NULL,
+  `simpanan_date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tb_simpanan`
+--
+
+INSERT INTO `tb_simpanan` (`simpanan_id`, `simpanan_anggota_id`, `simpanan_jenis`, `simpanan_total`, `simpanan_keterangan`, `simpanan_date_created`) VALUES
+(1, 0, 'amanah', 20000, 'SIMPANAN AMANAH : Simpanan bersifat umum yang penyimpanan dan penarikannya dapat dilakukan kapan saja oleh nasabah pada jam kerja. Simpanan awal Rp 25.000 dan selanjutnya minimal Rp 10.000.', '2024-07-25 13:41:44'),
+(2, 0, 'amanah', 1e18, 'SIMPANAN AMANAH : Simpanan bersifat umum yang penyimpanan dan penarikannya dapat dilakukan kapan saja oleh nasabah pada jam kerja. Simpanan awal Rp 25.000 dan selanjutnya minimal Rp 10.000.', '2024-07-25 13:42:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_transaksi`
+--
+
+CREATE TABLE `tb_transaksi` (
+  `id_detailtransaksi` int NOT NULL,
+  `id_transaksi` int NOT NULL,
+  `id_barang` int NOT NULL,
+  `jumlah_beli` int NOT NULL,
+  `total` int NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Indexes for dumped tables
@@ -241,46 +255,16 @@ INSERT INTO `tb_pengajuan` (`id`, `pengguna_id`, `nama_anggota`, `jenis_pinjaman
 (14, 0, 'oioi', 'Mutasi', '2024-08-30', '560000', '6 - 7', 0, '2024-08-01 15:47:12', 'Telah Disetujui oleh Admin', '2024-08-01 17:47:12');
 
 --
--- Indexes for table `notifications`
+-- Indexes for table `tb_anggota`
 --
-ALTER TABLE `notifications`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `simkopsis_anggota`
---
-ALTER TABLE `simkopsis_anggota`
+ALTER TABLE `tb_anggota`
   ADD PRIMARY KEY (`anggota_id`);
 
 --
--- Indexes for table `simkopsis_angsuran`
+-- Indexes for table `tb_angsuran`
 --
-ALTER TABLE `simkopsis_angsuran`
+ALTER TABLE `tb_angsuran`
   ADD PRIMARY KEY (`angsuran_id`);
-
---
--- Indexes for table `simkopsis_level`
---
-ALTER TABLE `simkopsis_level`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `simkopsis_pengguna`
---
-ALTER TABLE `simkopsis_pengguna`
-  ADD PRIMARY KEY (`pengguna_id`);
-
---
--- Indexes for table `simkopsis_pinjaman`
---
-ALTER TABLE `simkopsis_pinjaman`
-  ADD PRIMARY KEY (`pinjaman_id`);
-
---
--- Indexes for table `simkopsis_simpanan`
---
-ALTER TABLE `simkopsis_simpanan`
-  ADD PRIMARY KEY (`simpanan_id`);
 
 --
 -- Indexes for table `tb_barang`
@@ -289,56 +273,98 @@ ALTER TABLE `tb_barang`
   ADD PRIMARY KEY (`id_barang`);
 
 --
+-- Indexes for table `tb_kategori`
+--
+ALTER TABLE `tb_kategori`
+  ADD PRIMARY KEY (`id_kategori`);
+
+--
+-- Indexes for table `tb_pengguna`
+--
+ALTER TABLE `tb_pengguna`
+  ADD PRIMARY KEY (`pengguna_id`);
+
+--
+-- Indexes for table `tb_pinjaman`
+--
+ALTER TABLE `tb_pinjaman`
+  ADD PRIMARY KEY (`pinjaman_id`);
+
+--
+-- Indexes for table `tb_satuan`
+--
+ALTER TABLE `tb_satuan`
+  ADD PRIMARY KEY (`id_satuan`);
+
+--
+-- Indexes for table `tb_simpanan`
+--
+ALTER TABLE `tb_simpanan`
+  ADD PRIMARY KEY (`simpanan_id`);
+
+--
+-- Indexes for table `tb_transaksi`
+--
+ALTER TABLE `tb_transaksi`
+  ADD PRIMARY KEY (`id_detailtransaksi`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `notifications`
+-- AUTO_INCREMENT for table `tb_anggota`
 --
-ALTER TABLE `notifications`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tb_anggota`
+  MODIFY `anggota_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `simkopsis_anggota`
+-- AUTO_INCREMENT for table `tb_angsuran`
 --
-ALTER TABLE `simkopsis_anggota`
-  MODIFY `anggota_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `simkopsis_angsuran`
---
-ALTER TABLE `simkopsis_angsuran`
+ALTER TABLE `tb_angsuran`
   MODIFY `angsuran_id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `simkopsis_level`
---
-ALTER TABLE `simkopsis_level`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `simkopsis_pengguna`
---
-ALTER TABLE `simkopsis_pengguna`
-  MODIFY `pengguna_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT for table `simkopsis_pinjaman`
---
-ALTER TABLE `simkopsis_pinjaman`
-  MODIFY `pinjaman_id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `simkopsis_simpanan`
---
-ALTER TABLE `simkopsis_simpanan`
-  MODIFY `simpanan_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_barang`
 --
 ALTER TABLE `tb_barang`
-  MODIFY `id_barang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_barang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+
+--
+-- AUTO_INCREMENT for table `tb_kategori`
+--
+ALTER TABLE `tb_kategori`
+  MODIFY `id_kategori` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
+-- AUTO_INCREMENT for table `tb_pengguna`
+--
+ALTER TABLE `tb_pengguna`
+  MODIFY `pengguna_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `tb_pinjaman`
+--
+ALTER TABLE `tb_pinjaman`
+  MODIFY `pinjaman_id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tb_satuan`
+--
+ALTER TABLE `tb_satuan`
+  MODIFY `id_satuan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `tb_simpanan`
+--
+ALTER TABLE `tb_simpanan`
+  MODIFY `simpanan_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tb_transaksi`
+--
+ALTER TABLE `tb_transaksi`
+  MODIFY `id_detailtransaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

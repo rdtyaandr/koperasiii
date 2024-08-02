@@ -1,7 +1,11 @@
-Login admin sales
-username : admin.sales@gmail.com
+Login Admin
+username : admin.demo
 password : admin
 
-login sales lapangan aksess via mobile
-username : adam.malik@gmail.com
-password : admin
+Login Operator
+username : operator.demo
+password : operator
+
+Login User 
+username : user.demo
+password : user

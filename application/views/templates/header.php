@@ -32,8 +32,8 @@
         rel="stylesheet" media="screen,projection">
 
     <!-- Custome CSS-->
-    <link href="<?= base_url('assets/css/custom/custom-style.css') ?>" type="text/css" rel="stylesheet"
-        media="screen,projection">
+    <!-- <link href="<?= base_url('assets/css/dropdown.css'); ?>" type="text/css" rel="stylesheet" media="screen,projection"> -->
+    <link href="<?= base_url('assets/css/custom/custom-style.css') ?>" type="text/css" rel="stylesheet" media="screen,projection">
 
 
     <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
@@ -50,23 +50,20 @@
         media="screen,projection">
 </head>
 
+
 <body>
 
     <!-- START HEADER -->
     <header id="header" class="page-topbar">
-        <!-- start header nav-->
         <div class="navbar-fixed">
-            <nav class="navbar-color blue darken-2">
-                <div class="nav-wrapper">
-                    <ul class="left">
+            <nav class="navbar-color blue darken-2" style="position: relative;">
+                <div class="nav-wrapper" style="display: flex; align-items: center; height: 64px;"> <!-- Pastikan tinggi tetap -->
+                    <ul class="left" style="display: flex; align-items: center;"> <!-- Tambahkan display flex di sini -->
                         <li>
-                            <h1 class="logo-wrapper">
-                                <a href="<?= base_url() ?>" class="brand-logo darken-1">
-                                    <img src="<?= base_url('assets/images/favicon/icon.png') ?>" alt="bps logo"
-                                        class="responsive-img hide-on-med-and-down" style="width: 9%; height: auto;">
-                                    <span class="brand-logo"
-                                        style="font-size: 1.4rem; line-height: 50%; display: inline-block; letter-spacing: 0.03em;">KOPERASI
-                                        BPS</span>
+                            <h1 class="logo-wrapper" style="display: flex; align-items: center;"> <!-- Tambahkan display flex di sini -->
+                                <a href="<?= base_url() ?>" class="brand-logo darken-1" style="display: flex; align-items: center;"> <!-- Tambahkan display flex di sini -->
+                                    <img src="<?= base_url('assets/images/favicon/icon.png') ?>" alt="bps logo" class="responsive-img hide-on-med-and-down" style="width: 9%; height: auto;">
+                                    <span class="brand-logo" style="font-size: 1.5rem; line-height: 1; display: inline-block; letter-spacing: 0.03em; margin-left: 30px;">KOPERASI BPS</span>
                                 </a>
                             </h1>
                         </li>
@@ -76,6 +73,9 @@
                         <input type="text" name="Search" class="header-search-input z-depth-2"
                             placeholder="Cari di Aplikasi" />
                     </div>
+                    <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating hide-on-large-only blue darken-2" style="position: absolute; left: 10px; top: 10px; box-shadow: 0px 0px 0px transparent !important;">
+                        <i class="mdi-navigation-menu"></i>
+                    </a>
                 </div>
             </nav>
         </div>
@@ -94,7 +94,7 @@
             <aside id="left-sidebar-nav">
                 <ul id="slide-out" class="side-nav fixed leftside-navigation">
                     <!--user profile -->
-                    <li class="user-details cyan darken-2">
+                    <li class="user-details">
                         <div class="row">
                             <div class="col col s4 m4 l4">
                                 <img src="<?= base_url('assets/images/admin.png') ?>" alt=""
@@ -115,33 +115,51 @@
                         <p class="ultra-small margin more-text">Menu Utama</p>
                     </li>
                     <li class="bold active">
-                        <a href="<?= base_url() ?>" class="waves-effect waves-dark"><i class="material-icons">dashboard</i>
-                            Dashboard</a>
+                        <a href="<?= base_url() ?>"><i class="mdi-action-trending-up"></i> Dashboard</a>
                     </li>
 
-                    <li class="bold">
-                        <a href="<?= base_url('barang') ?>" class="waves-effect waves-cyan">
-                            <i class="mdi-action-shopping-cart"></i> Data Barang
-                        </a>
-                    </li>
-
-                    <li class="bold">
-                        <a href="<?= base_url('transaksi') ?>" class="waves-effect waves-cyan">
-                            <i class="material-icons">receipt</i> Data Transaksi
-                        </a>
-                    </li>
-
-                    <li class="bold">
-                        <a href="<?= base_url('anggota') ?>" class="waves-effect waves-cyan">
-                            <i class="material-icons">group</i> Data Anggota
-                        </a>
-                    </li>
-<!--
                     <li class="no-padding">
                         <ul class="collapsible collapsible-accordion">
                             <li class="bold">
-                                <a class="collapsible-header waves-effect waves-cyan">
-                                    <i class="material-icons">savings</i> Simpanan
+                                <a class="collapsible-header">
+                                    <i class="mdi-action-account-balance-wallet"></i> Master Data
+                                </a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        <li><a href="<?= base_url('barang') ?>">Barang</a>
+                                        </li>
+                                        <li><a href="<?= base_url('kategori') ?>">Kategori</a>
+                                        </li>
+                                        <li><a href="<?= base_url('satuan') ?>">Satuan</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="bold">
+                        <a href="<?= base_url('transaksi') ?>">
+                            <i class="mdi-action-swap-vert"></i> Data Transaksi
+                        </a>
+                    </li>
+
+                    <li class="bold">
+                        <a href="<?= base_url('anggota') ?>">
+                            <i class="mdi-social-group"></i> Data Anggota
+                        </a>
+                    </li>
+                    <li class="bold">
+                        <a href="<?= base_url('pengguna') ?>" class="waves-effect waves-cyan">
+                            <i class="material-icons">person</i> Data pengguna
+                        </a>
+                    </li>
+
+                    <li class="no-padding">
+                        <ul class="collapsible collapsible-accordion">
+                            <li class="bold">
+                                <a class="collapsible-header">
+                                    <i class="mdi-action-account-balance-wallet"></i> Simpanan
                                 </a>
                                 <div class="collapsible-body">
                                     <ul>
@@ -160,7 +178,6 @@
                             </li>
                         </ul>
                     </li>
--->
                     <li class="bold">
                         <a href="<?= base_url('pinjaman') ?>" class="waves-effect waves-cyan">
                         <i class="material-icons">account_balance</i> Pengajuan Pinjaman
@@ -192,8 +209,8 @@
                     <li class="no-padding">
                         <ul class="collapsible collapsible-accordion">
                             <li class="bold">
-                                <a class="collapsible-header waves-effect waves-cyan">
-                                    <i class="material-icons">description</i> Laporan
+                                <a class="collapsible-header">
+                                    <i class="mdi-action-history"></i> Histori
                                 </a>
                                 <div class="collapsible-body">
                                     <ul>
@@ -294,6 +311,14 @@
                             </div>
                             <?php
                             break;
+                        case 'error-delete-used': ?>
+                            <div id="card-alert" class="card red lighten-5 animated slideInDown">
+                                <div class="card-content red-text">
+                                    <p>GAGAL : Data ini tidak dapat dihapus karena masih digunakan.</p>
+                                </div>
+                            </div>
+                        <?php
+                            break;
                         case 'success-update': ?>
                             <div id="card-alert" class="card green lighten-5 animated slideInDown">
                                 <div class="card-content green-text">
@@ -311,4 +336,66 @@
                             <?php
                             break;
                     }
-                    ?>
+                    ?>  
+
+<style>
+        .alert {
+            padding: 20px;
+            background-color: #f44336;
+            color: white;
+            margin-bottom: 15px;
+        }
+        .alert.success {background-color: #4CAF50;}
+        .alert.info {background-color: #2196F3;}
+        .alert.warning {background-color: #ff9800;}
+        .alert.danger {background-color: #f44336;}
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .closebtn:hover {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+<?php if ($this->session->flashdata('alert')): ?>
+    <div class="alert <?php echo $this->session->flashdata('alert'); ?>">
+        <?php
+            switch ($this->session->flashdata('alert')) {
+                case 'belum_login':
+                    echo "Anda belum login. Silakan login terlebih dahulu.";
+                    break;
+                case 'sukses_tambah':
+                    echo "Pengguna berhasil ditambahkan.";
+                    break;
+                case 'gagal_tambah':
+                    echo "Pengguna gagal ditambahkan.";
+                    break;
+                case 'sukses_ubah':
+                    echo "Pengguna berhasil diubah.";
+                    break;
+                case 'gagal_ubah':
+                    echo "Pengguna gagal diubah.";
+                    break;
+                case 'sukses_hapus':
+                    echo "Pengguna berhasil dihapus.";
+                    break;
+                case 'gagal_hapus':
+                    echo "Pengguna gagal dihapus.";
+                    break;
+                default:
+                    echo "Terjadi kesalahan.";
+                    break;
+            }
+        ?>
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    </div>
+<?php endif; ?>
