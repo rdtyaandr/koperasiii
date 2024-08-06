@@ -26,14 +26,14 @@ class AuthController extends GLOBAL_Controller
         // Cek apakah pengguna sudah login
         if (parent::hasLogin()){
             redirect(base_url());
-        }else{
+        } else {
             // Jika form login disubmit
             if (isset($_POST['login'])){
                 $username = parent::post('username');
                 $password = parent::post('password');
                 
                 // Ambil data pengguna dari database
-                $dataPengguna = parent::model('AuthModel')->get_pengguna($username, ($password));
+                $dataPengguna = $this->AuthModel->get_pengguna($username, $password);
                 
                 // Jika data pengguna ditemukan
                 if ($dataPengguna->num_rows() > 0){
@@ -41,9 +41,9 @@ class AuthController extends GLOBAL_Controller
                     
                     // Set data sesi pengguna
                     $sessionData = array(
-                        'user_id' => $pengguna['pengguna_id'],
-                        'username' => $pengguna['nama_lengkap'],
-                        'name' => $pengguna['username'],
+                        'pengguna_id' => $pengguna['pengguna_id'],
+                        'username' => $pengguna['username'],
+                        'name' => $pengguna['nama_lengkap'],
                         'level' => $pengguna['pengguna_hak_akses'],
                         'login' => true
                     );
@@ -56,14 +56,11 @@ class AuthController extends GLOBAL_Controller
                     // Cek level pengguna dan arahkan sesuai level
                     if ($pengguna['pengguna_hak_akses'] == 'user') {
                         // Arahkan ke dashboard pengguna
-                        parent::alert('alert','user-welcome');
                         redirect('home');
-                    }elseif ($pengguna['pengguna_hak_akses'] == 'operator') {
+                    } elseif ($pengguna['pengguna_hak_akses'] == 'operator') {
                         // Arahkan ke halaman utama
-                        parent::alert('alert','operator-welcome');
                         redirect('main');
-                    }else{
-                        parent::alert('alert','user-welcome');
+                    } else {
                         redirect(base_url());
                     }
                 } else {
@@ -103,7 +100,8 @@ class AuthController extends GLOBAL_Controller
                 'email' => $email,
                 'satker' => $satker,
                 'password' => $password,
-				'pengguna_hak_akses' => 'user'
+                'pengguna_hak_akses' => 'user',
+                'pengguna_picture' => 'images/pengguna.png'
             );
 
             // Simpan data pengguna baru ke database

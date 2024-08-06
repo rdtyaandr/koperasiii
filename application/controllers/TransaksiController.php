@@ -70,7 +70,6 @@ class TransaksiController extends GLOBAL_Controller
             $data['title'] = 'Tambah Transaksi';
             $data['pengguna'] = $this->PenggunaModel->get_users();
             $data['barang'] = $this->BarangModel->lihat_semua();
-            parent::template('transaksi/tambah', $data);
             if ($this->session->userdata('level') == 'admin'){
                 parent::template('transaksi/tambah', $data);
             }elseif ($this->session->userdata('level') == 'operator') {

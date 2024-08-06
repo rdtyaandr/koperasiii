@@ -1,26 +1,19 @@
 <?php
+class NotifikasiController extends GLOBAL_Controller {
 
-class NotificationController extends GLOBAL_Controller
-{
     public function __construct() {
         parent::__construct();
-        $model = array('NotifikasiModel','PenggunaModel');
-        $this->load->model($model);
-        if (!parent::hasLogin()) {
-            $this->session->set_flashdata('alert', 'belum_login');
-            redirect(base_url('login'));
-        }
+        $this->load->model('Notifikasi_model');
     }
 
     public function index() {
-        $user_id = $this->session->userdata('pengguna_id');
-        $data['notifications'] = $this->Notifikasimodel-->get_notifications($user_id);
-        $this->load->view('notifications/index', $data);
+        $data['notifikasi'] = $this->Notifikasi_model->get_notifikasi_by_user($this->session->userdata('pengguna_id'));
+        $this->template('notifikasi/index', $data);
     }
 
-    public function mark_as_read($id) {
-        $this->Notifikasimodel-->mark_as_read($id);
-        redirect('notifications');
+    public function tandai_dibaca($notifikasi_id) {
+        $this->Notifikasi_model->tandai_dibaca($notifikasi_id);
+        redirect('notifikasi');
     }
 }
 ?>

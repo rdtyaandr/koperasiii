@@ -1,18 +1,16 @@
-<!DOCTYPE html>
-<html>
-<body>
-    <h1>Notifications</h1>
-    <?php if (!empty($notifications)): ?>
-        <ul>
-            <?php foreach ($notifications as $notification): ?>
-                <li>
-                    <?php echo $notification->message; ?>
-                    <a href="<?= site_url('notifi/mark_as_read/'.$notification->id); ?>">Mark as read</a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    <?php else: ?>
-        <p>No new notifications.</p>
-    <?php endif; ?>
-</body>
-</html>
+<div class="container">
+    <h4>Notifikasi</h4>
+    <ul class="collection">
+        <?php foreach ($notifikasi as $item): ?>
+            <li class="collection-item <?php echo $item['dibaca'] ? '' : 'unread'; ?>">
+                <span><?php echo $item['pesan']; ?></span>
+                <br><small><?php echo $item['waktu_dibuat']; ?></small>
+                <?php if (!$item['dibaca']): ?>
+                    <a href="<?php echo base_url('notifikasi/tandai_dibaca/' . $item['id']); ?>" class="secondary-content">
+                        Tandai sebagai dibaca
+                    </a>
+                <?php endif; ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</div>

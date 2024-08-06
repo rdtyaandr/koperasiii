@@ -1,72 +1,55 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
 
-class ProfileModel extends GLOBAL_Model {
-    
-    public function updateAccount($nama_lengkap, $username, $hashed_new_password = null) {
-        // Contoh update jika password baru tidak kosong
-        if ($hashed_new_password !== null) {
-            // Lakukan update dengan password baru
-            $data = array(
-                'nama_lengkap' => $nama_lengkap,
-                'username' => $username,
-                'password' => $hashed_new_password
-            );
-        } else {
-            // Lakukan update tanpa mengubah password
-            $data = array(
-                'nama_lengkap' => $nama_lengkap,
-                'username' => $username
-            );
-        }
-
-        // Misalnya, update berdasarkan id user yang sedang login
-        $this->db->where('id', $this->session->userdata('id'));
-        $this->db->update('tb_admin', $data);
+class ProfileModel extends GLOBAL_Model
+{
+    public function __construct()
+    {
+        parent::__construct();
     }
 
-    public function updateProfilePicture($user_id, $file_path) {
-        // Ambil path gambar lama dari database
-        $this->db->select('profile_picture');
-        $this->db->where('id', $user_id);
-        $query = $this->db->get('tb_admin');
-    
-        if ($query->num_rows() == 1) {
-            $old_file_path = $query->row()->profile_picture;
-    
-            // Hapus gambar lama jika ada
-            if ($old_file_path && file_exists($old_file_path)) {
-                unlink($old_file_path);
-            }
-        }
-    
-        // Update dengan gambar baru
-        $data = array('profile_picture' => $file_path);
-        $this->db->where('id', $user_id);
-        $this->db->update('tb_admin', $data);
-    }
-    
-
-    public function getPasswordById($user_id) {
-        $this->db->select('password');
-        $this->db->where('id', $user_id);
-        $query = $this->db->get('tb_admin');
-
-        if ($query->num_rows() == 1) {
-            return $query->row()->password;
-        } else {
-            return FALSE;
-        }
+    /**
+     * Mengambil data profil pengguna berdasarkan ID pengguna.
+     *
+     * @param int $userID ID pengguna
+     * @return array Data profil pengguna
+     */
+    public function get_profile_by_id($userID)
+    {
+        // Query untuk mengambil data profil dari tabel tb_pengguna
+        $query = $this->db->get_where('tb_pengguna', array('pengguna_id' => $userID));
+        return $query->row_array();
     }
 
-    public function getUserDataById($user_id) {
-        $this->db->where('id', $user_id);
-        $query = $this->db->get('tb_admin');
+    /**
+     * Memperbarui foto profil pengguna di database.
+     *
+     * @param int $userID ID pengguna
+     * @param string $fileName Nama file foto profil
+     * @return bool Status operasi
+     */
+    public function update_profile_picture($userID, $fileName)
+    {
+        // Data untuk diperbarui
+        $data = array(
+            'pengguna_picture' => $fileName
+        );
 
-        if ($query->num_rows() == 1) {
-            return $query->row();
-        } else {
-            return FALSE;
-        }
+        // Melakukan update foto profil di database
+        $this->db->where('pengguna_id', $userID);
+        return $this->db->update('tb_pengguna', $data);
+    }
+
+    /**
+     * Memperbarui data profil pengguna di database.
+     *
+     * @param int $userID ID pengguna
+     * @param array $data Data profil pengguna yang akan diperbarui
+     * @return bool Status operasi
+     */
+    public function update_profile($penggunaID, $data)
+    {
+        $data['pengguna_date_update'] = date('Y-m-d H:i:s'); // Mengatur tanggal dan waktu sekarang
+        $this->db->where('pengguna_id', $penggunaID);
+        return $this->db->update('tb_pengguna', $data);
     }
 }

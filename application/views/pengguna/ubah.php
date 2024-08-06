@@ -32,7 +32,7 @@
                     <div class="input-field col s12">
                         <select id="pengguna_hak_akses" name="pengguna_hak_akses" required>
                             <option value="" disabled selected>Pilih Hak Akses</option>
-                            <option value="ketua">Ketua</option>
+                            <option value="admin">admin</option>
                             <option value="operator">Operator</option>
                             <option value="user">User</option>
                         </select>

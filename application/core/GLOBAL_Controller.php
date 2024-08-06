@@ -10,13 +10,13 @@ class GLOBAL_Controller extends CI_Controller {
     // Konstruktor kelas GLOBAL_Controller
     public function __construct()
     {
-        parent::__construct();
-        // Mengecek apakah sesi user_id ada
-        if ($this->session->has_userdata('user_id')) {
-            // Mengambil data user dari sesi
-            $this->userID = $this->session->userdata('user_id');
-            $this->userName = $this->session->userdata('username');
-            $this->userLevel = $this->session->userdata('level');
+        {
+            parent::__construct();
+            if ($this->session->has_userdata('pengguna_id')) {
+                $this->userID = $this->session->userdata('pengguna_id');
+                $this->userName = $this->session->userdata('username');
+                $this->userLevel = $this->session->userdata('level');
+            }
         }
     }
     
@@ -64,7 +64,7 @@ class GLOBAL_Controller extends CI_Controller {
     // Metode untuk mengecek apakah user sudah login
     public function hasLogin()
     {
-        return $this->session->userdata('login') !== true ? false : true;
+        return $this->session->userdata('login') === true;
     }
     
     // Helper templating

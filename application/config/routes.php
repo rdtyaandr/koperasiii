@@ -114,9 +114,9 @@ $route['pengguna/hapus/(:any)'] = 'PenggunaController/hapus/$1';
 /*
 * akun modul routes
 * */
-$route['profile'] = 'ProfilController';
+$route['profile'] = 'ProfileController/index';
 $route['profile/edit/(:any)'] = 'ProfilController/edit';
-$route['profile/update/(:any)'] = 'ProfilController/update';
+$route['profile/update'] = 'ProfileController/update';
 
 $route['pesan'] = 'PesanController';
 $route['bantuan'] = 'BantuanController';
