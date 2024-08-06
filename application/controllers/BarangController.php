@@ -8,7 +8,7 @@ class BarangController extends GLOBAL_Controller
         $this->load->model('BarangModel');
         $this->load->model('KategoriModel');
         $this->load->model('SatuanModel');
-        $this->load->model('NotifikasiModel');
+        $this->load->model('HistoryModel'); // Load model History
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
@@ -27,6 +27,18 @@ class BarangController extends GLOBAL_Controller
         }elseif ($this->session->userdata('level') == 'operator') {
             parent::op_template('barang/index', $data);
         }
+    }
+
+    // Fungsi untuk menambahkan pesan ke history
+    private function addMessage($text, $summary, $icon)
+    {
+        $data = [
+            'message_text' => $text,
+            'message_summary' => $summary,
+            'message_icon' => $icon,
+            'message_date_time' => date('Y-m-d H:i:s')
+        ];
+        $this->HistoryModel->addMessage($data);
     }
 
     public function tambah()
@@ -50,6 +62,7 @@ class BarangController extends GLOBAL_Controller
             $simpan = parent::model('BarangModel')->tambah($data);
 
             if ($simpan > 0) {
+                $this->addMessage('Barang baru ditambahkan', 'Barang ' . $data['nama_barang'] . ' telah ditambahkan', 'add_circle_outline');
                 parent::alert('alert', 'success-insert');
                 redirect('barang');
             } else {
@@ -87,6 +100,7 @@ class BarangController extends GLOBAL_Controller
             $simpan = parent::model('BarangModel')->ubah($id, $data);
 
             if ($simpan > 0) {
+                $this->addMessage('Barang diubah', 'Barang ' . $data['nama_barang'] . ' telah diubah', 'update');
                 parent::alert('alert', 'success-update');
                 redirect('barang');
             } else {
@@ -109,8 +123,10 @@ class BarangController extends GLOBAL_Controller
     public function hapus($id)
     {
         $query = array('id_barang' => $id);
+        $barang = parent::model('BarangModel')->lihat_barang($query);
         $hapus = parent::model('BarangModel')->hapus($query);
         if ($hapus > 0) {
+            $this->addMessage('Barang dihapus', 'Barang ' . $barang->nama_barang . ' telah dihapus', 'delete');
             parent::alert('alert', 'success-delete');
             redirect('barang');
         } else {

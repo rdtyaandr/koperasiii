@@ -19,169 +19,18 @@
                     <div class="row">
                         <div class="col s12">
                             <div class="message-container">
-                                <div class="message-item unread">
-                                    <div class="message-icon">
-                                        <i class="material-icons">add_circle_outline</i>
+                                <?php foreach (array_reverse($messages) as $message): ?>
+                                    <div class="message-item">
+                                        <div class="message-icon">
+                                            <i class="material-icons"><?= $message->message_icon ?></i>
+                                        </div>
+                                        <div class="message-content">
+                                            <p class="message-text"><?= $message->message_text ?></p>
+                                            <p class="message-summary"><?= $message->message_summary ?></p>
+                                            <p class="message-date-time"><?= $message->message_date_time ?></p>
+                                        </div>
                                     </div>
-                                    <div class="message-content">
-                                        <p class="message-text">Anda menambahkan barang baru</p>
-                                        <p class="message-summary">Pembelian barang elektronik di toko XYZ</p>
-                                        <p class="message-date-time">2024-08-01 14:30</p>
-                                        <span class="message-badge new">New</span>
-                                    </div>
-                                </div>
-                                <div class="message-item">
-                                    <div class="message-icon">
-                                        <i class="material-icons">payment</i>
-                                    </div>
-                                    <div class="message-content">
-                                        <p class="message-text">Pembayaran invoice berhasil</p>
-                                        <p class="message-summary">Invoice #12345 telah dibayar</p>
-                                        <p class="message-date-time">2024-08-02 09:15</p>
-                                        <span class="message-badge new">New</span>
-                                    </div>
-                                </div>
-                                <!-- More message items -->
-                                <div class="message-item">
-                                    <div class="message-icon">
-                                        <i class="material-icons">shopping_cart</i>
-                                    </div>
-                                    <div class="message-content">
-                                        <p class="message-text">Pembelian barang berhasil</p>
-                                        <p class="message-summary">Pembelian di toko ABC</p>
-                                        <p class="message-date-time">2024-08-03 12:00</p>
-                                    </div>
-                                </div>
-                                <div class="message-item">
-                                    <div class="message-icon">
-                                        <i class="material-icons">update</i>
-                                    </div>
-                                    <div class="message-content">
-                                        <p class="message-text">Profil berhasil diperbarui</p>
-                                        <p class="message-summary">Informasi profil Anda telah diperbarui</p>
-                                        <p class="message-date-time">2024-08-03 15:45</p>
-                                    </div>
-                                </div>
-                                <div class="message-item">
-                                    <div class="message-icon">
-                                        <i class="material-icons">delete</i>
-                                    </div>
-                                    <div class="message-content">
-                                        <p class="message-text">Item dihapus</p>
-                                        <p class="message-summary">Item #98765 telah dihapus</p>
-                                        <p class="message-date-time">2024-08-04 08:30</p>
-                                    </div>
-                                </div>
-                                <div class="message-item">
-                                    <div class="message-icon">
-                                        <i class="material-icons">schedule</i>
-                                    </div>
-                                    <div class="message-content">
-                                        <p class="message-text">Jadwal diperbarui</p>
-                                        <p class="message-summary">Jadwal rapat diperbarui</p>
-                                        <p class="message-date-time">2024-08-04 10:00</p>
-                                    </div>
-                                </div>
-                                <div class="message-item">
-                                    <div class="message-icon">
-                                        <i class="material-icons">check_circle</i>
-                                    </div>
-                                    <div class="message-content">
-                                        <p class="message-text">Tugas selesai</p>
-                                        <p class="message-summary">Tugas proyek telah selesai</p>
-                                        <p class="message-date-time">2024-08-05 13:00</p>
-                                    </div>
-                                </div>
-                                <div class="message-item">
-                                    <div class="message-icon">
-                                        <i class="material-icons">feedback</i>
-                                    </div>
-                                    <div class="message-content">
-                                        <p class="message-text">Umpan balik diterima</p>
-                                        <p class="message-summary">Umpan balik dari pelanggan</p>
-                                        <p class="message-date-time">2024-08-05 14:45</p>
-                                    </div>
-                                </div>
-                                <div class="message-item">
-                                    <div class="message-icon">
-                                        <i class="material-icons">error_outline</i>
-                                    </div>
-                                    <div class="message-content">
-                                        <p class="message-text">Kesalahan sistem</p>
-                                        <p class="message-summary">Kesalahan saat memproses data</p>
-                                        <p class="message-date-time">2024-08-06 09:30</p>
-                                    </div>
-                                </div>
-                                <div class="message-item">
-                                    <div class="message-icon">
-                                        <i class="material-icons">notifications_active</i>
-                                    </div>
-                                    <div class="message-content">
-                                        <p class="message-text">Pemberitahuan baru</p>
-                                        <p class="message-summary">Anda memiliki pemberitahuan baru</p>
-                                        <p class="message-date-time">2024-08-06 11:15</p>
-                                    </div>
-                                </div>
-                                <div class="message-item">
-                                    <div class="message-icon">
-                                        <i class="material-icons">assignment</i>
-                                    </div>
-                                    <div class="message-content">
-                                        <p class="message-text">Tugas baru ditambahkan</p>
-                                        <p class="message-summary">Anda memiliki tugas baru untuk diselesaikan</p>
-                                        <p class="message-date-time">2024-08-07 08:00</p>
-                                    </div>
-                                </div>
-                                <div class="message-item">
-                                    <div class="message-icon">
-                                        <i class="material-icons">group_add</i>
-                                    </div>
-                                    <div class="message-content">
-                                        <p class="message-text">Anggota baru ditambahkan</p>
-                                        <p class="message-summary">Anggota baru telah bergabung dengan tim</p>
-                                        <p class="message-date-time">2024-08-07 09:30</p>
-                                    </div>
-                                </div>
-                                <div class="message-item">
-                                    <div class="message-icon">
-                                        <i class="material-icons">event</i>
-                                    </div>
-                                    <div class="message-content">
-                                        <p class="message-text">Acara baru dijadwalkan</p>
-                                        <p class="message-summary">Acara rapat akan berlangsung pada 2024-08-10</p>
-                                        <p class="message-date-time">2024-08-07 10:00</p>
-                                    </div>
-                                </div>
-                                <div class="message-item">
-                                    <div class="message-icon">
-                                        <i class="material-icons">report_problem</i>
-                                    </div>
-                                    <div class="message-content">
-                                        <p class="message-text">Masalah dilaporkan</p>
-                                        <p class="message-summary">Masalah pada sistem telah dilaporkan</p>
-                                        <p class="message-date-time">2024-08-08 11:15</p>
-                                    </div>
-                                </div>
-                                <div class="message-item">
-                                    <div class="message-icon">
-                                        <i class="material-icons">check_circle_outline</i>
-                                    </div>
-                                    <div class="message-content">
-                                        <p class="message-text">Pemeriksaan selesai</p>
-                                        <p class="message-summary">Pemeriksaan sistem telah selesai dilakukan</p>
-                                        <p class="message-date-time">2024-08-09 12:00</p>
-                                    </div>
-                                </div>
-                                <div class="message-item">
-                                    <div class="message-icon">
-                                        <i class="material-icons">warning</i>
-                                    </div>
-                                    <div class="message-content">
-                                        <p class="message-text">Peringatan keamanan</p>
-                                        <p class="message-summary">Peringatan keamanan telah diterima</p>
-                                        <p class="message-date-time">2024-08-09 14:30</p>
-                                    </div>
-                                </div>
+                                <?php endforeach; ?>
                             </div>
                         </div>
                     </div>

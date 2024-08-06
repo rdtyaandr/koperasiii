@@ -6,6 +6,7 @@ class PinjamanController extends GLOBAL_Controller
     {
         parent::__construct();
         $this->load->model('PinjamanModel');
+        $this->load->model('HistoryModel'); // Load HistoryModel
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
@@ -15,10 +16,11 @@ class PinjamanController extends GLOBAL_Controller
     public function index()
     {
         $data['title'] = 'Pinjaman';
+
         if ($this->session->userdata('level') == 'admin') {
             $data['pengajuan'] = $this->PinjamanModel->get_all_pinjaman();
         } else if ($this->session->userdata('level') == 'user') {
-            $user_id = $this->session->userdata('pengguna_id'); // Ambil user_id dari sesi
+            $user_id = $this->session->userdata('user_id'); // Ambil user_id dari sesi
             $data['pengajuan'] = $this->PinjamanModel->get_pinjaman_by_user($user_id);
         }
 
@@ -46,6 +48,8 @@ class PinjamanController extends GLOBAL_Controller
             $this->PinjamanModel->insert_pinjaman($data);
 
             if ($this->db->affected_rows() > 0) {
+                // Tambahkan pesan ke history
+                $this->addMessage('Pengajuan pinjaman', 'Pengguna dengan ID ' . $user_id . ' telah mengajukan pinjaman sebesar ' . number_format($data['jumlah_pinjaman'], 2), 'add_circle_outline');
                 redirect('pinjaman');
             } else {
                 $this->session->set_flashdata('error', 'Gagal menyimpan pengajuan pinjaman.');
@@ -69,6 +73,8 @@ class PinjamanController extends GLOBAL_Controller
         $result = $this->PinjamanModel->update_status($id, $newStatus);
 
         if ($result) {
+            // Tambahkan pesan ke history
+            $this->addMessage('Status pinjaman', 'Status pinjaman dengan ID ' . $id . ' telah diubah menjadi: ' . $newStatus, 'update');
             echo json_encode(['success' => true]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Gagal memperbarui status.']);
@@ -77,9 +83,9 @@ class PinjamanController extends GLOBAL_Controller
 
     public function approve($id)
     {
-        $this->load->model('PinjamanModel');
-
         if ($this->PinjamanModel->updateStatus($id, 'Telah Disetujui oleh Admin')) {
+            // Tambahkan pesan ke history
+            $this->addMessage('Pinjaman disetujui', 'Pinjaman dengan ID ' . $id . ' telah disetujui oleh Admin', 'update');
             $this->session->set_flashdata('message', 'Pinjaman berhasil disetujui.');
         } else {
             $this->session->set_flashdata('message', 'Gagal menyetujui pinjaman.');
@@ -91,9 +97,9 @@ class PinjamanController extends GLOBAL_Controller
     // Cancel a loan
     public function cancel($id)
     {
-        $this->load->model('PinjamanModel');
-
         if ($this->PinjamanModel->updateStatus($id, 'Dibatalkan oleh Admin')) {
+            // Tambahkan pesan ke history
+            $this->addMessage('Pinjaman dibatalkan', 'Pinjaman dengan ID ' . $id . ' telah dibatalkan oleh Admin', 'delete');
             $this->session->set_flashdata('message', 'Pinjaman berhasil dibatalkan.');
         } else {
             $this->session->set_flashdata('message', 'Gagal membatalkan pinjaman.');
@@ -105,14 +111,25 @@ class PinjamanController extends GLOBAL_Controller
     // Delete a loan
     public function delete($id)
     {
-        $this->load->model('PinjamanModel');
-
         if ($this->PinjamanModel->deleteLoan($id)) {
+            // Tambahkan pesan ke history
+            $this->addMessage('Pinjaman dihapus', 'Pinjaman dengan ID ' . $id . ' telah dihapus', 'delete');
             $this->session->set_flashdata('message', 'Pinjaman berhasil dihapus.');
         } else {
             $this->session->set_flashdata('message', 'Gagal menghapus pinjaman.');
         }
 
         redirect('pinjaman');
+    }
+
+    // Fungsi untuk menambahkan pesan ke history
+    private function addMessage($text, $summary, $icon) {
+        $data = [
+            'message_text' => $text,
+            'message_summary' => $summary,
+            'message_icon' => $icon,
+            'message_date_time' => date('Y-m-d H:i:s')
+        ];
+        $this->HistoryModel->addMessage($data);
     }
 }

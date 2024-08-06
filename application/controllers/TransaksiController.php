@@ -8,6 +8,7 @@ class TransaksiController extends GLOBAL_Controller
         $this->load->model('TransaksiModel');
         $this->load->model('PenggunaModel');
         $this->load->model('BarangModel');
+        $this->load->model('HistoryModel'); // Load model History
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
@@ -24,6 +25,18 @@ class TransaksiController extends GLOBAL_Controller
         } elseif ($this->session->userdata('level') == 'operator') {
             parent::op_template('transaksi/index', $data);
         }
+    }
+
+    // Fungsi untuk menambahkan pesan ke history
+    private function addMessage($text, $summary, $icon)
+    {
+        $data = [
+            'message_text' => $text,
+            'message_summary' => $summary,
+            'message_icon' => $icon,
+            'message_date_time' => date('Y-m-d H:i:s')
+        ];
+        $this->HistoryModel->addMessage($data);
     }
 
     public function tambah()
@@ -100,6 +113,9 @@ class TransaksiController extends GLOBAL_Controller
 
                 $this->TransaksiModel->insert_transaksi_detail($detail_data);
 
+                // Tambahkan pesan ke history
+                $this->addMessage('Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total ' . number_format($total, 0, ',', '.') . ' Rupiah', 'add_circle_outline');
+
                 $this->session->set_flashdata('alert', 'success-insert');
                 redirect('transaksi');
             } else {
@@ -162,6 +178,9 @@ class TransaksiController extends GLOBAL_Controller
             if ($cara_bayar == 'Kredit') {
                 $this->PenggunaModel->update_user_limit($pengguna_id, $new_limit);
             }
+
+            // Tambahkan pesan ke history
+            $this->addMessage('Transaksi diubah','Transaksi dengan total ' . number_format($total_lama, 0, ',', '.') . ' Rupiah' . ' telah diubah', 'update');
 
             $id_barang = $this->input->post('id_barang');
             $harga = $this->input->post('harga');
