@@ -32,4 +32,33 @@ class BarangModel extends GLOBAL_Model
     {
         return parent::delete_row_with_status('tb_barang', $query);
     }
+
+    // Fungsi untuk mengurangi stok
+    public function kurangi_stok($id_barang, $jumlah)
+    {
+        $this->db->set('stok', 'stok - ' . (int)$jumlah, FALSE);
+        $this->db->where('id_barang', $id_barang);
+        $this->db->update('tb_barang');
+    }
+
+    // Fungsi untuk menambah stok (jika perlu untuk rollback)
+    public function tambah_stok($id_barang, $jumlah)
+    {
+        $this->db->set('stok', 'stok + ' . (int)$jumlah, FALSE);
+        $this->db->where('id_barang', $id_barang);
+        $this->db->update('tb_barang');
+    }
+
+    public function update_stok_barang($id_barang, $jumlah)
+    {
+        $this->db->set('stok', 'stok + ' . intval($jumlah), FALSE);
+        $this->db->where('id_barang', $id_barang);
+        $this->db->update('tb_barang');
+    }
+
+    public function get_barang_by_id($id_barang)
+    {
+        $this->db->where('id_barang', $id_barang);
+        return $this->db->get('tb_barang')->row();
+    }
 }

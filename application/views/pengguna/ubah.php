@@ -19,7 +19,8 @@
                     <div class="input-field col s12" style="position: relative;">
                         <input type="password" id="password" name="password" value="<?= $Pengguna['password'] ?>" required>
                         <label for="password">Password</label>
-                        <label class="show-password">
+                        <!-- Memperbaiki posisi label tampilkan password -->
+                        <label class="show-password" style="position: absolute; right: 0; top: 100%;">
                             <input type="checkbox" id="show-password" />
                             <span>Tampilkan Password</span>
                         </label>
@@ -29,7 +30,12 @@
                         <label for="satker">Satker</label>
                     </div>
                     <div class="input-field col s12">
-                        <input type="text" id="pengguna_hak_akses" name="pengguna_hak_akses" value="<?= $Pengguna['pengguna_hak_akses'] ?>" required>
+                        <select id="pengguna_hak_akses" name="pengguna_hak_akses" required>
+                            <option value="" disabled selected>Pilih Hak Akses</option>
+                            <option value="ketua">Ketua</option>
+                            <option value="operator">Operator</option>
+                            <option value="user">User</option>
+                        </select>
                         <label for="pengguna_hak_akses">Hak Akses Sebagai</label>
                     </div>
                 </div>

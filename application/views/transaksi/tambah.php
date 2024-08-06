@@ -93,7 +93,7 @@
                     <h4 class="blue-text text-darken-2" style="font-size: 2em; text-align: center; font-weight: bold;">Tambah Transaksi</h4>
                     <form action="<?= base_url('transaksi/tambah') ?>" method="post">
                         <div class="row">
-                            <div class="input-field col s12 m6 l3">
+                            <div class="input-field col s12 m4 l4">
                                 <select id="nama" name="nama">
                                     <option value="" disabled selected>Pilih Nama</option>
                                     <?php foreach ($pengguna as $p) : ?>
@@ -102,7 +102,7 @@
                                 </select>
                                 <label for="nama">Nama</label>
                             </div>
-                            <div class="input-field col s12 m6 l3">
+                            <div class="input-field col s12 m4 l4">
                                 <select id="cara_bayar" name="cara_bayar">
                                     <option value="" disabled selected>Pilih Cara Bayar</option>
                                     <option value="Cash">Cash</option>
@@ -110,21 +110,9 @@
                                 </select>
                                 <label>Cara Bayar</label>
                             </div>
-                            <div class="input-field col s12 m6 l3">
-                                <select id="status_bayar" name="status_bayar">
-                                    <option value="" disabled selected>Pilih Status Bayar</option>
-                                    <option value="Belum Bayar">Belum Bayar</option>
-                                    <option value="Sudah Bayar">Sudah Bayar</option>
-                                </select>
-                                <label>Status Bayar</label>
-                            </div>
-                            <div class="input-field col s12 m6 l3">
-                                <select id="pengambilan" name="pengambilan">
-                                    <option value="" disabled selected>Pilih Pengambilan Barang</option>
-                                    <option value="Belum Diambil">Belum Diambil</option>
-                                    <option value="Diambil">Diambil</option>
-                                </select>
-                                <label>Pengambilan Barang</label>
+                            <div class="input-field col s12 m4 l4">
+                                <input type="text" id="detail" name="detail">
+                                <label for="detail">Detail (Opsional)</label>
                             </div>
                         </div>
                         <div class="row">
@@ -142,31 +130,6 @@
                                         </tr>
                                     </thead>
                                     <tbody id="item-table-body">
-                                        <tr>
-                                            <td>1</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <div class="dropdown-trigger">
-                                                        <span class="dropdown-text">Pilih Nama Barang</span>
-                                                        <span class="arrow-down">&#9660;</span>
-                                                    </div>
-                                                    <ul class="dropdown-menu">
-                                                        <?php foreach ($barang as $b) : ?>
-                                                            <li class="dropdown-item" data-id="<?= $b['id_barang']; ?>" data-harga="<?= $b['harga_jual']; ?>">
-                                                                <?= htmlspecialchars($b['nama_barang']); ?>
-                                                            </li>
-                                                        <?php endforeach; ?>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                            <td><input type="number" name="harga[]" readonly class="validate"></td>
-                                            <td><input type="number" name="jumlah[]" min="1" class="validate" oninput="updateRowTotal(this)"></td>
-                                            <td><input type="text" name="total[]" readonly class="validate"></td>
-                                            <td>
-                                                <a href="#" class="btn-small white-text waves-effect waves-light red" onclick="removeRow(this)"><i class="material-icons">delete</i></a>
-                                            </td>
-                                            <input type="hidden" name="id_barang[]" class="id-barang" value="">
-                                        </tr>
                                     </tbody>
                                 </table>
                                 <div>
@@ -193,7 +156,6 @@
 </div>
 
 <script>
-    // Inisialisasi dropdown
     function initializeDropdowns() {
         var dropdowns = document.querySelectorAll(".dropdown");
 
@@ -203,18 +165,18 @@
             var dropdownMenu = dropdown.querySelector(".dropdown-menu");
             var dropdownItems = dropdown.querySelectorAll(".dropdown-item");
 
-            dropdownTrigger.addEventListener("click", function() {
-                dropdowns.forEach(function(d) {
-                    if (d !== dropdown) d.classList.remove("open");
-                });
+            dropdownTrigger.addEventListener("click", function(event) {
+                event.stopPropagation();
+                closeAllDropdowns();
                 dropdown.classList.toggle("open");
             });
 
             dropdownItems.forEach(function(item) {
-                item.addEventListener("click", function() {
+                item.addEventListener("click", function(event) {
+                    event.stopPropagation();
                     var selectedText = this.textContent;
-                    var selectedId = this.getAttribute('data-id'); // Ambil ID barang dari atribut data
-                    var selectedHarga = parseFloat(this.getAttribute('data-harga')); // Ambil harga dari atribut data
+                    var selectedId = this.getAttribute('data-id');
+                    var selectedHarga = parseFloat(this.getAttribute('data-harga'));
 
                     if (isNaN(selectedHarga)) {
                         console.error("Harga tidak valid:", this.getAttribute('data-harga'));
@@ -226,32 +188,59 @@
 
                     var row = this.closest('tr');
                     if (row) {
-                        row.querySelector('input[name="id_barang[]"]').value = selectedId; // Simpan ID barang
+                        row.querySelector('input[name="id_barang[]"]').value = selectedId;
                         row.querySelector('input[name="harga[]"]').value = selectedHarga || 0;
+                        row.querySelector('input[name="nama_barang[]"]').value = selectedText; // Set nama_barang
 
-                        // Fokus otomatis ke input jumlah setelah memilih barang
                         row.querySelector('input[name="jumlah[]"]').focus();
 
-                        // Hitung total untuk baris tersebut
                         updateRowTotal(row.querySelector('input[name="jumlah[]"]'));
                     } else {
                         console.error("Baris tidak ditemukan.");
                     }
+
+                    updateDropdownItems();
                 });
             });
         });
 
-        // Close the dropdown if the user clicks outside of it
-        window.addEventListener("click", function(event) {
-            dropdowns.forEach(function(dropdown) {
-                if (!dropdown.contains(event.target)) {
-                    dropdown.classList.remove("open");
+        window.addEventListener("click", function() {
+            closeAllDropdowns();
+        });
+    }
+
+    function closeAllDropdowns() {
+        var dropdowns = document.querySelectorAll(".dropdown");
+        dropdowns.forEach(function(dropdown) {
+            dropdown.classList.remove("open");
+        });
+    }
+
+    function updateDropdownItems() {
+        var selectedItems = new Set();
+        var dropdownTexts = document.querySelectorAll('.dropdown-text');
+
+        dropdownTexts.forEach(function(dropdownText) {
+            if (dropdownText.textContent !== 'Pilih Nama Barang') {
+                selectedItems.add(dropdownText.textContent);
+            }
+        });
+
+        var dropdowns = document.querySelectorAll(".dropdown");
+        dropdowns.forEach(function(dropdown) {
+            var dropdownMenu = dropdown.querySelector(".dropdown-menu");
+            var dropdownItems = dropdown.querySelectorAll(".dropdown-item");
+
+            dropdownItems.forEach(function(item) {
+                if (selectedItems.has(item.textContent) && dropdown.querySelector('.dropdown-text').textContent !== item.textContent) {
+                    item.style.display = 'none';
+                } else {
+                    item.style.display = '';
                 }
             });
         });
     }
 
-    // Fungsi untuk menambahkan beberapa baris baru
     function addMultipleRows() {
         var rowCount = parseInt(document.getElementById('jumlah-rows').value) || 1;
         var tableBody = document.getElementById('item-table-body');
@@ -259,37 +248,38 @@
         for (var i = 0; i < rowCount; i++) {
             var rowNumber = tableBody.getElementsByTagName('tr').length + 1;
             var newRow = `
-            <tr>
-                <td>${rowNumber}</td>
-                <td>
-                    <div class="dropdown">
-                        <div class="dropdown-trigger">
-                            <span class="dropdown-text">Pilih Nama Barang</span>
-                            <span class="arrow-down">&#9660;</span>
+                <tr>
+                    <td>${rowNumber}</td>
+                    <td>
+                        <div class="dropdown" name="nama_barang">
+                            <div class="dropdown-trigger">
+                                <span class="dropdown-text">Pilih Nama Barang</span>
+                                <span class="arrow-down">&#9660;</span>
+                            </div>
+                            <ul class="dropdown-menu">
+                                <?php foreach ($barang as $b) : ?>
+                                    <li class="dropdown-item" data-id="<?= $b['id_barang']; ?>" data-harga="<?= $b['harga_jual']; ?>">
+                                        <?= htmlspecialchars($b['nama_barang']); ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
                         </div>
-                        <ul class="dropdown-menu">
-                            <?php foreach ($barang as $b) : ?>
-                                <li class="dropdown-item" data-id="<?= $b['id_barang']; ?>" data-harga="<?= $b['harga_jual']; ?>">
-                                    <?= htmlspecialchars($b['nama_barang']); ?>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                </td>
-                <td><input type="text" name="harga[]" readonly class="validate"></td>
-                <td><input type="number" name="jumlah[]" min="1" class="validate" oninput="updateRowTotal(this)"></td>
-                <td><input type="text" name="total[]" readonly class="validate"></td>
-                <td>
-                <a href="#" class="btn-small white-text waves-effect waves-light red" onclick="removeRow(this)"><i class="material-icons">delete</i></a>
-                </td>
-                <input type="hidden" name="id_barang[]" class="name-barang" value="">
-            </tr>
-        `;
+                    </td>
+                    <td><input type="text" name="harga[]" readonly class="validate"></td>
+                    <td><input type="number" name="jumlah[]" min="1" class="validate" oninput="updateRowTotal(this)"></td>
+                    <td><input type="text" name="total[]" readonly class="validate"></td>
+                    <td>
+                    <a href="#" class="btn-small white-text waves-effect waves-light red" onclick="removeRow(this)"><i class="material-icons">delete</i></a>
+                    </td>
+                    <input type="hidden" name="id_barang[]" class="id-barang" value="">
+                    <input type="hidden" name="nama_barang[]" class="nama-barang" value="">                
+                </tr>
+            `;
             tableBody.insertAdjacentHTML('beforeend', newRow);
         }
 
-        // Inisialisasi ulang dropdown untuk baris baru
         initializeDropdowns();
+        updateDropdownItems();
     }
 
     // Fungsi untuk menghitung total per baris
@@ -309,18 +299,17 @@
             total = 0;
         }
 
-        row.querySelector('input[name="total[]"]').value = formatNumber(total);
+        row.querySelector('input[name="total[]"]').value = total;
 
         // Update total keseluruhan
         updateTotalHarga();
     }
 
-    // Fungsi untuk menghitung total harga keseluruhan
     function updateTotalHarga() {
         var totalHarga = 0;
         var totals = document.querySelectorAll('input[name="total[]"]');
         totals.forEach(function(input) {
-            var value = parseFloat(input.value.replace(/\./g, ''));
+            var value = parseFloat(input.value);
             if (!isNaN(value)) {
                 totalHarga += value;
             }
@@ -328,26 +317,24 @@
         document.getElementById('total-harga').textContent = formatNumber(totalHarga);
     }
 
-    // Fungsi untuk menghapus baris
     function removeRow(button) {
         var row = button.closest('tr');
         row.remove();
 
-        // Perbarui nomor urut
         var rows = document.querySelectorAll('#item-table-body tr');
         rows.forEach(function(row, index) {
             row.querySelector('td:first-child').textContent = index + 1;
         });
 
-        // Update total keseluruhan
         updateTotalHarga();
+        updateDropdownItems();
     }
 
-    // Fungsi untuk memformat angka dengan pemisah ribuan
     function formatNumber(num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
-    // Inisialisasi dropdown saat halaman dimuat
-    document.addEventListener("DOMContentLoaded", initializeDropdowns);
+    document.addEventListener("DOMContentLoaded", function() {
+        addMultipleRows();
+    });
 </script>

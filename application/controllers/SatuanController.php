@@ -18,7 +18,11 @@ class SatuanController extends GLOBAL_Controller
     {
         $data['title'] = 'Data Satuan';
         $data['satuan'] = parent::model('SatuanModel')->lihat_semua();
-        parent::template('satuan/index', $data);
+        if ($this->session->userdata('level') == 'admin'){
+            parent::template('satuan/index', $data);
+        }elseif ($this->session->userdata('level') == 'operator') {
+            parent::op_template('satuan/index', $data);
+        }
     }
 
     public function tambah()

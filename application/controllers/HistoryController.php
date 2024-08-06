@@ -1,49 +1,113 @@
 <?php
 
-class LaporanController extends GLOBAL_Controller
+class HistoryController extends GLOBAL_Controller
 {
     public function __construct()
     {
         parent::__construct();
-		$model = array('AnggotaModel');
-		$this->load->model($model);
+        $this->load->model('BarangModel');
+        $this->load->model('KategoriModel');
+        $this->load->model('SatuanModel');
 		if (!parent::hasLogin()) {
 			$this->session->set_flashdata('alert', 'belum_login');
 			redirect(base_url('login'));
 		}
     }
 
-    public function anggota()
+    public function index()
     {
-        $data['title'] = 'Rekap Laporan Anggota Koperasi ';
-        $data['anggota'] = parent::model('AnggotaModel')->lihat_semua();
+        $data['title'] = 'History';
 
-        parent::template('laporan/anggota',$data);
-    }
-
-    public function simpananAnggota()
-    {
-        $data['title'] = 'Rekap Laporan Anggota Koperasi ';
-        $data['anggota'] = parent::model('AnggotaModel')->lihat_semua();
-
-        parent::template('laporan/simpanan',$data);
-    }
-
-    public function pinjamanAnggota()
-    {
-        $data['title'] = 'Rekap Laporan Anggota Koperasi ';
-        $data['anggota'] = parent::model('AnggotaModel')->lihat_semua();
-
-        parent::template('laporan/pinjaman',$data);
-    }
-
-    public function tagihanKoperasi()
-    {
-        $data['title'] = 'Rekap Laporan Anggota Koperasi ';
-        $data['tagihan'] = parent::model('AnggotaModel')->lihat_semua();
-
-        parent::template('laporan/tagihan',$data);
+        if ($this->session->userdata('level') == 'admin') {
+            parent::template('history/index', $data);
+        } elseif ($this->session->userdata('level') == 'operator') {
+            parent::op_template('history/index', $data);
+        }
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // public function anggota()
+    // {
+    //     $data['title'] = 'Rekap Laporan Anggota Koperasi ';
+    //     $data['anggota'] = parent::model('AnggotaModel')->lihat_semua();
+
+    //     parent::template('laporan/anggota',$data);
+    // }
+
+    // public function simpananAnggota()
+    // {
+    //     $data['title'] = 'Rekap Laporan Anggota Koperasi ';
+    //     $data['anggota'] = parent::model('AnggotaModel')->lihat_semua();
+
+    //     parent::template('laporan/simpanan',$data);
+    // }
+
+    // public function pinjamanAnggota()
+    // {
+    //     $data['title'] = 'Rekap Laporan Anggota Koperasi ';
+    //     $data['anggota'] = parent::model('AnggotaModel')->lihat_semua();
+
+    //     parent::template('laporan/pinjaman',$data);
+    // }
+
+    // public function tagihanKoperasi()
+    // {
+    //     $data['title'] = 'Rekap Laporan Anggota Koperasi ';
+    //     $data['tagihan'] = parent::model('AnggotaModel')->lihat_semua();
+
+    //     parent::template('laporan/tagihan',$data);
+    // }
 }

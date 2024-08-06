@@ -47,19 +47,19 @@
     <!-- START HEADER -->
     <header id="header" class="page-topbar">
         <div class="navbar-fixed">
-            <nav class="navbar-color blue darken-2" style="position: relative;">
+            <nav class="navbar-color blue darken-2" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
                 <div class="nav-wrapper" style="display: flex; align-items: center; height: 64px;"> <!-- Pastikan tinggi tetap -->
                     <ul class="left" style="display: flex; align-items: center;"> <!-- Tambahkan display flex di sini -->
                         <li>
-                            <h1 class="logo-wrapper" style="display: flex; align-items: center;"> <!-- Tambahkan display flex di sini -->
-                                <a href="<?= base_url() ?>" class="brand-logo darken-1" style="display: flex; align-items: center;"> <!-- Tambahkan display flex di sini -->
+                            <h1 class="logo-wrapper" style="display: flex; align-items: center;">
+                                <a href="<?= base_url() ?>" class="brand-logo darken-1" style="display: flex; align-items: center;">
                                     <img src="<?= base_url('assets/images/favicon/icon.png') ?>" alt="bps logo" class="responsive-img hide-on-med-and-down" style="width: 9%; height: auto;">
-                                    <span class="brand-logo" style="font-size: 1.5rem; line-height: 1; display: inline-block; letter-spacing: 0.03em; margin-left: 30px;">KOPERASI BPS</span>
+                                    <span class="brand-logo" style="font-size: 1.6rem; line-height: 1; font-weight: 500; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); margin-left: 30px; letter-spacing: 0.03em;">KOPERASI BPS</span> <!-- Perubahan pada gaya teks -->
                                 </a>
                             </h1>
                         </li>
                     </ul>
-                    <div class="header-search-wrapper hide-on-med-and-down"> <!-- Tambahkan margin-left: auto untuk memindahkan ke kanan -->
+                    <div class="header-search-wrapper hide-on-med-and-down" style="margin: auto 270px;"> 
                         <i class="mdi-action-search"></i>
                         <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Cari di Aplikasi" />
                     </div>
@@ -212,22 +212,10 @@
                         </ul>
                     </li>
 
-                    <li class="no-padding">
-                        <ul class="collapsible collapsible-accordion">
-                            <li class="bold">
-                                <a class="collapsible-header">
-                                    <i class="mdi-action-history"></i> Histori
-                                </a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li><a href="<?= base_url('histori-barang') ?>">Barang</a>
-                                        </li>
-                                        <li><a href="<?= base_url('histori-transaksi') ?>">Transaksi</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
+                    <li class="bold">
+                        <a href="<?= base_url('history') ?>">
+                            <i class="mdi-action-history"></i> Histori
+                        </a>
                     </li>
 
                     <li class="li-hover">
@@ -238,7 +226,7 @@
                         <p class="ultra-small margin more-text">Akun</p>
                     </li>
                     <li>
-                        <a href="<?= base_url('profil') ?>"><i class="mdi-action-account-circle"></i> Profil</a>
+                        <a href="<?= base_url('profile') ?>"><i class="mdi-action-account-circle"></i> Profil</a>
                     </li>
                     <li>
                         <a href="<?= base_url('pesan') ?>"><i class="mdi-communication-message"></i> Pesan</a>
@@ -250,7 +238,7 @@
                         <a href="<?= base_url('pengaturan') ?>"><i class="mdi-action-settings"></i> Pengaturan</a>
                     </li>
                     <li>
-                        <a href="#logoutModal" class="modal-trigger"><i class="mdi-action-exit-to-app"></i> Keluar</a>
+                        <a href="#" id="logoutButton"><i class="mdi-action-exit-to-app"></i> Keluar</a>
                     </li>
                     <!-- end main menu -->
                 </ul>
@@ -258,17 +246,24 @@
             <!-- END LEFT SIDEBAR NAV-->
 
             <!-- //////////////////////////////////////////////////////////////////////////// -->
-            <!-- logout modal -->
-            <div id="logoutModal" class="modal">
-                <div class="modal-content">
-                    <h5 class="light">Keluar dari aplikasi ?</h5>
-                </div>
-                <div class="modal-footer">
-                    <a href="<?= base_url('logout') ?>" class="modal-close waves-effect waves-green btn-flat">Lanjutkan</a>
-                    <a href="#!" class="modal-close waves-effect waves-red btn-flat ">Batalkan</a>
-                </div>
-            </div>
-            <!-- end logout modal -->
+            <script>
+                document.getElementById('logoutButton').addEventListener('click', function() {
+                    Swal.fire({
+                        title: 'Keluar dari aplikasi?',
+                        text: "Anda akan keluar dari akun ini.",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Lanjutkan',
+                        cancelButtonText: 'Batalkan'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = '<?= base_url('logout') ?>';
+                        }
+                    });
+                });
+            </script>
 
             <!-- START CONTENT -->
             <section id="content">
@@ -333,7 +328,102 @@
                                     <p>GAGAL : Kesalahan saat mengubah data</p>
                                 </div>
                             </div>
+                        <?php
+                            break;
+                        case 'error-stock': ?>
+                            <div id="card-alert" class="card red lighten-5 animated slideInDown">
+                                <div class="card-content red-text">
+                                    <p>GAGAL : Stok barang tidak mencukupi.</p>
+                                </div>
+                            </div>
+                        <?php
+                            break;
+                        case 'error-update-detail': ?>
+                            <div id="card-alert" class="card red lighten-5 animated slideInDown">
+                                <div class="card-content red-text">
+                                    <p>GAGAL : Detail barang tidak lengkap atau salah.</p>
+                                </div>
+                            </div>
+                        <?php
+                            break;
+                        case 'error-invalid-barang': ?>
+                            <div id="card-alert" class="card red lighten-5 animated slideInDown">
+                                <div class="card-content red-text">
+                                    <p>GAGAL : Barang tidak valid.</p>
+                                </div>
+                            </div>
+                    <?php
+                            break;
+                        case 'error-limit': ?>
+                            <div id="card-alert" class="card red lighten-5 animated slideInDown">
+                                <div class="card-content red-text">
+                                    <p>GAGAL : Telah mencapai batas limit.</p>
+                                </div>
+                            </div>
                     <?php
                             break;
                     }
                     ?>
+
+                    <style>
+                        /* .alert {
+            padding: 20px;
+            background-color: #f44336;
+            color: white;
+            margin-bottom: 15px;
+        }
+        .alert.success {background-color: #4CAF50;}
+        .alert.info {background-color: #2196F3;}
+        .alert.warning {background-color: #ff9800;}
+        .alert.danger {background-color: #f44336;}
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .closebtn:hover {
+            color: black;
+        } */
+                    </style>
+                    </head>
+
+                    <body>
+
+                        <!-- <?php if ($this->session->flashdata('alert')) : ?>
+    <div class="alert <?php echo $this->session->flashdata('alert'); ?>">
+        <?php
+                                    // switch ($this->session->flashdata('alert')) {
+                                    //     case 'belum_login':
+                                    //         echo "Anda belum login. Silakan login terlebih dahulu.";
+                                    //         break;
+                                    //     case 'sukses_tambah':
+                                    //         echo "Pengguna berhasil ditambahkan.";
+                                    //         break;
+                                    //     case 'gagal_tambah':
+                                    //         echo "Pengguna gagal ditambahkan.";
+                                    //         break;
+                                    //     case 'sukses_ubah':
+                                    //         echo "Pengguna berhasil diubah.";
+                                    //         break;
+                                    //     case 'gagal_ubah':
+                                    //         echo "Pengguna gagal diubah.";
+                                    //         break;
+                                    //     case 'sukses_hapus':
+                                    //         echo "Pengguna berhasil dihapus.";
+                                    //         break;
+                                    //     case 'gagal_hapus':
+                                    //         echo "Pengguna gagal dihapus.";
+                                    //         break;
+                                    //     default:
+                                    //         echo "Terjadi kesalahan.";
+                                    //         break;
+                                    // }
+        ?>
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    </div>
+<?php endif; ?> -->

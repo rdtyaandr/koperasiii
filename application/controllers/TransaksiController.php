@@ -6,8 +6,8 @@ class TransaksiController extends GLOBAL_Controller
     {
         parent::__construct();
         $this->load->model('TransaksiModel');
-        $this->load->model('PenggunaModel'); // Load the PenggunaModel to fetch pengguna data
-        $this->load->model('BarangModel');   // Load the BarangModel to fetch barang data
+        $this->load->model('PenggunaModel');
+        $this->load->model('BarangModel');
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
@@ -16,66 +16,224 @@ class TransaksiController extends GLOBAL_Controller
 
     public function index()
     {
+        $data['title'] = 'Data Transaksi';
         $data['transaksi'] = $this->TransaksiModel->get_all_transaksi();
-        parent::template('transaksi/index', $data);
+
+        if ($this->session->userdata('level') == 'admin') {
+            parent::template('transaksi/index', $data);
+        } elseif ($this->session->userdata('level') == 'operator') {
+            parent::op_template('transaksi/index', $data);
+        }
     }
 
     public function tambah()
     {
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
-            // Ambil data dari form
-            $pengguna_id = $this->input->post('pengguna_id');
+            $pengguna_id = $this->input->post('nama');
             $cara_bayar = $this->input->post('cara_bayar');
-            $status_bayar = $this->input->post('status_bayar');
-            $status_barang = $this->input->post('status_barang');
+            $detail = $this->input->post('detail'); 
 
-            // Total keseluruhan
-            $total = array_sum(array_map('floatval', $this->input->post('total')));
-
-            // Data transaksi
-            $data_transaksi = array(
-                'pengguna_id'   => $pengguna_id,
-                'cara_bayar'    => $cara_bayar,
-                'status_bayar'  => $status_bayar,
-                'status_barang' => $status_barang,
-                'total'         => $total,
-            );
-
-            // Simpan transaksi
-            $id_transaksi = $this->TransaksiModel->insert_transaksi($data_transaksi);
-
-            // Data detail transaksi
-            $detail_data = array();
-            foreach ($this->input->post('id_barang') as $key => $id_barang) {
-                $detail_data[] = array(
-                    'id_transaksi' => $id_transaksi,
-                    'id_barang'    => $id_barang,
-                    'nama_barang'  => $this->input->post('nama_barang')[$key],
-                    'harga'        => floatval($this->input->post('harga')[$key]),
-                    'jumlah_beli'  => intval($this->input->post('jumlah_beli')[$key]),
-                    'total'        => floatval($this->input->post('total')[$key]),
-                );
+            if (empty($pengguna_id) || empty($cara_bayar)) {
+                $this->session->set_flashdata('alert', 'error-insert');
+                redirect('transaksi/tambah');
             }
 
-            // Simpan detail transaksi
-            $this->TransaksiModel->insert_transaksi_detail($detail_data);
+            $total = array_sum(array_map('floatval', $this->input->post('total')));
+            $id_barang = $this->input->post('id_barang');
+            $jumlah = $this->input->post('jumlah');
 
-            // Beri notifikasi sukses dan redirect
-            $this->session->set_flashdata('success', 'Transaksi berhasil disimpan.');
-            redirect('transaksi');
+            foreach ($id_barang as $key => $barang_id) {
+                $barang = $this->BarangModel->get_barang_by_id($barang_id);
+                if (!$barang) {
+                    $this->session->set_flashdata('alert', 'error-invalid-barang');
+                    redirect('transaksi/tambah');
+                }
+
+                if ($jumlah[$key] <= 0) {
+                    $this->session->set_flashdata('alert', 'error-update-detail');
+                    redirect('transaksi/tambah');
+                }
+
+                if ($barang->stok < $jumlah[$key]) {
+                    $this->session->set_flashdata('alert', 'error-stock');
+                    redirect('transaksi/tambah');
+                }
+            }
+
+            // Tambahkan pengecekan untuk cara bayar Kredit
+            if ($cara_bayar == 'Kredit') {
+                $user_limit = $this->PenggunaModel->get_user_limit($pengguna_id); // Ambil limit pengguna
+                if ($user_limit + $total > 1500000) {
+                    $this->session->set_flashdata('alert', 'error-limit'); // Alert jika limit terlampaui
+                    redirect('transaksi/tambah');
+                }
+
+                // Update limit pengguna
+                $new_limit = $user_limit + $total; // Hitung limit baru
+                $this->PenggunaModel->update_user_limit($pengguna_id, $new_limit); // Update limit
+            }
+
+            $data_transaksi = array(
+                'pengguna_id' => $pengguna_id,
+                'cara_bayar' => $cara_bayar,
+                'total' => $total,
+                'detail' => $detail,
+            );
+
+            $id_transaksi = $this->TransaksiModel->insert_transaksi($data_transaksi);
+
+            if ($id_transaksi) {
+                $detail_data = array();
+                foreach ($id_barang as $key => $barang_id) {
+                    $detail_data[] = array(
+                        'id_transaksi' => $id_transaksi,
+                        'id_barang' => $barang_id,
+                        'nama_barang' => trim($this->input->post('nama_barang')[$key]),
+                        'harga' => floatval($this->input->post('harga')[$key]),
+                        'jumlah' => intval($jumlah[$key]),
+                        'total' => floatval($this->input->post('total')[$key]),
+                    );
+
+                    // Update stok barang
+                    $this->BarangModel->update_stok_barang($barang_id, -intval($jumlah[$key]));
+                }
+
+                $this->TransaksiModel->insert_transaksi_detail($detail_data);
+
+                $this->session->set_flashdata('alert', 'success-insert');
+                redirect('transaksi');
+            } else {
+                $this->session->set_flashdata('alert', 'error-insert');
+                redirect('transaksi/tambah');
+            }
         } else {
-            $data['title'] = 'Ubah Transaksi';
+            $data['title'] = 'Tambah Transaksi';
             $data['pengguna'] = $this->PenggunaModel->get_users();
             $data['barang'] = $this->BarangModel->lihat_semua();
-            parent::template('transaksi/tambah', $data);
+            if ($this->session->userdata('level') == 'admin') {
+                parent::template('transaksi/tambah', $data);
+            } elseif ($this->session->userdata('level') == 'operator') {
+                parent::op_template('transaksi/tambah', $data);
+            }
         }
     }
 
-    // Fungsi untuk menghapus transaksi
-    public function hapus($id_transaksi)
+    public function ubah($id = null)
     {
-        $this->TransaksiModel->delete_transaksi($id_transaksi);
-        $this->session->set_flashdata('success', 'Transaksi berhasil dihapus.');
-        redirect('transaksi');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id_transaksi = $this->input->post('id_transaksi');
+            $pengguna_id = $this->input->post('nama');
+            $cara_bayar = $this->input->post('cara_bayar');
+            $detail = $this->input->post('detail');
+            $total_baru = array_sum(array_map('floatval', $this->input->post('total')));
+
+            // Ambil data transaksi lama
+            $transaksi_lama = $this->TransaksiModel->get_transaksi_by_id($id_transaksi);
+            $total_lama = floatval($transaksi_lama->total);
+            $cara_bayar_lama = $transaksi_lama->cara_bayar;
+
+            // Update data transaksi
+            $data_transaksi = [
+                'pengguna_id' => $pengguna_id,
+                'cara_bayar' => $cara_bayar,
+                'detail' => $detail,
+                'total' => $total_baru,
+            ];
+
+            // Update limit pengguna jika cara bayar Kredit
+            if ($cara_bayar == 'Kredit') {
+                $user_limit = $this->PenggunaModel->get_user_limit($pengguna_id);
+
+                if ($total_baru > $total_lama) {
+                    $selisih = $total_baru - $total_lama;
+                    if ($user_limit + $selisih > 1500000) {
+                        $this->session->set_flashdata('alert', 'error-limit');
+                        redirect('transaksi/ubah/' . $id_transaksi);
+                    }
+                    $new_limit = $user_limit + $selisih;
+                } else {
+                    $selisih = $total_lama - $total_baru;
+                    $new_limit = $user_limit - $selisih;
+                }
+            }
+
+            $this->TransaksiModel->update_transaksi($id_transaksi, $data_transaksi);
+
+            if ($cara_bayar == 'Kredit') {
+                $this->PenggunaModel->update_user_limit($pengguna_id, $new_limit);
+            }
+
+            $id_barang = $this->input->post('id_barang');
+            $harga = $this->input->post('harga');
+            $jumlah = $this->input->post('jumlah');
+            $nama_barang = $this->input->post('nama_barang');
+
+            if (empty($id_barang) || empty($jumlah) || empty($nama_barang) || empty($harga) || empty($total_baru)) {
+                $this->session->set_flashdata('alert', 'error-update-detail');
+                redirect('transaksi/ubah/' . $id_transaksi);
+            }
+
+            // Ambil detail barang lama
+            $detail_lama = $this->TransaksiModel->get_transaksi_detail($id_transaksi);
+
+            // Simpan detail barang baru
+            $detail_data = array();
+            foreach ($id_barang as $key => $barang_id) {
+                $new_jumlah = intval($jumlah[$key]);
+                $barang = $this->BarangModel->get_barang_by_id($barang_id);
+                if (!$barang) {
+                    $this->session->set_flashdata('alert', 'error-invalid-barang');
+                    redirect('transaksi/ubah/' . $id_transaksi);
+                }
+
+                if ($new_jumlah <= 0) {
+                    $this->session->set_flashdata('alert', 'error-update-detail');
+                    redirect('transaksi/ubah/' . $id_transaksi);
+                }
+
+                $old_jumlah = 0;
+                foreach ($detail_lama as $old_detail) {
+                    if ($old_detail->id_barang == $barang_id) {
+                        $old_jumlah = $old_detail->jumlah;
+                        break;
+                    }
+                }
+
+                // Update stok barang berdasarkan perubahan jumlah
+                if ($new_jumlah > $old_jumlah) {
+                    $stok_berubah = $new_jumlah - $old_jumlah;
+                    if ($barang->stok < $stok_berubah) {
+                        $this->session->set_flashdata('alert', 'error-stock');
+                        redirect('transaksi/ubah/' . $id_transaksi);
+                    }
+                    $this->BarangModel->update_stok_barang($barang_id, -$stok_berubah);
+                } elseif ($new_jumlah < $old_jumlah) {
+                    $stok_berubah = $old_jumlah - $new_jumlah;
+                    $this->BarangModel->update_stok_barang($barang_id, $stok_berubah);
+                }
+
+                $detail_data[] = array(
+                    'id_transaksi' => $id_transaksi,
+                    'id_barang' => $barang_id,
+                    'nama_barang' => trim($nama_barang[$key]),
+                    'harga' => floatval($harga[$key]),
+                    'jumlah' => $new_jumlah,
+                    'total' => floatval($harga[$key]) * $new_jumlah,
+                );
+            }
+
+            // Update detail barang
+            $this->TransaksiModel->update_detail_barang($id_transaksi, $detail_data);
+
+            $this->session->set_flashdata('alert', 'success-update');
+            redirect('transaksi');
+        } else {
+            $data['pengguna'] = $this->PenggunaModel->get_users();
+            $data['barang'] = $this->BarangModel->lihat_semua();
+            $data['transaksi'] = $this->TransaksiModel->get_transaksi_by_id($id);
+            $data['detail_barang'] = $this->TransaksiModel->get_detail_barang_by_transaksi_id($id);
+
+            parent::template('transaksi/ubah', $data);
+        }
     }
 }

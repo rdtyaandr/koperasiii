@@ -22,9 +22,7 @@ $route['main'] = 'OperatorController';
 /*
 * laporan routes modul
 * */
-$route['history-barang'] = 'HistoryController/anggota';
-$route['history-gudang'] = 'HistoryController/simpananAnggota';
-$route['history-transaksi'] = 'HistoryController/pinjamanAnggota';
+$route['history'] = 'HistoryController';
 
 /*
 * angsuran routes modul
@@ -108,19 +106,23 @@ $route['transaksi/(:any)'] = 'TransaksiController/detail/$1';
 * pengguna modul routes
 * */
 $route['pengguna'] = 'PenggunaController/index';
+$route['pengguna/tambah'] = 'PenggunaController/tambah';
 $route['pengguna/ubah/(:any)'] = 'PenggunaController/ubah/$1';
 $route['pengguna/hapus/(:any)'] = 'PenggunaController/hapus/$1';
 /*
 * akun modul routes
 * */
-$route['profil'] = 'ProfilController';
+$route['profile'] = 'ProfilController';
+$route['profile/edit/(:any)'] = 'ProfilController/edit';
+$route['profile/update/(:any)'] = 'ProfilController/update';
+
 $route['pesan'] = 'PesanController';
 $route['bantuan'] = 'BantuanController';
 $route['pengaturan'] = 'PengaturanController';
 
 
 $route['default_controller'] = 'AdminController';
-$route['404_override'] = '';
+$route['error'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 

@@ -8,39 +8,79 @@ class TransaksiModel extends GLOBAL_Model
         parent::__construct();
     }
 
-    // Fungsi untuk menyimpan transaksi utama
     public function insert_transaksi($data)
     {
         $this->db->insert('tb_transaksi', $data);
-        return $this->db->insert_id(); // Mengembalikan ID transaksi yang baru disimpan
+        return $this->db->insert_id();
     }
 
-    // Fungsi untuk menyimpan detail transaksi
     public function insert_transaksi_detail($data)
     {
         $this->db->insert_batch('tb_detransaksi', $data);
     }
 
-    // Fungsi untuk mendapatkan semua transaksi
     public function get_all_transaksi()
     {
-        return $this->db->get('tb_transaksi')->result();
+        $this->db->select('t.*, p.username');
+        $this->db->from('tb_transaksi t');
+        $this->db->join('tb_pengguna p', 't.pengguna_id = p.pengguna_id');
+        return $this->db->get()->result(); // Mengembalikan data sebagai objek
     }
 
-    // Fungsi untuk mendapatkan detail transaksi berdasarkan ID transaksi
     public function get_transaksi_detail($id_transaksi)
     {
         $this->db->where('id_transaksi', $id_transaksi);
         return $this->db->get('tb_detransaksi')->result();
     }
 
-    // Fungsi untuk menghapus transaksi dan detailnya
+    // Fungsi untuk mendapatkan transaksi berdasarkan ID
+    public function get_transaksi_by_id($id_transaksi)
+    {
+        $this->db->select('t.*, p.nama_lengkap');
+        $this->db->from('tb_transaksi t');
+        $this->db->join('tb_pengguna p', 't.pengguna_id = p.pengguna_id');
+        $this->db->where('t.id_transaksi', $id_transaksi);
+        return $this->db->get()->row();
+    }
+
+    // Fungsi untuk mendapatkan detail barang berdasarkan ID transaksi
+    public function get_detail_barang_by_transaksi_id($id_transaksi)
+    {
+        $this->db->select('db.*, b.nama_barang');
+        $this->db->from('tb_detransaksi db');
+        $this->db->join('tb_barang b', 'db.id_barang = b.id_barang');
+        $this->db->where('db.id_transaksi', $id_transaksi);
+        return $this->db->get()->result();
+    }
+
+    public function update_detail_barang($id_transaksi, $data)
+    {
+        // Delete old details
+        $this->db->delete('tb_detransaksi', ['id_transaksi' => $id_transaksi]);
+
+        // Insert new details
+        return $this->db->insert_batch('tb_detransaksi', $data);
+    }
+    
+    // Fungsi untuk memperbarui transaksi
+    public function update_transaksi($id_transaksi, $data)
+    {
+        $this->db->where('id_transaksi', $id_transaksi);
+        $this->db->update('tb_transaksi', $data);
+    }
+
+    // Fungsi untuk menghapus detail transaksi
+    public function delete_detail_transaksi($id_transaksi)
+    {
+        $this->db->where('id_transaksi', $id_transaksi);
+        $this->db->delete('tb_detransaksi');
+    }
+
     public function delete_transaksi($id_transaksi)
     {
         $this->db->where('id_transaksi', $id_transaksi);
         $this->db->delete('tb_transaksi');
 
-        $this->db->where('id_transaksi', $id_transaksi);
-        $this->db->delete('tb_detransaksi');
+        $this->delete_detail_transaksi($id_transaksi);
     }
 }
