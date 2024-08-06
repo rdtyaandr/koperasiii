@@ -129,7 +129,7 @@
                         <p class="ultra-small margin more-text">Menu Pinjaman </p>
                     </li>
                     <li class="bold active">
-                        <a href="<?= base_url('pengajuan') ?>" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Pengajuan Pinjaman</a>
+                        <a href="<?= base_url('pinjaman') ?>" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Pengajuan Pinjaman</a>
                     </li>
 
                     <li class="li-hover">

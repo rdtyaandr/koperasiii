@@ -100,14 +100,16 @@
                 </div>
             </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- Native CSS for additional styling -->
 <style>
-    .container {
-        margin-top: 30px;
-    }
+  .container {
+    margin-top: 30px;
+  }
 
     .card {
         margin-top: 20px;
@@ -115,9 +117,9 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .card-content {
-        padding-bottom: 0;
-    }
+  .card-content {
+    padding-bottom: 0;
+  }
 
     .input-field {
         margin-bottom: 20px;
@@ -145,9 +147,9 @@
         border-radius: 4px;
     }
 
-    .tooltipped {
-        position: relative;
-    }
+  .tooltipped {
+    position: relative;
+  }
 
     .mt {
         margin-top: 15px;

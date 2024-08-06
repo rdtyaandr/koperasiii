@@ -24,11 +24,11 @@ class AuthController extends GLOBAL_Controller
     public function login()
     {
         // Cek apakah pengguna sudah login
-        if (parent::hasLogin()){
+        if (parent::hasLogin()) {
             redirect(base_url());
         } else {
             // Jika form login disubmit
-            if (isset($_POST['login'])){
+            if (isset($_POST['login'])) {
                 $username = parent::post('username');
                 $password = parent::post('password');
                 
@@ -36,12 +36,12 @@ class AuthController extends GLOBAL_Controller
                 $dataPengguna = $this->AuthModel->get_pengguna($username, $password);
                 
                 // Jika data pengguna ditemukan
-                if ($dataPengguna->num_rows() > 0){
+                if ($dataPengguna->num_rows() > 0) {
                     $pengguna = $dataPengguna->row_array();
                     
                     // Set data sesi pengguna
                     $sessionData = array(
-                        'pengguna_id' => $pengguna['pengguna_id'],
+                        'user_id' => $pengguna['pengguna_id'],
                         'username' => $pengguna['username'],
                         'name' => $pengguna['nama_lengkap'],
                         'level' => $pengguna['pengguna_hak_akses'],
@@ -51,21 +51,24 @@ class AuthController extends GLOBAL_Controller
                     $this->session->set_userdata($sessionData);
 
                     // Tampilkan pesan selamat datang
-                    parent::alert('alert','user-welcome');
+                    parent::alert('alert', 'user-welcome');
 
                     // Cek level pengguna dan arahkan sesuai level
                     if ($pengguna['pengguna_hak_akses'] == 'user') {
                         // Arahkan ke dashboard pengguna
+                        parent::alert('alert', 'user-welcome');
                         redirect('home');
                     } elseif ($pengguna['pengguna_hak_akses'] == 'operator') {
                         // Arahkan ke halaman utama
+                        parent::alert('alert', 'operator-welcome');
                         redirect('main');
                     } else {
+                        parent::alert('alert', 'user-welcome');
                         redirect(base_url());
                     }
                 } else {
                     // Tampilkan pesan error jika login gagal
-                    parent::alert('alert','error-login');
+                    parent::alert('alert', 'error-login');
                 }
             }
             
@@ -99,9 +102,8 @@ class AuthController extends GLOBAL_Controller
                 'username' => $username,
                 'email' => $email,
                 'satker' => $satker,
-                'password' => $password,
-                'pengguna_hak_akses' => 'user',
-                'pengguna_picture' => 'images/pengguna.png'
+                'password' => password_hash($password, PASSWORD_BCRYPT), // Amankan password dengan hashing
+                'pengguna_hak_akses' => 'user'
             );
 
             // Simpan data pengguna baru ke database

@@ -228,6 +228,31 @@ CREATE TABLE `tb_transaksi` (
 --
 -- Indexes for dumped tables
 --
+CREATE TABLE `tb_pengajuan` (
+  `id` int(11) NOT NULL,
+  `pengguna_id` int(11) NOT NULL,
+  `nama_anggota` text NOT NULL,
+  `jenis_pinjaman` text NOT NULL,
+  `tanggal_pinjam` text NOT NULL,
+  `jumlah_pinjaman` text NOT NULL,
+  `lama_pinjaman` text NOT NULL,
+  `is_read` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(255) DEFAULT NULL,
+  `waktu_pengajuan` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `tb_pengajuan`
+--
+
+INSERT INTO `tb_pengajuan` (`id`, `pengguna_id`, `nama_anggota`, `jenis_pinjaman`, `tanggal_pinjam`, `jumlah_pinjaman`, `lama_pinjaman`, `is_read`, `created_at`, `status`, `waktu_pengajuan`) VALUES
+(9, 0, 'UFUWEWE', 'Jenis 1', '2024-08-15', '3232', '2323', 0, '2024-07-31 18:13:24', 'Telah Disetujui oleh Admin', '2024-07-31 20:13:24'),
+(10, 0, 'UYUY', 'Jenis 1', '2024-08-15', '879', '879', 0, '2024-07-31 18:30:58', 'Menunggu Persetujuan', '2024-07-31 20:30:58'),
+(11, 0, 'kjr2o', 'xx', '2024-08-15', '8398', '3 bulan, ', 0, '2024-08-01 13:20:42', 'Telah Disetujui oleh Admin', '2024-08-01 15:20:42'),
+(12, 0, 'ewr', 'wer', '2024-08-07', '3243', '342', 0, '2024-08-01 13:47:53', 'Menunggu Persetujuan', '2024-08-01 15:47:53'),
+(13, 0, 'RIVI GANTENG', 'Jenis 1', '2024-07-31', '31231', '21313', 0, '2024-08-01 15:43:18', 'Menunggu Persetujuan', '2024-08-01 17:43:18'),
+(14, 0, 'oioi', 'Mutasi', '2024-08-30', '560000', '6 - 7', 0, '2024-08-01 15:47:12', 'Telah Disetujui oleh Admin', '2024-08-01 17:47:12');
 
 --
 -- Indexes for table `tb_anggota`

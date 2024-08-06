@@ -14,9 +14,10 @@
 				'password' => $password
 			);
 			
-			return parent::get_object_of_row('tb_pengguna',$user);
+			return parent::get_object_of_row('tb_pengguna',$user); 
+			
 		}
-		
+	
 		public function get_data_pengguna($id)
 		{
 			$query = array(
@@ -69,9 +70,17 @@
 			return parent::update_table_with_status('tb_pengguna','pengguna_id',$penggunaID,$query);
 		}
 
+	
+	
+
     // Metode untuk memasukkan pengguna baru dengan status
-    public function insert_pengguna($data)
+    public function insert_pengguna($data, $dataPengguna)
     {
-        return parent::insert_with_status('tb_pengguna', $data);
+        return parent::insert_with_status('tb_pengguna', $data, $dataPengguna);
     }
-	}
+
+	public function get_penggunap($username, $password)
+    {
+        return $this->db->get_where('tb_pengguna', ['username' => $username, 'password' => $password]);
+    }
+}
