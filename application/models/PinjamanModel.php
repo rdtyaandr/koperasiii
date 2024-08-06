@@ -1,73 +1,79 @@
 <?php
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class PinjamanModel extends GLOBAL_Model
 {
 	public function __construct()
 	{
-		parent::__construct(); // Memanggil konstruktor dari kelas induk
+		parent::__construct();
 	}
 
 	public function lihat_semua()
 	{
-		$sourceTable = array(
+		$sourceTable = [
 			'name' => 'simkopsis_pinjaman',
-			array('pinjaman_anggota_id')
-		); // Mendefinisikan tabel sumber
-		$destinationTable = array(
-			'table' => array('simkopsis_anggota'), // Mendefinisikan tabel tujuan
-			'id' => array('anggota_id')
-		); // Mendefinisikan ID unik untuk tabel tujuan
-		return parent::get_join_table($sourceTable, $destinationTable); // Mengambil data dari tabel yang bergabung
+			'join' => ['pinjaman_anggota_id']
+		];
+		$destinationTable = [
+			'table' => ['simkopsis_anggota'],
+			'id' => ['anggota_id']
+		];
+		return parent::get_join_table($sourceTable, $destinationTable);
 	}
 
 	public function tambah($data)
 	{
-		return parent::insert_with_status('tb_pengajuan', $data);
+		return $this->db->insert('tb_pengajuan', $data);
 	}
 
 	public function ubah($id, $data)
 	{
-		return parent::update_table_with_status('simkopsis_pinjaman', 'pinjaman_id', $id, $data); // Mengubah data berdasarkan ID
+		return $this->db->update('simkopsis_pinjaman', $data, ['pinjaman_id' => $id]);
 	}
 
 	public function lihat($query)
 	{
-		return parent::get_array_of_row('simkopsis_pinjaman', $query); // Mengambil data berdasarkan query
+		return parent::get_array_of_row('simkopsis_pinjaman', $query);
 	}
+
 	public function get_pinjaman()
 	{
-		$query = $this->db->get('tb_pengajuan');
-		return $query->result_array();
+		return $this->db->get('tb_pengajuan')->result_array();
 	}
 
 	public function get_pinjaman_list()
 	{
-		$query = $this->db->get('pinjaman');
-		return $query->result_array();
+		return $this->db->get('pinjaman')->result_array();
 	}
 
-
-	// Metode untuk memasukkan data pinjaman ke dalam tabel
 	public function insert_pinjaman($data)
 	{
 		return $this->db->insert('tb_pengajuan', $data);
 	}
+
 	public function get_all_pinjaman()
-	{
-		return $this->db->get('tb_pengajuan')->result_array();
-	}
-	public function get_pinjaman_by_user($user_id)
-	{
-		return $this->db->get_where('tb_pengajuan', ['user_id' => $user_id])->result_array();
-	}
-
-
-    public function update_status($id, $status)
     {
-        $this->db->set('status', $status);
-        $this->db->where('id', $id);
-        return $this->db->update('tb_pengajuan');
+        $this->db->select('tb_pengajuan.*, tb_pengguna.username'); // Select all fields from tb_pengajuan and username from tb_pengguna
+        $this->db->from('tb_pengajuan');
+        $this->db->join('tb_pengguna', 'tb_pengajuan.user_id = tb_pengguna.pengguna_id'); // Join with tb_pengguna based on user_id
+        return $this->db->get()->result_array();
     }
+
+    public function get_pinjaman_by_user($user_id)
+    {
+        $this->db->select('tb_pengajuan.*, tb_pengguna.username'); // Select all fields from tb_pengajuan and username from tb_pengguna
+        $this->db->from('tb_pengajuan');
+        $this->db->join('tb_pengguna', 'tb_pengajuan.user_id = tb_pengguna.pengguna_id'); // Join with tb_pengguna based on user_id
+        $this->db->where('tb_pengajuan.user_id', $user_id); // Only fetch records matching the user_id
+        return $this->db->get()->result_array();
+    }
+
+	
+	public function update_status($id, $status)
+	{
+		$this->db->where('id_pinjaman', $id);
+		$this->db->update('tb_pengajuan', ['status' => $status]);
+	}
 
 	public function delete($id)
 	{
@@ -89,8 +95,9 @@ class PinjamanModel extends GLOBAL_Model
 		return $this->db->delete('tb_pengajuan');
 	}
 
-	public function delete_pinjaman($id)
-    {
-        return $this->db->delete('tb_pengajuan', ['id' => $id]);
-    }
+	    // Tambahkan metode ini jika belum ada
+		public function update_pinjaman($id, $data) {
+			$this->db->where('id', $id);
+			return $this->db->update('tb_pinjaman', $data);
+		}
 }

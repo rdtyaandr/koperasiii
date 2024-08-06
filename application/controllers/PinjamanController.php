@@ -15,25 +15,33 @@ class PinjamanController extends GLOBAL_Controller
     public function index()
     {
         $data['title'] = 'Pinjaman';
-        $data['pengajuan'] = $this->PinjamanModel->get_all_pinjaman();
-        if ($this->session->userdata('level') == 'ketua')
-            parent::template('pinjaman/index', $data);
-            elseif($this->session->userdata('level') == 'user')
-                parent::user_template('pinjaman/index', $data);
 
+        if ($this->session->userdata('level') == 'admin') {
+            $data['pengajuan'] = $this->PinjamanModel->get_all_pinjaman();
+        } else if ($this->session->userdata('level') == 'user') {
+            $user_id = $this->session->userdata('user_id'); // Ambil user_id dari sesi
+            $data['pengajuan'] = $this->PinjamanModel->get_pinjaman_by_user($user_id);
+        }
+
+        if ($this->session->userdata('level') == 'user') {
+            parent::user_template('pinjaman/index', $data);
+        } elseif ($this->session->userdata('level') == 'admin') {
+            parent::template('pinjaman/index', $data);
+        }
     }
 
     public function tambah()
     {
         if ($this->input->post()) {
+            $user_id = $this->session->userdata('user_id'); // Ambil user_id dari sesi
             $data = [
-                'nama_anggota' => $this->input->post('nama_anggota'),
                 'jenis_pinjaman' => $this->input->post('jenis_pinjaman'),
                 'tanggal_pinjam' => $this->input->post('tanggal_pinjam'),
                 'jumlah_pinjaman' => $this->input->post('jumlah_pinjaman'),
                 'lama_pinjaman' => $this->input->post('lama_pinjaman'),
                 'waktu_pengajuan' => date('Y-m-d H:i:s'),
-                'status' => 'Menunggu Persetujuan'
+                'status' => 'Menunggu Persetujuan',
+                'user_id' => $user_id // Tambahkan user_id ke data
             ];
 
             $this->PinjamanModel->insert_pinjaman($data);
@@ -45,15 +53,14 @@ class PinjamanController extends GLOBAL_Controller
                 redirect('pinjaman/tambah');
             }
         } else {
-            $data['title'] = 'Tambah Pengajuan' ;
-            if ($this->session->userdata('level') == 'ketua')
-            parent::template('pinjaman/tambah', $data);
-            elseif($this->session->userdata('level') == 'user')
+            $data['title'] = 'Tambah Pengajuan';
+            if ($this->session->userdata('level') == 'admin')
+                parent::template('pinjaman/tambah', $data);
+            elseif ($this->session->userdata('level') == 'user')
                 parent::user_template('pinjaman/tambah', $data);
         }
     }
 
-    // Mengupdate status pinjaman
     public function update_status()
     {
         $id = $this->input->post('id');
@@ -69,7 +76,6 @@ class PinjamanController extends GLOBAL_Controller
         }
     }
 
-    // Approve a loan
     public function approve($id)
     {
         $this->load->model('PinjamanModel');
