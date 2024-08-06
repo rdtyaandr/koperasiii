@@ -1,25 +1,26 @@
 <?php
 
-class NotifikasiModel extends GLOBAL_Model
-{
+class NotifikasiModel extends GLOBAL_Model {
+
     public function __construct()
     {
         parent::__construct();
     }
 
-    // Metode untuk menambah notifikasi
-    public function tambah_notifikasi($data)
+    public function tambah($data)
     {
-        $this->db->insert('notifikasi', $data);
-        return $this->db->affected_rows();
+        return parent::insert_with_status('tb_notifikasi', $data);
     }
 
-    // Metode untuk mengambil notifikasi berdasarkan pengguna
-    public function ambil_notifikasi($pengguna_id)
+    public function lihat_semua()
     {
-        $this->db->where('pengguna_id', $pengguna_id);
-        $this->db->order_by('created_at', 'DESC');
-        return $this->db->get('notifikasi')->result_array();
+        return parent::get_array_of_table('tb_notifikasi');
+    }
+
+    public function ubah_status($id, $status)
+    {
+        $data = array('status' => $status);
+        return parent::update_table_with_status('tb_notifikasi', 'id', $id, $data);
     }
 }
 ?>

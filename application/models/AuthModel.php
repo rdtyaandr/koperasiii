@@ -74,9 +74,9 @@
 	
 
     // Metode untuk memasukkan pengguna baru dengan status
-    public function insert_pengguna($data, $dataPengguna)
+    public function insert_pengguna( $dataPengguna)
     {
-        return parent::insert_with_status('tb_pengguna', $data, $dataPengguna);
+        return parent::insert_with_status('tb_pengguna', $dataPengguna);
     }
 
 	public function get_penggunap($username, $password)

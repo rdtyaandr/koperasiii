@@ -13,7 +13,9 @@ class AuthController extends GLOBAL_Controller
     {
         parent::__construct();
         $this->load->model('AuthModel');
+        $this->load->model('NotifikasiModel'); // Memuat NotifikasiModel
     }
+    
     
     /*
      * login, register, logout
@@ -21,62 +23,59 @@ class AuthController extends GLOBAL_Controller
      *
      **/
     // Fungsi untuk login pengguna
-    public function login()
-    {
-        // Cek apakah pengguna sudah login
-        if (parent::hasLogin()) {
-            redirect(base_url());
-        } else {
-            // Jika form login disubmit
-            if (isset($_POST['login'])) {
-                $username = parent::post('username');
-                $password = parent::post('password');
-                
-                // Ambil data pengguna dari database
-                $dataPengguna = $this->AuthModel->get_pengguna($username, $password);
-                
-                // Jika data pengguna ditemukan
-                if ($dataPengguna->num_rows() > 0) {
-                    $pengguna = $dataPengguna->row_array();
-                    
-                    // Set data sesi pengguna
-                    $sessionData = array(
-                        'user_id' => $pengguna['pengguna_id'],
-                        'username' => $pengguna['username'],
-                        'name' => $pengguna['nama_lengkap'],
-                        'level' => $pengguna['pengguna_hak_akses'],
-                        'login' => true
-                    );
-                    
-                    $this->session->set_userdata($sessionData);
-
-                    // Tampilkan pesan selamat datang
-                    parent::alert('alert', 'user-welcome');
-
-                    // Cek level pengguna dan arahkan sesuai level
-                    if ($pengguna['pengguna_hak_akses'] == 'user') {
-                        // Arahkan ke dashboard pengguna
-                        parent::alert('alert', 'user-welcome');
-                        redirect('home');
-                    } elseif ($pengguna['pengguna_hak_akses'] == 'operator') {
-                        // Arahkan ke halaman utama
-                        parent::alert('alert', 'operator-welcome');
-                        redirect('main');
-                    } else {
-                        parent::alert('alert', 'user-welcome');
-                        redirect(base_url());
-                    }
-                } else {
-                    // Tampilkan pesan error jika login gagal
-                    parent::alert('alert', 'error-login');
-                }
-            }
+    // Fungsi untuk login pengguna
+public function login()
+{
+    // Cek apakah pengguna sudah login
+    if (parent::hasLogin()){
+        redirect(base_url());
+    } else {
+        // Jika form login disubmit
+        if (isset($_POST['login'])){
+            $username = parent::post('username');
+            $password = parent::post('password');
             
-            // Set judul halaman dan tampilkan halaman login
-            $data['title'] = 'Masuk - Sistem Koperasi Syariah';
-            parent::authPage('auth/login', $data);
+            // Ambil data pengguna dari database
+            $dataPengguna = $this->AuthModel->get_pengguna($username, $password);
+            
+            // Jika data pengguna ditemukan
+            if ($dataPengguna->num_rows() > 0){
+                $pengguna = $dataPengguna->row_array();
+                
+                // Set data sesi pengguna
+                $sessionData = array(
+                    'pengguna_id' => $pengguna['pengguna_id'],
+                    'username' => $pengguna['username'],
+                    'name' => $pengguna['nama_lengkap'],
+                    'level' => $pengguna['pengguna_hak_akses'],
+                    'picture' => $pengguna['pengguna_picture'], // Tambahkan foto profil ke sesi
+                    'login' => true
+                );
+                
+                $this->session->set_userdata($sessionData);
+
+                // Tampilkan pesan selamat datang
+                parent::alert('alert','user-welcome');
+
+                // Cek level pengguna dan arahkan sesuai level
+                if ($pengguna['pengguna_hak_akses'] == 'user') {
+                    redirect('home');
+                } elseif ($pengguna['pengguna_hak_akses'] == 'operator') {
+                    redirect('main');
+                } else {
+                    redirect(base_url());
+                }
+            } else {
+                parent::alert('alert','error-login');
+            }
         }
+        
+        // Set judul halaman dan tampilkan halaman login
+        $data['title'] = 'Masuk - Sistem Koperasi BPS';
+        parent::authPage('auth/login', $data);
     }
+}
+
     
     // Fungsi untuk logout pengguna
     public function logout()
@@ -88,39 +87,50 @@ class AuthController extends GLOBAL_Controller
     // Fungsi untuk register pengguna baru
     public function register()
     {
-        // Jika form register disubmit
         if (isset($_POST['register'])) {
             $fullName = parent::post('full_name');
             $username = parent::post('username');
             $email = parent::post('email');
             $satker = parent::post('satker');
             $password = parent::post('password');
-
-            // Data pengguna baru
+    
             $dataPengguna = array(
                 'nama_lengkap' => $fullName,
                 'username' => $username,
                 'email' => $email,
                 'satker' => $satker,
-                'password' => password_hash($password, PASSWORD_BCRYPT), // Amankan password dengan hashing
+                'password' => $password,
                 'pengguna_hak_akses' => 'user'
             );
-
-            // Simpan data pengguna baru ke database
+    
             $insert = $this->AuthModel->insert_pengguna($dataPengguna);
-
-            // Jika penyimpanan berhasil
+    
             if ($insert) {
+                // Ambil ID pengguna yang baru saja dimasukkan
+                $pengguna_id = $this->db->insert_id();
+    
+                // Menyiapkan pesan notifikasi
+                $pesan = "Pengguna baru dengan username {$username} telah mendaftar.";
+    
+                // Menyimpan notifikasi ke database
+                $notifikasiData = array(
+                    'pengguna_id' => $pengguna_id,
+                    'pesan' => $pesan,
+                    'status' => 'belum_dibaca'
+                );
+                $this->NotifikasiModel->tambah($notifikasiData);
+    
+                // Tampilkan pesan sukses
                 parent::alert('alert', 'register-success');
                 redirect('login');
             } else {
                 parent::alert('alert', 'register-failed');
             }
         }
-
-        // Set judul halaman dan tampilkan halaman register
+    
         $data['title'] = 'Daftar - Sistem Koperasi Syariah';
         parent::authPage('auth/register', $data);
     }
+    
 }
 ?>

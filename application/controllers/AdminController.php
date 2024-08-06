@@ -5,6 +5,10 @@ class AdminController extends GLOBAL_Controller
     {
         parent::__construct();
         $this->load->model('AnalyticsModel');
+        if (!parent::hasLogin()) {
+			$this->session->set_flashdata('alert', 'belum_login');
+			redirect(base_url('login'));
+        }
     }
 
     public function index()
