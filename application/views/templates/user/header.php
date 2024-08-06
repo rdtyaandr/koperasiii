@@ -45,32 +45,50 @@
 
 <body>
 
-    <!-- START HEADER -->
-    <header id="header" class="page-topbar">
-        <!-- start header nav-->
-        <div class="navbar-fixed">
-            <nav class="navbar-color blue darken-2">
-                <div class="nav-wrapper">
-                    <ul class="left">
-                        <li>
-                            <h1 class="logo-wrapper">
-                                <a href="<?= base_url() ?>" class="brand-logo darken-1">
-                                    <img src="<?= base_url('assets/images/favicon/icon.png') ?>" alt="bps logo" class="responsive-img hide-on-med-and-down" style="width: 9%; height: auto;">
-                                    <span class="brand-logo" style="font-size: 1.4rem; line-height: 50%; display: inline-block; letter-spacing: 0.03em;">KOPERASI BPS</span>
-                                </a>
-                            </h1>
-                        </li>
-                    </ul>
-                    <div class="header-search-wrapper hide-on-med-and-down">
-                        <i class="mdi-action-search"></i>
-                        <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Cari di Aplikasi" />
-                    </div>
+   <!-- START HEADER -->
+<header id="header" class="page-topbar">
+    <!-- start header nav-->
+    <div class="navbar-fixed">
+        <nav class="navbar-color blue darken-2">
+            <div class="nav-wrapper">
+                <ul class="left">
+                    <li>
+                        <h1 class="logo-wrapper">
+                            <a href="<?= base_url() ?>" class="brand-logo darken-1">
+                                <img src="<?= base_url('assets/images/favicon/icon.png') ?>" alt="bps logo" class="responsive-img hide-on-med-and-down" style="width: 9%; height: auto;">
+                                <span class="brand-logo" style="font-size: 1.4rem; line-height: 50%; display: inline-block; letter-spacing: 0.03em;">KOPERASI BPS</span>
+                            </a>
+                        </h1>
+                    </li>
+                </ul>
+                <div class="header-search-wrapper hide-on-med-and-down">
+                    <i class="mdi-action-search"></i>
+                    <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Cari di Aplikasi" />
                 </div>
-            </nav>
-        </div>
-        <!-- end header nav-->
-    </header>
-    <!-- END HEADER -->
+                <ul class="right">
+                    <!-- Notifikasi Button -->
+                    <li>
+                        <a class="dropdown-trigger btn" href="#" data-target="notifications-dropdown">
+                            <i class="mdi-notifications"></i>
+                            <span class="notification-badge">5</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <!-- end header nav-->
+</header>
+<!-- END HEADER -->
+
+<!-- Notifikasi Dropdown -->
+<ul id="notifications-dropdown" class="dropdown-content">
+    <li><a href="#!">Notifikasi 1</a></li>
+    <li><a href="#!">Notifikasi 2</a></li>
+    <li><a href="#!">Notifikasi 3</a></li>
+    <li><a href="#!">Notifikasi 4</a></li>
+    <li><a href="#!">Notifikasi 5</a></li>
+</ul>
 
     <!-- //////////////////////////////////////////////////////////////////////////// -->
 
@@ -89,10 +107,10 @@
                                 <img src="<?= base_url('assets/images/admin.png') ?>" alt="" class="circle responsive-img valign profile-image">
                             </div>
                             <div class="col col s8 m8 l8">
-                                <a class="btn-flat  waves-effect waves-light white-text profile-btn" href="#">
-                                    <?= $this->session->userdata('name') ?>
+                                <a class="btn-flat  waves-effect waves-light white-text profile-btn" href="<?= base_url('profile')?>">
+                                    <?= $this->session->userdata('full_name') ?>
                                 </a>
-                                <p class="user-roal"><?= $this->session->userdata('level'); ?></p>
+                                <p class="user-roal"><?= $this->session->userdata('pengguna_hak_akses'); ?></p>
                             </div>
                         </div>
                     </li>
@@ -111,7 +129,7 @@
                         <p class="ultra-small margin more-text">Menu Pinjaman </p>
                     </li>
                     <li class="bold active">
-                        <a href="<?= base_url('pengajuan') ?>" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Pengajuan Pinjaman</a>
+                        <a href="<?= base_url('pinjaman') ?>" class="waves-effect waves-cyan"><i class="mdi-action-dashboard"></i> Pengajuan Pinjaman</a>
                     </li>
 
                     <li class="li-hover">
@@ -209,3 +227,11 @@
                             break;
                     }
                     ?>
+                    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.dropdown-trigger');
+        M.Dropdown.init(elems, {
+            coverTrigger: false
+        });
+    });
+</script>   

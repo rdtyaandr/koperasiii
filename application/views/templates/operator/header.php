@@ -89,7 +89,7 @@
                                 <img src="<?= base_url('assets/images/admin.png') ?>" alt="" class="circle responsive-img valign profile-image">
                             </div>
                             <div class="col col s8 m8 l8">
-                                <a class="btn-flat  waves-effect waves-light white-text profile-btn" href="#">
+                                <a class="btn-flat  waves-effect waves-light white-text profile-btn" href="<?= base_url('profile')?>">
                                     <?= $this->session->userdata('name') ?>
                                 </a>
                                 <p class="user-roal"><?= $this->session->userdata('level'); ?></p>

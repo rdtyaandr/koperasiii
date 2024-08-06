@@ -1,26 +1,37 @@
 <?php
 
-class NotificationController extends GLOBAL_Controller
-{
+class NotifikasiController extends GLOBAL_Controller {
+
     public function __construct() {
         parent::__construct();
-        $model = array('NotifikasiModel','PenggunaModel');
-        $this->load->model($model);
-        if (!parent::hasLogin()) {
-            $this->session->set_flashdata('alert', 'belum_login');
-            redirect(base_url('login'));
-        }
+        $this->load->model('NotifikasiModel');
+    }
+
+    public function daftar_pengguna_baru($pengguna_id) {
+        $pesan = "Pengguna baru dengan ID {$pengguna_id} telah mendaftar.";
+        $data = array(
+            'pengguna_id' => $pengguna_id,
+            'pesan' => $pesan,
+        );
+        parent::model('NotifikasiModel')->tambah($data);
     }
 
     public function index() {
-        $user_id = $this->session->userdata('pengguna_id');
-        $data['notifications'] = $this->Notifikasimodel-->get_notifications($user_id);
-        $this->load->view('notifications/index', $data);
+        $data['title'] = 'Notifikasi';
+        $data['notifikasi'] = parent::model('NotifikasiModel')->lihat_semua();
+        
+        if ($this->session->userdata('level') == 'admin'){
+            parent::template('notifikasi/index', $data);
+        }elseif ($this->session->userdata('level') == 'operator') {
+            parent::op_template('notifikasi/index', $data);
+        }elseif ($this->sesion->userdata('level') == 'user') {
+            parent::user_template('notifikasi/index', $data);
+        }
     }
 
-    public function mark_as_read($id) {
-        $this->Notifikasimodel-->mark_as_read($id);
-        redirect('notifications');
+    public function tandai_dibaca($id) {
+        parent::model('NotifikasiModel')->ubah_status($id, 'dibaca');
+        redirect('notifikasi/lihat_notifikasi');
     }
 }
 ?>

@@ -8,6 +8,7 @@ class BarangController extends GLOBAL_Controller
         $this->load->model('BarangModel');
         $this->load->model('KategoriModel');
         $this->load->model('SatuanModel');
+        $this->load->model('NotifikasiModel');
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
