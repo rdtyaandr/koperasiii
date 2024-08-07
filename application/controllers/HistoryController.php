@@ -13,12 +13,15 @@ class HistoryController extends GLOBAL_Controller
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
         }
+
+        // Hapus pesan yang lebih dari 30 hari
+        $this->HistoryModel->deleteOldMessages();
     }
 
     public function index()
     {
         $data['title'] = 'History';
-        $data['messages'] = $this->HistoryModel->getMessages(); // Ambil pesan dari database
+        $data['messages'] = $this->HistoryModel->getRecentMessages(); 
 
         if ($this->session->userdata('level') == 'admin') {
             parent::template('history/index', $data);
@@ -37,12 +40,5 @@ class HistoryController extends GLOBAL_Controller
             'message_date_time' => date('Y-m-d H:i:s')
         ];
         $this->HistoryModel->addMessage($data);
-    }
-
-    // Contoh penggunaan fungsi addMessage
-    public function addItem()
-    {
-        // Logika untuk menambahkan item
-        $this->addMessage('Anda menambahkan barang baru', 'Pembelian barang elektronik di toko XYZ', 'add_circle_outline');
     }
 }

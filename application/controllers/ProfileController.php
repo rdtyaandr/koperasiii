@@ -12,6 +12,7 @@ class ProfileController extends GLOBAL_Controller
         if (!parent::hasLogin()) {
             redirect('login');
         }
+        $this->HistoryModel->deleteOldMessages();
     }
 
     public function index()
