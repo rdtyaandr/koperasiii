@@ -9,11 +9,18 @@ class HistoryModel extends GLOBAL_Model
 
     public function addMessage($data)
     {
-        return $this->db->insert('messages', $data);
+        $this->db->insert('tb_histori', $data);
     }
 
-    public function getMessages()
+    public function deleteOldMessages()
     {
-        return $this->db->get('messages')->result();
+        $this->db->where('message_date_time <', date('Y-m-d H:i:s', strtotime('-30 days')));
+        $this->db->delete('tb_histori');
+    }
+
+    public function getRecentMessages()
+    {
+        $this->db->where('message_date_time >=', date('Y-m-d H:i:s', strtotime('-30 days')));
+        return $this->db->get('tb_histori')->result();
     }
 }

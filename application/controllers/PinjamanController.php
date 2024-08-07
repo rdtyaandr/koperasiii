@@ -11,6 +11,7 @@ class PinjamanController extends GLOBAL_Controller
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
         }
+        $this->HistoryModel->deleteOldMessages();
     }
 
     public function index()

@@ -12,6 +12,7 @@ class KategoriController extends GLOBAL_Controller
             parent::alert('alert', 'belum_login');
             redirect(base_url('login'));
         }
+        $this->HistoryModel->deleteOldMessages();
     }
 
     public function index()
