@@ -26,6 +26,9 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `tb_anggota`
 --
+CREATE DATABASE IF NOT EXISTS `db_koperasi`;
+USE `db_koperasi`;
+-- ... kode lainnya tetap sama ...
 
 CREATE TABLE `tb_anggota` (
   `anggota_id` int NOT NULL,

@@ -115,7 +115,7 @@ $route['profile'] = 'ProfileController/index';
 $route['profile/edit/(:any)'] = 'ProfilController/edit';
 $route['profile/update'] = 'ProfileController/update';
 
-$route['notifikasi'] = 'NotifikasiController';
+$route['pesan'] = 'NotifikasiController';
 $route['bantuan'] = 'BantuanController';
 $route['pengaturan'] = 'PengaturanController';
 

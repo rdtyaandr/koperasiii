@@ -16,20 +16,34 @@ class TransaksiController extends GLOBAL_Controller
     }
 
     public function index()
-    {
-        $data['title'] = 'Data Transaksi';
-        $data['transaksi'] = $this->TransaksiModel->get_all_transaksi();
+{
+    // Memanggil fungsi untuk memeriksa limit kredit dan mengirimkan notifikasi
+    $this->load->model('TransaksiModel');
+    $this->TransaksiModel->check_credit_limit_and_notify();
 
-        if ($this->session->userdata('level') == 'admin') {
-            parent::template('transaksi/index', $data);
-        } elseif ($this->session->userdata('level') == 'operator') {
-            parent::op_template('transaksi/index', $data);
-        }
+    // Lanjutkan dengan proses lainnya
+    $data['title'] = 'Transaksi';
+    $data['transaksi'] = $this->TransaksiModel->get_all_transaksi();
+
+    // Menambahkan notifikasi ke data
+    $level = $this->session->userdata('level');
+    $pengguna_id = $this->session->userdata('pengguna_id');
+    $this->load->model('NotifikasiModel');
+    $data['notifikasi'] = $this->NotifikasiModel->get_notifikasi($pengguna_id, $level);
+
+    if ($this->session->userdata('level') == 'admin'){
+        parent::template('transaksi/index', $data);
+    } elseif ($this->session->userdata('level') == 'user') {
+        parent::user_template('transaksi/index', $data);
     }
+}
+
+
 
     // Fungsi untuk menambahkan pesan ke history
     private function addMessage($text, $summary, $icon)
     {
+        $level = $this->session->userdata('level');
         $data = [
             'message_text' => $text,
             'message_summary' => $summary,
@@ -37,6 +51,7 @@ class TransaksiController extends GLOBAL_Controller
             'message_date_time' => date('Y-m-d H:i:s')
         ];
         $this->HistoryModel->addMessage($data);
+        $this->NotifikasiModel->addMessage($data);
     }
 
     public function tambah()

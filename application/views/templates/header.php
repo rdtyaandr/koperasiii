@@ -222,7 +222,7 @@
                         <a href="<?= base_url('profile') ?>"><i class="material-icons">person</i> Profil</a>
                     </li>
                     <li>
-                        <a href="<?= base_url('notifikasi') ?>"><i class="material-icons">mail</i> Pesan</a>
+                        <a href="<?= base_url('pesan') ?>"><i class="material-icons">mail</i> Pesan</a>
                     </li>
                     <li>
                         <a href="<?= base_url('bantuan') ?>"><i class="material-icons">help</i> Bantuan</a>

@@ -83,4 +83,28 @@ class TransaksiModel extends GLOBAL_Model
 
         $this->delete_detail_transaksi($id_transaksi);
     }
+    public function check_credit_limit_and_notify()
+{
+    $limit = 5000000; // Limit kredit
+    $this->db->select('t.*, p.username');
+    $this->db->from('tb_transaksi t');
+    $this->db->join('tb_pengguna p', 't.pengguna_id = p.pengguna_id');
+    $this->db->where('t.status', 'Kredit');
+    $this->db->having('SUM(t.jumlah) >', $limit);
+    $this->db->group_by('t.pengguna_id');
+    $query = $this->db->get();
+    $transaksi_list = $query->result_array();
+
+    foreach ($transaksi_list as $transaksi) {
+        // Menambahkan notifikasi
+        $data = [
+            'pengguna_id' => $transaksi['pengguna_id'],
+            'pesan' => 'Limit kredit pengguna ' . $transaksi['username'] . ' telah mencapai batas. Harap lakukan tindakan yang diperlukan.',
+            'status' => 'belum_dibaca',
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+        $this->db->insert('notifikasi', $data);
+    }
+}
+
 }

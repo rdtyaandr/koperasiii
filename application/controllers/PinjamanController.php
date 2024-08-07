@@ -20,7 +20,7 @@ class PinjamanController extends GLOBAL_Controller
         if ($this->session->userdata('level') == 'admin') {
             $data['pengajuan'] = $this->PinjamanModel->get_all_pinjaman();
         } else if ($this->session->userdata('level') == 'user') {
-            $user_id = $this->session->userdata('user_id'); // Ambil user_id dari sesi
+            $user_id = $this->session->userdata('pengguna_id'); // Ambil user_id dari sesi
             $data['pengajuan'] = $this->PinjamanModel->get_pinjaman_by_user($user_id);
         }
 
@@ -42,7 +42,7 @@ class PinjamanController extends GLOBAL_Controller
                 'lama_pinjaman' => $this->input->post('lama_pinjaman'),
                 'waktu_pengajuan' => date('Y-m-d H:i:s'),
                 'status' => 'Menunggu Persetujuan',
-                'user_id' => $user_id // Tambahkan user_id ke data
+                'pengguna_id' => $user_id // Tambahkan user_id ke data
             ];
 
             $this->PinjamanModel->insert_pinjaman($data);

@@ -16,18 +16,30 @@ class BarangController extends GLOBAL_Controller
     }
 
     public function index()
-    {
-        $data['title'] = 'Data Barang';
-        $data['kategori'] = parent::model('KategoriModel')->lihat_semua();
-        $data['satuan'] = parent::model('SatuanModel')->lihat_semua();
-        $data['barang'] = parent::model('BarangModel')->lihat_semua();
+{
+    // Memanggil fungsi untuk memeriksa stok dan mengirimkan notifikasi
+    $this->load->model('BarangModel');
+    $this->BarangModel->check_stock_and_notify();
 
-        if ($this->session->userdata('level') == 'admin'){
-            parent::template('barang/index', $data);
-        }elseif ($this->session->userdata('level') == 'operator') {
-            parent::op_template('barang/index', $data);
-        }
+    // Lanjutkan dengan proses lainnya
+    $data['title'] = 'Data Barang';
+    $data['kategori'] = parent::model('KategoriModel')->lihat_semua();
+    $data['satuan'] = parent::model('SatuanModel')->lihat_semua();
+    $data['barang'] = parent::model('BarangModel')->lihat_semua();
+
+    // Menambahkan notifikasi ke data
+    $level = $this->session->userdata('level');
+    $pengguna_id = $this->session->userdata('pengguna_id');
+    $this->load->model('NotifikasiModel');
+    $data['notifikasi'] = $this->NotifikasiModel->get_notifikasi($pengguna_id, $level);
+
+    if ($this->session->userdata('level') == 'admin'){
+        parent::template('barang/index', $data);
+    } elseif ($this->session->userdata('level') == 'operator') {
+        parent::op_template('barang/index', $data);
     }
+}
+
 
     // Fungsi untuk menambahkan pesan ke history
     private function addMessage($text, $summary, $icon)

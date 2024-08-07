@@ -1,82 +1,41 @@
 <!DOCTYPE html>
-<html lang="id">
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $title; ?> - Koperasi</title>
-
-    <!-- Import Google Icon Font -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
-
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
-
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .notification-list {
-            list-style-type: none;
-            padding: 0;
-        }
-
+<html>
+<head>
+    <title><?= $title?></title>
+        <style>
         .notification-item {
-            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding: 15px;
         }
-
-        .notification-text {
-            margin: 0;
-            font-size: 1.2em;
-            color: #555;
+        .notification-item:last-child {
+            border-bottom: none;
         }
-
-        .no-notifications {
-            color: #777;
-            text-align: center;
-            margin-top: 20px;
+        .notification-header {
+            font-weight: bold;
+        }
+        .notification-status {
+            color: #ff5722; /* Orange color for unread status */
         }
     </style>
 </head>
-
 <body>
-
     <div class="container">
-        <h1><?php echo $title; ?></h1>
-
-        <?php if (!empty($notifikasi)): ?>
-            <ul class="notification-list">
+        <h5 class="center-align">Notifikasi</h5>
+        <ul class="collection">
+            <?php if (!empty($notifikasi)): ?>
                 <?php foreach ($notifikasi as $notif): ?>
-                    <li class="notification-item">
-                        <div class="card">
-                            <div class="card-content">
-                                <p class="notification-text">
-                                    <i class="material-icons left">notifications</i> 
-                                    <?php echo $notif['pesan']; ?>
-                                </p>
-                            </div>
-                            <div class="card-action right-align">
-                                <a class="btn blue waves-effect waves-light" href="<?php echo base_url('notifikasi/tandai_dibaca/' . $notif['id']); ?>">
-                                    Tandai dibaca
-                                </a>
-                            </div>
+                    <li class="collection-item notification-item">
+                        <div class="notification-header">
+                            <span><?php echo htmlspecialchars($notif['pesan']); ?></span>
+                            <span class="notification-status"><?php echo $notif['status'] == 'belum_dibaca' ? 'Belum Dibaca' : 'Dibaca'; ?></span>
                         </div>
+                        <p><?php echo htmlspecialchars($notif['dibuat_pada']); ?></p>
                     </li>
                 <?php endforeach; ?>
-            </ul>
-        <?php else: ?>
-            <p class="no-notifications">Tidak ada notifikasi baru.</p>
-        <?php endif; ?>
+            <?php else: ?>
+                <li class="collection-item">Tidak ada notifikasi.</li>
+            <?php endif; ?>
+        </ul>
     </div>
-
-    <!-- Import Materialize JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
-
 </html>
