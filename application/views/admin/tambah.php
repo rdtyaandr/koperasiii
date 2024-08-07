@@ -4,7 +4,7 @@
 			<div class="card-panel">
 				<h4 class="login-form-text center">tambahkan admin pengguna sistem</h4>
 				
-				<form action="<?= base_url('AdminController/add')?>" method="post" autocomplete="off">
+				<form action="<?= base_url('DashboardController/add')?>" method="post" autocomplete="off">
 					<div class="row margin">
 						<div class="input-field col s12 m6">
 							<i class="mdi-action-verified-user prefix grey-text text-lighten-1"></i>

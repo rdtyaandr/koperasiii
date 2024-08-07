@@ -19,14 +19,7 @@ class NotifikasiController extends GLOBAL_Controller {
     public function index() {
         $data['title'] = 'Notifikasi';
         $data['notifikasi'] = parent::model('NotifikasiModel')->lihat_semua();
-        
-        if ($this->session->userdata('level') == 'admin'){
-            parent::template('notifikasi/index', $data);
-        }elseif ($this->session->userdata('level') == 'operator') {
-            parent::op_template('notifikasi/index', $data);
-        }elseif ($this->sesion->userdata('level') == 'user') {
-            parent::user_template('notifikasi/index', $data);
-        }
+        parent::template('notifikasi/index', $data);
     }
 
     public function tandai_dibaca($id) {
@@ -34,4 +27,3 @@ class NotifikasiController extends GLOBAL_Controller {
         redirect('notifikasi/lihat_notifikasi');
     }
 }
-?>

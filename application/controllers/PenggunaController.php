@@ -10,6 +10,10 @@ class PenggunaController extends GLOBAL_Controller {
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
         }
+        $level = $this->session->userdata('level');
+        if ($level != 'admin') {
+            redirect(base_url());
+        }
         $this->HistoryModel->deleteOldMessages();
     }
 
@@ -21,12 +25,14 @@ class PenggunaController extends GLOBAL_Controller {
     }
 
     // Fungsi untuk menambahkan pesan ke history
-    private function addMessage($text, $summary, $icon) {
+    private function addMessage($text, $summary, $icon)
+    {
         $data = [
             'message_text' => $text,
             'message_summary' => $summary,
             'message_icon' => $icon,
-            'message_date_time' => date('Y-m-d H:i:s')
+            'message_date_time' => date('Y-m-d H:i:s'),
+            'role' => $this->session->userdata('level')
         ];
         $this->HistoryModel->addMessage($data);
     }

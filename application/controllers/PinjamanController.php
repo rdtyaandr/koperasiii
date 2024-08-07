@@ -11,6 +11,10 @@ class PinjamanController extends GLOBAL_Controller
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
         }
+        $level = $this->session->userdata('level');
+        if ($level != 'admin' && $level != 'user') {
+            redirect(base_url());
+        }
         $this->HistoryModel->deleteOldMessages();
     }
 
@@ -24,12 +28,7 @@ class PinjamanController extends GLOBAL_Controller
             $user_id = $this->session->userdata('user_id'); // Ambil user_id dari sesi
             $data['pengajuan'] = $this->PinjamanModel->get_pinjaman_by_user($user_id);
         }
-
-        if ($this->session->userdata('level') == 'user') {
-            parent::user_template('pinjaman/index', $data);
-        } elseif ($this->session->userdata('level') == 'admin') {
-            parent::template('pinjaman/index', $data);
-        }
+        parent::template('pinjaman/index', $data);
     }
 
     public function tambah()
@@ -58,10 +57,7 @@ class PinjamanController extends GLOBAL_Controller
             }
         } else {
             $data['title'] = 'Tambah Pengajuan';
-            if ($this->session->userdata('level') == 'admin')
-                parent::template('pinjaman/tambah', $data);
-            elseif ($this->session->userdata('level') == 'user')
-                parent::user_template('pinjaman/tambah', $data);
+            parent::template('pinjaman/tambah', $data);
         }
     }
 
@@ -124,12 +120,14 @@ class PinjamanController extends GLOBAL_Controller
     }
 
     // Fungsi untuk menambahkan pesan ke history
-    private function addMessage($text, $summary, $icon) {
+    private function addMessage($text, $summary, $icon)
+    {
         $data = [
             'message_text' => $text,
             'message_summary' => $summary,
             'message_icon' => $icon,
-            'message_date_time' => date('Y-m-d H:i:s')
+            'message_date_time' => date('Y-m-d H:i:s'),
+            'role' => $this->session->userdata('level')
         ];
         $this->HistoryModel->addMessage($data);
     }

@@ -13,6 +13,10 @@ class TransaksiController extends GLOBAL_Controller
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
         }
+        $level = $this->session->userdata('level');
+        if ($level != 'admin' && $level != 'operator') {
+            redirect(base_url());
+        }
         $this->HistoryModel->deleteOldMessages();
     }
 
@@ -20,22 +24,17 @@ class TransaksiController extends GLOBAL_Controller
     {
         $data['title'] = 'Data Transaksi';
         $data['transaksi'] = $this->TransaksiModel->get_all_transaksi();
-
-        if ($this->session->userdata('level') == 'admin') {
-            parent::template('transaksi/index', $data);
-        } elseif ($this->session->userdata('level') == 'operator') {
-            parent::op_template('transaksi/index', $data);
-        }
+        parent::template('transaksi/index', $data);
     }
 
-    // Fungsi untuk menambahkan pesan ke history
     private function addMessage($text, $summary, $icon)
     {
         $data = [
             'message_text' => $text,
             'message_summary' => $summary,
             'message_icon' => $icon,
-            'message_date_time' => date('Y-m-d H:i:s')
+            'message_date_time' => date('Y-m-d H:i:s'),
+            'role' => $this->session->userdata('level')
         ];
         $this->HistoryModel->addMessage($data);
     }
@@ -127,11 +126,7 @@ class TransaksiController extends GLOBAL_Controller
             $data['title'] = 'Tambah Transaksi';
             $data['pengguna'] = $this->PenggunaModel->get_users();
             $data['barang'] = $this->BarangModel->lihat_semua();
-            if ($this->session->userdata('level') == 'admin') {
-                parent::template('transaksi/tambah', $data);
-            } elseif ($this->session->userdata('level') == 'operator') {
-                parent::op_template('transaksi/tambah', $data);
-            }
+            parent::template('transaksi/tambah', $data);
         }
     }
 

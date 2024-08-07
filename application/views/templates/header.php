@@ -21,15 +21,11 @@
     <meta name="msapplication-TileImage" content="images/favicon/icon.png">
 
     <!-- CORE CSS-->
-    <link href="<?= base_url('assets/css/materialize.css') ?>" type="text/css" rel="stylesheet"
-        media="screen,projection">
+    <link href="<?= base_url('assets/css/materialize.css') ?>" type="text/css" rel="stylesheet" media="screen,projection">
     <link href="<?= base_url('assets/css/style.css') ?>" type="text/css" rel="stylesheet" media="screen,projection">
-    <link href="<?= base_url('assets/css/plugins/animate.css') ?>" type="text/css" rel="stylesheet"
-        media="screen,projection">
-    <link href="<?= base_url('assets/js/plugins/easy-autocomplete/easy-autocomplete.css') ?>" type="text/css"
-        rel="stylesheet" media="screen,projection">
-    <link href="<?= base_url('assets/js/plugins/easy-autocomplete/easy-autocomplete.themes.css') ?>" type="text/css"
-        rel="stylesheet" media="screen,projection">
+    <link href="<?= base_url('assets/css/plugins/animate.css') ?>" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="<?= base_url('assets/js/plugins/easy-autocomplete/easy-autocomplete.css') ?>" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="<?= base_url('assets/js/plugins/easy-autocomplete/easy-autocomplete.themes.css') ?>" type="text/css" rel="stylesheet" media="screen,projection">
 
     <!-- Custome CSS-->
     <link href="<?= base_url('assets/css/dropdown.css'); ?>" type="text/css" rel="stylesheet" media="screen,projection">
@@ -37,17 +33,12 @@
 
 
     <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
-    <link href="<?= base_url('assets/js/plugins/perfect-scrollbar/perfect-scrollbar.css') ?>" type="text/css"
-        rel="stylesheet" media="screen,projection">
-    <link href="<?= base_url('assets/js/plugins/jvectormap/jquery-jvectormap.css') ?>" type="text/css" rel="stylesheet"
-        media="screen,projection">
-    <link href="<?= base_url('assets/js/plugins/chartist-js/chartist.min.css') ?>" type="text/css" rel="stylesheet"
-        media="screen,projection">
+    <link href="<?= base_url('assets/js/plugins/perfect-scrollbar/perfect-scrollbar.css') ?>" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="<?= base_url('assets/js/plugins/jvectormap/jquery-jvectormap.css') ?>" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="<?= base_url('assets/js/plugins/chartist-js/chartist.min.css') ?>" type="text/css" rel="stylesheet" media="screen,projection">
     <!-- dataTables css plugins-->
-    <link rel="stylesheet" href="<?= base_url('assets/css/plugins/material.min.css') ?>" type="text/css"
-        media="screen,projection">
-    <link rel="stylesheet" href="<?= base_url('assets/css/plugins/dataTables.material.min.css') ?>" type="text/css"
-        media="screen,projection">
+    <link rel="stylesheet" href="<?= base_url('assets/css/plugins/material.min.css') ?>" type="text/css" media="screen,projection">
+    <link rel="stylesheet" href="<?= base_url('assets/css/plugins/dataTables.material.min.css') ?>" type="text/css" media="screen,projection">
 </head>
 
 
@@ -68,7 +59,7 @@
                             </h1>
                         </li>
                     </ul>
-                    <div class="header-search-wrapper hide-on-med-and-down" style="margin: auto 270px;"> 
+                    <div class="header-search-wrapper hide-on-med-and-down" style="margin: auto 270px;">
                         <i class="mdi-action-search"></i>
                         <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Cari di Aplikasi" />
                     </div>
@@ -96,11 +87,10 @@
                     <li class="user-details cyan darken-2">
                         <div class="row">
                             <div class="col col s4 m4 l4">
-                                <img src="<?= base_url('assets/images/admin.png') ?>" alt=""
-                                    class="circle responsive-img valign profile-image">
+                                <img src="<?= base_url('assets/images/admin.png') ?>" alt="" class="circle responsive-img valign profile-image">
                             </div>
                             <div class="col col s8 m8 l8">
-                                <a class="btn-flat  waves-effect waves-light white-text profile-btn" href="<?= base_url('profile')?>">
+                                <a class="btn-flat  waves-effect waves-light white-text profile-btn" href="<?= base_url('profile') ?>">
                                     <?= $this->session->userdata('name') ?>
                                 </a>
                                 <p class="user-roal"><?= $this->session->userdata('level'); ?></p>
@@ -113,103 +103,125 @@
                     <li class="li-hover">
                         <p class="ultra-small margin more-text">Menu Utama</p>
                     </li>
-                    <li class="bold active">
-                        <a href="<?= base_url() ?>"><i class="mdi-action-trending-up"></i> Dashboard</a>
-                    </li>
 
-                    <li class="no-padding">
-                        <ul class="collapsible collapsible-accordion">
-                            <li class="bold">
-                                <a class="collapsible-header">
-                                    <i class="mdi-action-account-balance-wallet"></i> Master Data
-                                </a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li><a href="<?= base_url('barang') ?>">Barang</a>
-                                        </li>
-                                        <li><a href="<?= base_url('kategori') ?>">Kategori</a>
-                                        </li>
-                                        <li><a href="<?= base_url('satuan') ?>">Satuan</a>
-                                        </li>
-                                    </ul>
-                                </div>
+
+                    <?php if ($this->session->userdata('level') == 'admin') : ?>
+                        <li class="bold active">
+                            <a href="<?= base_url() ?>"><i class="mdi-action-trending-up"></i> Dashboard</a>
+                        </li>
+                    <?php elseif ($this->session->userdata('level') == 'operator') : ?>
+                        <li class="bold active">
+                            <a href="<?= base_url() ?>"><i class="mdi-action-trending-up"></i> Dashboard</a>
+                        </li>
+                        <?php elseif ($this->session->userdata('level') == 'user') : ?>
+                            <li class="bold active">
+                                <a href="<?= base_url('dashboard/user') ?>"><i class="mdi-action-trending-up"></i> Dashboard</a>
                             </li>
-                        </ul>
-                    </li>
+                    <?php endif; ?>
 
-                    <li class="bold">
-                        <a href="<?= base_url('transaksi') ?>">
-                            <i class="mdi-action-swap-vert"></i> Data Transaksi
-                        </a>
-                    </li>
 
-                    <li class="bold">
-                        <a href="<?= base_url('anggota') ?>">
-                            <i class="mdi-social-group"></i> Data Anggota
-                        </a>
-                    </li>
-                    <li class="bold">
-                        <a href="<?= base_url('pengguna') ?>" class="waves-effect waves-cyan">
-                            <i class="material-icons">person</i> Data pengguna
-                        </a>
-                    </li>
+                    <?php if ($this->session->userdata('level') == 'admin') : ?>
+                        <li class="no-padding">
+                            <ul class="collapsible collapsible-accordion">
+                                <li class="bold">
+                                    <a class="collapsible-header">
+                                        <i class="mdi-action-account-balance-wallet"></i> Master Data
+                                    </a>
+                                    <div class="collapsible-body">
+                                        <ul>
+                                            <li><a href="<?= base_url('barang') ?>">Barang</a>
+                                            </li>
+                                            <li><a href="<?= base_url('kategori') ?>">Kategori</a>
+                                            </li>
+                                            <li><a href="<?= base_url('satuan') ?>">Satuan</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    <?php elseif ($this->session->userdata('level') == 'operator') : ?>
+                        <li class="no-padding">
+                            <ul class="collapsible collapsible-accordion">
+                                <li class="bold">
+                                    <a class="collapsible-header">
+                                        <i class="mdi-action-account-balance-wallet"></i> Master Data
+                                    </a>
+                                    <div class="collapsible-body">
+                                        <ul>
+                                            <li><a href="<?= base_url('barang') ?>">Barang</a>
+                                            </li>
+                                            <li><a href="<?= base_url('kategori') ?>">Kategori</a>
+                                            </li>
+                                            <li><a href="<?= base_url('satuan') ?>">Satuan</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    <?php endif; ?>
 
-                    <li class="no-padding">
-                        <ul class="collapsible collapsible-accordion">
-                            <li class="bold">
-                                <a class="collapsible-header">
-                                    <i class="mdi-action-account-balance-wallet"></i> Simpanan
-                                </a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li><a href="<?= base_url('simpanan-amanah') ?>">Amanah</a>
-                                        </li>
-                                        <li><a href="<?= base_url('simpanan-qurban-aqikah') ?>">Qurban/Aqikah</a>
-                                        </li>
-                                        <li><a href="<?= base_url('simpanan-umrah') ?>">Umrah</a>
-                                        </li>
-                                        <li><a href="<?= base_url('simpanan-idul-fitri') ?>">Idul Fitri</a>
-                                        </li>
-                                        <li><a href="<?= base_url('simpanan-wadiah') ?>">Wadi'ah</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="bold">
-                        <a href="<?= base_url('pinjaman') ?>" class="waves-effect waves-cyan">
-                        <i class="material-icons">account_balance</i> Pengajuan Pinjaman
-                        </a>
-                    </li>
 
-                    <li class="no-padding">
-                        <ul class="collapsible collapsible-accordion">
-                            <li class="bold">
-                                <a class="collapsible-header waves-effect waves-cyan">
-                                    <i class="material-icons">payments</i> Angsuran
-                                </a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li><a href="<?= base_url('angsuran-mudharabah') ?>">Mudharabah</a>
-                                        </li>
-                                        <li><a href="<?= base_url('angsuran-murabahah') ?>">Murabhahah</a>
-                                        </li>
-                                        <li><a href="<?= base_url('angsuran-musyarakah') ?>">Musyarakah</a>
-                                        </li>
-                                        <li><a href="<?= base_url('angsuran-ijarah') ?>">Ijarah</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
+                    <?php if ($this->session->userdata('level') == 'admin') : ?>
+                        <li class="bold">
+                            <a href="<?= base_url('transaksi') ?>">
+                                <i class="mdi-action-swap-vert"></i> Data Transaksi
+                            </a>
+                        </li>
+                    <?php elseif ($this->session->userdata('level') == 'operator') : ?>
+                        <li class="bold">
+                            <a href="<?= base_url('transaksi') ?>">
+                                <i class="mdi-action-swap-vert"></i> Data Transaksi
+                            </a>
+                        </li>
+                    <?php endif; ?>
 
-                    <li class="bold">
-                        <a href="<?= base_url('history') ?>">
-                            <i class="mdi-action-history"></i> Histori
-                        </a>
-                    </li>
+
+                    <?php if ($this->session->userdata('level') == 'admin') : ?>
+                        <li class="bold">
+                            <a href="<?= base_url('pengguna') ?>" class="waves-effect waves-cyan">
+                                <i class="material-icons">person</i> Data pengguna
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
+
+                    <?php if ($this->session->userdata('level') == 'admin') : ?>
+                        <li class="bold">
+                            <a href="<?= base_url('pinjaman') ?>" class="waves-effect waves-cyan">
+                                <i class="material-icons">account_balance</i> Pengajuan Pinjaman
+                            </a>
+                        </li>
+                    <?php elseif ($this->session->userdata('level') == 'user') : ?>
+                        <li class="bold">
+                            <a href="<?= base_url('pinjaman') ?>" class="waves-effect waves-cyan">
+                                <i class="material-icons">account_balance</i> Pengajuan Pinjaman
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
+
+                    <?php if ($this->session->userdata('level') == 'admin') : ?>
+                        <li class="bold">
+                            <a href="<?= base_url('history') ?>">
+                                <i class="mdi-action-history"></i> Histori
+                            </a>
+                        </li>
+                    <?php elseif ($this->session->userdata('level') == 'operator') : ?>
+                        <li class="bold">
+                            <a href="<?= base_url('history') ?>">
+                                <i class="mdi-action-history"></i> Histori
+                            </a>
+                        </li>
+                    <?php elseif ($this->session->userdata('level') == 'user') : ?>
+                        <li class="bold">
+                            <a href="<?= base_url('history') ?>">
+                                <i class="mdi-action-history"></i> Histori
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
 
                     <li class="li-hover">
                         <div class="divider"></div>
@@ -222,22 +234,14 @@
                         <a href="<?= base_url('profile') ?>"><i class="material-icons">person</i> Profil</a>
                     </li>
                     <li>
-                        <a href="<?= base_url('notifikasi') ?>"><i class="material-icons">mail</i> Pesan</a>
-                    </li>
-                    <li>
                         <a href="<?= base_url('bantuan') ?>"><i class="material-icons">help</i> Bantuan</a>
-                    </li>
-                    <li>
-                        <a href="<?= base_url('pengaturan') ?>"><i class="material-icons">settings</i> Pengaturan</a>
                     </li>
                     <li>
                         <a href="#" id="logoutButton"><i class="mdi-action-exit-to-app"></i> Keluar</a>
                     </li>
                     <!-- end main menu -->
                 </ul>
-                <a href="#" data-activates="slide-out"
-                    class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only blue darken-2"
-                    style="box-shadow: 0px 0px 0px transparent !important;">
+                <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only blue darken-2" style="box-shadow: 0px 0px 0px transparent !important;">
                     <i class="material-icons">menu</i>
                 </a>
             </aside>
@@ -278,7 +282,7 @@
                                     <p>BERHASIL : Data telah ditambahkan.</p>
                                 </div>
                             </div>
-                            <?php
+                        <?php
                             break;
                         case 'error-insert': ?>
                             <div id="card-alert" class="card red lighten-5 animated slideInDown">
@@ -286,7 +290,7 @@
                                     <p>GAGAL : Kesalahan saat menambahkan data</p>
                                 </div>
                             </div>
-                            <?php
+                        <?php
                             break;
                         case 'success-delete': ?>
                             <div id="card-alert" class="card green lighten-5 animated slideInDown">
@@ -294,7 +298,7 @@
                                     <p>BERHASIL : Data telah dihapus.</p>
                                 </div>
                             </div>
-                            <?php
+                        <?php
                             break;
                         case 'error-delete': ?>
                             <div id="card-alert" class="card red lighten-5 animated slideInDown">
@@ -302,7 +306,7 @@
                                     <p>GAGAL : Kesalahan saat menghapus data</p>
                                 </div>
                             </div>
-                            <?php
+                        <?php
                             break;
                         case 'error-delete-used': ?>
                             <div id="card-alert" class="card red lighten-5 animated slideInDown">
@@ -318,7 +322,7 @@
                                     <p>BERHASIL : Data telah diubah.</p>
                                 </div>
                             </div>
-                            <?php
+                        <?php
                             break;
                         case 'error-update': ?>
                             <div id="card-alert" class="card red lighten-5 animated slideInDown">
@@ -350,7 +354,7 @@
                                     <p>GAGAL : Barang tidak valid.</p>
                                 </div>
                             </div>
-                    <?php
+                        <?php
                             break;
                         case 'error-limit': ?>
                             <div id="card-alert" class="card red lighten-5 animated slideInDown">

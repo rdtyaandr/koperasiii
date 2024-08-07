@@ -21,24 +21,21 @@ class HistoryController extends GLOBAL_Controller
     public function index()
     {
         $data['title'] = 'History';
-        $data['messages'] = $this->HistoryModel->getRecentMessages(); 
+        
+        // Ambil role pengguna dari session
+        $role = $this->session->userdata('level');
 
-        if ($this->session->userdata('level') == 'admin') {
-            parent::template('history/index', $data);
-        } elseif ($this->session->userdata('level') == 'operator') {
-            parent::op_template('history/index', $data);
+        // Ambil pesan berdasarkan role
+        if ($role === 'admin') {
+            // Admin bisa melihat semua histori
+            $data['messages'] = $this->HistoryModel->getRecentMessages();
+        } elseif ($role === 'operator') {
+            // Operator hanya bisa melihat histori operator
+            $data['messages'] = $this->HistoryModel->getRecentMessagesByRole('operator');
+        } else {
+            // User tidak bisa melihat histori
+            $data['messages'] = []; // Kosongkan histori untuk user
         }
-    }
-
-    // Fungsi untuk menambahkan pesan
-    private function addMessage($text, $summary, $icon)
-    {
-        $data = [
-            'message_text' => $text,
-            'message_summary' => $summary,
-            'message_icon' => $icon,
-            'message_date_time' => date('Y-m-d H:i:s')
-        ];
-        $this->HistoryModel->addMessage($data);
+        parent::template('history/index', $data);
     }
 }

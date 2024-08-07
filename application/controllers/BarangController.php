@@ -13,6 +13,10 @@ class BarangController extends GLOBAL_Controller
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
         }
+        $level = $this->session->userdata('level');
+        if ($level != 'admin' && $level != 'operator') {
+            redirect(base_url());
+        }
         $this->HistoryModel->deleteOldMessages();
     }
 
@@ -23,11 +27,7 @@ class BarangController extends GLOBAL_Controller
         $data['satuan'] = parent::model('SatuanModel')->lihat_semua();
         $data['barang'] = parent::model('BarangModel')->lihat_semua();
 
-        if ($this->session->userdata('level') == 'admin'){
-            parent::template('barang/index', $data);
-        }elseif ($this->session->userdata('level') == 'operator') {
-            parent::op_template('barang/index', $data);
-        }
+        parent::template('barang/index', $data);
     }
 
     // Fungsi untuk menambahkan pesan ke history
@@ -37,11 +37,12 @@ class BarangController extends GLOBAL_Controller
             'message_text' => $text,
             'message_summary' => $summary,
             'message_icon' => $icon,
-            'message_date_time' => date('Y-m-d H:i:s')
+            'message_date_time' => date('Y-m-d H:i:s'),
+            'role' => $this->session->userdata('level')
         ];
         $this->HistoryModel->addMessage($data);
     }
-
+    
     public function tambah()
     {
         $data['kategori'] = parent::model('KategoriModel')->lihat_semua();
@@ -72,12 +73,7 @@ class BarangController extends GLOBAL_Controller
             }
         } else {
             $data['title'] = 'Tambah Barang';
-
-            if ($this->session->userdata('level') == 'admin'){
-                parent::template('barang/tambah', $data);
-            }elseif ($this->session->userdata('level') == 'operator') {
-                parent::op_template('barang/tambah', $data);
-            }
+            parent::template('barang/tambah', $data);
         }
     }
 
@@ -112,12 +108,7 @@ class BarangController extends GLOBAL_Controller
             $data['title'] = 'Ubah Barang';
             $query = array('id_barang' => $id);
             $data['barang'] = parent::model('BarangModel')->lihat_barang($query);
-
-            if ($this->session->userdata('level') == 'admin'){
-                parent::template('barang/ubah', $data);
-            }elseif ($this->session->userdata('level') == 'operator') {
-                parent::op_template('barang/ubah', $data);
-            }
+            parent::template('barang/ubah', $data);
         }
     }
 

@@ -4,7 +4,7 @@
 			<div class="card-panel">
 				<h4 class="login-form-text center">ubah data admin pengguna sistem</h4>
 				
-				<form action="<?= base_url('AdminController/edit/'.$pengguna['pengguna_id'])?>" method="post" autocomplete="off">
+				<form action="<?= base_url('DashboardController/edit/'.$pengguna['pengguna_id'])?>" method="post" autocomplete="off">
 					<div class="row margin">
 						<div class="input-field col s12 m6">
 							<i class="mdi-action-verified-user prefix grey-text text-lighten-1"></i>

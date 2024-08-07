@@ -66,8 +66,6 @@ class GLOBAL_Controller extends CI_Controller {
     {
         return $this->session->userdata('login') === true;
     }
-    
-    // Helper templating
 
     // Metode untuk memuat template dengan konten dan data yang diberikan
     public function template($content, $data)
@@ -76,23 +74,6 @@ class GLOBAL_Controller extends CI_Controller {
         $this->load->view($content, $data);
         $this->load->view('templates/footer', $data);
     }
-
-    // Metode untuk memuat template user dengan konten dan data yang diberikan
-    public function user_template($content, $data)
-    {
-        $this->load->view('templates/user/header', $data);
-        $this->load->view($content, $data);
-        $this->load->view('templates/user/footer', $data);
-    }
-
-    // Metode untuk memuat template operator dengan konten dan data yang diberikan
-    public function op_template($content,$data)
-    {
-               $this->load->view('templates/operator/header', $data);
-        $this->load->view($content, $data);
-        $this->load->view('templates/operator/footer', $data); 
-    }
-
     // Metode untuk memuat halaman autentikasi
     public function authPage($content, $data)
     {
@@ -105,4 +86,3 @@ class GLOBAL_Controller extends CI_Controller {
         $this->session->set_flashdata($name, $value);
     }
 }
-?>
