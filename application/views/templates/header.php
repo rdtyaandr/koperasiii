@@ -53,34 +53,45 @@
 
 <body>
 
-    <!-- START HEADER -->
-    <header id="header" class="page-topbar">
-        <div class="navbar-fixed">
-            <nav class="navbar-color blue darken-2" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
-                <div class="nav-wrapper" style="display: flex; align-items: center; height: 64px;"> <!-- Pastikan tinggi tetap -->
-                    <ul class="left" style="display: flex; align-items: center;"> <!-- Tambahkan display flex di sini -->
-                        <li>
-                            <h1 class="logo-wrapper" style="display: flex; align-items: center;">
-                                <a href="<?= base_url() ?>" class="brand-logo darken-1" style="display: flex; align-items: center;">
-                                    <img src="<?= base_url('assets/images/favicon/icon.png') ?>" alt="bps logo" class="responsive-img hide-on-med-and-down" style="width: 9%; height: auto;">
-                                    <span class="brand-logo" style="font-size: 1.6rem; line-height: 1; font-weight: 500; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); margin-left: 30px; letter-spacing: 0.03em;">KOPERASI BPS</span> <!-- Perubahan pada gaya teks -->
-                                </a>
-                            </h1>
-                        </li>
-                    </ul>
-                    <div class="header-search-wrapper hide-on-med-and-down" style="margin: auto 270px;"> 
-                        <i class="mdi-action-search"></i>
-                        <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Cari di Aplikasi" />
-                    </div>
-                    <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating hide-on-large-only blue darken-2" style="position: absolute; left: 10px; top: 10px; box-shadow: 0px 0px 0px transparent !important;">
-                        <i class="mdi-navigation-menu"></i>
-                    </a>
+  <!-- START HEADER -->
+<header id="header" class="page-topbar">
+    <div class="navbar-fixed">
+        <nav class="navbar-color blue darken-2" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
+            <div class="nav-wrapper" style="display: flex; align-items: center; height: 64px;">
+                <ul class="left" style="display: flex; align-items: center;">
+                    <li>
+                        <h1 class="logo-wrapper" style="display: flex; align-items: center;">
+                            <a href="<?= base_url() ?>" class="brand-logo darken-1" style="display: flex; align-items: center;">
+                                <img src="<?= base_url('assets/images/favicon/icon.png') ?>" alt="bps logo" class="responsive-img hide-on-med-and-down" style="width: 9%; height: auto;">
+                                <span class="brand-logo" style="font-size: 1.6rem; line-height: 1; font-weight: 500; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); margin-left: 30px; letter-spacing: 0.03em;">KOPERASI BPS</span>
+                            </a>
+                        </h1>
+                    </li>
+                </ul>
+                <div class="header-search-wrapper hide-on-med-and-down" style="margin: auto 270px;">
+                    <i class="mdi-action-search"></i>
+                    <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Cari di Aplikasi" />
                 </div>
-            </nav>
-        </div>
-        <!-- end header nav-->
-    </header>
-    <!-- END HEADER -->
+                <!-- Contoh penempatan badge notifikasi -->
+<ul class="right">
+    <!-- Item notifikasi -->
+    <li>
+        <a href="<?= base_url('pesan') ?>" class="waves-effect waves-light">
+            <i class="material-icons">notifications</i>
+            <?php if ($notifikasi_count > 0) : ?>
+        <span class="badge"><?= $notifikasi_count ?></span>
+    <?php endif; ?>
+        </a>
+    </li>
+</ul>
+
+            </div>
+        </nav>
+    </div>
+    <!-- end header nav-->
+</header>
+<!-- END HEADER -->
+
 
     <!-- //////////////////////////////////////////////////////////////////////////// -->
 
@@ -263,12 +274,47 @@
                 });
             </script>
 
-            <!-- START CONTENT -->
-            <section id="content">
+           <!-- START CONTENT -->
+<section id="content">
 
-                <!--start container-->
-                <div class="container">
-                    <!-- //////////////////////////////////////////////////////////////////////////// -->
+<!--start container-->
+<div class="container">
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <?php if (!empty($notifikasi)) : ?>
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <h5>Notifikasi</h5>
+                        <ul class="collection">
+                            <?php foreach ($notifikasi as $item) : ?>
+                                <li class="collection-item">
+                                    <?= $item['pesan'] ?>
+                                    <a href="<?= base_url('notifikasi/baca/' . $item['id']) ?>" class="secondary-content"><i class="material-icons">done</i></a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php else : ?>
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <p>Belum ada notifikasi.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+<!--end container-->
+
+</section>
+<!-- END CONTENT -->
+
 
                     <?php
                     switch ($this->session->flashdata('alert')) {

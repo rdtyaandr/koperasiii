@@ -9,6 +9,7 @@ class BarangController extends GLOBAL_Controller
         $this->load->model('KategoriModel');
         $this->load->model('SatuanModel');
         $this->load->model('HistoryModel'); // Load model History
+        $this->load->model('NotifikasiModel'); // Load NotifikasiModel  
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
@@ -17,30 +18,23 @@ class BarangController extends GLOBAL_Controller
     }
 
     public function index()
-{
-    // Memanggil fungsi untuk memeriksa stok dan mengirimkan notifikasi
-    $this->load->model('BarangModel');
-    $this->BarangModel->check_stock_and_notify();
+    {
+        // Memanggil fungsi untuk memeriksa stok dan mengirimkan notifikasi
+        $this->BarangModel->check_stock_and_notify();
 
-    // Lanjutkan dengan proses lainnya
-    $data['title'] = 'Data Barang';
-    $data['kategori'] = parent::model('KategoriModel')->lihat_semua();
-    $data['satuan'] = parent::model('SatuanModel')->lihat_semua();
-    $data['barang'] = parent::model('BarangModel')->lihat_semua();
+        $data['title'] = 'Data Barang';
+        $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
+        $data['kategori'] = parent::model('KategoriModel')->lihat_semua();
+        $data['satuan'] = parent::model('SatuanModel')->lihat_semua();
+        $data['barang'] = parent::model('BarangModel')->lihat_semua();
 
-    // Menambahkan notifikasi ke data
-    $level = $this->session->userdata('level');
-    $pengguna_id = $this->session->userdata('pengguna_id');
-    $this->load->model('NotifikasiModel');
-    $data['notifikasi'] = $this->NotifikasiModel->get_notifikasi($pengguna_id, $level);
-
-    if ($this->session->userdata('level') == 'admin'){
-        parent::template('barang/index', $data);
-    } elseif ($this->session->userdata('level') == 'operator') {
-        parent::op_template('barang/index', $data);
+        // Mengatur template berdasarkan level pengguna
+        if ($this->session->userdata('level') == 'admin'){
+            parent::template('barang/index', $data);
+        } elseif ($this->session->userdata('level') == 'operator') {
+            parent::op_template('barang/index', $data);
+        }
     }
-}
-
 
     // Fungsi untuk menambahkan pesan ke history
     private function addMessage($text, $summary, $icon)
@@ -75,6 +69,9 @@ class BarangController extends GLOBAL_Controller
             $simpan = parent::model('BarangModel')->tambah($data);
 
             if ($simpan > 0) {
+                // Tambahkan notifikasi jika stok rendah
+                $this->BarangModel->check_stock_and_notify();
+                
                 $this->addMessage('Barang baru ditambahkan', 'Barang ' . $data['nama_barang'] . ' telah ditambahkan', 'add_circle_outline');
                 parent::alert('alert', 'success-insert');
                 redirect('barang');
@@ -87,7 +84,7 @@ class BarangController extends GLOBAL_Controller
 
             if ($this->session->userdata('level') == 'admin'){
                 parent::template('barang/tambah', $data);
-            }elseif ($this->session->userdata('level') == 'operator') {
+            } elseif ($this->session->userdata('level') == 'operator') {
                 parent::op_template('barang/tambah', $data);
             }
         }
@@ -113,6 +110,9 @@ class BarangController extends GLOBAL_Controller
             $simpan = parent::model('BarangModel')->ubah($id, $data);
 
             if ($simpan > 0) {
+                // Tambahkan notifikasi jika stok rendah
+                $this->BarangModel->check_stock_and_notify();
+                
                 $this->addMessage('Barang diubah', 'Barang ' . $data['nama_barang'] . ' telah diubah', 'update');
                 parent::alert('alert', 'success-update');
                 redirect('barang');
@@ -122,12 +122,13 @@ class BarangController extends GLOBAL_Controller
             }
         } else {
             $data['title'] = 'Ubah Barang';
+            $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
             $query = array('id_barang' => $id);
             $data['barang'] = parent::model('BarangModel')->lihat_barang($query);
 
             if ($this->session->userdata('level') == 'admin'){
                 parent::template('barang/ubah', $data);
-            }elseif ($this->session->userdata('level') == 'operator') {
+            } elseif ($this->session->userdata('level') == 'operator') {
                 parent::op_template('barang/ubah', $data);
             }
         }
@@ -139,6 +140,9 @@ class BarangController extends GLOBAL_Controller
         $barang = parent::model('BarangModel')->lihat_barang($query);
         $hapus = parent::model('BarangModel')->hapus($query);
         if ($hapus > 0) {
+            // Tambahkan notifikasi jika stok rendah
+            $this->BarangModel->check_stock_and_notify();
+            
             $this->addMessage('Barang dihapus', 'Barang ' . $barang->nama_barang . ' telah dihapus', 'delete');
             parent::alert('alert', 'success-delete');
             redirect('barang');

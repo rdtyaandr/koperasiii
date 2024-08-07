@@ -7,6 +7,7 @@ class KategoriController extends GLOBAL_Controller
     {
         parent::__construct();
         $this->load->model('KategoriModel');
+        $this->load->model('NotifikasiModel');
         $this->load->model('HistoryModel'); // Load model History
         if (!parent::hasLogin()) {
             parent::alert('alert', 'belum_login');
@@ -17,6 +18,7 @@ class KategoriController extends GLOBAL_Controller
 
     public function index()
     {
+        $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
         $data['title'] = 'Data Kategori';
         $data['kategori'] = parent::model('KategoriModel')->lihat_semua();
         if ($this->session->userdata('level') == 'admin'){

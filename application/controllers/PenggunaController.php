@@ -3,7 +3,7 @@ class PenggunaController extends GLOBAL_Controller {
 
     public function __construct() {
         parent::__construct();
-        $model = array('PenggunaModel', 'HistoryModel'); // Load HistoryModel
+        $model = array('PenggunaModel', 'HistoryModel','NotifikasiModel'); // Load HistoryModel
         $this->load->model($model);
         // Pastikan admin sudah login dan memiliki hak akses yang benar
         if (!parent::hasLogin()) {
@@ -16,6 +16,7 @@ class PenggunaController extends GLOBAL_Controller {
     public function index() {
         $data['title'] = 'Daftar Pengguna ';
         $data['Pengguna'] = parent::model('PenggunaModel')->get_users();
+        $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
 
         parent::template('pengguna/index', $data);
     }
@@ -56,6 +57,7 @@ class PenggunaController extends GLOBAL_Controller {
             }
         } else {
             $data['title'] = 'Ubah Pengguna';
+            $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
             $query = array('pengguna_id' => $id);
             $data['Pengguna'] = parent::model('PenggunaModel')->Lihat_Pengguna($query);
             parent::template('pengguna/ubah', $data);

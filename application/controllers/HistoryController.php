@@ -9,6 +9,7 @@ class HistoryController extends GLOBAL_Controller
         $this->load->model('KategoriModel');
         $this->load->model('SatuanModel');
         $this->load->model('HistoryModel'); // Load model History
+        $this->load->model('NotifikasiModel'); // Load model History
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
@@ -21,6 +22,7 @@ class HistoryController extends GLOBAL_Controller
     public function index()
     {
         $data['title'] = 'History';
+        $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
         $data['messages'] = $this->HistoryModel->getRecentMessages(); 
 
         if ($this->session->userdata('level') == 'admin') {

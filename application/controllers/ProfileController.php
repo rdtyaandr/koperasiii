@@ -7,6 +7,7 @@ class ProfileController extends GLOBAL_Controller
         parent::__construct();
         $this->load->model('ProfileModel');
         $this->load->model('HistoryModel'); // Load HistoryModel
+        $this->load->model('NotifikasiModel'); // Load HistoryModel
         $this->load->helper('url');
         
         if (!parent::hasLogin()) {
@@ -22,6 +23,7 @@ class ProfileController extends GLOBAL_Controller
 
         // Ambil data pengguna dari model
         $data['pengguna'] = $this->ProfileModel->get_profile_by_id($penggunaID);
+        $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
         $data['title'] = 'Profil Pengguna';
 
         // Tampilkan view profil

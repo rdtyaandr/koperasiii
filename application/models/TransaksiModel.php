@@ -96,7 +96,7 @@ class TransaksiModel extends GLOBAL_Model
     $transaksi_list = $query->result_array();
 
     foreach ($transaksi_list as $transaksi) {
-        // Menambahkan notifikasi
+        // Menambahkan notifikasi   
         $data = [
             'pengguna_id' => $transaksi['pengguna_id'],
             'pesan' => 'Limit kredit pengguna ' . $transaksi['username'] . ' telah mencapai batas. Harap lakukan tindakan yang diperlukan.',

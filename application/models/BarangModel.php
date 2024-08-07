@@ -77,7 +77,7 @@ class BarangModel extends GLOBAL_Model
             'status' => 'belum_dibaca',
             'created_at' => date('Y-m-d H:i:s')
         ];
-        $this->db->insert('notifikasi', $data);
+        $this->db->insert('tb_notifikasi', $data);
     }
 }
 

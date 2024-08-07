@@ -5,6 +5,7 @@ class TransaksiController extends GLOBAL_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('NotifikasiModel'); // Load NotifikasiModel  
         $this->load->model('TransaksiModel');
         $this->load->model('PenggunaModel');
         $this->load->model('BarangModel');
@@ -13,38 +14,51 @@ class TransaksiController extends GLOBAL_Controller
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
         }
-        $this->HistoryModel->deleteOldMessages();
+        $this->HistoryModel->deleteOldMessages(); // Hapus pesan lama
     }
 
     public function index()
-{
-    // Memanggil fungsi untuk memeriksa limit kredit dan mengirimkan notifikasi
-    $this->load->model('TransaksiModel');
-    $this->TransaksiModel->check_credit_limit_and_notify();
+    {
+        // Memanggil fungsi untuk memeriksa limit kredit dan mengirimkan notifikasi
+        $this->check_credit_limit_and_notify();
 
-    // Lanjutkan dengan proses lainnya
-    $data['title'] = 'Transaksi';
-    $data['transaksi'] = $this->TransaksiModel->get_all_transaksi();
+        // Lanjutkan dengan proses lainnya
+        $data['title'] = 'Transaksi';
+        $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
+        $data['transaksi'] = $this->TransaksiModel->get_all_transaksi();
 
-    // Menambahkan notifikasi ke data
-    $level = $this->session->userdata('level');
-    $pengguna_id = $this->session->userdata('pengguna_id');
-    $this->load->model('NotifikasiModel');
-    $data['notifikasi'] = $this->NotifikasiModel->get_notifikasi($pengguna_id, $level);
-
-    if ($this->session->userdata('level') == 'admin'){
-        parent::template('transaksi/index', $data);
-    } elseif ($this->session->userdata('level') == 'user') {
-        parent::user_template('transaksi/index', $data);
+        // Menampilkan view berdasarkan level pengguna
+        if ($this->session->userdata('level') == 'admin'){
+            parent::template('transaksi/index', $data);
+        } elseif ($this->session->userdata('level') == 'user') {
+            parent::user_template('transaksi/index', $data);
+        }
     }
-}
 
+    private function check_credit_limit_and_notify()
+    {
+        $credit_limit = 100000; // Contoh limit kredit
 
+        // Ambil transaksi dengan total melebihi limit kredit
+        $this->db->where('total >', $credit_limit);
+        $query = $this->db->get('tb_transaksi');
+        $transaksi_list = $query->result_array();
+
+        foreach ($transaksi_list as $transaksi) {
+            // Menambahkan notifikasi
+            $data = [
+                'pengguna_id' => $transaksi['pengguna_id'], // ID pengguna yang relevan
+                'pesan' => 'Transaksi ID ' . htmlspecialchars($transaksi['id_transaksi']) . ' mencapai limit kredit. Harap periksa.',
+                'status' => 'belum_dibaca',
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+            $this->NotifikasiModel->tambah_notifikasi($data);
+        }
+    }
 
     // Fungsi untuk menambahkan pesan ke history
     private function addMessage($text, $summary, $icon)
     {
-        $level = $this->session->userdata('level');
         $data = [
             'message_text' => $text,
             'message_summary' => $summary,
@@ -52,7 +66,6 @@ class TransaksiController extends GLOBAL_Controller
             'message_date_time' => date('Y-m-d H:i:s')
         ];
         $this->HistoryModel->addMessage($data);
-        $this->NotifikasiModel->addMessage($data);
     }
 
     public function tambah()
@@ -63,7 +76,7 @@ class TransaksiController extends GLOBAL_Controller
             $detail = $this->input->post('detail'); 
 
             if (empty($pengguna_id) || empty($cara_bayar)) {
-                $this->session->set_flashdata('alert', 'error-insert');
+                parent::alert('alert', 'error-insert');
                 redirect('transaksi/tambah');
             }
 
@@ -74,17 +87,17 @@ class TransaksiController extends GLOBAL_Controller
             foreach ($id_barang as $key => $barang_id) {
                 $barang = $this->BarangModel->get_barang_by_id($barang_id);
                 if (!$barang) {
-                    $this->session->set_flashdata('alert', 'error-invalid-barang');
+                    parent::alert('alert', 'error-invalid-barang');
                     redirect('transaksi/tambah');
                 }
 
                 if ($jumlah[$key] <= 0) {
-                    $this->session->set_flashdata('alert', 'error-update-detail');
+                    parent::alert('alert', 'error-update-detail');
                     redirect('transaksi/tambah');
                 }
 
                 if ($barang->stok < $jumlah[$key]) {
-                    $this->session->set_flashdata('alert', 'error-stock');
+                    parent::alert('alert', 'error-stock');
                     redirect('transaksi/tambah');
                 }
             }
@@ -93,7 +106,7 @@ class TransaksiController extends GLOBAL_Controller
             if ($cara_bayar == 'Kredit') {
                 $user_limit = $this->PenggunaModel->get_user_limit($pengguna_id); // Ambil limit pengguna
                 if ($user_limit + $total > 1500000) {
-                    $this->session->set_flashdata('alert', 'error-limit'); // Alert jika limit terlampaui
+                    parent::alert('alert', 'error-limit'); // Alert jika limit terlampaui
                     redirect('transaksi/tambah');
                 }
 
@@ -132,16 +145,18 @@ class TransaksiController extends GLOBAL_Controller
                 // Tambahkan pesan ke history
                 $this->addMessage('Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total ' . number_format($total, 0, ',', '.') . ' Rupiah', 'add_circle_outline');
 
-                $this->session->set_flashdata('alert', 'success-insert');
+                parent::alert('alert', 'success-insert');
                 redirect('transaksi');
             } else {
-                $this->session->set_flashdata('alert', 'error-insert');
+                parent::alert('alert', 'error-insert');
                 redirect('transaksi/tambah');
             }
         } else {
             $data['title'] = 'Tambah Transaksi';
             $data['pengguna'] = $this->PenggunaModel->get_users();
             $data['barang'] = $this->BarangModel->lihat_semua();
+            $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
+
             if ($this->session->userdata('level') == 'admin') {
                 parent::template('transaksi/tambah', $data);
             } elseif ($this->session->userdata('level') == 'operator') {
@@ -152,7 +167,7 @@ class TransaksiController extends GLOBAL_Controller
 
     public function ubah($id = null)
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($this->input->server('REQUEST_METHOD') == 'POST') {
             $id_transaksi = $this->input->post('id_transaksi');
             $pengguna_id = $this->input->post('nama');
             $cara_bayar = $this->input->post('cara_bayar');
@@ -179,7 +194,7 @@ class TransaksiController extends GLOBAL_Controller
                 if ($total_baru > $total_lama) {
                     $selisih = $total_baru - $total_lama;
                     if ($user_limit + $selisih > 1500000) {
-                        $this->session->set_flashdata('alert', 'error-limit');
+                        parent::alert('alert', 'error-limit');
                         redirect('transaksi/ubah/' . $id_transaksi);
                     }
                     $new_limit = $user_limit + $selisih;
@@ -196,79 +211,92 @@ class TransaksiController extends GLOBAL_Controller
             }
 
             // Tambahkan pesan ke history
-            $this->addMessage('Transaksi diubah','Transaksi dengan total ' . number_format($total_lama, 0, ',', '.') . ' Rupiah' . ' telah diubah', 'update');
+            $this->addMessage('Transaksi diubah', 'Transaksi dengan total ' . number_format($total_lama, 0, ',', '.') . ' Rupiah telah diubah', 'update');
 
             $id_barang = $this->input->post('id_barang');
-            $harga = $this->input->post('harga');
             $jumlah = $this->input->post('jumlah');
-            $nama_barang = $this->input->post('nama_barang');
+            $barang_dikembalikan = [];
 
-            if (empty($id_barang) || empty($jumlah) || empty($nama_barang) || empty($harga) || empty($total_baru)) {
-                $this->session->set_flashdata('alert', 'error-update-detail');
-                redirect('transaksi/ubah/' . $id_transaksi);
-            }
-
-            // Ambil detail barang lama
-            $detail_lama = $this->TransaksiModel->get_transaksi_detail($id_transaksi);
-
-            // Simpan detail barang baru
-            $detail_data = array();
             foreach ($id_barang as $key => $barang_id) {
-                $new_jumlah = intval($jumlah[$key]);
                 $barang = $this->BarangModel->get_barang_by_id($barang_id);
                 if (!$barang) {
-                    $this->session->set_flashdata('alert', 'error-invalid-barang');
+                    parent::alert('alert', 'error-invalid-barang');
                     redirect('transaksi/ubah/' . $id_transaksi);
                 }
 
-                if ($new_jumlah <= 0) {
-                    $this->session->set_flashdata('alert', 'error-update-detail');
+                if ($jumlah[$key] <= 0) {
+                    parent::alert('alert', 'error-update-detail');
                     redirect('transaksi/ubah/' . $id_transaksi);
                 }
 
-                $old_jumlah = 0;
-                foreach ($detail_lama as $old_detail) {
-                    if ($old_detail->id_barang == $barang_id) {
-                        $old_jumlah = $old_detail->jumlah;
-                        break;
-                    }
-                }
+                $jumlah_dikembalikan = intval($jumlah[$key]);
+                $barang_dikembalikan[] = $barang_id;
 
-                // Update stok barang berdasarkan perubahan jumlah
-                if ($new_jumlah > $old_jumlah) {
-                    $stok_berubah = $new_jumlah - $old_jumlah;
-                    if ($barang->stok < $stok_berubah) {
-                        $this->session->set_flashdata('alert', 'error-stock');
-                        redirect('transaksi/ubah/' . $id_transaksi);
-                    }
-                    $this->BarangModel->update_stok_barang($barang_id, -$stok_berubah);
-                } elseif ($new_jumlah < $old_jumlah) {
-                    $stok_berubah = $old_jumlah - $new_jumlah;
-                    $this->BarangModel->update_stok_barang($barang_id, $stok_berubah);
-                }
+                // Kembalikan stok barang
+                $this->BarangModel->update_stok_barang($barang_id, $jumlah_dikembalikan);
+            }
 
+            $detail_data = [];
+            foreach ($barang_dikembalikan as $key => $barang_id) {
                 $detail_data[] = array(
                     'id_transaksi' => $id_transaksi,
                     'id_barang' => $barang_id,
-                    'nama_barang' => trim($nama_barang[$key]),
-                    'harga' => floatval($harga[$key]),
-                    'jumlah' => $new_jumlah,
-                    'total' => floatval($harga[$key]) * $new_jumlah,
+                    'nama_barang' => trim($this->input->post('nama_barang')[$key]),
+                    'harga' => floatval($this->input->post('harga')[$key]),
+                    'jumlah' => intval($jumlah[$key]),
+                    'total' => floatval($this->input->post('total')[$key]),
                 );
             }
 
-            // Update detail barang
-            $this->TransaksiModel->update_detail_barang($id_transaksi, $detail_data);
+            $this->TransaksiModel->update_transaksi_detail($id_transaksi, $detail_data);
 
-            $this->session->set_flashdata('alert', 'success-update');
+            parent::alert('alert', 'success-update');
             redirect('transaksi');
         } else {
+            if (empty($id)) {
+                parent::alert('alert', 'error-notfound');
+                redirect('transaksi');
+            }
+
+            $data['title'] = 'Ubah Transaksi';
+            $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
+            $data['transaksi'] = $this->TransaksiModel->get_transaksi_by_id($id);
+            $data['detail'] = $this->TransaksiModel->get_detail_transaksi_by_id($id);
             $data['pengguna'] = $this->PenggunaModel->get_users();
             $data['barang'] = $this->BarangModel->lihat_semua();
-            $data['transaksi'] = $this->TransaksiModel->get_transaksi_by_id($id);
-            $data['detail_barang'] = $this->TransaksiModel->get_detail_barang_by_transaksi_id($id);
 
-            parent::template('transaksi/ubah', $data);
+            if ($this->session->userdata('level') == 'admin') {
+                parent::template('transaksi/ubah', $data);
+            } elseif ($this->session->userdata('level') == 'operator') {
+                parent::op_template('transaksi/ubah', $data);
+            }
         }
+    }
+
+    public function hapus($id = null)
+    {
+        if (empty($id)) {
+            parent::alert('alert', 'error-notfound');
+            redirect('transaksi');
+        }
+
+        $transaksi = $this->TransaksiModel->get_transaksi_by_id($id);
+        $total_transaksi = $transaksi->total;
+
+        $detail_transaksi = $this->TransaksiModel->get_detail_transaksi_by_id($id);
+        foreach ($detail_transaksi as $detail) {
+            $this->BarangModel->update_stok_barang($detail->id_barang, $detail->jumlah);
+        }
+
+        if ($this->TransaksiModel->delete_transaksi($id)) {
+            // Tambahkan pesan ke history
+            $this->addMessage('Transaksi dihapus', 'Transaksi dengan total ' . number_format($total_transaksi, 0, ',', '.') . ' Rupiah telah dihapus', 'delete');
+
+            parent::alert('alert', 'success-delete');
+        } else {
+            parent::alert('alert', 'error-delete');
+        }
+
+        redirect('transaksi');
     }
 }

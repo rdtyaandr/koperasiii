@@ -6,7 +6,7 @@ class SatuanController extends GLOBAL_Controller
     public function __construct()
     {
         parent::__construct();
-        $model = array('SatuanModel', 'HistoryModel'); // Load model History
+        $model = array('SatuanModel', 'HistoryModel','NotifikasiModel'); // Load model History
         $this->load->model($model);
         if (!parent::hasLogin()) {
             parent::alert('alert', 'belum_login');
@@ -18,6 +18,7 @@ class SatuanController extends GLOBAL_Controller
     public function index()
     {
         $data['title'] = 'Data Satuan';
+        $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
         $data['satuan'] = parent::model('SatuanModel')->lihat_semua();
         if ($this->session->userdata('level') == 'admin'){
             parent::template('satuan/index', $data);

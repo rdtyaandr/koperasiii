@@ -5,6 +5,7 @@ class AdminController extends GLOBAL_Controller
     {
         parent::__construct();
         $this->load->model('AnalyticsModel');
+        $this->load->model('NotifikasiModel');
         if (!parent::hasLogin()) {
 			$this->session->set_flashdata('alert', 'belum_login');
 			redirect(base_url('login'));
@@ -14,6 +15,7 @@ class AdminController extends GLOBAL_Controller
     public function index()
     {
         $data['title'] = 'Dashboard Analitik';
+        $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
         $data['user_count'] = $this->AnalyticsModel->get_user_count();
         $data['order_count'] = $this->AnalyticsModel->get_order_count();
         //$data['sales_total'] = $this->AnalyticsModel->get_sales_total();

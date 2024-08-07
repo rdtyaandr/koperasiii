@@ -7,6 +7,7 @@ class PinjamanController extends GLOBAL_Controller
         parent::__construct();
         $this->load->model('PinjamanModel');
         $this->load->model('HistoryModel'); // Load HistoryModel
+        $this->load->model('NotifikasiModel'); // Load HistoryModel
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
@@ -17,6 +18,7 @@ class PinjamanController extends GLOBAL_Controller
     public function index()
     {
         $data['title'] = 'Pinjaman';
+        $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
 
         if ($this->session->userdata('level') == 'admin') {
             $data['pengajuan'] = $this->PinjamanModel->get_all_pinjaman();
