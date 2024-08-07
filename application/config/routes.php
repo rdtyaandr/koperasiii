@@ -22,9 +22,7 @@ $route['main'] = 'OperatorController';
 /*
 * laporan routes modul
 * */
-$route['history-barang'] = 'HistoryController/anggota';
-$route['history-gudang'] = 'HistoryController/simpananAnggota';
-$route['history-transaksi'] = 'HistoryController/pinjamanAnggota';
+$route['history'] = 'HistoryController';
 
 /*
 * angsuran routes modul

@@ -1,49 +1,48 @@
 <?php
 
-class LaporanController extends GLOBAL_Controller
+class HistoryController extends GLOBAL_Controller
 {
     public function __construct()
     {
         parent::__construct();
-		$model = array('AnggotaModel');
-		$this->load->model($model);
-		if (!parent::hasLogin()) {
-			$this->session->set_flashdata('alert', 'belum_login');
-			redirect(base_url('login'));
-		}
+        $this->load->model('BarangModel');
+        $this->load->model('KategoriModel');
+        $this->load->model('SatuanModel');
+        $this->load->model('HistoryModel'); // Load model History
+        if (!parent::hasLogin()) {
+            $this->session->set_flashdata('alert', 'belum_login');
+            redirect(base_url('login'));
+        }
     }
 
-    public function anggota()
+    public function index()
     {
-        $data['title'] = 'Rekap Laporan Anggota Koperasi ';
-        $data['anggota'] = parent::model('AnggotaModel')->lihat_semua();
+        $data['title'] = 'History';
+        $data['messages'] = $this->HistoryModel->getMessages(); // Ambil pesan dari database
 
-        parent::template('laporan/anggota',$data);
+        if ($this->session->userdata('level') == 'admin') {
+            parent::template('history/index', $data);
+        } elseif ($this->session->userdata('level') == 'operator') {
+            parent::op_template('history/index', $data);
+        }
     }
 
-    public function simpananAnggota()
+    // Fungsi untuk menambahkan pesan
+    private function addMessage($text, $summary, $icon)
     {
-        $data['title'] = 'Rekap Laporan Anggota Koperasi ';
-        $data['anggota'] = parent::model('AnggotaModel')->lihat_semua();
-
-        parent::template('laporan/simpanan',$data);
+        $data = [
+            'message_text' => $text,
+            'message_summary' => $summary,
+            'message_icon' => $icon,
+            'message_date_time' => date('Y-m-d H:i:s')
+        ];
+        $this->HistoryModel->addMessage($data);
     }
 
-    public function pinjamanAnggota()
+    // Contoh penggunaan fungsi addMessage
+    public function addItem()
     {
-        $data['title'] = 'Rekap Laporan Anggota Koperasi ';
-        $data['anggota'] = parent::model('AnggotaModel')->lihat_semua();
-
-        parent::template('laporan/pinjaman',$data);
+        // Logika untuk menambahkan item
+        $this->addMessage('Anda menambahkan barang baru', 'Pembelian barang elektronik di toko XYZ', 'add_circle_outline');
     }
-
-    public function tagihanKoperasi()
-    {
-        $data['title'] = 'Rekap Laporan Anggota Koperasi ';
-        $data['tagihan'] = parent::model('AnggotaModel')->lihat_semua();
-
-        parent::template('laporan/tagihan',$data);
-    }
-
-
 }

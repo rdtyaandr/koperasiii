@@ -6,7 +6,7 @@ class SatuanController extends GLOBAL_Controller
     public function __construct()
     {
         parent::__construct();
-        $model = array('SatuanModel');
+        $model = array('SatuanModel', 'HistoryModel'); // Load model History
         $this->load->model($model);
         if (!parent::hasLogin()) {
             parent::alert('alert', 'belum_login');
@@ -23,6 +23,18 @@ class SatuanController extends GLOBAL_Controller
         }elseif ($this->session->userdata('level') == 'operator') {
             parent::op_template('satuan/index', $data);
         }
+    }
+
+    // Fungsi untuk menambahkan pesan ke history
+    private function addMessage($text, $summary, $icon)
+    {
+        $data = [
+            'message_text' => $text,
+            'message_summary' => $summary,
+            'message_icon' => $icon,
+            'message_date_time' => date('Y-m-d H:i:s')
+        ];
+        $this->HistoryModel->addMessage($data);
     }
 
     public function tambah()
@@ -45,6 +57,7 @@ class SatuanController extends GLOBAL_Controller
                 if ($simpan) {
                     parent::alert('alert', 'error-insert');
                 } else {
+                    $this->addMessage('Satuan ditambahkan', 'Satuan ' . $data['nama_satuan'] . ' telah ditambahkan', 'add_circle_outline');
                     parent::alert('alert', 'success-insert');
                 }
                 redirect('satuan');
@@ -71,6 +84,7 @@ class SatuanController extends GLOBAL_Controller
                 if ($simpan) {
                     parent::alert('alert', 'error-update');
                 } else {
+                    $this->addMessage('Satuan diubah', 'Satuan ' . $data['nama_satuan'] . ' telah diubah', 'update');
                     parent::alert('alert', 'success-update');
                 }
                 redirect('satuan');
@@ -80,8 +94,10 @@ class SatuanController extends GLOBAL_Controller
 
     public function hapus($id_satuan)
     {
+        $satuan = parent::model('SatuanModel')->lihat_satuan($id_satuan); // Ambil data satuan untuk nama
         $hapus = parent::model('SatuanModel')->hapus($id_satuan);
         if ($hapus) {
+            $this->addMessage('Satuan dihapus', 'Satuan ' . $satuan->nama_satuan . ' telah dihapus', 'delete');
             parent::alert('alert', 'success-delete');
         } else {
             parent::alert('alert', 'error-delete-used'); // Bisa tambahkan pesan khusus untuk "sedang digunakan"

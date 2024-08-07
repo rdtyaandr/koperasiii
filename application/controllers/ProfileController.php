@@ -6,6 +6,7 @@ class ProfileController extends GLOBAL_Controller
     {
         parent::__construct();
         $this->load->model('ProfileModel');
+        $this->load->model('HistoryModel'); // Load HistoryModel
         $this->load->helper('url');
         
         if (!parent::hasLogin()) {
@@ -49,6 +50,9 @@ class ProfileController extends GLOBAL_Controller
 
             // Update nama file di database
             $this->ProfileModel->update_profile_picture($penggunaID, $fileName);
+
+            // Tambahkan pesan ke history
+            $this->addMessage('Gambar profil diupload', 'Pengguna dengan ID ' . $penggunaID . ' telah mengubah gambar profil.', 'update');
 
             // Tampilkan pesan sukses
             parent::alert('alert', 'profile-picture-updated');
@@ -94,6 +98,9 @@ class ProfileController extends GLOBAL_Controller
 
         // Update data profil di database
         if ($this->ProfileModel->update_profile($penggunaID, $data)) {
+            // Tambahkan pesan ke history
+            $this->addMessage('Profil diupdate', 'Pengguna dengan ID ' . $penggunaID . ' telah memperbarui profil.', 'update');
+
             // Tampilkan pesan sukses
             parent::alert('alert', 'succes-edit');
         } else {
@@ -103,5 +110,15 @@ class ProfileController extends GLOBAL_Controller
 
         redirect('profile');
     }
+
+    // Fungsi untuk menambahkan pesan ke history
+    private function addMessage($text, $summary, $icon) {
+        $data = [
+            'message_text' => $text,
+            'message_summary' => $summary,
+            'message_icon' => $icon,
+            'message_date_time' => date('Y-m-d H:i:s')
+        ];
+        $this->HistoryModel->addMessage($data);
+    }
 }
-?>

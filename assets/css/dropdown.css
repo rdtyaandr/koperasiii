@@ -1,9 +1,9 @@
- .dropdown {
+
+    .dropdown {
         position: relative;
         display: inline-block;
         width: 100%;
         margin-bottom: 14px;
-        /* Optional: Set a maximum width for larger screens */
     }
 
     .dropdown-trigger {
@@ -11,20 +11,15 @@
         color: #333;
         border: none;
         padding: 10px 15px;
-        /* Adjust padding for better spacing */
         font-size: 14px;
-        /* Adjusted font size */
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        /* Align items with space between */
         width: 100%;
-        /* Ensure the button takes full width of its container */
-        border-bottom: 1.5px solid #9e9e9e;
-        /* Gray color for border bottom initially */
-        transition: border-color 0.5s ease, background-color 0.3s ease;
-        /* Extended transition duration */
+        border-bottom: 1px solid #9e9e9e;
+        /* Border default 1px */
+        transition: border-color 0.5s ease, border-width 0.3s ease, background-color 0.3s ease;
         outline: none;
         appearance: none;
     }
@@ -32,35 +27,30 @@
     .dropdown-trigger:hover,
     .dropdown.open .dropdown-trigger {
         border-bottom-color: #ff1745 !important;
-        /* Pink color on hover or open */
+        border-bottom-width: 1px;
+        /* Border berubah menjadi 2px saat hover */
     }
 
     .dropdown.selected .dropdown-trigger {
-        border-bottom-color: #4caf50 !important;
-        /* Green color after selection */
+        border-bottom-color: #00e677 !important;
+        border-bottom-width: 2px;
     }
 
     .dropdown-trigger:focus {
         background-color: transparent !important;
-        /* Ensure background is transparent on focus */
         border-bottom-color: #ff1745 !important;
-        /* Pink color when focused */
         box-shadow: none;
-        /* Remove default focus shadow */
     }
 
     .arrow-down {
         font-size: 12px;
-        /* Make the arrow smaller */
         color: #9e9e9e;
-        /* Light gray color for the arrow */
         transition: color 0.3s ease, transform 0.3s ease;
     }
 
     .dropdown-trigger:hover .arrow-down,
     .dropdown.open .arrow-down {
         color: #333;
-        /* Black color on hover or open */
     }
 
     .dropdown-menu {
@@ -68,14 +58,11 @@
         position: absolute;
         background-color: white;
         width: 100%;
-        /* Mengatur tinggi maksimum dan overflow untuk memungkinkan scroll */
-        /* Anda dapat menyesuaikan ini sesuai kebutuhan */
         overflow-y: auto;
         box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
         border-radius: 4px;
         margin-top: 5px;
         z-index: 9999;
-        /* Set z-index tinggi untuk berada di atas elemen lainnya */
         opacity: 0;
         transform: translateY(-10px);
         transition: opacity 0.3s ease, transform 0.3s ease;
@@ -109,5 +96,4 @@
 
     .dropdown-text {
         font-size: 14px;
-        /* Adjusted font size */
     }

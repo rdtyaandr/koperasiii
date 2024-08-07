@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 30, 2024 at 08:25 AM
+-- Generation Time: Aug 02, 2024 at 06:40 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.8
 
@@ -80,16 +80,21 @@ CREATE TABLE `tb_barang` (
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `tb_barang`
+-- Table structure for table `tb_detransaksi`
 --
 
-INSERT INTO `tb_barang` (`id_barang`, `kode_barang`, `nama_barang`, `detail_barang`, `id_satuan`, `id_kategori`, `harga_beli`, `harga_jual`, `stok`, `created_at`, `updated_at`) VALUES
-(45, '-', 'yuyuouuuuu', '-', 4, 35, 96969, 76979679, 73, '2024-07-30 03:39:07', '2024-07-30 07:37:27'),
-(46, '-', 'jukukkkkhkhjh', '-', 15, 35, 5668565, 68556865, 6, '2024-07-30 03:47:26', '2024-07-30 07:37:33'),
-(47, '-', 'uhhigiuiyiy', '-', 6, 35, 685865, 86586, 86, '2024-07-30 03:52:46', '2024-07-30 07:37:42'),
-(48, '', 'baju', '', 9, 36, 976976, 79769, 76, '2024-07-30 04:07:44', '2024-07-30 07:37:38'),
-(49, '', 'Asus Rog', 'Sampo Merek Panteen', 6, 39, 12000, 15000, 10, '2024-07-30 06:31:39', '2024-07-30 06:31:39');
+CREATE TABLE `tb_detransaksi` (
+  `id_detail` int NOT NULL,
+  `id_transaksi` int NOT NULL,
+  `id_barang` int NOT NULL,
+  `nama_barang` varchar(100) NOT NULL,
+  `harga` int NOT NULL,
+  `jumlah` int NOT NULL,
+  `total` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -136,8 +141,9 @@ CREATE TABLE `tb_pengguna` (
 --
 
 INSERT INTO `tb_pengguna` (`pengguna_id`, `nama_lengkap`, `username`, `email`, `satker`, `password`, `pengguna_hak_akses`, `pengguna_date_created`) VALUES
-(3, 'a', 'a', 'adit@gmail.com', 'ipds', '0cc175b9c0f1b6a831c399e269772661', 'user', '2024-07-25 08:01:44'),
-(4, 'b', 'b', 'sandhikagalih@unpas.ac.id', 'ipds', '92eb5ffee6ae2fec3ad71c777531578f', 'user', '2024-07-25 09:11:38');
+(5, 'a', 'a', 'adit@gmail.com', 'ipds', 'a', 'admin', '2024-07-30 15:31:36'),
+(6, 'hyyhrt', '365675', 'sdgsdg@jfhkjghk', '36436346', '6574587', 'admin', '2024-08-01 14:42:10'),
+(7, 'agus', 'agus', 'agus@777757', 'ttttttttttttttttt', '12345678', 'admin', '2024-08-02 11:07:52');
 
 -- --------------------------------------------------------
 
@@ -216,13 +222,14 @@ INSERT INTO `tb_simpanan` (`simpanan_id`, `simpanan_anggota_id`, `simpanan_jenis
 --
 
 CREATE TABLE `tb_transaksi` (
-  `id_detailtransaksi` int NOT NULL,
   `id_transaksi` int NOT NULL,
-  `id_barang` int NOT NULL,
-  `jumlah_beli` int NOT NULL,
+  `pengguna_id` int NOT NULL,
+  `cara_bayar` varchar(50) NOT NULL,
+  `status_bayar` varchar(50) NOT NULL,
+  `status_barang` varchar(50) NOT NULL,
   `total` int NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -273,6 +280,14 @@ ALTER TABLE `tb_barang`
   ADD PRIMARY KEY (`id_barang`);
 
 --
+-- Indexes for table `tb_detransaksi`
+--
+ALTER TABLE `tb_detransaksi`
+  ADD PRIMARY KEY (`id_detail`),
+  ADD KEY `id_transaksi` (`id_transaksi`),
+  ADD KEY `id_barang` (`id_barang`);
+
+--
 -- Indexes for table `tb_kategori`
 --
 ALTER TABLE `tb_kategori`
@@ -306,7 +321,8 @@ ALTER TABLE `tb_simpanan`
 -- Indexes for table `tb_transaksi`
 --
 ALTER TABLE `tb_transaksi`
-  ADD PRIMARY KEY (`id_detailtransaksi`);
+  ADD PRIMARY KEY (`id_transaksi`),
+  ADD KEY `pengguna_id` (`pengguna_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -328,7 +344,13 @@ ALTER TABLE `tb_angsuran`
 -- AUTO_INCREMENT for table `tb_barang`
 --
 ALTER TABLE `tb_barang`
-  MODIFY `id_barang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id_barang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+
+--
+-- AUTO_INCREMENT for table `tb_detransaksi`
+--
+ALTER TABLE `tb_detransaksi`
+  MODIFY `id_detail` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `tb_kategori`
@@ -340,7 +362,7 @@ ALTER TABLE `tb_kategori`
 -- AUTO_INCREMENT for table `tb_pengguna`
 --
 ALTER TABLE `tb_pengguna`
-  MODIFY `pengguna_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `pengguna_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tb_pinjaman`
@@ -364,7 +386,24 @@ ALTER TABLE `tb_simpanan`
 -- AUTO_INCREMENT for table `tb_transaksi`
 --
 ALTER TABLE `tb_transaksi`
-  MODIFY `id_detailtransaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id_transaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `tb_detransaksi`
+--
+ALTER TABLE `tb_detransaksi`
+  ADD CONSTRAINT `tb_detransaksi_ibfk_1` FOREIGN KEY (`id_transaksi`) REFERENCES `tb_transaksi` (`id_transaksi`),
+  ADD CONSTRAINT `tb_detransaksi_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `tb_barang` (`id_barang`);
+
+--
+-- Constraints for table `tb_transaksi`
+--
+ALTER TABLE `tb_transaksi`
+  ADD CONSTRAINT `tb_transaksi_ibfk_1` FOREIGN KEY (`pengguna_id`) REFERENCES `tb_pengguna` (`pengguna_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

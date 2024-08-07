@@ -27,4 +27,20 @@ class PenggunaModel extends GLOBAL_Model {
     public function tambah($data){
 		return parent::insert_with_status('tb_pengguna',$data);
 	}
+
+    // Fungsi untuk mendapatkan limit pengguna berdasarkan pengguna_id
+    public function get_user_limit($pengguna_id)
+    {
+        $this->db->select('limit');
+        $this->db->from('tb_pengguna');
+        $this->db->where('pengguna_id', $pengguna_id);
+        return $this->db->get()->row()->limit; // Mengembalikan limit pengguna
+    }
+
+    // Fungsi untuk memperbarui limit pengguna
+    public function update_user_limit($pengguna_id, $new_limit)
+    {
+        $this->db->where('pengguna_id', $pengguna_id);
+        $this->db->update('tb_pengguna', ['limit' => $new_limit]); // Update limit
+    }
 }
