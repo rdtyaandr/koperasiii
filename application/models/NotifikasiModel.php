@@ -1,26 +1,21 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class NotifikasiModel extends GLOBAL_Model {
 
-    public function __construct()
-    {
-        parent::__construct();
+    // Mendapatkan semua notifikasi untuk pengguna tertentu
+    public function get_notifikasi($pengguna_id) {
+        $this->db->where('pengguna_id', $pengguna_id);
+        $this->db->order_by('created_at', 'DESC');
+        $query = $this->db->get('notifikasi');
+        return $query->result_array();
     }
 
-    public function tambah($data)
-    {
-        return parent::insert_with_status('tb_notifikasi', $data);
-    }
-
-    public function lihat_semua()
-    {
-        return parent::get_array_of_table('tb_notifikasi');
-    }
-
-    public function ubah_status($id, $status)
-    {
-        $data = array('status' => $status);
-        return parent::update_table_with_status('tb_notifikasi', 'id', $id, $data);
+    // Menandai notifikasi sebagai dibaca untuk pengguna tertentu
+    public function tandai_dibaca($id, $pengguna_id) {
+        $this->db->where('id', $id);
+        $this->db->where('pengguna_id', $pengguna_id);
+        $this->db->update('notifikasi', array('status' => 'dibaca'));
     }
 }
 ?>

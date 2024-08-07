@@ -6,7 +6,7 @@
                     <h4 class="blue-text text-darken-2">Ubah Pengguna</h4>
                 </div>
             </div>
-            <form action="<?= base_url('pengguna/ubah/' . $Pengguna['pengguna_id']) ?>" method="POST">
+            <form action="<?= base_url('pengguna/ubah/' . $Pengguna['pengguna_id']) ?>" method="POST" novalidate>
                 <div class="row">
                     <div class="input-field col s12">
                         <input type="text" id="username" name="username" value="<?= $Pengguna['username'] ?>" required>

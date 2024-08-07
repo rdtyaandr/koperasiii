@@ -335,6 +335,22 @@
                             </div>
                             <?php
                             break;
+                        case 'success-edit': ?>
+                            <div id="card-alert" class="card green lighten-5 animated slideInDown">
+                                <div class="card-content green-text">
+                                    <p>BERHASIL : Data Profil telah diubah.</p>
+                                </div>
+                            </div>
+                            <?php
+                            break;
+                        case 'error-edit': ?>
+                            <div id="card-alert" class="card red lighten-5 animated slideInDown">
+                                <div class="card-content red-text">
+                                    <p>GAGAL : Kesalahan saat mengubah data profile</p>
+                                </div>
+                            </div>
+                            <?php
+                            break;
                     }
                     ?>  
 

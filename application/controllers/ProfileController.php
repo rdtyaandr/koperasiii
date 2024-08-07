@@ -23,7 +23,13 @@ class ProfileController extends GLOBAL_Controller
         $data['title'] = 'Profil Pengguna';
 
         // Tampilkan view profil
-        parent::template('profile/index', $data);
+        if ($this->session->userdata('level') == 'admin'){
+            parent::template('profile/index', $data);
+        }elseif ($this->session->userdata('level') == 'operator') {
+            parent::op_template('profile/index', $data);
+        }elseif ($this->session->userdata('level') == 'user') {
+            parent::user_template('profile/index', $data);
+        }
     }
 
     public function upload_picture()
@@ -89,10 +95,10 @@ class ProfileController extends GLOBAL_Controller
         // Update data profil di database
         if ($this->ProfileModel->update_profile($penggunaID, $data)) {
             // Tampilkan pesan sukses
-            parent::alert('alert', 'profile-updated');
+            parent::alert('alert', 'succes-edit');
         } else {
             // Tampilkan pesan error jika update gagal
-            parent::alert('alert', 'update-error');
+            parent::alert('alert', 'error-edit');
         }
 
         redirect('profile');
