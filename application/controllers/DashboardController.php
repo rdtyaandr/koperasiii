@@ -1,5 +1,5 @@
 <?php
-class AdminController extends GLOBAL_Controller
+class DashboardController extends GLOBAL_Controller
 {
     public function __construct()
     {
@@ -25,7 +25,11 @@ class AdminController extends GLOBAL_Controller
         //$data['user_growth_data'] = $this->AnalyticsModel->get_user_growth_data();
         //$data['revenue_data'] = $this->AnalyticsModel->get_revenue_data();
 
-        parent::template('admin/dashboard', $data);
+        $level = $this->session->userdata('level');
+        if ($level != 'admin' && $level != 'operator') {
+            parent::template('dashboard/user', $data);
+        } else {
+            parent::template('dashboard/index', $data);
+        }
     }
 }
-?>

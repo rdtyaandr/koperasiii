@@ -14,7 +14,11 @@ class TransaksiController extends GLOBAL_Controller
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
         }
-        $this->HistoryModel->deleteOldMessages(); // Hapus pesan lama
+        $level = $this->session->userdata('level');
+        if ($level != 'admin' && $level != 'operator') {
+            redirect(base_url());
+        }
+        $this->HistoryModel->deleteOldMessages();
     }
 
     public function index()
@@ -26,15 +30,8 @@ class TransaksiController extends GLOBAL_Controller
         $data['title'] = 'Transaksi';
         $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
         $data['transaksi'] = $this->TransaksiModel->get_all_transaksi();
-
-        // Menampilkan view berdasarkan level pengguna
-        if ($this->session->userdata('level') == 'admin'){
-            parent::template('transaksi/index', $data);
-        } elseif ($this->session->userdata('level') == 'user') {
-            parent::user_template('transaksi/index', $data);
-        }
+        parent::template('transaksi/index', $data);
     }
-
     private function check_credit_limit_and_notify()
     {
         $credit_limit = 100000; // Contoh limit kredit
@@ -56,14 +53,14 @@ class TransaksiController extends GLOBAL_Controller
         }
     }
 
-    // Fungsi untuk menambahkan pesan ke history
     private function addMessage($text, $summary, $icon)
     {
         $data = [
             'message_text' => $text,
             'message_summary' => $summary,
             'message_icon' => $icon,
-            'message_date_time' => date('Y-m-d H:i:s')
+            'message_date_time' => date('Y-m-d H:i:s'),
+            'role' => $this->session->userdata('level')
         ];
         $this->HistoryModel->addMessage($data);
     }
@@ -157,11 +154,7 @@ class TransaksiController extends GLOBAL_Controller
             $data['barang'] = $this->BarangModel->lihat_semua();
             $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
 
-            if ($this->session->userdata('level') == 'admin') {
-                parent::template('transaksi/tambah', $data);
-            } elseif ($this->session->userdata('level') == 'operator') {
-                parent::op_template('transaksi/tambah', $data);
-            }
+            parent::template('transaksi/tambah', $data);
         }
     }
 

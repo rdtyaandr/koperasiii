@@ -12,6 +12,10 @@ class SatuanController extends GLOBAL_Controller
             parent::alert('alert', 'belum_login');
             redirect(base_url('login'));
         }
+        $level = $this->session->userdata('level');
+        if ($level != 'admin' && $level != 'operator') {
+            redirect(base_url());
+        }
         $this->HistoryModel->deleteOldMessages();
     }
 
@@ -20,21 +24,17 @@ class SatuanController extends GLOBAL_Controller
         $data['title'] = 'Data Satuan';
         $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
         $data['satuan'] = parent::model('SatuanModel')->lihat_semua();
-        if ($this->session->userdata('level') == 'admin'){
-            parent::template('satuan/index', $data);
-        }elseif ($this->session->userdata('level') == 'operator') {
-            parent::op_template('satuan/index', $data);
-        }
+        parent::template('satuan/index', $data);
     }
 
-    // Fungsi untuk menambahkan pesan ke history
     private function addMessage($text, $summary, $icon)
     {
         $data = [
             'message_text' => $text,
             'message_summary' => $summary,
             'message_icon' => $icon,
-            'message_date_time' => date('Y-m-d H:i:s')
+            'message_date_time' => date('Y-m-d H:i:s'),
+            'role' => $this->session->userdata('level')
         ];
         $this->HistoryModel->addMessage($data);
     }

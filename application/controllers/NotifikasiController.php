@@ -18,14 +18,8 @@ class NotifikasiController extends GLOBAL_Controller {
         $data['notifikasi'] = $this->NotifikasiModel->get_notifikasi($pengguna_id);
         $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
         $data['title'] = 'Notifikasi';
-        
-        if ($this->session->userdata('level') == 'operator') {
-            parent::op_template('notifikasi/index', $data);
-        } elseif ($this->session->userdata('level') == 'admin') {
-            parent::template('notifikasi/index', $data);
-        }elseif ($this->session->userdata('level') == 'user'){
-            parent::user_template('notifikasi/index',$data);
-        }
+        $data['notifikasi'] = parent::model('NotifikasiModel')->lihat_semua();
+        parent::template('notifikasi/index', $data);
     }
 
     // Menandai notifikasi sebagai dibaca
@@ -70,4 +64,3 @@ class NotifikasiController extends GLOBAL_Controller {
         }
     }
 }
-?>

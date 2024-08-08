@@ -8,19 +8,8 @@ $route['login'] = 'AuthController/login';
 $route['logout'] = 'AuthController/logout';
 $route['register'] = 'AuthController/register';
 
-//Untuk Rute User
 /*
-* laporan routes user
-* */
-$route['home'] = 'usercontroller';
-//Rute Untuk Operator
-/*
-* laporan routes user
-* */
-$route['main'] = 'OperatorController';
-//Untuk Admin
-/*
-* laporan routes modul
+* history routes modul
 * */
 $route['history'] = 'HistoryController';
 
@@ -44,8 +33,7 @@ $route['pinjaman/simpanPinjaman'] = 'PinjamanController/simpanPinjaman';
 $route['pinjaman/approve/(:any)'] = 'PinjamanController/approve/$1';
 $route['pinjaman/cancel/(:any)'] = 'PinjamanController/cancel/$1';
 $route['pinjaman/delete/(:any)'] = 'PinjamanController/delete/$1';
-
-
+$route['pinjaman/save_pinjaman'] = 'pinjamanController/save_pinjaman';
 
 /*
 * simpanan routes modul
@@ -119,21 +107,13 @@ $route['pesan'] = 'NotifikasiController';
 $route['bantuan'] = 'BantuanController';
 $route['pengaturan'] = 'PengaturanController';
 
-
-
-
-$route['default_controller'] = 'AdminController';
-$route['error'] = '';
-$route['translate_uri_dashes'] = FALSE;
-
-$route['pinjaman/save_pinjaman'] = 'pinjamanController/save_pinjaman';
-
-
-
-
 // Tambahkan di routes.php
 $route['notification/account_change'] = 'notification/account_change';
 $route['notification/out_of_stock'] = 'notification/out_of_stock';
 
-//pinjaman 
+$route['dashboard'] = 'DashboardController/user';
 
+$route['default_controller'] = 'DashboardController';
+$route['error'] = '';
+$route['404_override'] = 'DashboardController';
+$route['translate_uri_dashes'] = FALSE;

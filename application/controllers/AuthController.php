@@ -51,20 +51,10 @@ public function login()
                     'picture' => $pengguna['pengguna_picture'], // Tambahkan foto profil ke sesi
                     'login' => true
                 );
-                
                 $this->session->set_userdata($sessionData);
-
-                // Tampilkan pesan selamat datang
                 parent::alert('alert','user-welcome');
+                redirect(base_url());
 
-                // Cek level pengguna dan arahkan sesuai level
-                if ($pengguna['pengguna_hak_akses'] == 'user') {
-                    redirect('home');
-                } elseif ($pengguna['pengguna_hak_akses'] == 'operator') {
-                    redirect('main');
-                } else {
-                    redirect(base_url());
-                }
             } else {
                 parent::alert('alert','error-login');
             }

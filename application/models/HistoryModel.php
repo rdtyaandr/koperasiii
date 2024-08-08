@@ -23,4 +23,11 @@ class HistoryModel extends GLOBAL_Model
         $this->db->where('message_date_time >=', date('Y-m-d H:i:s', strtotime('-30 days')));
         return $this->db->get('tb_histori')->result();
     }
+
+    public function getRecentMessagesByRole($role)
+    {
+        $this->db->where('role', $role);
+        $this->db->where('message_date_time >=', date('Y-m-d H:i:s', strtotime('-30 days')));
+        return $this->db->get('tb_histori')->result();
+    }
 }
