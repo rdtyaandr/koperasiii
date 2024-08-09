@@ -104,7 +104,7 @@ $route['profile/edit/(:any)'] = 'ProfilController/edit';
 $route['profile/update'] = 'ProfileController/update';
 
 $route['notifikasi'] = 'NotifikasiController';
-$route['bantuan'] = 'BantuanController';
+$route['faq'] = 'FaqController';
 $route['pengaturan'] = 'PengaturanController';
 
 // Tambahkan di routes.php

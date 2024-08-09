@@ -12,11 +12,14 @@ class GLOBAL_Controller extends CI_Controller {
     {
         {
             parent::__construct();
+            $this->load->model('NotifikasiModel');
             if ($this->session->has_userdata('pengguna_id')) {
                 $this->userID = $this->session->userdata('pengguna_id');
                 $this->userName = $this->session->userdata('username');
                 $this->userLevel = $this->session->userdata('level');
             }
+            $this->stok_rendah = $this->NotifikasiModel->get_barang_stok_rendah(); // Ambil stok rendah
+            $this->pinjaman_menunggu = $this->NotifikasiModel->get_pinjaman_menunggu(); // Ambil pinjaman menunggu persetujuan
         }
     }
     
@@ -70,6 +73,8 @@ class GLOBAL_Controller extends CI_Controller {
     // Metode untuk memuat template dengan konten dan data yang diberikan
     public function template($content, $data)
     {
+        $data['stok_rendah'] = $this->stok_rendah;
+        $data['pinjaman_menunggu'] = $this->pinjaman_menunggu; 
         $this->load->view('templates/header', $data);
         $this->load->view($content, $data);
         $this->load->view('templates/footer', $data);

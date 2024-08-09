@@ -124,7 +124,7 @@ class TransaksiController extends GLOBAL_Controller
             }
         } else {
             $data['title'] = 'Tambah Transaksi';
-            $data['pengguna'] = $this->PenggunaModel->get_users();
+            $data['pengguna'] = $this->PenggunaModel->get_users_filtered();
             $data['barang'] = $this->BarangModel->lihat_semua();
             parent::template('transaksi/tambah', $data);
         }
@@ -159,6 +159,7 @@ class TransaksiController extends GLOBAL_Controller
                 if ($total_baru > $total_lama) {
                     $selisih = $total_baru - $total_lama;
                     if ($user_limit + $selisih > 1500000) {
+                        $this->addMessage('Limit Kredit Terlampaui', 'Pengguna dengan ID ' . $pengguna_id . ' telah melampaui limit kredit', 'error'); // Tambahkan pesan ke history
                         $this->session->set_flashdata('alert', 'error-limit');
                         redirect('transaksi/ubah/' . $id_transaksi);
                     }
@@ -243,7 +244,7 @@ class TransaksiController extends GLOBAL_Controller
             $this->session->set_flashdata('alert', 'success-update');
             redirect('transaksi');
         } else {
-            $data['pengguna'] = $this->PenggunaModel->get_users();
+            $data['pengguna'] = $this->PenggunaModel->get_users_filtered();
             $data['barang'] = $this->BarangModel->lihat_semua();
             $data['transaksi'] = $this->TransaksiModel->get_transaksi_by_id($id);
             $data['detail_barang'] = $this->TransaksiModel->get_detail_barang_by_transaksi_id($id);

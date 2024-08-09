@@ -5,67 +5,90 @@
                 <div class="card-content">
                     <div class="row valign-wrapper" style="margin-bottom: 30px;">
                         <div class="col s6">
-                            <span class="card-title blue-text text-darken-2" style="font-size: 2.5em; font-weight: bold;">Dashboard</span>
+                            <span class="card-title blue-text text-darken-2"
+                                style="font-size: 2.5em; font-weight: bold; position: relative; display: inline-block;">
+                                Dashboard
+                            </span>
+                            <div
+                                style="width: 14%; height: 3px; background-color: blue; margin-top: 5px; margin-left: 0; border-radius: 2px;">
+                            </div>
                         </div>
+                        <!-- Jam -->
                         <div class="col s6 right-align">
-                            <div id="current-datetime" class="blue darken-3 white-text" style="display: inline-block; font-size: 1.2em; font-weight: 500; padding: 10px 20px; border-radius: 50px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">
-                                <i class="material-icons left" style="font-size: 1.2em; margin-right: 10px;">access_time</i>
+                            <div id="current-datetime" class="blue darken-3 white-text"
+                                style="display: inline-block; font-size: 1.2em; font-weight: 500; padding: 10px 20px; border-radius: 50px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">
+                                <i class="material-icons left"
+                                    style="font-size: 1.2em; margin-right: 10px;">access_time</i>
                                 <span id="date"></span>
                                 <span id="time" style="margin-left: 10px; font-weight: bold;"></span>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Statistik cards -->
+
+                    <!-- Kartu Statistik -->
                     <div class="row">
                         <div class="col s12 m6 l3">
-                            <div class="card blue darken-1 white-text" style="border-radius: 15px;">
-                                <div class="card-content">
-                                    <i class="material-icons right" style="font-size: 3em;">person</i>
-                                    <span class="card-title" style="font-size: 1.2em;">Users</span>
+                            <div class="card blue darken-2 white-text"
+                                style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;">
+                                <div class="card-content" style="padding: 20px;">
+                                    <i class="material-icons right" style="font-size: 3em;">assessment</i>
+                                    <span class="card-title" style="font-size: 1.2em;">Data</span>
                                     <h4 style="font-size: 2.5em; margin: 10px 0;">1,234</h4>
-                                    <p style="font-size: 1em;">+5% from last week</p>
+                                    <p style="font-size: 1em;">+5% dari minggu lalu</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col s12 m6 l3">
-                            <div class="card green darken-1 white-text" style="border-radius: 15px;">
-                                <div class="card-content">
-                                    <i class="material-icons right" style="font-size: 3em;">shopping_cart</i>
-                                    <span class="card-title" style="font-size: 1.2em;">Orders</span>
+                            <div class="card green darken-2 white-text"
+                                style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;">
+                                <div class="card-content" style="padding: 20px;">
+                                    <i class="material-icons right" style="font-size: 3em;">people_alt</i>
+                                    <span class="card-title" style="font-size: 1.2em;">Anggota</span>
                                     <h4 style="font-size: 2.5em; margin: 10px 0;">567</h4>
-                                    <p style="font-size: 1em;">+2% from last week</p>
+                                    <p style="font-size: 1em;">+2% dari minggu lalu</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col s12 m6 l3">
-                            <div class="card amber darken-1 white-text" style="border-radius: 15px;">
-                                <div class="card-content">
-                                    <i class="material-icons right" style="font-size: 3em;">attach_money</i>
-                                    <span class="card-title" style="font-size: 1.2em;">Sales</span>
+                            <div class="card amber darken-2 white-text"
+                                style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;">
+                                <div class="card-content" style="padding: 20px;">
+                                    <i class="material-icons right" style="font-size: 3em;">monetization_on</i>
+                                    <span class="card-title" style="font-size: 1.2em;">Transaksi</span>
                                     <h4 style="font-size: 2.5em; margin: 10px 0;">$12,345</h4>
-                                    <p style="font-size: 1em;">+10% from last week</p>
+                                    <p style="font-size: 1em;">+10% dari minggu lalu</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col s12 m6 l3">
-                            <div class="card red darken-1 white-text" style="border-radius: 15px;">
-                                <div class="card-content">
-                                    <i class="material-icons right" style="font-size: 3em;">error</i>
-                                    <span class="card-title" style="font-size: 1.2em;">Issues</span>
+                            <div class="card red darken-2 white-text"
+                                style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;">
+                                <div class="card-content" style="padding: 20px;">
+                                    <i class="material-icons right" style="font-size: 3em;">credit_card</i>
+                                    <span class="card-title" style="font-size: 1.2em;">Pinjaman</span>
                                     <h4 style="font-size: 2.5em; margin: 10px 0;">23</h4>
-                                    <p style="font-size: 1em;">-5% from last week</p>
+                                    <p style="font-size: 1em;">-5% dari minggu lalu</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
+                    <style>
+                        .card:hover {
+                            transform: translateY(-5px);
+                            /* Mengangkat kartu sedikit saat hover */
+                            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+                            /* Menambahkan bayangan saat hover */
+                        }
+                    </style>
+
                     <!-- Grafik -->
                     <div class="row">
                         <div class="col s12">
                             <div class="card" style="border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
                                 <div class="card-content">
-                                    <span class="card-title blue-text text-darken-2" style="font-size: 1.8em; font-weight: 500;">Sales Overview</span>
+                                    <span class="card-title blue-text text-darken-2"
+                                        style="font-size: 1.8em; font-weight: 500;">Jumlah Transaksi per Bulan</span>
                                     <div id="sales-chart" style="height: 350px;"></div>
                                 </div>
                             </div>
@@ -73,7 +96,8 @@
                         <div class="col s12 m6">
                             <div class="card" style="border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
                                 <div class="card-content">
-                                    <span class="card-title green-text text-darken-1" style="font-size: 1.8em; font-weight: 500;">User Growth</span>
+                                    <span class="card-title green-text text-darken-1"
+                                        style="font-size: 1.8em; font-weight: 500;">Banyak Pinjaman</span>
                                     <div id="user-growth-chart" style="height: 300px;"></div>
                                 </div>
                             </div>
@@ -81,7 +105,8 @@
                         <div class="col s12 m6">
                             <div class="card" style="border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
                                 <div class="card-content">
-                                    <span class="card-title orange-text text-darken-2" style="font-size: 1.8em; font-weight: 500;">Revenue Distribution</span>
+                                    <span class="card-title orange-text text-darken-2"
+                                        style="font-size: 1.8em; font-weight: 500;">Distribusi Barang</span>
                                     <div id="revenue-chart" style="height: 300px;"></div>
                                 </div>
                             </div>
@@ -95,72 +120,115 @@
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
-    // Update current date and time
+    // Memperbarui tanggal dan waktu saat ini
     function updateDateTime() {
         var now = new Date();
         var dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         var timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
-        
+
         var formattedDate = now.toLocaleDateString('id-ID', dateOptions);
         var formattedTime = now.toLocaleTimeString('id-ID', timeOptions);
-        
+
         document.getElementById('date').textContent = formattedDate;
         document.getElementById('time').textContent = formattedTime;
     }
     setInterval(updateDateTime, 1000);
     updateDateTime();
 
-    // Sales Overview Chart
+    // Grafik Jumlah Transaksi
     var salesOptions = {
         series: [{
-            name: 'Sales',
-            data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+            name: 'Penjualan',
+            data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 110, 95, 130] // Data penjualan untuk 12 bulan
         }],
         chart: {
-            type: 'area',
+            type: 'line', // Menggunakan grafik garis
             height: 350,
-            zoom: {
-                enabled: false
-            }
+            zoom: { enabled: true },
+            toolbar: { show: true } // Menyembunyikan toolbar
         },
-        dataLabels: {
-            enabled: false
-        },
+        dataLabels: { enabled: false },
         stroke: {
-            curve: 'smooth'
+            curve: 'smooth',
+            width: 3 // Lebar garis
         },
         title: {
-            text: 'Product Sales by Month',
-            align: 'left'
+            align: 'left',
+            style: {
+                fontSize: '1.5em',
+                fontWeight: 'bold',
+                color: '#333'
+            }
         },
         subtitle: {
-            text: 'Total sales over time',
-            align: 'left'
+           
+            align: 'left',
+            style: {
+                fontSize: '1em',
+                color: '#555'
+            }
         },
         xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], // Kategori untuk 12 bulan
             labels: {
-                formatter: function(value) {
-                    return value
+                formatter: function (value) { return value; },
+                style: { colors: '#888' }
+            },
+            title: {
+                text: 'Bulan',
+                style: {
+                    color: '#333'
                 }
+            },
+            axisBorder: {
+                show: true,
+                color: '#e0e0e0'
+            },
+            axisTicks: {
+                show: true,
+                color: '#e0e0e0'
             }
         },
         yaxis: {
             opposite: true,
             labels: {
-                formatter: function (value) {
-                    return "$" + value.toFixed(2);
+                formatter: function (value) { return "$" + value.toFixed(2); },
+                style: { colors: '#888' }
+            },
+            title: {
+                
+                style: {
+                    color: '#333'
                 }
+            },
+            axisBorder: {
+                show: true,
+                color: '#e0e0e0'
+            },
+            axisTicks: {
+                show: true,
+                color: '#e0e0e0'
             }
         },
+        grid: {
+            borderColor: '#e0e0e0',
+            row: {
+                colors: ['#f3f3f3', 'transparent'], // Alternatif warna untuk baris
+                opacity: 0.5
+            },
+        },
         legend: {
-            horizontalAlign: 'left'
+            horizontalAlign: 'left',
+            position: 'top'
         },
         tooltip: {
+            shared: true,
+            intersect: false,
             y: {
-                formatter: function(value) {
-                    return "$" + value.toFixed(2)
-                }
+                formatter: function (value) { return "$" + value.toFixed(2); }
+            },
+            style: {
+                fontSize: '1em'
             }
         }
     };
@@ -168,50 +236,92 @@
     var salesChart = new ApexCharts(document.querySelector("#sales-chart"), salesOptions);
     salesChart.render();
 
-    // User Growth Chart
+
+    // Grafik Pinjaman
     var userGrowthOptions = {
         series: [{
-            name: 'New Users',
-            data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+            name: 'Setujui',
+            data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 70, 75, 80] // Data untuk 12 bulan
         }, {
-            name: 'Active Users',
-            data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+            name: 'Belum di Setujui',
+            data: [76, 85, 101, 98, 87, 105, 91, 114, 94, 100, 110, 120] // Data untuk 12 bulan
         }],
         chart: {
-            type: 'bar',
-            height: 300
+            type: 'line', // Menggunakan grafik garis
+            height: 300,
+            zoom: { enabled: false },
+            toolbar: { show: false } // Menyembunyikan toolbar
         },
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                columnWidth: '55%',
-                endingShape: 'rounded'
-            },
-        },
-        dataLabels: {
-            enabled: false
-        },
+        dataLabels: { enabled: false },
         stroke: {
-            show: true,
-            width: 2,
-            colors: ['transparent']
+            curve: 'smooth',
+            width: 3 // Lebar garis
+        },
+        title: {
+            align: 'left',
+            style: {
+                fontSize: '1.5em',
+                fontWeight: 'bold',
+                color: '#333'
+            }
         },
         xaxis: {
-            categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], // Kategori untuk 12 bulan
+            labels: {
+                style: { colors: '#888' }
+            },
+            title: {
+                text: 'Bulan',
+                style: {
+                    color: '#333'
+                }
+            },
+            axisBorder: {
+                show: true,
+                color: '#e0e0e0'
+            },
+            axisTicks: {
+                show: true,
+                color: '#e0e0e0'
+            }
         },
         yaxis: {
             title: {
-                text: 'Users'
+                style: {
+                    color: '#333'
+                }
+            },
+            labels: {
+                style: { colors: '#888' }
+            },
+            axisBorder: {
+                show: true,
+                color: '#e0e0e0'
+            },
+            axisTicks: {
+                show: true,
+                color: '#e0e0e0'
             }
         },
-        fill: {
-            opacity: 1
+        grid: {
+            borderColor: '#e0e0e0',
+            row: {
+                colors: ['#f3f3f3', 'transparent'], // Alternatif warna untuk baris
+                opacity: 0.5
+            },
+        },
+        legend: {
+            horizontalAlign: 'left',
+            position: 'top'
         },
         tooltip: {
+            shared: true,
+            intersect: false,
             y: {
-                formatter: function (val) {
-                    return val + " users"
-                }
+                formatter: function (val) { return val + "anggota"; }
+            },
+            style: {
+                fontSize: '1em'
             }
         }
     };
@@ -219,23 +329,17 @@
     var userGrowthChart = new ApexCharts(document.querySelector("#user-growth-chart"), userGrowthOptions);
     userGrowthChart.render();
 
-    // Revenue Distribution Chart
+
+    // Grafik Distribusi Barang
     var revenueOptions = {
         series: [44, 55, 13, 43],
-        chart: {
-            type: 'donut',
-            height: 300
-        },
-        labels: ['Product A', 'Product B', 'Product C', 'Product D'],
+        chart: { type: 'donut', height: 300 },
+        labels: ['Produk A', 'Produk B', 'Produk C', 'Produk D'],
         responsive: [{
             breakpoint: 480,
             options: {
-                chart: {
-                    width: 200
-                },
-                legend: {
-                    position: 'bottom'
-                }
+                chart: { width: 200 },
+                legend: { position: 'bottom' }
             }
         }]
     };

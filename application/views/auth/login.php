@@ -72,7 +72,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<label>Tidak punya akun? Klik <a href="<?= base_url('register') ?>">Daftar Akun</a></label>
+						<label>Lupa password akun? <a href="<?= base_url('register') ?>">Klik ini</a></label>
 					</div>
 				</form>
 			</div>

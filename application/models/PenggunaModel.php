@@ -43,4 +43,9 @@ class PenggunaModel extends GLOBAL_Model {
         $this->db->where('pengguna_id', $pengguna_id);
         $this->db->update('tb_pengguna', ['limit' => $new_limit]); // Update limit
     }
+
+    public function get_users_filtered() {
+        $this->db->where('pengguna_hak_akses', 'user'); // Menambahkan filter
+        return parent::get_array_of_table('tb_pengguna');
+    }
 }
