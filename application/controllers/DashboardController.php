@@ -26,7 +26,7 @@ class DashboardController extends GLOBAL_Controller
 
         // Menyusun data untuk grafik
         $data['monthly_data'] = array_values($data['monthly_transactions']); // Ambil nilai total transaksi per bulan
-
+        
         $data['stats'] = [
             'total_barang' => $this->DashboardModel->get_total_barang(),
             'total_anggota' => $this->DashboardModel->get_total_anggota(),
@@ -34,6 +34,15 @@ class DashboardController extends GLOBAL_Controller
             'total_pengajuan' => $this->DashboardModel->get_total_pengajuan(),
         ];
 
+        $data['approved_loans'] = array_values($this->DashboardModel->get_monthly_approved_loans()); // Ambil data pinjaman disetujui dan ubah ke array numerik
+        $data['pending_loans'] = array_values($this->DashboardModel->get_monthly_pending_loans()); // Ambil data pinjaman menunggu dan ubah ke array numerik
+        $data['rejected_loans'] = array_values($this->DashboardModel->get_monthly_rejected_loans()); // Ambil data pinjaman ditolak dan ubah ke array numerik
+
+        // Kirim data ke view
+        $data['approved_data'] = $data['approved_loans'];
+        $data['pending_data'] = $data['pending_loans'];
+        $data['rejected_data'] = $data['rejected_loans'];
+        
         $level = $this->session->userdata('level');
         if ($level != 'admin' && $level != 'operator') {
             parent::template('dashboard/user', $data);
