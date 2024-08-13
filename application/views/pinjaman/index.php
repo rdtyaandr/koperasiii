@@ -61,7 +61,7 @@
                                 <?php foreach ($pengajuan as $key => $pinjaman) : ?>
                                     <tr id="row-<?= $pinjaman['id'] ?>">
                                         <td><?= $key + 1 ?></td>
-                                        <td><?= htmlspecialchars($pinjaman['pengguna_id'], ENT_QUOTES, 'UTF-8') ?></td>
+                                        <td><?= htmlspecialchars($pinjaman['user_id'], ENT_QUOTES, 'UTF-8') ?></td>
                                         <td><?= htmlspecialchars($pinjaman['jenis_pinjaman'], ENT_QUOTES, 'UTF-8') ?></td>
                                         <td><?= date('d-m-Y', strtotime($pinjaman['tanggal_pinjam'])) ?></td>
                                         <td><?= number_format($pinjaman['jumlah_pinjaman'], 0, ',', '.') ?></td>

@@ -66,17 +66,34 @@
                     <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating hide-on-large-only blue darken-2" style="position: absolute; left: 10px; top: 10px; box-shadow: 0px 0px 0px transparent !important;">
                         <i class="mdi-navigation-menu"></i>
                     </a>
-                    <ul class="right">
-    <!-- Item notifikasi -->
-    <li>
-        <a href="<?= base_url('pesan') ?>" class="waves-effect waves-light">
+
+                    <ul class="right" style="display: flex; align-items: center;">
+    <li style="position: relative;">
+        <a href="#" id="notification-button" class="btn-floating blue darken-2" style="margin-right: 15px; display: flex; align-items: center; justify-content: center; height: 40px; width: 40px;">
             <i class="material-icons">notifications</i>
-            <?php if ($notifikasi_count > 0) : ?>
-        <span class="badge"><?= $notifikasi_count ?></span>
-    <?php endif; ?>
         </a>
+        <span id="notification-count" style="position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold; text-align: center; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">3</span>
     </li>
 </ul>
+
+                    <!-- Pop-up Notifikasi -->
+                    <div id="notification-modal" class="modal" style="display: none; position: fixed; top: 0; right: 0; width: 300px; height: 100%; background: #ffffff; box-shadow: -2px 0 5px rgba(0,0,0,0.2); transform: translateX(100%); transition: transform 0.3s ease;">
+    <div class="modal-content" style="padding: 20px; height: calc(100% - 50px); overflow-y: auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h4 style="margin: 0;">Notifikasi</h4>
+        </div>
+        <ul id="notification-list" style="list-style-type: none; padding: 0; margin: 0;">
+            <!-- Notifications will be added here -->
+        </ul>
+    </div>
+    <div class="modal-footer" style="position: absolute; bottom: 0; width: 100%; background: #f1f1f1; padding: 10px; text-align: center;">
+        <button class="modal-close btn" style="background-color: #007bff; color: #ffffff; border: none; padding: 10px; cursor: pointer; width: 100%;">Tutup</button>
+    </div>
+</div>
+
+</div>
+
+
                 </div>
             </nav>
         </div>
@@ -278,47 +295,12 @@
                 });
             </script>
 
-           <!-- START CONTENT -->
-<section id="content">
+            <!-- START CONTENT -->
+            <section id="content">
 
-<!--start container-->
-<div class="container">
-    <!-- //////////////////////////////////////////////////////////////////////////// -->
-    <?php if (!empty($notifikasi)) : ?>
-        <div class="row">
-            <div class="col s12">
-                <div class="card">
-                    <div class="card-content">
-                        <h5>Notifikasi</h5>
-                        <ul class="collection">
-                            <?php foreach ($notifikasi as $item) : ?>
-                                <li class="collection-item">
-                                    <?= $item['pesan'] ?>
-                                    <a href="<?= base_url('notifikasi/baca/' . $item['id']) ?>" class="secondary-content"><i class="material-icons">done</i></a>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <?php else : ?>
-        <div class="row">
-            <div class="col s12">
-                <div class="card">
-                    <div class="card-content">
-                        <p>Belum ada notifikasi.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <?php endif; ?>
-</div>
-<!--end container-->
-
-</section>
-<!-- END CONTENT -->
-
+                <!--start container-->
+                <div class="container">
+                    <!-- //////////////////////////////////////////////////////////////////////////// -->
 
                     <?php
                     switch ($this->session->flashdata('alert')) {
@@ -410,22 +392,6 @@
                             </div>
                     <?php
                             break;
-                        case 'success-edit': ?>
-                            <div id="card-alert" class="card green lighten-5 animated slideInDown">
-                                <div class="card-content green-text">
-                                    <p>BERHASIL : Data Profil telah diubah.</p>
-                                </div>
-                            </div>
-                            <?php
-                            break;
-                        case 'error-edit': ?>
-                            <div id="card-alert" class="card red lighten-5 animated slideInDown">
-                                <div class="card-content red-text">
-                                    <p>GAGAL : Kesalahan saat mengubah data profile</p>
-                                </div>
-                            </div>
-                            <?php
-                            break;
                     }
                     ?>
 
@@ -491,3 +457,42 @@
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
     </div>
 <?php endif; ?> -->
+
+<script type="text/javascript">
+  document.getElementById('notification-button').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent default action
+    const modal = document.getElementById('notification-modal');
+    modal.style.display = 'block'; // Show modal
+    setTimeout(() => {
+        modal.style.transform = 'translateX(0)'; // Slide in animation
+    }, 10); // Small delay to ensure animation works
+
+    // Fetch notifications from the server
+    fetch('<?= base_url('NotificationController/get_notifications') ?>')
+        .then(response => response.json())
+        .then(notifications => {
+            // Display notifications in the modal
+            const notificationList = document.getElementById('notification-list');
+            notificationList.innerHTML = ''; // Clear previous notifications
+            notifications.forEach(notification => {
+                const li = document.createElement('li');
+                li.textContent = notification.message; // Adjust according to your notification data structure
+                li.style.padding = '10px';
+                li.style.borderBottom = '1px solid #ddd';
+                notificationList.appendChild(li);
+            });
+        })
+        .catch(error => console.error('Error fetching notifications:', error));
+});
+
+// Close modal
+document.querySelector('.modal-close').addEventListener('click', function() {
+    const modal = document.getElementById('notification-modal');
+    modal.style.transform = 'translateX(100%)'; // Slide out animation
+    setTimeout(() => {
+        modal.style.display = 'none'; // Hide modal after animation
+    }, 300); // Match transition duration
+});
+
+
+</script>

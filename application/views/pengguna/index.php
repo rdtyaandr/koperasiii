@@ -28,6 +28,7 @@
                                 <th>Email</th>
                                 <th>Satker</th>
                                 <th>Role</th>
+                                <th>Limit Yang Dimiliki</th>
                                 <th>Aksi</th>   
                             </tr>
                         </thead>
@@ -39,7 +40,8 @@
                                 <td><?= $hitam['username'] ?></td>
                                 <td><?= $hitam['email'] ?></td>
                                 <td><?= $hitam['satker'] ?></td>
-                                <td><?= $hitam['pengguna_hak_akses'] ?></td>
+                                <td><?= $hitam['role'] ?></td>
+                                <td><?= $hitam['limit'] ?></td>
                                 <td>
                                 <a href="<?= base_url('pengguna/ubah/' . $hitam['pengguna_id']) ?>" class="btn-small waves-effect waves-blue darken-3 tooltipped" data-position="top" data-tooltip="Edit"><i class="material-icons">edit</i></a>
                                 <a href="<?= base_url('pengguna/hapus/' . $hitam['pengguna_id']) ?>" class="btn-small waves-effect waves-light red tooltipped" data-position="top" data-tooltip="Hapus" onclick="return confirm('Are You Sure About That?')"><i class="material-icons">delete</i></a>

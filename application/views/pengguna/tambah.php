@@ -22,12 +22,19 @@
                             <label for="email">Email</label>
                         </div>
                         <div class="input-field col s12 m6">
-                            <i class="mdi-editor-merge-type prefix grey-text text-lighten-1"></i>
-                            <input id="satker" type="text"  class="validate" name="satker" required>
-                            <label for="satker">Satker</label>
-                        </div>
-						<div class="input-field col s12 m6">
-							<i class="mdi-action-lock-outline prefix grey-text text-lighten-1"></i>
+						<label for="kategori-satker">satker</label><br><br>
+						<select name="level" id="level">
+							<option value="ipds" selected>ipds </option>
+							<option value="umum">umum</option>
+							<option value="neraca">neraca</option>
+							<option value="produksi">produksi</option>
+							<option value="distribusi">distribusi</option>
+							<option value="diseminasi">diseminasi</option>
+							<option value="sosial">sosial</option>
+						</select>
+							</div>
+							<div class="input-field col s12 m6">
+								<i class="mdi-action-lock-outline prefix grey-text text-lighten-1"></i>
 							<input id="password" type="password" name="password" >
 							<label for="password type=">Kata Sandi</label>
 						</div>
@@ -35,15 +42,16 @@
 					
 					
 					<div class="input-field col s12 ">
-						<label for="kategori-pengguna">Pengguna sebagai</label><br><br>
-						<select name="level" id="level">
+						<label for="kategori-pengguna">Pengguna Sebagai</label><br><br>
+						<select name="satker" id="satker">
 							<option value="admin" selected>Admin </option>
 							<option value="operator">operator</option>
 							<option value="user">user</option>
 						</select>
-					</div>
-					
-					<div class="row">
+						
+						</div>
+						
+						<div class="row">
 						<div class="input-field col s12 m6">
 							<button type="submit" name="tambah" class="btn waves-effect waves-light col s12 blue">tambahkan</button>
 						</div>

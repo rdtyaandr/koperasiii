@@ -3,7 +3,7 @@ class PenggunaController extends GLOBAL_Controller {
 
     public function __construct() {
         parent::__construct();
-        $model = array('PenggunaModel', 'HistoryModel','NotifikasiModel'); // Load HistoryModel
+        $model = array('PenggunaModel', 'HistoryModel'); // Load HistoryModel
         $this->load->model($model);
         // Pastikan admin sudah login dan memiliki hak akses yang benar
         if (!parent::hasLogin()) {
@@ -20,7 +20,6 @@ class PenggunaController extends GLOBAL_Controller {
     public function index() {
         $data['title'] = 'Daftar Pengguna ';
         $data['Pengguna'] = parent::model('PenggunaModel')->get_users();
-        $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
 
         parent::template('pengguna/index', $data);
     }
@@ -46,7 +45,8 @@ class PenggunaController extends GLOBAL_Controller {
                 'email' => parent::post('email'),
                 'password' => parent::post('password'),
                 'satker' => parent::post('satker'),
-                'pengguna_hak_akses' => parent::post('pengguna_hak_akses'),
+                'limit' => parent::post('limit'),
+                'role' => parent::post('role'),
             );
             $simpan = parent::model('PenggunaModel')->ubah($id, $data);
 
@@ -63,7 +63,6 @@ class PenggunaController extends GLOBAL_Controller {
             }
         } else {
             $data['title'] = 'Ubah Pengguna';
-            $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
             $query = array('pengguna_id' => $id);
             $data['Pengguna'] = parent::model('PenggunaModel')->Lihat_Pengguna($query);
             parent::template('pengguna/ubah', $data);
@@ -93,8 +92,9 @@ class PenggunaController extends GLOBAL_Controller {
                 'username' => parent::post('username'),
                 'email' => parent::post('email'),
                 'satker' => parent::post('satker'),
-                'password' => parent::post('password'),
-                'pengguna_hak_akses' => parent::post('level')
+                'password' => md5(parent::post('password')), // Menggunakan md5 untuk password
+                'limit' => parent::post('limit'),
+                'role' => parent::post('level')
             );
 
             $simpan = parent::model('PenggunaModel')->tambah($data);

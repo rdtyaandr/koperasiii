@@ -9,7 +9,6 @@ class BarangController extends GLOBAL_Controller
         $this->load->model('KategoriModel');
         $this->load->model('SatuanModel');
         $this->load->model('HistoryModel'); // Load model History
-        $this->load->model('NotifikasiModel'); // Load NotifikasiModel  
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
@@ -23,11 +22,7 @@ class BarangController extends GLOBAL_Controller
 
     public function index()
     {
-        // Memanggil fungsi untuk memeriksa stok dan mengirimkan notifikasi
-        $this->BarangModel->check_stock_and_notify();
-
         $data['title'] = 'Data Barang';
-        $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
         $data['kategori'] = parent::model('KategoriModel')->lihat_semua();
         $data['satuan'] = parent::model('SatuanModel')->lihat_semua();
         $data['barang'] = parent::model('BarangModel')->lihat_semua();
@@ -69,10 +64,8 @@ class BarangController extends GLOBAL_Controller
             $simpan = parent::model('BarangModel')->tambah($data);
 
             if ($simpan > 0) {
-                // Tambahkan notifikasi jika stok rendah
-                $this->BarangModel->check_stock_and_notify();
-                
                 $this->addMessage('Barang baru ditambahkan', 'Barang ' . $data['nama_barang'] . ' telah ditambahkan', 'add_circle_outline');
+                $this->cekDanKirimNotifikasi($simpan);
                 parent::alert('alert', 'success-insert');
                 redirect('barang');
             } else {
@@ -105,11 +98,9 @@ class BarangController extends GLOBAL_Controller
             $simpan = parent::model('BarangModel')->ubah($id, $data);
 
             if ($simpan > 0) {
-                // Tambahkan notifikasi jika stok rendah
-                $this->BarangModel->check_stock_and_notify();
-                
                 $this->addMessage('Barang diubah', 'Barang ' . $data['nama_barang'] . ' telah diubah', 'update');
                 parent::alert('alert', 'success-update');
+                $this->cekDanKirimNotifikasi($id);
                 redirect('barang');
             } else {
                 parent::alert('alert', 'error-update');
@@ -117,7 +108,6 @@ class BarangController extends GLOBAL_Controller
             }
         } else {
             $data['title'] = 'Ubah Barang';
-            $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
             $query = array('id_barang' => $id);
             $data['barang'] = parent::model('BarangModel')->lihat_barang($query);
             parent::template('barang/ubah', $data);
@@ -130,15 +120,32 @@ class BarangController extends GLOBAL_Controller
         $barang = parent::model('BarangModel')->lihat_barang($query);
         $hapus = parent::model('BarangModel')->hapus($query);
         if ($hapus > 0) {
-            // Tambahkan notifikasi jika stok rendah
-            $this->BarangModel->check_stock_and_notify();
-            
             $this->addMessage('Barang dihapus', 'Barang ' . $barang->nama_barang . ' telah dihapus', 'delete');
             parent::alert('alert', 'success-delete');
             redirect('barang');
         } else {
             parent::alert('alert', 'error-update');
             redirect('barang');
+        }
+    }
+    private function cekDanKirimNotifikasi($id_barang)
+    {
+        if (parent::model('BarangModel')->cek_stok_menipis($id_barang)) {
+            $barang = parent::model('BarangModel')->get_barang_by_id($id_barang);
+            $pesan = "Stok barang {$barang->nama_barang} menipis, tersisa {$barang->stok} buah.";
+            $this->addMessage($pesan, 'Stok Menipis', 'warning');
+
+            // Kirim notifikasi ke admin dan operator
+            $notifikasi = [
+                'judul' => 'Stok Barang Menipis',
+                'pesan' => $pesan,
+                'icon' => 'warning',
+                'link' => base_url('barang'),
+                'role' => 'admin,operator',
+                'status' => 0,
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+            parent::model('NotifikasiModel')->tambah_notifikasi($notifikasi);
         }
     }
 }

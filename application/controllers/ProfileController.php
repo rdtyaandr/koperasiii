@@ -7,7 +7,6 @@ class ProfileController extends GLOBAL_Controller
         parent::__construct();
         $this->load->model('ProfileModel');
         $this->load->model('HistoryModel'); // Load HistoryModel
-        $this->load->model('NotifikasiModel'); // Load HistoryModel
         $this->load->helper('url');
         
         if (!parent::hasLogin()) {
@@ -23,17 +22,10 @@ class ProfileController extends GLOBAL_Controller
 
         // Ambil data pengguna dari model
         $data['pengguna'] = $this->ProfileModel->get_profile_by_id($penggunaID);
-        $data['notifikasi_count'] = $this->NotifikasiModel->countUnreadNotifikasi($this->session->userdata('pengguna_id'));
         $data['title'] = 'Profil Pengguna';
 
         // Tampilkan view profil
-        if ($this->session->userdata('level') == 'admin'){
-            parent::template('profile/index', $data);
-        }elseif ($this->session->userdata('level') == 'operator') {
-            parent::op_template('profile/index', $data);
-        }elseif ($this->session->userdata('level') == 'user') {
-            parent::user_template('profile/index', $data);
-        }
+        parent::template('profile/index', $data);
     }
 
     public function upload_picture()
@@ -75,9 +67,9 @@ class ProfileController extends GLOBAL_Controller
         // Data yang akan diperbarui
         $data = array(
             'nama_lengkap' => $this->input->post('nama_lengkap'),
-            'username' => $this->input->post('username'),
             'email' => $this->input->post('email'),
-            'satker' => $this->input->post('satker')
+            'satker' => $this->input->post('satker'),
+            'pengguna_date_update' => date('Y-m-d H:i:s') // Menambahkan data waktu sekarang
         );
 
         // Cek apakah foto profil diupload
@@ -105,10 +97,10 @@ class ProfileController extends GLOBAL_Controller
             $this->addMessage('Profil diupdate', 'Pengguna dengan ID ' . $penggunaID . ' telah memperbarui profil.', 'update');
 
             // Tampilkan pesan sukses
-            parent::alert('alert', 'succes-edit');
+            parent::alert('alert', 'profile-updated');
         } else {
             // Tampilkan pesan error jika update gagal
-            parent::alert('alert', 'error-edit');
+            parent::alert('alert', 'update-error');
         }
 
         redirect('profile');

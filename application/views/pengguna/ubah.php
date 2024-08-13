@@ -6,7 +6,7 @@
                     <h4 class="blue-text text-darken-2">Ubah Pengguna</h4>
                 </div>
             </div>
-            <form action="<?= base_url('pengguna/ubah/' . $Pengguna['pengguna_id']) ?>" method="POST" novalidate>
+            <form action="<?= base_url('pengguna/ubah/' . $Pengguna['pengguna_id']) ?>" method="POST">
                 <div class="row">
                     <div class="input-field col s12">
                         <input type="text" id="username" name="username" value="<?= $Pengguna['username'] ?>" required>
@@ -30,13 +30,17 @@
                         <label for="satker">Satker</label>
                     </div>
                     <div class="input-field col s12">
-                        <select id="pengguna_hak_akses" name="pengguna_hak_akses" required>
+                        <input type="number" id="limit" name="limit" value="<?= $Pengguna['limit'] ?>" required>
+                        <label for="limit">limit</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <select id="role" name="role" required>
                             <option value="" disabled selected>Pilih Hak Akses</option>
                             <option value="admin">admin</option>
                             <option value="operator">Operator</option>
                             <option value="user">User</option>
                         </select>
-                        <label for="pengguna_hak_akses">Hak Akses Sebagai</label>
+                        <label for="role">Hak Akses Sebagai</label>
                     </div>
                 </div>
                 <div class="row">

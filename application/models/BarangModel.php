@@ -62,23 +62,12 @@ class BarangModel extends GLOBAL_Model
         return $this->db->get('tb_barang')->row();
     }
 
-    public function check_stock_and_notify()
-{
-    $threshold = 10; // Batas stok minimum
-    $this->db->where('stok <', $threshold);
-    $query = $this->db->get('tb_barang');
-    $barang_list = $query->result_array();
-
-    foreach ($barang_list as $barang) {
-        // Menambahkan notifikasi
-        $data = [
-            'pengguna_id' => 1, // ID admin atau pengguna yang relevan
-            'pesan' => 'Stok barang ' . $barang['nama_barang'] . ' tinggal sedikit. Harap tambahkan stok.',
-            'status' => 'belum_dibaca',
-            'created_at' => date('Y-m-d H:i:s')
-        ];
-        $this->db->insert('tb_notifikasi', $data);
+    public function cek_stok_menipis($id_barang)
+    {
+        $barang = $this->get_barang_by_id($id_barang);
+        if ($barang && $barang->stok <= 10) {
+            return true;
+        }
+        return false;
     }
-}
-
 }

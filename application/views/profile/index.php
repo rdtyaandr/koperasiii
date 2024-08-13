@@ -88,7 +88,7 @@
                     <label>Nama Lengkap</label>
                 </div>
                 <div class="input-field">
-                    <input type="text" name="username" value="<?= $pengguna['username'] ?>" required>
+                    <input type="text" name="username" value="<?= $pengguna['username'] ?>" disabled>
                     <label>Username</label>
                 </div>
                 <div class="input-field">

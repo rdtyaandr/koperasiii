@@ -11,17 +11,17 @@ class AnalyticsModel extends GLOBAL_Model
         return $this->db->count_all('tb_transaksi'); // Ganti 'orders' dengan nama tabel Anda
     }
 
-   /// public function get_sales_total()
-   /// {
-      ///  $this->db->select_sum('amount'); // Ganti 'amount' dengan nama kolom yang menyimpan jumlah penjualan
-        //$query = $this->db->get('sales'); // Ganti 'sales' dengan nama tabel Anda
-       // return $query->row()->amount;
-    //}
+    public function get_sales_total()
+    {
+        $this->db->select_sum('total'); // Ganti 'amount' dengan nama kolom yang menyimpan jumlah penjualan
+        $query = $this->db->get('tb_transaksi'); // Ganti 'sales' dengan nama tabel Anda
+        return $query->row()->total;
+    }
 
-    //public function get_issue_count()
-   // {
-     //   return $this->db->count_all('issues'); // Ganti 'issues' dengan nama tabel Anda
-    //}
+    public function get_barang()
+    {
+        return $this->db->count_all('tb_barang'); // Ganti 'issues' dengan nama tabel Anda
+    }
 
     public function get_sales_data()
     {

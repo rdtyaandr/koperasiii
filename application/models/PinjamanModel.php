@@ -55,7 +55,7 @@ class PinjamanModel extends GLOBAL_Model
     {
         $this->db->select('tb_pengajuan.*, tb_pengguna.username'); // Select all fields from tb_pengajuan and username from tb_pengguna
         $this->db->from('tb_pengajuan');
-        $this->db->join('tb_pengguna', 'tb_pengajuan.pengguna_id= tb_pengguna.pengguna_id'); // Join with tb_pengguna based on user_id
+        $this->db->join('tb_pengguna', 'tb_pengajuan.user_id = tb_pengguna.pengguna_id'); // Join with tb_pengguna based on user_id
         return $this->db->get()->result_array();
     }
 
@@ -63,8 +63,8 @@ class PinjamanModel extends GLOBAL_Model
     {
         $this->db->select('tb_pengajuan.*, tb_pengguna.username'); // Select all fields from tb_pengajuan and username from tb_pengguna
         $this->db->from('tb_pengajuan');
-        $this->db->join('tb_pengguna', 'tb_pengajuan.pengguna_id = tb_pengguna.pengguna_id'); // Join with tb_pengguna based on user_id
-        $this->db->where('tb_pengajuan.pengguna_id', $user_id); // Only fetch records matching the user_id
+        $this->db->join('tb_pengguna', 'tb_pengajuan.user_id = tb_pengguna.pengguna_id'); // Join with tb_pengguna based on user_id
+        $this->db->where('tb_pengajuan.user_id', $user_id); // Only fetch records matching the user_id
         return $this->db->get()->result_array();
     }
 

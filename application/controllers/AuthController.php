@@ -13,7 +13,7 @@ class AuthController extends GLOBAL_Controller
     {
         parent::__construct();
         $this->load->model('AuthModel');
-        $this->load->model('NotifikasiModel'); // Memuat NotifikasiModel
+         // Memuat NotifikasiModel
     }
     
     
@@ -47,7 +47,7 @@ public function login()
                     'pengguna_id' => $pengguna['pengguna_id'],
                     'username' => $pengguna['username'],
                     'name' => $pengguna['nama_lengkap'],
-                    'level' => $pengguna['pengguna_hak_akses'],
+                    'level' => $pengguna['role'],
                     'picture' => $pengguna['pengguna_picture'], // Tambahkan foto profil ke sesi
                     'login' => true
                 );
@@ -90,7 +90,7 @@ public function login()
                 'email' => $email,
                 'satker' => $satker,
                 'password' => $password,
-                'pengguna_hak_akses' => 'user'
+                'role' => 'user'
             );
     
             $insert = $this->AuthModel->insert_pengguna($dataPengguna);
