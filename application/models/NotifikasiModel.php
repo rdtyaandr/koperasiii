@@ -14,4 +14,16 @@ class NotificationModel extends GLOBAL_Model {
         $query = $this->db->get('tb_notifikasi');
         return $query->result_array();
     }
+
+    public function get_barang_stok_rendah($limit = 10)
+    {
+        $this->db->where('stok <=', 10);
+        return $this->db->get('tb_barang', $limit)->result();
+    }
+
+    public function get_pinjaman_menunggu()
+    {
+        $this->db->where('status', 'Menunggu Persetujuan');
+        return $this->db->get('tb_pengajuan')->result();
+    }
 }

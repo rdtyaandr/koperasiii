@@ -61,13 +61,4 @@ class BarangModel extends GLOBAL_Model
         $this->db->where('id_barang', $id_barang);
         return $this->db->get('tb_barang')->row();
     }
-
-    public function cek_stok_menipis($id_barang)
-    {
-        $barang = $this->get_barang_by_id($id_barang);
-        if ($barang && $barang->stok <= 10) {
-            return true;
-        }
-        return false;
-    }
 }

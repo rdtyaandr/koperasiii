@@ -39,6 +39,7 @@
     <!-- dataTables css plugins-->
     <link rel="stylesheet" href="<?= base_url('assets/css/plugins/material.min.css') ?>" type="text/css" media="screen,projection">
     <link rel="stylesheet" href="<?= base_url('assets/css/plugins/dataTables.material.min.css') ?>" type="text/css" media="screen,projection">
+    </body>
 </head>
 
 
@@ -63,37 +64,33 @@
                         <i class="mdi-action-search"></i>
                         <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Cari di Aplikasi" />
                     </div>
-                    <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating hide-on-large-only blue darken-2" style="position: absolute; left: 10px; top: 10px; box-shadow: 0px 0px 0px transparent !important;">
-                        <i class="mdi-navigation-menu"></i>
-                    </a>
 
-                    <ul class="right" style="display: flex; align-items: center;">
-    <li style="position: relative;">
-        <a href="#" id="notification-button" class="btn-floating blue darken-2" style="margin-right: 15px; display: flex; align-items: center; justify-content: center; height: 40px; width: 40px;">
-            <i class="material-icons">notifications</i>
-        </a>
-        <span id="notification-count" style="position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; font-weight: bold; text-align: center; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">3</span>
-    </li>
-</ul>
+                    <?php if ($this->session->userdata('level') !== 'user') : ?>
+                        <a class='dropdown-button btn blue lighten-2' href='#' data-activates='dropdown1' style="position: relative; z-index: 10; left: -170px; border-radius: 50%; width:auto; height:auto;">
+                            <i class="material-icons" style="line-height: 0; position: absolute; left: 6.5px;">notifications</i>
+                            <?php if (in_array($this->session->userdata('level'), ['admin', 'operator']) && (!empty($stok_rendah) || !empty($pinjaman_menunggu))) : ?>
+                                <span class="newbadge" style="position: absolute; left:24px; bottom: 4px; width: 10px; height: 10px; background-color: red; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;"></span> <!-- Badge untuk jumlah item -->
+                        </a>
+                        <ul id='dropdown1' class='dropdown-content' style="margin-top: 37px; margin-right: 60px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); background-color: white; padding: 10px; min-width: 200px;">
+                            <?php if (in_array($this->session->userdata('level'), ['admin', 'operator']) && !empty($stok_rendah)) : ?>
+                                <li><strong style="color: #616161;">Stok <br>Rendah :</strong></li>
+                                <?php foreach ($stok_rendah as $barang) : ?>
+                                    <li><a href="<?php echo base_url('barang/ubah/' . $barang->id_barang); ?>" class="red-text" style="text-decoration: none; color: #d32f2f;"><?php echo $barang->nama_barang; ?> (Sisa: <?php echo $barang->stok; ?>)</a></li>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                            <?php if ($this->session->userdata('level') === 'admin' && !empty($pinjaman_menunggu)) : ?>
+                                <li><strong style="color: #616161;">Menunggu <br>Persetujuan :</strong></li>
+                                <?php foreach ($pinjaman_menunggu as $pinjaman) : ?>
+                                    <li><a href="<?php echo base_url('pinjaman'); ?>" class="red-text" style="text-decoration: none; color: #1976d2;"><?php echo $pinjaman->jenis_pinjaman; ?> (Jumlah: <?php echo number_format($pinjaman->jumlah_pinjaman, 2); ?>)</a></li>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </ul>
+                    <?php endif; ?>
+                <?php endif; ?>
 
-                    <!-- Pop-up Notifikasi -->
-                    <div id="notification-modal" class="modal" style="display: none; position: fixed; top: 0; right: 0; width: 300px; height: 100%; background: #ffffff; box-shadow: -2px 0 5px rgba(0,0,0,0.2); transform: translateX(100%); transition: transform 0.3s ease;">
-    <div class="modal-content" style="padding: 20px; height: calc(100% - 50px); overflow-y: auto;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <h4 style="margin: 0;">Notifikasi</h4>
-        </div>
-        <ul id="notification-list" style="list-style-type: none; padding: 0; margin: 0;">
-            <!-- Notifications will be added here -->
-        </ul>
-    </div>
-    <div class="modal-footer" style="position: absolute; bottom: 0; width: 100%; background: #f1f1f1; padding: 10px; text-align: center;">
-        <button class="modal-close btn" style="background-color: #007bff; color: #ffffff; border: none; padding: 10px; cursor: pointer; width: 100%;">Tutup</button>
-    </div>
-</div>
-
-</div>
-
-
+                <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating hide-on-large-only blue darken-2" style="position: absolute; left: 10px; top: 10px; box-shadow: 0px 0px 0px transparent !important;">
+                    <i class="mdi-navigation-menu"></i>
+                </a>
                 </div>
             </nav>
         </div>
@@ -141,10 +138,10 @@
                         <li class="bold active">
                             <a href="<?= base_url() ?>"><i class="mdi-action-trending-up"></i> Dashboard</a>
                         </li>
-                        <?php elseif ($this->session->userdata('level') == 'user') : ?>
-                            <li class="bold active">
-                                <a href="<?= base_url('dashboard/user') ?>"><i class="mdi-action-trending-up"></i> Dashboard</a>
-                            </li>
+                    <?php elseif ($this->session->userdata('level') == 'user') : ?>
+                        <li class="bold active">
+                            <a href="<?= base_url('dashboard/user') ?>"><i class="mdi-action-trending-up"></i> Dashboard</a>
+                        </li>
                     <?php endif; ?>
 
 
@@ -261,9 +258,11 @@
                     <li>
                         <a href="<?= base_url('profile') ?>"><i class="material-icons">person</i> Profil</a>
                     </li>
-                    <li>
-                        <a href="<?= base_url('bantuan') ?>"><i class="material-icons">help</i> Bantuan</a>
-                    </li>
+                    <?php if ($this->session->userdata('level') == 'operator') : ?>
+                        <li>
+                            <a href="<?= base_url('faq') ?>"><i class="material-icons">help</i> Bantuan</a>
+                        </li>
+                    <?php endif; ?>
                     <li>
                         <a href="#" id="logoutButton"><i class="mdi-action-exit-to-app"></i> Keluar</a>
                     </li>

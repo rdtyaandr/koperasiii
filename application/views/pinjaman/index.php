@@ -77,9 +77,6 @@
                                                 <a href="<?= base_url('pinjaman/cancel/' . $pinjaman['id']) ?>" class="btn-small waves-effect waves-light orange tooltipped" data-position="top" data-tooltip="Batalkan" <?= $pinjaman['status'] === 'Telah Disetujui oleh Admin' ? '' : 'disabled' ?>>
                                                     <i class="material-icons">cancel</i>
                                                 </a>
-                                                <a href="<?= base_url('pinjaman/delete/' . $pinjaman['id']) ?>" class="btn-small waves-effect waves-light red tooltipped" data-position="top" data-tooltip="Hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus pinjaman ini?')">
-                                                    <i class="material-icons">delete_forever</i>
-                                                </a>
                                             </td>
 
                                         <?php endif; ?>

@@ -57,3 +57,4 @@ class AnalyticsModel extends GLOBAL_Model
     }
 }
 ?>
+

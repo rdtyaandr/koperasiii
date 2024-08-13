@@ -1,17 +1,23 @@
+<style>
+    .card-link {
+        display: block;
+        text-decoration: none;
+    }
+
+    .card-link:hover .card {
+        transform: scale(1.02);
+        /* Contoh efek hover */
+    }
+</style>
 <div class="container-fluid" style="padding: 20px;">
     <div class="row">
         <div class="col s12">
             <div class="card hoverable" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
                 <div class="card-content">
-                    <div class="row valign-wrapper" style="margin-bottom: 30px;">
+                    <div class="row valign-wrapper" style="margin-bottom: 10px;">
                         <div class="col s6">
                             <span class="card-title blue-text text-darken-2"
-                                style="font-size: 2.5em; font-weight: bold; position: relative; display: inline-block;">
-                                Dashboard
-                            </span>
-                            <div
-                                style="width: 14%; height: 3px; background-color: blue; margin-top: 5px; margin-left: 0; border-radius: 2px;">
-                            </div>
+                                style="font-size: 2.5em; font-weight: bold;">Dashboard</span>
                         </div>
                         <!-- Jam -->
                         <div class="col s6 right-align">
@@ -25,52 +31,140 @@
                         </div>
                     </div>
 
-                    <!-- Kartu Statistik -->
                     <div class="row">
-                        <div class="col s12 m6 l3">
-                            <div class="card blue darken-2 white-text"
-                                style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;">
-                                <div class="card-content" style="padding: 20px;">
-                                    <i class="material-icons right" style="font-size: 3em;">assessment</i>
-                                    <span class="card-title" style="font-size: 1.2em;">barang</span>
-                                    <h4 style="font-size: 2.5em; margin: 10px 0;"><?= $barang ?> </h4>
-                                    <p style="font-size: 1em;">+5% dari minggu lalu</p>
+                        <?php if ($this->session->userdata('level') == 'admin'): ?>
+                            <div class="row">
+                                <div class="col s12 m6 l3">
+                                    <a href="<?php echo base_url('barang'); ?>" class="card-link">
+                                        <div class="card blue darken-2 white-text"
+                                            style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s;">
+                                            <div class="card-content" style="padding: 20px;">
+                                                <i class="material-icons right" style="font-size: 3em;">assessment</i>
+                                                <span class="card-title" style="font-size: 1.2em;">Barang</span>
+                                                <h4 style="font-size: 2.5em; margin: 10px 0;">
+                                                    <?php echo $stats['total_barang']; ?>
+                                                </h4>
+                                                <p style="font-size: 1em;">
+                                                    <?php echo ($statss['change_barang'] >= 0 ? '+' : '') . $statss['change_barang']; ?>
+                                                    bulan ini
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col s12 m6 l3">
+                                    <a href="<?php echo base_url('transaksi'); ?>" class="card-link">
+                                        <div class="card green darken-2 white-text"
+                                            style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s;">
+                                            <div class="card-content" style="padding: 20px;">
+                                                <i class="material-icons right" style="font-size: 3em;">monetization_on</i>
+                                                <span class="card-title" style="font-size: 1.2em;">Transaksi</span>
+                                                <h4 style="font-size: 2.5em; margin: 10px 0;">
+                                                    <?php echo $stats['total_transaksi']; ?>
+                                                </h4>
+                                                <p style="font-size: 1em;">
+                                                    <?php echo ($statss['change_transaksi'] >= 0 ? '+' : '') . $statss['change_transaksi']; ?>
+                                                    bulan ini
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col s12 m6 l3">
+                                    <a href="<?php echo base_url('pengguna'); ?>" class="card-link">
+                                        <div class="card amber darken-2 white-text"
+                                            style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s;">
+                                            <div class="card-content" style="padding: 20px;">
+                                                <i class="material-icons right" style="font-size: 3em;">people_alt</i>
+                                                <span class="card-title" style="font-size: 1.2em;">Pengguna</span>
+                                                <h4 style="font-size: 2.5em; margin: 10px 0;">
+                                                    <?php echo $stats['total_anggota']; ?>
+                                                </h4>
+                                                <p style="font-size: 1em;">
+                                                    <?php echo ($statss['change_anggota'] >= 0 ? '+' : '') . $statss['change_anggota']; ?>
+                                                    bulan ini
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col s12 m6 l3">
+                                    <a href="<?php echo base_url('pinjaman'); ?>" class="card-link">
+                                        <div class="card red darken-2 white-text"
+                                            style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s;">
+                                            <div class="card-content" style="padding: 20px;">
+                                                <i class="material-icons right" style="font-size: 3em;">credit_card</i>
+                                                <span class="card-title" style="font-size: 1.2em;">Pinjaman</span>
+                                                <h4 style="font-size: 2.5em; margin: 10px 0;">
+                                                    <?php echo $stats['total_pengajuan']; ?>
+                                                </h4>
+                                                <p style="font-size: 1em;">
+                                                    <?php echo ($statss['change_pengajuan'] >= 0 ? '+' : '') . $statss['change_pengajuan']; ?>
+                                                    bulan ini
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col s12 m6 l3">
-                            <div class="card green darken-2 white-text"
-                                style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;">
-                                <div class="card-content" style="padding: 20px;">
-                                    <i class="material-icons right" style="font-size: 3em;">people_alt</i>
-                                    <span class="card-title" style="font-size: 1.2em;">Pengguna</span>
-                                    <h4 style="font-size: 2.5em; margin: 10px 0;"><?= $user_count ?></h4>
-                                    <p style="font-size: 1em;">+2% dari minggu lalu</p>
+                        <?php endif ?>
+
+                        <?php if ($this->session->userdata('level') == 'operator'): ?>
+                            <div class="col s12 m6 l4">
+                                <a href="<?php echo base_url('barang'); ?>" class="card-link">
+                                    <div class="card blue darken-2 white-text"
+                                        style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s;">
+                                        <div class="card-content" style="padding: 20px;">
+                                            <i class="material-icons right" style="font-size: 3em;">assessment</i>
+                                            <span class="card-title" style="font-size: 1.2em;">Barang</span>
+                                            <h4 style="font-size: 2.5em; margin: 10px 0;">
+                                                <?php echo $stats['total_barang']; ?>
+                                            </h4>
+                                            <p style="font-size: 1em;">
+                                                <?php echo ($statss['change_barang'] >= 0 ? '+' : '') . $statss['change_barang']; ?>
+                                                bulan ini
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col s12 m6 l4">
+                                <a href="<?php echo base_url('transaksi'); ?>" class="card-link">
+                                    <div class="card green darken-2 white-text"
+                                        style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s;">
+                                        <div class="card-content" style="padding: 20px;">
+                                            <i class="material-icons right" style="font-size: 3em;">monetization_on</i>
+                                            <span class="card-title" style="font-size: 1.2em;">Transaksi</span>
+                                            <h4 style="font-size: 2.5em; margin: 10px 0;">
+                                                <?php echo $stats['total_transaksi']; ?>
+                                            </h4>
+                                            <p style="font-size: 1em;">
+                                                <?php echo ($statss['change_transaksi'] >= 0 ? '+' : '') . $statss['change_transaksi']; ?>
+                                                bulan ini
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col s12 m6 l4">
+                                <div class="card-link">
+                                    <div class="card amber darken-2 white-text"
+                                        style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s;">
+                                        <div class="card-content" style="padding: 20px;">
+                                            <i class="material-icons right" style="font-size: 3em;">people_alt</i>
+                                            <span class="card-title" style="font-size: 1.2em;">Pengguna</span>
+                                            <h4 style="font-size: 2.5em; margin: 10px 0;">
+                                                <?php echo $stats['total_anggota']; ?>
+                                            </h4>
+                                            <p style="font-size: 1em;">
+                                                <?php echo ($statss['change_anggota'] >= 0 ? '+' : '') . $statss['change_anggota']; ?>
+                                                bulan ini
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col s12 m6 l3">
-                            <div class="card amber darken-2 white-text"
-                                style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;">
-                                <div class="card-content" style="padding: 20px;">
-                                    <i class="material-icons right" style="font-size: 3em;">monetization_on</i>
-                                    <span class="card-title" style="font-size: 1.2em;">Transaksi</span>
-                                    <h4 style="font-size: 2.5em; margin: 10px 0;">$<?= $transaksi ?></h4>
-                                    <p style="font-size: 1em;">+10% dari minggu lalu</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col s12 m6 l3">
-                            <div class="card red darken-2 white-text"
-                                style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;">
-                                <div class="card-content" style="padding: 20px;">
-                                    <i class="material-icons right" style="font-size: 3em;">credit_card</i>
-                                    <span class="card-title" style="font-size: 1.2em;">Pinjaman</span>
-                                    <h4 style="font-size: 2.5em; margin: 10px 0;">23</h4>
-                                    <p style="font-size: 1em;">-5% dari minggu lalu</p>
-                                </div>
-                            </div>
-                        </div>
+                        <?php endif ?>
                     </div>
 
                     <style>
@@ -84,267 +178,173 @@
 
                     <!-- Grafik -->
                     <div class="row">
-                        <div class="col s12">
-                            <div class="card" style="border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
-                                <div class="card-content">
-                                    <span class="card-title blue-text text-darken-2"
-                                        style="font-size: 1.8em; font-weight: 500;">Jumlah Transaksi per Bulan</span>
-                                    <div id="sales-chart" style="height: 350px;"></div>
+                        <?php if ($this->session->userdata('level') == 'admin'): ?>
+                            <div class="col s6">
+                            <?php elseif ($this->session->userdata('level') == 'operator'): ?>
+                                <div class="col s12">
+                                <?php endif; ?>
+                                <div class="card"
+                                    style="border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
+                                    <div class="card-content">
+                                        <span class="card-title blue-text text-darken-2"
+                                            style="font-size: 1.8em; font-weight: 500;">Data Transaksi</span>
+                                        <div id="sales-chart" style="height: 300px;"></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col s12 m6">
-                            <div class="card" style="border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
-                                <div class="card-content">
-                                    <span class="card-title green-text text-darken-1"
-                                        style="font-size: 1.8em; font-weight: 500;">Banyak Pinjaman</span>
-                                    <div id="user-growth-chart" style="height: 300px;"></div>
+                            <?php if ($this->session->userdata('level') == 'admin'): ?>
+                                <div class="col s6 m6">
+                                    <div class="card"
+                                        style="border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
+                                        <div class="card-content">
+                                            <span class="card-title green-text text-darken-1"
+                                                style="font-size: 1.8em; font-weight: 500;">Banyak Pinjaman</span>
+                                            <div id="user-growth-chart" style="height: 300px;"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col s12 m6">
-                            <div class="card" style="border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
-                                <div class="card-content">
-                                    <span class="card-title orange-text text-darken-2"
-                                        style="font-size: 1.8em; font-weight: 500;">Distribusi Barang</span>
-                                    <div id="revenue-chart" style="height: 300px;"></div>
-                                </div>
-                            </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<script>
-    // Memperbarui tanggal dan waktu saat ini
-    function updateDateTime() {
-        var now = new Date();
-        var dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        var timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>
+        // Update current date and time
+        function updateDateTime() {
+            var now = new Date();
+            var dateOptions = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+            var timeOptions = {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
 
-        var formattedDate = now.toLocaleDateString('id-ID', dateOptions);
-        var formattedTime = now.toLocaleTimeString('id-ID', timeOptions);
+            var formattedDate = now.toLocaleDateString('id-ID', dateOptions);
+            var formattedTime = now.toLocaleTimeString('id-ID', timeOptions);
 
-        document.getElementById('date').textContent = formattedDate;
-        document.getElementById('time').textContent = formattedTime;
-    }
-    setInterval(updateDateTime, 1000);
-    updateDateTime();
-
-    // Grafik Jumlah Transaksi
-    var salesOptions = {
-        series: [{
-            name: 'Penjualan',
-            data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 110, 95, 130] // Data penjualan untuk 12 bulan
-        }],
-        chart: {
-            type: 'line', // Menggunakan grafik garis
-            height: 350,
-            zoom: { enabled: true },
-            toolbar: { show: true } // Menyembunyikan toolbar
-        },
-        dataLabels: { enabled: false },
-        stroke: {
-            curve: 'smooth',
-            width: 3 // Lebar garis
-        },
-        title: {
-            align: 'left',
-            style: {
-                fontSize: '1.5em',
-                fontWeight: 'bold',
-                color: '#333'
-            }
-        },
-        subtitle: {
-           
-            align: 'left',
-            style: {
-                fontSize: '1em',
-                color: '#555'
-            }
-        },
-        xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], // Kategori untuk 12 bulan
-            labels: {
-                formatter: function (value) { return value; },
-                style: { colors: '#888' }
-            },
-            title: {
-                text: 'Bulan',
-                style: {
-                    color: '#333'
-                }
-            },
-            axisBorder: {
-                show: true,
-                color: '#e0e0e0'
-            },
-            axisTicks: {
-                show: true,
-                color: '#e0e0e0'
-            }
-        },
-        yaxis: {
-            opposite: true,
-            labels: {
-                formatter: function (value) { return "$" + value.toFixed(2); },
-                style: { colors: '#888' }
-            },
-            title: {
-                
-                style: {
-                    color: '#333'
-                }
-            },
-            axisBorder: {
-                show: true,
-                color: '#e0e0e0'
-            },
-            axisTicks: {
-                show: true,
-                color: '#e0e0e0'
-            }
-        },
-        grid: {
-            borderColor: '#e0e0e0',
-            row: {
-                colors: ['#f3f3f3', 'transparent'], // Alternatif warna untuk baris
-                opacity: 0.5
-            },
-        },
-        legend: {
-            horizontalAlign: 'left',
-            position: 'top'
-        },
-        tooltip: {
-            shared: true,
-            intersect: false,
-            y: {
-                formatter: function (value) { return "$" + value.toFixed(2); }
-            },
-            style: {
-                fontSize: '1em'
-            }
+            document.getElementById('date').textContent = formattedDate;
+            document.getElementById('time').textContent = formattedTime;
         }
-    };
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
 
-    var salesChart = new ApexCharts(document.querySelector("#sales-chart"), salesOptions);
-    salesChart.render();
-
-
-    // Grafik Pinjaman
-    var userGrowthOptions = {
-        series: [{
-            name: 'Setujui',
-            data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 70, 75, 80] // Data untuk 12 bulan
-        }, {
-            name: 'Belum di Setujui',
-            data: [76, 85, 101, 98, 87, 105, 91, 114, 94, 100, 110, 120] // Data untuk 12 bulan
-        }],
-        chart: {
-            type: 'line', // Menggunakan grafik garis
-            height: 300,
-            zoom: { enabled: false },
-            toolbar: { show: false } // Menyembunyikan toolbar
-        },
-        dataLabels: { enabled: false },
-        stroke: {
-            curve: 'smooth',
-            width: 3 // Lebar garis
-        },
-        title: {
-            align: 'left',
-            style: {
-                fontSize: '1.5em',
-                fontWeight: 'bold',
-                color: '#333'
-            }
-        },
-        xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], // Kategori untuk 12 bulan
-            labels: {
-                style: { colors: '#888' }
-            },
-            title: {
-                text: 'Bulan',
-                style: {
-                    color: '#333'
+        // Sales Overview Chart
+        var salesOptions = {
+            series: [{
+                name: 'Total',
+                data: <?php echo json_encode($monthly_data); ?>
+            }],
+            chart: {
+                type: 'area',
+                height: 450,
+                zoom: {
+                    enabled: false
                 }
             },
-            axisBorder: {
-                show: true,
-                color: '#e0e0e0'
+            dataLabels: {
+                enabled: false
             },
-            axisTicks: {
-                show: true,
-                color: '#e0e0e0'
-            }
-        },
-        yaxis: {
+            stroke: {
+                curve: 'smooth'
+            },
             title: {
-               
-                style: {
-                    color: '#333'
+                text: 'Jumlah transaksi perbulan',
+                align: 'left'
+            },
+            subtitle: {
+                text: 'Total transaksi dari waktu ke waktu',
+                align: 'left'
+            },
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                labels: {
+                    formatter: function (value) {
+                        return value;
+                    }
                 }
             },
-            labels: {
-                style: { colors: '#888' }
+            yaxis: {
+                opposite: true,
+                labels: {
+                    formatter: function (value) {
+                        return value;
+                    }
+                }
             },
-            axisBorder: {
+            legend: {
+                horizontalAlign: 'left'
+            },
+            tooltip: {
+                y: {
+                    formatter: function (value) {
+                        return value + ' Transaksi';
+                    }
+                }
+            }
+        };
+
+        var salesChart = new ApexCharts(document.querySelector("#sales-chart"), salesOptions);
+        salesChart.render();
+
+        var userGrowthOptions = {
+            series: [{
+                name: 'Menunggu',
+                data: <?php echo json_encode($approved_data); ?>,
+            }, {
+                name: 'Disetujui',
+                data: <?php echo json_encode($pending_data); ?>,
+            }, {
+                name: 'Ditolak',
+                data: <?php echo json_encode($rejected_data); ?>,
+            }],
+            chart: {
+                type: 'bar',
+                height: 450
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                    endingShape: 'rounded'
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
                 show: true,
-                color: '#e0e0e0'
+                width: 2,
+                colors: ['transparent']
             },
-            axisTicks: {
-                show: true,
-                color: '#e0e0e0'
-            }
-        },
-        grid: {
-            borderColor: '#e0e0e0',
-            row: {
-                colors: ['#f3f3f3', 'transparent'], // Alternatif warna untuk baris
-                opacity: 0.5
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             },
-        },
-        legend: {
-            horizontalAlign: 'left',
-            position: 'top'
-        },
-        tooltip: {
-            shared: true,
-            intersect: false,
-            y: {
-                formatter: function (val) { return val + "anggota"; }
+            yaxis: {
+                title: {
+                    text: 'Jumlah'
+                }
             },
-            style: {
-                fontSize: '1em'
+            fill: {
+                opacity: 1
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return val + " User";
+                    }
+                }
             }
-        }
-    };
+        };
 
-    var userGrowthChart = new ApexCharts(document.querySelector("#user-growth-chart"), userGrowthOptions);
-    userGrowthChart.render();
-
-
-    // Grafik Distribusi Barang
-    var revenueOptions = {
-        series: [44, 55, 13, 43],
-        chart: { type: 'donut', height: 300 },
-        labels: ['Produk A', 'Produk B', 'Produk C', 'Produk D'],
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                chart: { width: 200 },
-                legend: { position: 'bottom' }
-            }
-        }]
-    };
-
-    var revenueChart = new ApexCharts(document.querySelector("#revenue-chart"), revenueOptions);
-    revenueChart.render();
-</script>
+        var userGrowthChart = new ApexCharts(document.querySelector("#user-growth-chart"), userGrowthOptions);
+        userGrowthChart.render();
+    </script>

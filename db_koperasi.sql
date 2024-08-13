@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Waktu pembuatan: 07 Agu 2024 pada 02.58
+-- Waktu pembuatan: 08 Agu 2024 pada 09.26
 -- Versi server: 8.0.30
 -- Versi PHP: 8.3.8
 
@@ -392,8 +392,8 @@ CREATE TABLE `tb_barang` (
 --
 
 INSERT INTO `tb_barang` (`id_barang`, `kode_barang`, `nama_barang`, `detail_barang`, `id_satuan`, `id_kategori`, `harga_beli`, `harga_jual`, `stok`, `created_at`, `updated_at`) VALUES
-(358, '-', 'Susu', '-', 12, 35, 3000, 5000, 9997127, '2024-08-06 01:13:58', '2024-08-06 02:59:36'),
-(359, '-', 'Gorengan', '-', 15, 36, 500, 2000, 514, '2024-08-06 01:14:26', '2024-08-06 02:56:23'),
+(358, '-', 'Susu', '-', 12, 35, 3000, 5000, 6, '2024-08-06 01:13:58', '2024-08-08 08:50:14'),
+(359, '-', 'Gorengan', '-', 15, 36, 500, 2000, 9, '2024-08-06 01:14:26', '2024-08-06 02:56:23'),
 (361, '', 'hhgft', '', 6, 36, 76587658, 856658, 85664, '2024-08-06 07:46:18', '2024-08-06 07:51:10');
 
 -- --------------------------------------------------------
@@ -417,12 +417,13 @@ CREATE TABLE `tb_detransaksi` (
 --
 
 INSERT INTO `tb_detransaksi` (`id_detail`, `id_transaksi`, `id_barang`, `nama_barang`, `harga`, `jumlah`, `total`) VALUES
-(223, 123, 359, 'Gorengan', 2000, 80, 160000),
-(224, 123, 358, 'Susu', 5000, 49, 245000),
-(226, 124, 361, 'hhgft', 856658, 1, 856658),
-(227, 125, 358, 'Susu', 5000, 43, 215000),
-(231, 126, 358, 'Susu', 5000, 6, 30000),
-(232, 127, 358, 'Susu', 5000, 67, 335000);
+(242, 132, 358, 'Susu', 5000, 70, 350000),
+(243, 133, 359, 'Gorengan', 2000, 50, 100000),
+(246, 130, 358, 'Susu', 5000, 60, 300000),
+(247, 130, 359, 'Gorengan', 2000, 18, 36000),
+(248, 131, 358, 'Susu', 5000, 67, 335000),
+(249, 134, 358, 'Susu', 5000, 4, 20000),
+(250, 135, 359, 'Gorengan', 2000, 421, 842000);
 
 -- --------------------------------------------------------
 
@@ -434,6 +435,7 @@ CREATE TABLE `tb_histori` (
   `id` int NOT NULL,
   `message_text` varchar(255) NOT NULL,
   `message_summary` varchar(255) NOT NULL,
+  `role` enum('admin','operator','user') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `message_icon` varchar(50) NOT NULL,
   `message_date_time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -442,14 +444,56 @@ CREATE TABLE `tb_histori` (
 -- Dumping data untuk tabel `tb_histori`
 --
 
-INSERT INTO `tb_histori` (`id`, `message_text`, `message_summary`, `message_icon`, `message_date_time`) VALUES
-(36, 'Kategori dihapus', 'Kategori  telah dihapus', 'delete', '2024-08-07 02:52:34'),
-(37, 'Kategori ditambahkan', 'Kategori 68588 telah ditambahkan', 'add_circle_outline', '2024-08-07 02:55:07'),
-(38, 'Kategori ditambahkan', 'Kategori 68588 telah ditambahkan', 'add_circle_outline', '2024-08-07 02:55:08'),
-(39, 'Kategori ditambahkan', 'Kategori 68588 telah ditambahkan', 'add_circle_outline', '2024-08-07 02:55:09'),
-(40, 'Kategori dihapus', 'Kategori  telah dihapus', 'delete', '2024-08-07 02:55:15'),
-(41, 'Kategori dihapus', 'Kategori  telah dihapus', 'delete', '2024-08-07 02:55:19'),
-(42, 'Kategori dihapus', 'Kategori  telah dihapus', 'delete', '2024-08-07 02:55:23');
+INSERT INTO `tb_histori` (`id`, `message_text`, `message_summary`, `role`, `message_icon`, `message_date_time`) VALUES
+(36, 'Kategori dihapus', 'Kategori  telah dihapus', 'admin', 'delete', '2024-08-07 02:52:34'),
+(37, 'Kategori ditambahkan', 'Kategori 68588 telah ditambahkan', 'admin', 'add_circle_outline', '2024-08-07 02:55:07'),
+(38, 'Kategori ditambahkan', 'Kategori 68588 telah ditambahkan', 'admin', 'add_circle_outline', '2024-08-07 02:55:08'),
+(39, 'Kategori ditambahkan', 'Kategori 68588 telah ditambahkan', 'admin', 'add_circle_outline', '2024-08-07 02:55:09'),
+(40, 'Kategori dihapus', 'Kategori  telah dihapus', 'admin', 'delete', '2024-08-07 02:55:15'),
+(41, 'Kategori dihapus', 'Kategori  telah dihapus', 'admin', 'delete', '2024-08-07 02:55:19'),
+(42, 'Kategori dihapus', 'Kategori  telah dihapus', 'admin', 'delete', '2024-08-07 02:55:23'),
+(43, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 280.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-07 03:31:44'),
+(44, 'Pengguna dengan nama a telah ditambahkan', 'Pengguna ditambahkan', 'admin', 'add_circle_outline', '2024-08-07 03:32:36'),
+(45, 'Kategori ditambahkan', 'Kategori okkk telah ditambahkan', 'operator', 'add_circle_outline', '2024-08-07 03:35:10'),
+(46, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 10.000 Rupiah', 'operator', 'add_circle_outline', '2024-08-07 06:36:16'),
+(47, 'Pengajuan pinjaman', 'Pengguna dengan ID 8 telah mengajukan pinjaman sebesar 34,000.00', 'user', 'add_circle_outline', '2024-08-07 07:40:57'),
+(48, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 300.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-08 02:10:13'),
+(49, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 403.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-08 02:10:38'),
+(50, 'Transaksi diubah', 'Transaksi dengan total 403.000 Rupiah telah diubah', 'admin', 'update', '2024-08-08 02:11:14'),
+(51, 'Transaksi diubah', 'Transaksi dengan total 425.000 Rupiah telah diubah', 'admin', 'update', '2024-08-08 02:11:25'),
+(52, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 350.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-08 02:11:53'),
+(53, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 100.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-08 02:12:21'),
+(54, 'Transaksi diubah', 'Transaksi dengan total 300.000 Rupiah telah diubah', 'admin', 'update', '2024-08-08 02:13:23'),
+(55, 'Transaksi diubah', 'Transaksi dengan total 320.000 Rupiah telah diubah', 'admin', 'update', '2024-08-08 02:13:50'),
+(56, 'Transaksi diubah', 'Transaksi dengan total 320.000 Rupiah telah diubah', 'admin', 'update', '2024-08-08 02:13:55'),
+(57, 'Transaksi diubah', 'Transaksi dengan total 357.000 Rupiah telah diubah', 'admin', 'update', '2024-08-08 02:14:06'),
+(58, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 20.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-08 04:26:32'),
+(59, 'Pengajuan pinjaman', 'Pengguna dengan ID 113 telah mengajukan pinjaman sebesar 12,000.00', 'admin', 'add_circle_outline', '2024-08-08 04:27:49'),
+(60, 'Profil diupdate', 'Pengguna dengan ID 113 telah memperbarui profil.', 'admin', 'update', '2024-08-08 04:28:15'),
+(61, 'Profil diupdate', 'Pengguna dengan ID 113 telah memperbarui profil.', 'admin', 'update', '2024-08-08 06:29:07'),
+(62, 'Pengajuan pinjaman', 'Pengguna dengan ID 124 telah mengajukan pinjaman sebesar 120,000.00', 'user', 'add_circle_outline', '2024-08-08 06:32:04'),
+(63, 'Pengajuan pinjaman', 'Pengguna dengan ID 124 telah mengajukan pinjaman sebesar 12,000.00', 'user', 'add_circle_outline', '2024-08-08 06:33:32'),
+(64, 'Pengajuan pinjaman', 'Pengguna dengan ID 124 telah mengajukan pinjaman sebesar 456,546.00', 'user', 'add_circle_outline', '2024-08-08 06:36:45'),
+(65, 'Pinjaman dihapus', 'Pinjaman dengan ID 17 telah dihapus', 'admin', 'delete', '2024-08-08 06:38:08'),
+(66, 'Pinjaman disetujui', 'Pinjaman dengan ID 18 telah disetujui oleh Admin', 'admin', 'update', '2024-08-08 06:38:12'),
+(67, 'Pengguna dengan nama user telah ditambahkan', 'Pengguna ditambahkan', 'admin', 'add_circle_outline', '2024-08-08 06:40:09'),
+(68, 'Pengajuan pinjaman', 'Pengguna dengan ID 125 telah mengajukan pinjaman sebesar 12,000.00', 'user', 'add_circle_outline', '2024-08-08 06:40:43'),
+(69, 'Pinjaman dibatalkan', 'Pinjaman dengan ID 19 telah dibatalkan oleh Admin', 'admin', 'delete', '2024-08-08 06:41:50'),
+(70, 'Pinjaman disetujui', 'Pinjaman dengan ID 19 telah disetujui oleh Admin', 'admin', 'update', '2024-08-08 06:42:05'),
+(71, 'Pinjaman disetujui', 'Pinjaman dengan ID 18 telah disetujui oleh Admin', 'admin', 'update', '2024-08-08 06:42:47'),
+(72, 'Pinjaman dibatalkan', 'Pinjaman dengan ID 19 telah dibatalkan oleh Admin', 'admin', 'delete', '2024-08-08 06:42:52'),
+(73, 'Barang diubah', 'Barang Susu telah diubah', 'admin', 'update', '2024-08-08 07:48:50'),
+(74, 'Barang diubah', 'Barang Susu telah diubah', 'admin', 'update', '2024-08-08 07:49:25'),
+(75, 'Pengajuan pinjaman', 'Pengguna dengan ID 113 telah mengajukan pinjaman sebesar 12.00', 'admin', 'add_circle_outline', '2024-08-08 08:20:40'),
+(76, 'Pinjaman disetujui', 'Pinjaman dengan ID 20 telah disetujui oleh Admin', 'admin', 'update', '2024-08-08 08:20:46'),
+(77, 'Pengajuan pinjaman', 'Pengguna dengan ID 113 telah mengajukan pinjaman sebesar 24.00', 'admin', 'add_circle_outline', '2024-08-08 08:22:09'),
+(78, 'Pengajuan pinjaman', 'Pengguna dengan ID 113 telah mengajukan pinjaman sebesar 57,547.00', 'admin', 'add_circle_outline', '2024-08-08 08:22:44'),
+(79, 'Barang diubah', 'Barang Susu telah diubah', 'admin', 'update', '2024-08-08 08:46:03'),
+(80, 'Pinjaman disetujui', 'Pinjaman dengan ID 21 telah disetujui oleh Admin', 'admin', 'update', '2024-08-08 08:46:29'),
+(81, 'Pinjaman disetujui', 'Pinjaman dengan ID 22 telah disetujui oleh Admin', 'admin', 'update', '2024-08-08 08:46:46'),
+(82, 'Barang diubah', 'Barang Susu telah diubah', 'admin', 'update', '2024-08-08 08:50:14'),
+(83, 'Pengajuan pinjaman', 'Pengguna dengan ID 113 telah mengajukan pinjaman sebesar 86,568.00', 'admin', 'add_circle_outline', '2024-08-08 08:54:58'),
+(84, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 842.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-08 08:56:13');
 
 -- --------------------------------------------------------
 
@@ -472,7 +516,8 @@ INSERT INTO `tb_kategori` (`id_kategori`, `nama_kategori`, `created_at`, `update
 (35, 'Minuman', '2024-07-30 03:52:07', '2024-07-30 03:52:07'),
 (36, 'Makanan', '2024-07-30 03:52:18', '2024-07-30 03:52:18'),
 (38, 'ATK', '2024-07-30 06:28:16', '2024-07-30 06:28:16'),
-(39, 'AKM (Alat kamar mandi)', '2024-07-30 06:30:25', '2024-07-30 06:30:25');
+(39, 'AKM (Alat kamar mandi)', '2024-07-30 06:30:25', '2024-07-30 06:30:25'),
+(48, 'okkk', '2024-08-07 03:35:10', '2024-08-07 03:35:10');
 
 -- --------------------------------------------------------
 
@@ -492,6 +537,18 @@ CREATE TABLE `tb_pengajuan` (
   `waktu_pengajuan` datetime DEFAULT NULL,
   `user_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `tb_pengajuan`
+--
+
+INSERT INTO `tb_pengajuan` (`id`, `jenis_pinjaman`, `tanggal_pinjam`, `jumlah_pinjaman`, `lama_pinjaman`, `is_read`, `created_at`, `status`, `waktu_pengajuan`, `user_id`) VALUES
+(18, 'Produktif', '2024-08-08', '456546', '4', 0, '2024-08-08 06:36:45', 'Telah Disetujui oleh Admin', '2024-08-08 06:36:45', 124),
+(19, 'Konsumtif', '2024-08-08', '12000', '23', 0, '2024-08-08 06:40:43', 'Dibatalkan oleh Admin', '2024-08-08 06:40:43', 125),
+(20, 'Konsumtif', '2024-08-08', '12', '12', 0, '2024-08-08 08:20:40', 'Telah Disetujui oleh Admin', '2024-08-08 08:20:40', 113),
+(21, 'Produktif', '2024-08-08', '24', '11', 0, '2024-08-08 08:22:09', 'Telah Disetujui oleh Admin', '2024-08-08 08:22:09', 113),
+(22, 'Produktif', '2024-08-08', '57547', '5', 0, '2024-08-08 08:22:44', 'Telah Disetujui oleh Admin', '2024-08-08 08:22:44', 113),
+(23, 'Produktif', '2024-08-08', '86568', '65', 0, '2024-08-08 08:54:58', 'Menunggu Persetujuan', '2024-08-08 08:54:58', 113);
 
 -- --------------------------------------------------------
 
@@ -518,111 +575,10 @@ CREATE TABLE `tb_pengguna` (
 --
 
 INSERT INTO `tb_pengguna` (`pengguna_id`, `nama_lengkap`, `username`, `email`, `satker`, `password`, `pengguna_hak_akses`, `limit`, `pengguna_picture`, `pengguna_date_update`, `pengguna_date_created`) VALUES
-(5, 'a', 'a', 'adit@gmail.com', 'ipds', 'a', 'admin', 1500000, NULL, '2024-08-06 15:49:18', '2024-07-30 15:31:36'),
-(8, 'User 1', 'user1', 'user1@example.com', 'Satker', 'password', 'user', 740000, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(9, 'User 2', 'user2', 'user2@example.com', 'Satker', 'password', 'user', 1495000, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(10, 'User 3', 'user3', 'user3@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(11, 'User 4', 'user4', 'user4@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(12, 'User 5', 'user5', 'user5@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(13, 'User 6', 'user6', 'user6@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(14, 'User 7', 'user7', 'user7@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(15, 'User 8', 'user8', 'user8@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(16, 'User 9', 'user9', 'user9@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(17, 'User 10', 'user10', 'user10@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(18, 'User 11', 'user11', 'user11@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(19, 'User 12', 'user12', 'user12@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(20, 'User 13', 'user13', 'user13@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(21, 'User 14', 'user14', 'user14@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(22, 'User 15', 'user15', 'user15@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(23, 'User 16', 'user16', 'user16@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(24, 'User 17', 'user17', 'user17@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(25, 'User 18', 'user18', 'user18@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(26, 'User 19', 'user19', 'user19@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(27, 'User 20', 'user20', 'user20@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(28, 'User 21', 'user21', 'user21@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(29, 'User 22', 'user22', 'user22@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:15'),
-(30, 'User 23', 'user23', 'user23@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(31, 'User 24', 'user24', 'user24@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(32, 'User 25', 'user25', 'user25@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(33, 'User 26', 'user26', 'user26@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(34, 'User 27', 'user27', 'user27@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(35, 'User 28', 'user28', 'user28@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(36, 'User 29', 'user29', 'user29@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(37, 'User 30', 'user30', 'user30@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(38, 'User 31', 'user31', 'user31@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(39, 'User 32', 'user32', 'user32@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(40, 'User 33', 'user33', 'user33@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(41, 'User 34', 'user34', 'user34@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(42, 'User 35', 'user35', 'user35@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(43, 'User 36', 'user36', 'user36@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(44, 'User 37', 'user37', 'user37@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(45, 'User 38', 'user38', 'user38@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(46, 'User 39', 'user39', 'user39@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(47, 'User 40', 'user40', 'user40@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(48, 'User 41', 'user41', 'user41@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(49, 'User 42', 'user42', 'user42@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(50, 'User 43', 'user43', 'user43@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(51, 'User 44', 'user44', 'user44@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(52, 'User 45', 'user45', 'user45@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(53, 'User 46', 'user46', 'user46@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(54, 'User 47', 'user47', 'user47@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(55, 'User 48', 'user48', 'user48@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(56, 'User 49', 'user49', 'user49@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(57, 'User 50', 'user50', 'user50@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(58, 'User 51', 'user51', 'user51@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(59, 'User 52', 'user52', 'user52@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(60, 'User 53', 'user53', 'user53@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(61, 'User 54', 'user54', 'user54@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:16'),
-(62, 'User 55', 'user55', 'user55@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(63, 'User 56', 'user56', 'user56@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(64, 'User 57', 'user57', 'user57@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(65, 'User 58', 'user58', 'user58@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(66, 'User 59', 'user59', 'user59@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(67, 'User 60', 'user60', 'user60@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(68, 'User 61', 'user61', 'user61@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(69, 'User 62', 'user62', 'user62@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(70, 'User 63', 'user63', 'user63@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(71, 'User 64', 'user64', 'user64@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(72, 'User 65', 'user65', 'user65@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(73, 'User 66', 'user66', 'user66@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(74, 'User 67', 'user67', 'user67@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(75, 'User 68', 'user68', 'user68@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(76, 'User 69', 'user69', 'user69@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(77, 'User 70', 'user70', 'user70@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(78, 'User 71', 'user71', 'user71@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(79, 'User 72', 'user72', 'user72@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(80, 'User 73', 'user73', 'user73@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(81, 'User 74', 'user74', 'user74@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(82, 'User 75', 'user75', 'user75@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(83, 'User 76', 'user76', 'user76@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(84, 'User 77', 'user77', 'user77@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:17'),
-(85, 'User 78', 'user78', 'user78@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(86, 'User 79', 'user79', 'user79@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(87, 'User 80', 'user80', 'user80@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(88, 'User 81', 'user81', 'user81@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(89, 'User 82', 'user82', 'user82@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(90, 'User 83', 'user83', 'user83@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(91, 'User 84', 'user84', 'user84@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(92, 'User 85', 'user85', 'user85@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(93, 'User 86', 'user86', 'user86@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(94, 'User 87', 'user87', 'user87@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(95, 'User 88', 'user88', 'user88@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(96, 'User 89', 'user89', 'user89@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(97, 'User 90', 'user90', 'user90@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(98, 'User 91', 'user91', 'user91@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(99, 'User 92', 'user92', 'user92@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(100, 'User 93', 'user93', 'user93@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(101, 'User 94', 'user94', 'user94@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(102, 'User 95', 'user95', 'user95@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(103, 'User 96', 'user96', 'user96@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(104, 'User 97', 'user97', 'user97@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(105, 'User 98', 'user98', 'user98@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(106, 'User 99', 'user99', 'user99@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(107, 'User 100', 'user100', 'user100@example.com', 'Satker', 'password', 'user', 0, NULL, '2024-08-06 15:49:18', '2024-08-02 13:51:18'),
-(108, 'aeng', 'aaedasdas', 'fssad@nfasfjnasd.com', 'twet', 'twetw', 'admin', 600000, NULL, '2024-08-06 15:49:18', '2024-08-06 11:11:00'),
-(109, 'trutrut', 'urrtu', 'truur@gamil.com', 'ewwse', 'wewetew', 'admin', NULL, NULL, '2024-08-06 15:49:18', '2024-08-06 14:10:32'),
-(110, '7676', '767', 'gfhfg@fgfgfgj.hugh', '76676', '86857', 'admin', NULL, NULL, '2024-08-06 15:49:18', '2024-08-06 15:31:30'),
-(111, 'fgddfhdh', 'fdhhdfhf', 'hfddfg@fgfdd', '63465', 'fdhdf', 'admin', NULL, NULL, '2024-08-06 15:49:18', '2024-08-06 15:34:56');
+(113, 'Ganendra Praditya Kencana', 'a', 'aselole@gmail.com', 'IPDS', 'aaaa', 'admin', NULL, NULL, '2024-08-08 08:50:30', '2024-08-08 08:50:30'),
+(123, 'Aeng Nurjani', 'Aeng', 'striohh@gmail.com', 'IPDS', 'aaaa', 'operator', NULL, NULL, '2024-08-08 08:54:52', '2024-08-08 08:54:52'),
+(124, 'pegawai keuangan', 'orang', 'orang@gmail.com', 'Keuangan', 'aaaa', 'user', 1021000, NULL, '2024-08-08 08:58:10', '2024-08-08 08:58:10'),
+(125, 'user', 'user', 'dgffdghdf@fdhfg.c', 'aa', 'aaaa', 'user', NULL, NULL, '2024-08-08 13:40:09', '2024-08-08 13:40:09');
 
 -- --------------------------------------------------------
 
@@ -707,11 +663,12 @@ CREATE TABLE `tb_transaksi` (
 --
 
 INSERT INTO `tb_transaksi` (`id_transaksi`, `pengguna_id`, `cara_bayar`, `total`, `detail`, `created_at`, `updated_at`) VALUES
-(123, 8, 'Kredit', 405000, '', '2024-08-06 08:05:12', '2024-08-06 08:13:34'),
-(124, 8, 'Cash', 856658, '', '2024-08-06 08:14:39', '2024-08-06 08:15:03'),
-(125, 11, 'Cash', 215000, '', '2024-08-06 08:16:57', '2024-08-06 08:16:57'),
-(126, 8, 'Cash', 30000, '', '2024-08-06 08:17:59', '2024-08-06 08:22:20'),
-(127, 8, 'Cash', 335000, '', '2024-08-07 02:43:12', '2024-08-07 02:43:12');
+(130, 124, 'Kredit', 336000, '', '2024-08-08 02:10:13', '2024-08-08 02:13:54'),
+(131, 124, 'Kredit', 335000, '', '2024-08-08 02:10:37', '2024-08-08 02:14:06'),
+(132, 124, 'Kredit', 350000, '', '2024-08-08 02:11:53', '2024-08-08 02:11:53'),
+(133, 124, 'Cash', 100000, '', '2024-08-08 02:12:20', '2024-08-08 02:12:20'),
+(134, 124, 'Cash', 20000, '', '2024-08-08 04:26:31', '2024-08-08 04:26:31'),
+(135, 124, 'Cash', 842000, '', '2024-08-08 08:56:12', '2024-08-08 08:56:12');
 
 --
 -- Indexes for dumped tables
@@ -818,31 +775,31 @@ ALTER TABLE `tb_barang`
 -- AUTO_INCREMENT untuk tabel `tb_detransaksi`
 --
 ALTER TABLE `tb_detransaksi`
-  MODIFY `id_detail` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=233;
+  MODIFY `id_detail` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=251;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_histori`
 --
 ALTER TABLE `tb_histori`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_kategori`
 --
 ALTER TABLE `tb_kategori`
-  MODIFY `id_kategori` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id_kategori` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pengajuan`
 --
 ALTER TABLE `tb_pengajuan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pengguna`
 --
 ALTER TABLE `tb_pengguna`
-  MODIFY `pengguna_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `pengguna_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pinjaman`
@@ -866,7 +823,7 @@ ALTER TABLE `tb_simpanan`
 -- AUTO_INCREMENT untuk tabel `tb_transaksi`
 --
 ALTER TABLE `tb_transaksi`
-  MODIFY `id_transaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
+  MODIFY `id_transaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
