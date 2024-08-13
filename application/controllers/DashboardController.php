@@ -43,6 +43,8 @@ class DashboardController extends GLOBAL_Controller
         $data['pending_data'] = $data['pending_loans'];
         $data['rejected_data'] = $data['rejected_loans'];
         
+        $data['statss'] = $this->DashboardModel->get_total_stats();
+
         $level = $this->session->userdata('level');
         if ($level != 'admin' && $level != 'operator') {
             parent::template('dashboard/user', $data);

@@ -68,7 +68,7 @@ class DashboardModel extends GLOBAL_Model
     public function get_total_anggota()
     {
         $this->db->select('COUNT(*) as total_anggota');
-        $query = $this->db->get('tb_anggota');
+        $query = $this->db->get('tb_pengguna');
         return $query->row()->total_anggota;
     }
 
@@ -132,4 +132,45 @@ class DashboardModel extends GLOBAL_Model
         }
         return $rejected_data;
     }
+
+    public function get_total_stats() {
+        $current_month = date('Y-m'); // Format bulan ini
+        $last_month = date('Y-m', strtotime('-1 month')); // Format bulan lalu
+        
+        // Mengambil total barang, transaksi, anggota, dan pinjaman untuk bulan ini
+        $this->db->select("
+            (SELECT COUNT(*) FROM tb_barang WHERE DATE_FORMAT(created_at, '%Y-%m') = '$current_month') AS total_barang,
+            (SELECT COUNT(*) FROM tb_transaksi WHERE DATE_FORMAT(created_at, '%Y-%m') = '$current_month') AS total_transaksi,
+            (SELECT COUNT(*) FROM tb_pengguna WHERE DATE_FORMAT(pengguna_date_created, '%Y-%m') = '$current_month') AS total_anggota,
+            (SELECT COUNT(*) FROM tb_pengajuan WHERE DATE_FORMAT(created_at, '%Y-%m') = '$current_month') AS total_pengajuan
+        ");
+        $current_stats = $this->db->get()->row_array();
+        
+        // Mengambil total barang, transaksi, anggota, dan pinjaman untuk bulan lalu
+        $this->db->select("
+            (SELECT COUNT(*) FROM tb_barang WHERE DATE_FORMAT(created_at, '%Y-%m') = '$last_month') AS total_barang_last_month,
+            (SELECT COUNT(*) FROM tb_transaksi WHERE DATE_FORMAT(created_at, '%Y-%m') = '$last_month') AS total_transaksi_last_month,
+            (SELECT COUNT(*) FROM tb_pengguna WHERE DATE_FORMAT(pengguna_date_created, '%Y-%m') = '$last_month') AS total_anggota_last_month,
+            (SELECT COUNT(*) FROM tb_pengajuan WHERE DATE_FORMAT(created_at, '%Y-%m') = '$last_month') AS total_pengajuan_last_month
+        ");
+        $last_month_stats = $this->db->get()->row_array();
+        
+        // Menghitung perubahan dibandingkan bulan lalu
+        $stats = [
+            'total_barang' => isset($current_stats['total_barang']) ? $current_stats['total_barang'] : 0,
+            'total_transaksi' => isset($current_stats['total_transaksi']) ? $current_stats['total_transaksi'] : 0,
+            'total_anggota' => isset($current_stats['total_anggota']) ? $current_stats['total_anggota'] : 0,
+            'total_pengajuan' => isset($current_stats['total_pengajuan']) ? $current_stats['total_pengajuan'] : 0,
+            'change_barang' => isset($current_stats['total_barang']) && isset($last_month_stats['total_barang_last_month']) 
+                                ? $current_stats['total_barang'] - $last_month_stats['total_barang_last_month'] : 0,
+            'change_transaksi' => isset($current_stats['total_transaksi']) && isset($last_month_stats['total_transaksi_last_month']) 
+                                ? $current_stats['total_transaksi'] - $last_month_stats['total_transaksi_last_month'] : 0,
+            'change_anggota' => isset($current_stats['total_anggota']) && isset($last_month_stats['total_anggota_last_month']) 
+                                ? $current_stats['total_anggota'] - $last_month_stats['total_anggota_last_month'] : 0,
+            'change_pengajuan' => isset($current_stats['total_pengajuan']) && isset($last_month_stats['total_pengajuan_last_month']) 
+                                ? $current_stats['total_pengajuan'] - $last_month_stats['total_pengajuan_last_month'] : 0,
+        ];
+        
+        return $stats;
+    }    
 }
