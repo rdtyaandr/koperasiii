@@ -8,7 +8,8 @@ class TransaksiController extends GLOBAL_Controller
         $this->load->model('TransaksiModel');
         $this->load->model('PenggunaModel');
         $this->load->model('BarangModel');
-        $this->load->model('HistoryModel'); // Load model History
+        $this->load->model('HistoryModel');
+        $this->load->helper('date'); 
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));

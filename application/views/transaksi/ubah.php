@@ -48,8 +48,8 @@
         margin: 5px 0;
     }
 
-    .btn-small {
-        border-radius: 4px;
+    .btn-floating {
+        border-radius: 100px !important;
     }
 
     .btn.rounded-circle {
@@ -62,7 +62,7 @@
         height: 40px;
     }
 
-    .btn .material-icons {
+    .btn .icon-transaksi {
         font-size: 24px;
         /* Ukuran ikon */
         /* Menentukan tinggi tombol */
@@ -136,7 +136,7 @@
                                     <label for="jumlah-rows">Jumlah Baris:</label>
                                     <input type="number" id="jumlah-rows" value="1" min="1" style="width: 35px;">
                                     <div class="btn blue darken-2 waves-effect waves-light rounded-circle" onclick="addMultipleRows()">
-                                        <i class="material-icons">add</i>
+                                        <i class="material-icons icon-transaksi">add</i>
                                     </div>
                                 </div>
                                 <p class="right-align blue-text text-darken-2" style="font-size: 1.2em; font-weight: bold;">Total Harga: <span id="total-harga">0</span></p>
@@ -236,7 +236,7 @@
             <td><input type="number" name="jumlah[]" value="${detail.jumlah}" min="1" class="validate" oninput="updateRowTotal(this)"></td>
             <td><input type="text" name="total[]" value="${detail.total}" readonly class="validate"></td>
             <td>
-                <a href="#" class="btn-small white-text waves-effect waves-light red" onclick="removeRow(this)"><i class="material-icons">delete</i></a>
+                <a href="#" class="btn-floating white-text waves-effect waves-light red" onclick="removeRow(this)"><i class="material-icons icon-transaksi">delete</i></a>
             </td>
             <input type="hidden" name="id_barang[]" class="id-barang" value="${detail.id_barang}">
             <input type="hidden" name="nama_barang[]" class="nama-barang" value="${detail.nama_barang}">
@@ -307,7 +307,7 @@
             <td><input type="number" name="jumlah[]" min="1" class="validate" oninput="updateRowTotal(this)"></td>
             <td><input type="text" name="total[]" readonly class="validate"></td>
             <td>
-                <a href="#" class="btn-small white-text waves-effect waves-light red" onclick="removeRow(this)"><i class="material-icons">delete</i></a>
+                <a href="#" class="btn-floating white-text waves-effect waves-light red" onclick="removeRow(this)"><i class="material-icons icon-transaksi">delete</i></a>
             </td>
             <input type="hidden" name="id_barang[]" class="id-barang" value="">
             <input type="hidden" name="nama_barang[]" class="nama-barang" value="">                

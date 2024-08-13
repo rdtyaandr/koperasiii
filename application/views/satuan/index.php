@@ -24,15 +24,15 @@
                         </thead>
                         <tbody>
                             <?php if (!empty($satuan)) : ?>
-                                <?php foreach ($satuan as $key => $item) : ?>
+                                <?php foreach (array_reverse($satuan) as $key => $item) : ?>
                                     <tr>
                                         <td><?= $key + 1 ?></td>
                                         <td><?= $item['nama_satuan'] ?></td>
                                         <td>
-                                            <a href="#" class="btn-small yellow darken-3 tooltipped" data-position="top" data-tooltip="Edit" style="border-radius: 4px;" onclick="openEditModal('<?= $item['id_satuan'] ?>', '<?= $item['nama_satuan'] ?>')">
+                                            <a href="#" class="btn-floating yellow darken-3 tooltipped" data-position="top" data-tooltip="Edit" style="border-radius: 4px;" onclick="openEditModal('<?= $item['id_satuan'] ?>', '<?= $item['nama_satuan'] ?>')">
                                                 <i class="material-icons">edit</i>
                                             </a>
-                                            <a href="#" class="btn-small red tooltipped" data-position="top" data-tooltip="Hapus" style="border-radius: 4px;" onclick="event.preventDefault(); Swal.fire({
+                                            <a href="#" class="btn-floating red tooltipped" data-position="top" data-tooltip="Hapus" style="border-radius: 4px;" onclick="event.preventDefault(); Swal.fire({
                                                 title: 'Apakah Anda yakin?',
                                                 text: 'Anda tidak akan dapat mengembalikan ini!',
                                                 icon: 'warning',
@@ -132,8 +132,8 @@
         margin: 5px 0;
     }
 
-    .btn-small {
-        border-radius: 4px;
+    .btn-floating {
+        border-radius: 100px !important;
     }
 
     .tooltipped {

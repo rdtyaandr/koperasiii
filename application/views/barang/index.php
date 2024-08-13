@@ -34,7 +34,7 @@
                         </thead>
                         <tbody>
                             <?php if (!empty($barang)) : ?>
-                                <?php foreach ($barang as $key => $item) : ?>
+                                <?php foreach (array_reverse($barang) as $key => $item) : ?>
                                     <tr>
                                         <td><?= $key + 1 ?></td>
                                         <td>
@@ -66,10 +66,10 @@
                                         <td><?= number_format($item['harga_beli'], 0, ',', '.'); ?></td>
                                         <td><?= number_format($item['harga_jual'], 0, ',', '.'); ?></td>
                                         <td>
-                                            <a href="<?= base_url('barang/ubah/' . $item['id_barang']) ?>" class="btn-small waves-effect waves-light yellow darken-3 white-text tooltipped" data-position="top" data-tooltip="Edit" style="border-radius: 4px;">
+                                            <a href="<?= base_url('barang/ubah/' . $item['id_barang']) ?>" class="btn-floating waves-effect waves-light yellow darken-3 white-text tooltipped" data-position="top" data-tooltip="Edit" style="border-radius: 4px;">
                                                 <i class="material-icons">edit</i>
                                             </a>
-                                            <a href="#" class="btn-small waves-effect waves-darken white-text red tooltipped" data-position="top" data-tooltip="Hapus" style="border-radius: 4px;" onclick="event.preventDefault(); Swal.fire({
+                                            <a href="#" class="btn-floating waves-effect waves-darken white-text red tooltipped" data-position="top" data-tooltip="Hapus" style="border-radius: 4px;" onclick="event.preventDefault(); Swal.fire({
                                                 title: 'Apakah Anda yakin?',
                                                 text: 'Anda tidak akan dapat mengembalikan ini!',
                                                 icon: 'warning',
@@ -143,8 +143,8 @@
         margin: 5px 0;
     }
 
-    .btn-small {
-        border-radius: 4px;
+    .btn-floating {
+        border-radius: 100px !important;
     }
 
   .tooltipped {

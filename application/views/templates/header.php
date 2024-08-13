@@ -132,15 +132,15 @@
 
                     <?php if ($this->session->userdata('level') == 'admin') : ?>
                         <li class="bold active">
-                            <a href="<?= base_url() ?>"><i class="mdi-action-trending-up"></i> Dashboard</a>
+                            <a href="<?= base_url() ?>"><i class="material-icons">equalizer</i> Dashboard</a>
                         </li>
                     <?php elseif ($this->session->userdata('level') == 'operator') : ?>
                         <li class="bold active">
-                            <a href="<?= base_url() ?>"><i class="mdi-action-trending-up"></i> Dashboard</a>
+                            <a href="<?= base_url() ?>"><i class="material-icons">equalizer</i> Dashboard</a>
                         </li>
                     <?php elseif ($this->session->userdata('level') == 'user') : ?>
                         <li class="bold active">
-                            <a href="<?= base_url('dashboard/user') ?>"><i class="mdi-action-trending-up"></i> Dashboard</a>
+                            <a href="<?= base_url('dashboard/user') ?>"><i class="material-icons">equalizer</i> Dashboard</a>
                         </li>
                     <?php endif; ?>
 
@@ -150,7 +150,7 @@
                             <ul class="collapsible collapsible-accordion">
                                 <li class="bold">
                                     <a class="collapsible-header">
-                                        <i class="mdi-action-account-balance-wallet"></i> Master Data
+                                        <i class="material-icons">store</i> Master Data
                                     </a>
                                     <div class="collapsible-body">
                                         <ul>
@@ -170,7 +170,7 @@
                             <ul class="collapsible collapsible-accordion">
                                 <li class="bold">
                                     <a class="collapsible-header">
-                                        <i class="mdi-action-account-balance-wallet"></i> Master Data
+                                        <i class="material-icons">store</i> Master Data
                                     </a>
                                     <div class="collapsible-body">
                                         <ul>
@@ -191,13 +191,13 @@
                     <?php if ($this->session->userdata('level') == 'admin') : ?>
                         <li class="bold">
                             <a href="<?= base_url('transaksi') ?>">
-                                <i class="mdi-action-swap-vert"></i> Data Transaksi
+                                <i class="material-icons">shopping_cart</i> Data Transaksi
                             </a>
                         </li>
                     <?php elseif ($this->session->userdata('level') == 'operator') : ?>
                         <li class="bold">
                             <a href="<?= base_url('transaksi') ?>">
-                                <i class="mdi-action-swap-vert"></i> Data Transaksi
+                                <i class="material-icons">shopping_cart</i> Data Transaksi
                             </a>
                         </li>
                     <?php endif; ?>
@@ -206,7 +206,7 @@
                     <?php if ($this->session->userdata('level') == 'admin') : ?>
                         <li class="bold">
                             <a href="<?= base_url('pengguna') ?>" class="waves-effect waves-cyan">
-                                <i class="material-icons">person</i> Data pengguna
+                                <i class="material-icons">group_add</i> Data pengguna
                             </a>
                         </li>
                     <?php endif; ?>
@@ -215,13 +215,13 @@
                     <?php if ($this->session->userdata('level') == 'admin') : ?>
                         <li class="bold">
                             <a href="<?= base_url('pinjaman') ?>" class="waves-effect waves-cyan">
-                                <i class="material-icons">account_balance</i> Pengajuan Pinjaman
+                                <i class="material-icons">local_atm</i> Pengajuan Pinjaman
                             </a>
                         </li>
                     <?php elseif ($this->session->userdata('level') == 'user') : ?>
                         <li class="bold">
                             <a href="<?= base_url('pinjaman') ?>" class="waves-effect waves-cyan">
-                                <i class="material-icons">account_balance</i> Pengajuan Pinjaman
+                                <i class="material-icons">local_atm</i> Pengajuan Pinjaman
                             </a>
                         </li>
                     <?php endif; ?>
@@ -256,7 +256,7 @@
                         <p class="ultra-small margin more-text">Akun</p>
                     </li>
                     <li>
-                        <a href="<?= base_url('profile') ?>"><i class="material-icons">person</i> Profil</a>
+                        <a href="<?= base_url('profile') ?>"><i class="material-icons">portrait</i> Profil</a>
                     </li>
                     <?php if ($this->session->userdata('level') == 'operator') : ?>
                         <li>
