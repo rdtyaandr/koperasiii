@@ -45,7 +45,7 @@ class PenggunaModel extends GLOBAL_Model {
     }
 
     public function get_users_filtered() {
-        $this->db->where('pengguna_hak_akses', 'user'); // Menambahkan filter
+        $this->db->where('role', 'user'); // Menambahkan filter
         return parent::get_array_of_table('tb_pengguna');
     }
 }

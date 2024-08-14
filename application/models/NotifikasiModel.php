@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class NotificationModel extends GLOBAL_Model {
+class NotifikasiModel extends GLOBAL_Model {
 
     public function __construct() {
         parent::__construct();

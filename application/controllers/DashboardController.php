@@ -5,6 +5,7 @@ class DashboardController extends GLOBAL_Controller
     {
         parent::__construct();
         $this->load->model('DashboardModel'); // Memuat model DashboardModel
+        $this->load->model('NotifikasiModel'); // Memuat model DashboardModel
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
