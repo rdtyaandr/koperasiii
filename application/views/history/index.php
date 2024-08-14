@@ -27,7 +27,7 @@
                                         <div class="message-content">
                                             <p class="message-text"><?= $message->message_text ?></p>
                                             <p class="message-summary"><?= $message->message_summary ?></p>
-                                            <p class="message-date-time"><?= $message->message_date_time ?></p>
+                                            <p class="message-date-time"><?= formatTanggalWaktuDetik($message->message_date_time) ?></p>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>

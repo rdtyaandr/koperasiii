@@ -8,7 +8,8 @@ class HistoryController extends GLOBAL_Controller
         $this->load->model('BarangModel');
         $this->load->model('KategoriModel');
         $this->load->model('SatuanModel');
-        $this->load->model('HistoryModel'); // Load model History
+        $this->load->model('HistoryModel'); 
+        $this->load->helper('date'); 
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));

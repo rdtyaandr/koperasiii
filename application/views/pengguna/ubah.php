@@ -16,17 +16,16 @@
                         <input type="text" id="email" name="email" value="<?= $Pengguna['email'] ?>" required>
                         <label for="email">Email</label>
                     </div>
-                    <div class="input-field col s12" style="position: relative;">
-                        <input type="password" id="password" name="password" value="<?= $Pengguna['password'] ?>" required>
-                        <label for="password">Password</label>
-                        <!-- Memperbaiki posisi label tampilkan password -->
-                        <label class="show-password" style="position: absolute; right: 0; top: 100%;">
-                            <input type="checkbox" id="show-password" />
-                            <span>Tampilkan Password</span>
-                        </label>
-                    </div>
                     <div class="input-field col s12">
-                        <input type="text" id="satker" name="satker" value="<?= $Pengguna['satker'] ?>" required>
+                    <select name="satker" id="satker">
+							<option value="ipds" selected>ipds </option>
+							<option value="umum">umum</option>
+							<option value="neraca">neraca</option>
+							<option value="produksi">produksi</option>
+							<option value="distribusi">distribusi</option>
+							<option value="diseminasi">diseminasi</option>
+							<option value="sosial">sosial</option>
+						</select>
                         <label for="satker">Satker</label>
                     </div>
                     <div class="input-field col s12">
@@ -45,6 +44,7 @@
                 </div>
                 <div class="row">
                     <div class="col s12 right-align">
+                    <a href="<?= base_url('pengguna')?>" class="btn waves-effect waves-light grey ">batalkan</a>
                         <button type="submit" name="ubah" class="btn waves-effect waves-light blue darken-2">Ubah</button>
                     </div>
                 </div>

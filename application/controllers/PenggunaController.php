@@ -43,7 +43,6 @@ class PenggunaController extends GLOBAL_Controller {
             $data = array(
                 'username' => parent::post('username'),
                 'email' => parent::post('email'),
-                'password' => parent::post('password'),
                 'satker' => parent::post('satker'),
                 'limit' => parent::post('limit'),
                 'role' => parent::post('role'),
@@ -94,7 +93,8 @@ class PenggunaController extends GLOBAL_Controller {
                 'satker' => parent::post('satker'),
                 'password' => md5(parent::post('password')), // Menggunakan md5 untuk password
                 'limit' => parent::post('limit'),
-                'role' => parent::post('level')
+                'role' => parent::post('level'),
+                'limit' => '1500000'
             );
 
             $simpan = parent::model('PenggunaModel')->tambah($data);

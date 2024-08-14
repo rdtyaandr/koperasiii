@@ -12,7 +12,7 @@
 <div class="container-fluid" style="padding: 20px;">
     <div class="row">
         <div class="col s12">
-            <div class="card hoverable" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+            <div class="card hoverable" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 10px;">
                 <div class="card-content">
                     <div class="row valign-wrapper" style="margin-bottom: 10px;">
                         <div class="col s6">

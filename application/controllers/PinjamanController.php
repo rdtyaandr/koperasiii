@@ -6,7 +6,8 @@ class PinjamanController extends GLOBAL_Controller
     {
         parent::__construct();
         $this->load->model('PinjamanModel');
-        $this->load->model('HistoryModel'); // Load HistoryModel
+        $this->load->model('HistoryModel'); 
+        $this->load->helper('date'); 
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
@@ -34,7 +35,13 @@ class PinjamanController extends GLOBAL_Controller
     public function tambah()
     {
         if ($this->input->post()) {
-            $user_id = $this->session->userdata('pengguna_id'); 
+            // Determine the user ID based on the user level
+            if ($this->session->userdata('level') == 'admin') {
+                $user_id = $this->input->post('username');
+            } else {
+                $user_id = $this->session->userdata('pengguna_id');
+            }
+
             $data = [
                 'jenis_pinjaman' => $this->input->post('jenis_pinjaman'),
                 'tanggal_pinjam' => $this->input->post('tanggal_pinjam'),
@@ -42,14 +49,17 @@ class PinjamanController extends GLOBAL_Controller
                 'lama_pinjaman' => $this->input->post('lama_pinjaman'),
                 'waktu_pengajuan' => date('Y-m-d H:i:s'),
                 'status' => 'Menunggu Persetujuan',
-                'user_id' => $user_id // Tambahkan user_id ke data
+                'user_id' => $user_id
             ];
 
             $this->PinjamanModel->insert_pinjaman($data);
 
             if ($this->db->affected_rows() > 0) {
-                // Tambahkan pesan ke history
-                $this->addMessage('Pengajuan pinjaman', 'Pengguna dengan ID ' . $user_id . ' telah mengajukan pinjaman sebesar ' . number_format($data['jumlah_pinjaman'], 2), 'add_circle_outline');
+                $this->addMessage(
+                    'Pengajuan pinjaman',
+                    'Pengguna dengan ID ' . $user_id . ' telah mengajukan pinjaman sebesar ' . number_format($data['jumlah_pinjaman'], 2),
+                    'add_circle_outline'
+                );
                 redirect('pinjaman');
             } else {
                 $this->session->set_flashdata('error', 'Gagal menyimpan pengajuan pinjaman.');
@@ -57,6 +67,12 @@ class PinjamanController extends GLOBAL_Controller
             }
         } else {
             $data['title'] = 'Tambah Pengajuan';
+
+            // Load users if the user is an admin
+            if ($this->session->userdata('level') == 'admin') {
+                $data['users'] = $this->PinjamanModel->get_all_users(); // Get all users for dropdown
+            }
+
             parent::template('pinjaman/tambah', $data);
         }
     }

@@ -8,7 +8,8 @@ class TransaksiController extends GLOBAL_Controller
         $this->load->model('TransaksiModel');
         $this->load->model('PenggunaModel');
         $this->load->model('BarangModel');
-        $this->load->model('HistoryModel'); // Load model History
+        $this->load->model('HistoryModel');
+        $this->load->helper('date'); 
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
@@ -248,7 +249,7 @@ class TransaksiController extends GLOBAL_Controller
             $data['barang'] = $this->BarangModel->lihat_semua();
             $data['transaksi'] = $this->TransaksiModel->get_transaksi_by_id($id);
             $data['detail_barang'] = $this->TransaksiModel->get_detail_barang_by_transaksi_id($id);
-
+            $data['title'] = 'Ubah Transaksi';
             parent::template('transaksi/ubah', $data);
         }
     }

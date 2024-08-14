@@ -8,6 +8,7 @@ class ProfileController extends GLOBAL_Controller
         $this->load->model('ProfileModel');
         $this->load->model('HistoryModel'); // Load HistoryModel
         $this->load->helper('url');
+        $this->load->helper('date'); 
         
         if (!parent::hasLogin()) {
             redirect('login');

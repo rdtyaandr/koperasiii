@@ -24,15 +24,15 @@
                         </thead>
                         <tbody>
                             <?php if (!empty($kategori)) : ?>
-                                <?php foreach ($kategori as $key => $item) : ?>
+                                <?php foreach (array_reverse($kategori) as $key => $item) : ?>
                                     <tr>
                                         <td><?= $key + 1 ?></td>
                                         <td><?= $item['nama_kategori'] ?></td>
                                         <td>
-                                            <a href="#" class="btn-small  yellow darken-3 tooltipped" data-position="top" data-tooltip="Edit" style="border-radius: 4px;" onclick="openEditModal('<?= $item['id_kategori'] ?>', '<?= $item['nama_kategori'] ?>')">
+                                            <a href="#" class="btn-floating yellow darken-3 tooltipped" data-position="top" data-tooltip="Edit" style="border-radius: 4px;" onclick="openEditModal('<?= $item['id_kategori'] ?>', '<?= $item['nama_kategori'] ?>')">
                                                 <i class="material-icons">edit</i>
                                             </a>
-                                            <a href="#" class="btn-small  red tooltipped" data-position="top" data-tooltip="Hapus" style="border-radius: 4px;" onclick="event.preventDefault(); Swal.fire({
+                                            <a href="#" class="btn-floating red tooltipped" data-position="top" data-tooltip="Hapus" style="border-radius: 4px;" onclick="event.preventDefault(); Swal.fire({
                                                 title: 'Apakah Anda yakin?',
                                                 text: 'Anda tidak akan dapat mengembalikan ini!',
                                                 icon: 'warning',
@@ -132,8 +132,8 @@
         margin: 5px 0;
     }
 
-    .btn-small {
-        border-radius: 4px;
+    .btn-floating {
+        border-radius: 100px !important;
     }
 
     .tooltipped {

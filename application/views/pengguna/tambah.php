@@ -23,7 +23,7 @@
                         </div>
                         <div class="input-field col s12 m6">
 						<label for="kategori-satker">satker</label><br><br>
-						<select name="level" id="level">
+						<select name="satker" id="satker">
 							<option value="ipds" selected>ipds </option>
 							<option value="umum">umum</option>
 							<option value="neraca">neraca</option>
@@ -43,7 +43,7 @@
 					
 					<div class="input-field col s12 ">
 						<label for="kategori-pengguna">Pengguna Sebagai</label><br><br>
-						<select name="satker" id="satker">
+						<select name="level" id="level">
 							<option value="admin" selected>Admin </option>
 							<option value="operator">operator</option>
 							<option value="user">user</option>
