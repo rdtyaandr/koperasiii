@@ -25,13 +25,6 @@ class DashboardModel extends GLOBAL_Model
         return $query->row()->total;
     }
 
-    public function get_total_members()
-    {
-        $this->db->select('COUNT(*) as total');
-        $query = $this->db->get('tb_anggota');
-        return $query->row()->total;
-    }
-
     public function get_total_items()
     {
         $this->db->select('COUNT(*) as total');

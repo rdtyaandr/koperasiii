@@ -48,7 +48,7 @@ public function login()
                     'username' => $pengguna['username'],
                     'name' => $pengguna['nama_lengkap'],
                     'level' => $pengguna['pengguna_hak_akses'],
-                    'picture' => $pengguna['pengguna_picture'], // Tambahkan foto profil ke sesi
+                    'profile_picture' => $pengguna['profile_picture'], // Tambahkan foto profil ke sesi
                     'login' => true
                 );
                 $this->session->set_userdata($sessionData);

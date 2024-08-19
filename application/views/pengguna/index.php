@@ -24,6 +24,7 @@
                                 <th>Nama Pengguna</th>
                                 <th>Email</th>
                                 <th>Satker</th>
+                                <th>Limit</th>
                                 <th>Role</th>
                                 <th>Aksi</th>
                             </tr>
@@ -36,6 +37,7 @@
                                         <td><?= htmlspecialchars($hitam['username'], ENT_QUOTES, 'UTF-8') ?></td>
                                         <td><?= htmlspecialchars($hitam['email'], ENT_QUOTES, 'UTF-8') ?></td>
                                         <td><?= htmlspecialchars($hitam['satker'], ENT_QUOTES, 'UTF-8') ?></td>
+                                        <td><?= htmlspecialchars($hitam['limit_total'], ENT_QUOTES, 'UTF-8') ?></td>
                                         <td>
                                             <?php
                                             $role = htmlspecialchars($hitam['pengguna_hak_akses'], ENT_QUOTES, 'UTF-8');

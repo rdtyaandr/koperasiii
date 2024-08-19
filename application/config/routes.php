@@ -100,8 +100,9 @@ $route['pengguna/hapus/(:any)'] = 'PenggunaController/hapus/$1';
 * akun modul routes
 * */
 $route['profile'] = 'ProfileController/index';
-$route['profile/edit/(:any)'] = 'ProfilController/edit';
 $route['profile/update'] = 'ProfileController/update';
+$route['profile/image'] = 'ProfileController/upload_picture';
+$route['profile/delete_picture'] = 'ProfileController/delete_picture';
 
 $route['notifikasi'] = 'NotifikasiController';
 $route['faq'] = 'FaqController';
