@@ -55,6 +55,7 @@ class TransaksiController extends GLOBAL_Controller
             $total = array_sum(array_map('floatval', $this->input->post('total')));
             $id_barang = $this->input->post('id_barang');
             $jumlah = $this->input->post('jumlah');
+            
 
             foreach ($id_barang as $key => $barang_id) {
                 $barang = $this->BarangModel->get_barang_by_id($barang_id);

@@ -100,7 +100,6 @@ class BarangController extends GLOBAL_Controller
             if ($simpan > 0) {
                 $this->addMessage('Barang diubah', 'Barang ' . $data['nama_barang'] . ' telah diubah', 'update');
                 parent::alert('alert', 'success-update');
-                $this->cekDanKirimNotifikasi($id);
                 redirect('barang');
             } else {
                 parent::alert('alert', 'error-update');
@@ -126,26 +125,6 @@ class BarangController extends GLOBAL_Controller
         } else {
             parent::alert('alert', 'error-update');
             redirect('barang');
-        }
-    }
-    private function cekDanKirimNotifikasi($id_barang)
-    {
-        if (parent::model('BarangModel')->cek_stok_menipis($id_barang)) {
-            $barang = parent::model('BarangModel')->get_barang_by_id($id_barang);
-            $pesan = "Stok barang {$barang->nama_barang} menipis, tersisa {$barang->stok} buah.";
-            $this->addMessage($pesan, 'Stok Menipis', 'warning');
-
-            // Kirim notifikasi ke admin dan operator
-            $notifikasi = [
-                'judul' => 'Stok Barang Menipis',
-                'pesan' => $pesan,
-                'icon' => 'warning',
-                'link' => base_url('barang'),
-                'role' => 'admin,operator',
-                'status' => 0,
-                'created_at' => date('Y-m-d H:i:s')
-            ];
-            parent::model('NotifikasiModel')->tambah_notifikasi($notifikasi);
         }
     }
 }

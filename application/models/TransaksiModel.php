@@ -83,4 +83,4 @@ class TransaksiModel extends GLOBAL_Model
 
         $this->delete_detail_transaksi($id_transaksi);
     }
-}
+}       
