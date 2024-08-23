@@ -61,6 +61,7 @@ $route['barang/tambah'] = 'BarangController/tambah';
 $route['barang/ubah/(:any)'] = 'BarangController/ubah/$1';
 $route['barang/hapus/(:any)'] = 'BarangController/hapus/$1';
 $route['barang/(:any)'] = 'BarangController/detail/$1';
+$route['barang/barcode']= 'BarangController/Barcode';
 
 /*
 * kategori modul routes

@@ -116,17 +116,4 @@ class PenggunaController extends GLOBAL_Controller {
         }
     }
 
-    public function profile($userID)
-    {
-        // Mengecek apakah user sudah login
-        if (!$this->hasLogin()) {
-            redirect('login'); // Redirect ke halaman login jika belum login
-        }
-        
-        // Mengambil data profil user berdasarkan session user_id
-        $data['user'] = $this->ProfileModel->get_user_by_id($userID);
-
-        // Memuat template dan mengirim data ke view
-        $this->template('profile/index', $data);
-    }
 }

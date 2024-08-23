@@ -36,7 +36,7 @@ public function login()
             $password = parent::post('password');
             
             // Ambil data pengguna dari database
-            $dataPengguna = $this->AuthModel->get_pengguna($username, md5($password));
+            $dataPengguna = $this->AuthModel->get_pengguna($username, ($password));
             
             // Jika data pengguna ditemukan
             if ($dataPengguna->num_rows() > 0){

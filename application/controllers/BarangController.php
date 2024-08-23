@@ -9,6 +9,8 @@ class BarangController extends GLOBAL_Controller
         $this->load->model('KategoriModel');
         $this->load->model('SatuanModel');
         $this->load->model('HistoryModel'); // Load model History
+        $this->load->library('Zend');
+        $this->load->database();
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
@@ -26,8 +28,18 @@ class BarangController extends GLOBAL_Controller
         $data['kategori'] = parent::model('KategoriModel')->lihat_semua();
         $data['satuan'] = parent::model('SatuanModel')->lihat_semua();
         $data['barang'] = parent::model('BarangModel')->lihat_semua();
+        $data['data']  = $this->db->get('tb_barang')->result();
+    // echo "<pre>";
+    //  print_r($data['data']);
+    //  exit();
+    // echo "</pre>";
 
         parent::template('barang/index', $data);
+    }
+    public function Barcode($kodenya)
+    {
+      $this->zend->load('Zend/Barcode');
+      Zend_Barcode::render('code128', 'image', array('text' => $kodenya));
     }
 
     // Fungsi untuk menambahkan pesan ke history

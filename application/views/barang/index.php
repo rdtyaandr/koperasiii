@@ -23,6 +23,7 @@
                         <thead class="blue darken-2 white-text">
                             <tr>
                                 <th>No</th>
+                                <th>Barcode</th>
                                 <th>Kategori</th>
                                 <th>Nama Barang</th>
                                 <th>Stok</th>
@@ -37,6 +38,7 @@
                                 <?php foreach (array_reverse($barang) as $key => $item) : ?>
                                     <tr>
                                         <td><?= $key + 1 ?></td>
+                                        <td><img src="<?= site_url('barang/barcode/'.$item['kode_barang']); ?>" alt="Barcode"></td>
                                         <td>
                                             <?php
                                             $kategoriNama = '';
@@ -63,25 +65,13 @@
                                             echo $satuanNama;
                                             ?>
                                         </td>
-                                        <td><?= number_format($item['harga_beli'], 0, ',', '.'); ?></td>
-                                        <td><?= number_format($item['harga_jual'], 0, ',', '.'); ?></td>
+                                        <td>Rp. <?= number_format($item['harga_beli'], 0, ',', '.'); ?></td>
+                                        <td>Rp. <?= number_format($item['harga_jual'], 0, ',', '.'); ?></td>
                                         <td>
-                                            <a href="<?= base_url('barang/ubah/' . $item['id_barang']) ?>" class="btn-floating waves-effect waves-light yellow darken-3 white-text tooltipped" data-position="top" data-tooltip="Edit" style="border-radius: 4px;">
+                                            <a href="<?= base_url('barang/ubah/' . $item['id_barang']) ?>" class="btn yellow darken-2 waves-effect waves-light" style="border-radius: 8px;">
                                                 <i class="material-icons">edit</i>
                                             </a>
-                                            <a href="#" class="btn-floating waves-effect waves-darken white-text red tooltipped" data-position="top" data-tooltip="Hapus" style="border-radius: 4px;" onclick="event.preventDefault(); Swal.fire({
-                                                title: 'Apakah Anda yakin?',
-                                                text: 'Anda tidak akan dapat mengembalikan ini!',
-                                                icon: 'warning',
-                                                showCancelButton: true,
-                                                confirmButtonColor: '#3085d6',
-                                                cancelButtonColor: '#d33',
-                                                confirmButtonText: 'Ya, hapus!'
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    window.location.href = '<?= base_url('barang/hapus/' . $item['id_barang']) ?>';
-                                                }
-                                            })">
+                                            <a href="<?= base_url('barang/hapus/' . $item['id_barang']) ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus barang ini?')" class="btn red darken-2 waves-effect waves-light" style="border-radius: 8px;">
                                                 <i class="material-icons">delete</i>
                                             </a>
                                         </td>
@@ -89,76 +79,13 @@
                                 <?php endforeach; ?>
                             <?php else : ?>
                                 <tr>
-                                    <td colspan="8" class="center-align">Tidak ada data barang.</td>
+                                    <td colspan="9" class="center-align">Tidak ada data barang yang tersedia.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
-                <div class="card-action right-align">
-                    <p class="grey-text text-darken-1">Total Barang: <strong><?= count($barang) ?></strong></p>
-                </div>
             </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
-
-<!-- Native CSS for additional styling -->
-<style>
-  .container {
-    margin-top: 30px;
-  }
-
-    .card {
-        margin-top: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-  .card-content {
-    padding-bottom: 0;
-  }
-
-    .input-field {
-        margin-bottom: 20px;
-    }
-
-    .input-field label {
-        color: #9e9e9e;
-    }
-
-    .input-field input:focus+label {
-        color: #1e88e5 !important;
-    }
-
-    .input-field input:focus {
-        border-bottom: 1px solid #1e88e5 !important;
-        box-shadow: 0 1px 0 0 #1e88e5 !important;
-    }
-
-    .btn {
-        border-radius: 8px;
-        margin: 5px 0;
-    }
-
-    .btn-floating {
-        border-radius: 100px !important;
-    }
-
-  .tooltipped {
-    position: relative;
-  }
-
-    .mt {
-        margin-top: 15px;
-    }
-</style>
-
-<!-- JavaScript for initializing Materialize components -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        M.AutoInit(); // Initialize Materialize components
-    });
-</script>
