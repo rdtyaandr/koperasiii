@@ -96,6 +96,12 @@ $route['pengguna'] = 'PenggunaController/index';
 $route['pengguna/tambah'] = 'PenggunaController/tambah';
 $route['pengguna/ubah/(:any)'] = 'PenggunaController/ubah/$1';
 $route['pengguna/hapus/(:any)'] = 'PenggunaController/hapus/$1';
+
+$route['limit'] = 'PenggunaController/limit';
+$route['limit/save/(:num)'] = 'PenggunaController/save_limit_total/$1';
+$route['limit/reset/(:num)'] = 'PenggunaController/reset_limit/$1';
+$route['limit/reduce/(:num)'] = 'PenggunaController/reduce_limit/$1';
+
 /*
 * akun modul routes
 * */

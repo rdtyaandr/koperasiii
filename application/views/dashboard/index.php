@@ -288,10 +288,10 @@
         var userGrowthOptions = {
             series: [{
                 name: 'Menunggu',
-                data: <?php echo json_encode($approved_data); ?>,
+                data: <?php echo json_encode($pending_data); ?>,
             }, {
                 name: 'Disetujui',
-                data: <?php echo json_encode($pending_data); ?>,
+                data: <?php echo json_encode($approved_data); ?>,
             }, {
                 name: 'Ditolak',
                 data: <?php echo json_encode($rejected_data); ?>,

@@ -7,6 +7,7 @@ class ProfileController extends GLOBAL_Controller
         parent::__construct();
         $this->load->model('ProfileModel');
         $this->load->model('HistoryModel');
+        $this->load->model('PenggunaModel');
         $this->load->helper('date');
 
         if (!parent::hasLogin()) {
@@ -23,6 +24,7 @@ class ProfileController extends GLOBAL_Controller
 
         // Ambil data pengguna dari model
         $data['pengguna'] = $this->ProfileModel->get_profile_by_id($penggunaID);
+        $data['sisa'] = $this->PenggunaModel->get_sisa_limit($penggunaID);
         $data['title'] = 'Profil Pengguna';
 
         // Tampilkan view profil
@@ -36,7 +38,7 @@ class ProfileController extends GLOBAL_Controller
 
         // Konfigurasi upload
         $config['upload_path'] = $upload_path;
-        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['allowed_types'] = 'jpg|jpeg|png|gif|heic';
         $config['max_size'] = 2048; // Ukuran maksimum dalam kilobyte (2MB)
         $config['file_name'] = uniqid(); // Berikan nama unik pada file yang diupload
 

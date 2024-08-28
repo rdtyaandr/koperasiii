@@ -41,23 +41,32 @@ class PinjamanController extends GLOBAL_Controller
             } else {
                 $user_id = $this->session->userdata('pengguna_id');
             }
-
+    
+            // Get the raw input values
+            $jenis_pinjaman = $this->input->post('jenis_pinjaman');
+            $tanggal_pinjam = $this->input->post('tanggal_pinjam');
+            $jumlah_pinjaman = $this->input->post('jumlah_pinjaman');
+            $lama_pinjaman = $this->input->post('lama_pinjaman');
+    
+            // Remove formatting from jumlah_pinjaman (remove dots)
+            $jumlah_pinjaman = str_replace('.', '', $jumlah_pinjaman);
+    
             $data = [
-                'jenis_pinjaman' => $this->input->post('jenis_pinjaman'),
-                'tanggal_pinjam' => $this->input->post('tanggal_pinjam'),
-                'jumlah_pinjaman' => $this->input->post('jumlah_pinjaman'),
-                'lama_pinjaman' => $this->input->post('lama_pinjaman'),
+                'jenis_pinjaman' => $jenis_pinjaman,
+                'tanggal_pinjam' => $tanggal_pinjam,
+                'jumlah_pinjaman' => $jumlah_pinjaman,
+                'lama_pinjaman' => $lama_pinjaman,
                 'waktu_pengajuan' => date('Y-m-d H:i:s'),
                 'status' => 'Menunggu Persetujuan',
                 'user_id' => $user_id
             ];
-
+    
             $this->PinjamanModel->insert_pinjaman($data);
-
+    
             if ($this->db->affected_rows() > 0) {
                 $this->addMessage(
                     'Pengajuan pinjaman',
-                    'Pengguna dengan ID ' . $user_id . ' telah mengajukan pinjaman sebesar ' . number_format($data['jumlah_pinjaman'], 2),
+                    'Pengguna dengan ID ' . $user_id . ' telah mengajukan pinjaman sebesar ' . number_format($data['jumlah_pinjaman'], 0, ',', '.'),
                     'add_circle_outline'
                 );
                 redirect('pinjaman');
@@ -67,15 +76,15 @@ class PinjamanController extends GLOBAL_Controller
             }
         } else {
             $data['title'] = 'Tambah Pengajuan';
-
+    
             // Load users if the user is an admin
             if ($this->session->userdata('level') == 'admin') {
                 $data['users'] = $this->PinjamanModel->get_all_users(); // Get all users for dropdown
             }
-
+    
             parent::template('pinjaman/tambah', $data);
         }
-    }
+    }    
 
     public function update_status()
     {

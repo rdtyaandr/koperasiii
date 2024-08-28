@@ -28,7 +28,7 @@
                         </div>
 						<div class="input-field col s12 m6">
 							<i class="mdi-action-lock-outline prefix grey-text text-lighten-1"></i>
-							<input id="password" type="password" name="password" >
+							<input id="password" type="password" name="password" required>
 							<label for="password type=">Kata Sandi</label>
 						</div>
 					</div>
@@ -37,9 +37,9 @@
 					<div class="input-field col s12 ">
 						<label for="kategori-pengguna">Pengguna sebagai</label><br><br>
 						<select name="level" id="level">
-							<option value="admin" selected>Admin </option>
-							<option value="operator">operator</option>
-							<option value="user">user</option>
+							<option value="admin">Admin</option>
+							<option value="operator">Operator</option>
+							<option value="user" selected>User</option>
 						</select>
 					</div>
 					

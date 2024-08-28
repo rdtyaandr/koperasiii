@@ -10,10 +10,14 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col s12">
+                        <div class="col s12 left-align">
                             <a href="<?= base_url('pengguna/tambah') ?>"
                                 class="btn waves-effect waves-light green darken-1" style="border-radius: 8px;">
-                                <i class="material-icons left">add</i>Tambah Pengguna
+                                <i class="material-icons left">add</i>Pengguna
+                            </a>
+                            <a href="<?= base_url('limit') ?>"
+                                class="btn waves-effect waves-light blue darken-2" style="border-radius: 8px;">
+                                <i class="material-icons left">edit</i>Limit
                             </a>
                         </div>
                     </div>
@@ -24,7 +28,6 @@
                                 <th>Nama Pengguna</th>
                                 <th>Email</th>
                                 <th>Satker</th>
-                                <th>Limit</th>
                                 <th>Role</th>
                                 <th>Aksi</th>
                             </tr>
@@ -37,7 +40,6 @@
                                         <td><?= htmlspecialchars($hitam['username'], ENT_QUOTES, 'UTF-8') ?></td>
                                         <td><?= htmlspecialchars($hitam['email'], ENT_QUOTES, 'UTF-8') ?></td>
                                         <td><?= htmlspecialchars($hitam['satker'], ENT_QUOTES, 'UTF-8') ?></td>
-                                        <td><?= htmlspecialchars($hitam['limit_total'], ENT_QUOTES, 'UTF-8') ?></td>
                                         <td>
                                             <?php
                                             $role = htmlspecialchars($hitam['pengguna_hak_akses'], ENT_QUOTES, 'UTF-8');
@@ -159,36 +161,53 @@
     }
 
     /* Warna untuk role 'user' (abu-abu terang) */
-.grey.lighten-2 {
-    background-color: #d6d6d6 !important; /* Abu-abu terang */
-    color: #ffffff !important; /* Teks putih */
-}
+    .grey.lighten-2 {
+        background-color: #d6d6d6 !important;
+        /* Abu-abu terang */
+        color: #ffffff !important;
+        /* Teks putih */
+    }
 
-/* Warna untuk role 'operator' (biru terang) */
-.blue.lighten-2 {
-    background-color: #64b5f6 !important; /* Biru terang */
-    color: #ffffff !important; /* Teks putih */
-}
+    /* Warna untuk role 'operator' (biru terang) */
+    .blue.lighten-2 {
+        background-color: #64b5f6 !important;
+        /* Biru terang */
+        color: #ffffff !important;
+        /* Teks putih */
+    }
 
-/* Warna untuk role 'admin' (hijau terang) */
-.green.lighten-2 {
-    background-color: #81c784 !important; /* Hijau terang */
-    color: #ffffff !important; /* Teks putih */
-}
+    /* Warna untuk role 'admin' (hijau terang) */
+    .green.lighten-2 {
+        background-color: #81c784 !important;
+        /* Hijau terang */
+        color: #ffffff !important;
+        /* Teks putih */
+    }
 
-/* Warna default untuk role yang tidak dikenali */
-.grey.lighten-4 {
-    background-color: #f5f5f5 !important; /* Abu-abu sangat terang */
-    color: #000000 !important; /* Teks hitam */
-}
+    /* Warna default untuk role yang tidak dikenali */
+    .grey.lighten-4 {
+        background-color: #f5f5f5 !important;
+        /* Abu-abu sangat terang */
+        color: #000000 !important;
+        /* Teks hitam */
+    }
 
-/* Style umum untuk badge role */
-.role-badge {
+    /* Style umum untuk badge role */
+    .role-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 0.9em;
+        text-align: center;
+    }
+
+    .limit-not-user {
+    color: #b0bec5; /* Warna teks abu-abu pudar */
     display: inline-block;
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 0.9em;
-    text-align: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transform: skew(-6deg); /* Miringkan teks ke kanan */
+    font-style: italic; /* Miringkan teks */
 }
 
 </style>

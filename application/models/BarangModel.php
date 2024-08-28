@@ -61,4 +61,15 @@ class BarangModel extends GLOBAL_Model
         $this->db->where('id_barang', $id_barang);
         return $this->db->get('tb_barang')->row();
     }
+
+    public function insert_riwayat_harga($data)
+    {
+        $this->db->insert('tb_riwayat_harga', $data);
+    }
+
+    public function update_harga_barang($id_barang, $harga_baru)
+    {
+        $this->db->where('id_barang', $id_barang);
+        $this->db->update('tb_barang', array('harga_jual' => $harga_baru));
+    }
 }

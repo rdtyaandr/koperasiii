@@ -156,185 +156,186 @@
 </div>
 
 <script>
-    function initializeDropdowns() {
-        var dropdowns = document.querySelectorAll(".dropdown");
+function initializeDropdowns() {
+    var dropdowns = document.querySelectorAll(".dropdown");
 
-        dropdowns.forEach(function(dropdown) {
-            var dropdownTrigger = dropdown.querySelector(".dropdown-trigger");
-            var dropdownText = dropdown.querySelector(".dropdown-text");
-            var dropdownMenu = dropdown.querySelector(".dropdown-menu");
-            var dropdownItems = dropdown.querySelectorAll(".dropdown-item");
+    dropdowns.forEach(function(dropdown) {
+        var dropdownTrigger = dropdown.querySelector(".dropdown-trigger");
+        var dropdownText = dropdown.querySelector(".dropdown-text");
+        var dropdownMenu = dropdown.querySelector(".dropdown-menu");
+        var dropdownItems = dropdown.querySelectorAll(".dropdown-item");
 
-            dropdownTrigger.addEventListener("click", function(event) {
-                event.stopPropagation();
-                closeAllDropdowns();
-                dropdown.classList.toggle("open");
-            });
-
-            dropdownItems.forEach(function(item) {
-                item.addEventListener("click", function(event) {
-                    event.stopPropagation();
-                    var selectedText = this.textContent;
-                    var selectedId = this.getAttribute('data-id');
-                    var selectedHarga = parseFloat(this.getAttribute('data-harga'));
-
-                    if (isNaN(selectedHarga)) {
-                        console.error("Harga tidak valid:", this.getAttribute('data-harga'));
-                    }
-
-                    dropdownText.textContent = selectedText;
-                    dropdown.classList.add("selected");
-                    dropdown.classList.remove("open");
-
-                    var row = this.closest('tr');
-                    if (row) {
-                        row.querySelector('input[name="id_barang[]"]').value = selectedId;
-                        row.querySelector('input[name="harga[]"]').value = selectedHarga || 0;
-                        row.querySelector('input[name="nama_barang[]"]').value = selectedText; // Set nama_barang
-
-                        row.querySelector('input[name="jumlah[]"]').focus();
-
-                        updateRowTotal(row.querySelector('input[name="jumlah[]"]'));
-                    } else {
-                        console.error("Baris tidak ditemukan.");
-                    }
-
-                    updateDropdownItems();
-                });
-            });
-        });
-
-        window.addEventListener("click", function() {
+        dropdownTrigger.addEventListener("click", function(event) {
+            event.stopPropagation();
             closeAllDropdowns();
-        });
-    }
-
-    function closeAllDropdowns() {
-        var dropdowns = document.querySelectorAll(".dropdown");
-        dropdowns.forEach(function(dropdown) {
-            dropdown.classList.remove("open");
-        });
-    }
-
-    function updateDropdownItems() {
-        var selectedItems = new Set();
-        var dropdownTexts = document.querySelectorAll('.dropdown-text');
-
-        dropdownTexts.forEach(function(dropdownText) {
-            if (dropdownText.textContent !== 'Pilih Nama Barang') {
-                selectedItems.add(dropdownText.textContent);
-            }
+            dropdown.classList.toggle("open");
         });
 
-        var dropdowns = document.querySelectorAll(".dropdown");
-        dropdowns.forEach(function(dropdown) {
-            var dropdownMenu = dropdown.querySelector(".dropdown-menu");
-            var dropdownItems = dropdown.querySelectorAll(".dropdown-item");
+        dropdownItems.forEach(function(item) {
+            item.addEventListener("click", function(event) {
+                event.stopPropagation();
+                var selectedText = this.textContent;
+                var selectedId = this.getAttribute('data-id');
+                var selectedHarga = parseFloat(this.getAttribute('data-harga'));
 
-            dropdownItems.forEach(function(item) {
-                if (selectedItems.has(item.textContent) && dropdown.querySelector('.dropdown-text').textContent !== item.textContent) {
-                    item.style.display = 'none';
-                } else {
-                    item.style.display = '';
+                if (isNaN(selectedHarga)) {
+                    console.error("Harga tidak valid:", this.getAttribute('data-harga'));
                 }
+
+                dropdownText.textContent = selectedText;
+                dropdown.classList.add("selected");
+                dropdown.classList.remove("open");
+
+                var row = this.closest('tr');
+                if (row) {
+                    row.querySelector('input[name="id_barang[]"]').value = selectedId;
+                    row.querySelector('input[name="harga[]"]').value = selectedHarga || 0;
+                    row.querySelector('input[name="nama_barang[]"]').value = selectedText;
+
+                    row.querySelector('input[name="jumlah[]"]').focus();
+
+                    updateRowTotal(row.querySelector('input[name="jumlah[]"]'));
+                } else {
+                    console.error("Baris tidak ditemukan.");
+                }
+
+                updateDropdownItems();
             });
         });
-    }
+    });
 
-    function addMultipleRows() {
-        var rowCount = parseInt(document.getElementById('jumlah-rows').value) || 1;
-        var tableBody = document.getElementById('item-table-body');
+    window.addEventListener("click", function() {
+        closeAllDropdowns();
+    });
+}
 
-        for (var i = 0; i < rowCount; i++) {
-            var rowNumber = tableBody.getElementsByTagName('tr').length + 1;
-            var newRow = `
-                <tr>
-                    <td>${rowNumber}</td>
-                    <td>
-                        <div class="dropdown" name="nama_barang">
-                            <div class="dropdown-trigger">
-                                <span class="dropdown-text">Pilih Nama Barang</span>
-                                <span class="arrow-down">&#9660;</span>
-                            </div>
-                            <ul class="dropdown-menu">
-                                <?php foreach ($barang as $b) : ?>
-                                    <li class="dropdown-item" data-id="<?= $b['id_barang']; ?>" data-harga="<?= $b['harga_jual']; ?>">
-                                        <?= htmlspecialchars($b['nama_barang']); ?>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
-                    </td>
-                    <td><input type="text" name="harga[]" readonly class="validate"></td>
-                    <td><input type="number" name="jumlah[]" min="1" class="validate" oninput="updateRowTotal(this)"></td>
-                    <td><input type="text" name="total[]" readonly class="validate"></td>
-                    <td>
-                    <a href="#" class="btn-floating white-text waves-effect waves-light red" onclick="removeRow(this)"><i class="material-icons icon-transaksi">delete</i></a>
-                    </td>
-                    <input type="hidden" name="id_barang[]" class="id-barang" value="">
-                    <input type="hidden" name="nama_barang[]" class="nama-barang" value="">                
-                </tr>
-            `;
-            tableBody.insertAdjacentHTML('beforeend', newRow);
+function closeAllDropdowns() {
+    var dropdowns = document.querySelectorAll(".dropdown");
+    dropdowns.forEach(function(dropdown) {
+        dropdown.classList.remove("open");
+    });
+}
+
+function updateDropdownItems() {
+    var selectedItems = new Set();
+    var dropdownTexts = document.querySelectorAll('.dropdown-text');
+
+    dropdownTexts.forEach(function(dropdownText) {
+        if (dropdownText.textContent !== 'Pilih Nama Barang') {
+            selectedItems.add(dropdownText.textContent);
         }
+    });
 
-        initializeDropdowns();
-        updateDropdownItems();
-    }
+    var dropdowns = document.querySelectorAll(".dropdown");
+    dropdowns.forEach(function(dropdown) {
+        var dropdownMenu = dropdown.querySelector(".dropdown-menu");
+        var dropdownItems = dropdown.querySelectorAll(".dropdown-item");
 
-    // Fungsi untuk menghitung total per baris
-    function updateRowTotal(input) {
-        var row = input.closest('tr');
-        if (!row) {
-            console.error("Baris tidak ditemukan.");
-            return;
-        }
-
-        var harga = parseFloat(row.querySelector('input[name="harga[]"]').value.replace(/\./g, ''));
-        var jumlah = parseFloat(input.value);
-        var total = harga * jumlah;
-
-        // Pastikan total bukan NaN
-        if (isNaN(total)) {
-            total = 0;
-        }
-
-        row.querySelector('input[name="total[]"]').value = total;
-
-        // Update total keseluruhan
-        updateTotalHarga();
-    }
-
-    function updateTotalHarga() {
-        var totalHarga = 0;
-        var totals = document.querySelectorAll('input[name="total[]"]');
-        totals.forEach(function(input) {
-            var value = parseFloat(input.value);
-            if (!isNaN(value)) {
-                totalHarga += value;
+        dropdownItems.forEach(function(item) {
+            if (selectedItems.has(item.textContent) && dropdown.querySelector('.dropdown-text').textContent !== item.textContent) {
+                item.style.display = 'none';
+            } else {
+                item.style.display = '';
             }
         });
-        document.getElementById('total-harga').textContent = formatNumber(totalHarga);
-    }
-
-    function removeRow(button) {
-        var row = button.closest('tr');
-        row.remove();
-
-        var rows = document.querySelectorAll('#item-table-body tr');
-        rows.forEach(function(row, index) {
-            row.querySelector('td:first-child').textContent = index + 1;
-        });
-
-        updateTotalHarga();
-        updateDropdownItems();
-    }
-
-    function formatNumber(num) {
-        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-        addMultipleRows();
     });
+}
+
+function addMultipleRows() {
+    var rowCount = parseInt(document.getElementById('jumlah-rows').value) || 1;
+    var tableBody = document.getElementById('item-table-body');
+
+    for (var i = 0; i < rowCount; i++) {
+        var rowNumber = tableBody.getElementsByTagName('tr').length + 1;
+        var newRow = `
+            <tr>
+                <td>${rowNumber}</td>
+                <td>
+                    <div class="dropdown" name="nama_barang">
+                        <div class="dropdown-trigger">
+                            <span class="dropdown-text">Pilih Nama Barang</span>
+                            <span class="arrow-down">&#9660;</span>
+                        </div>
+                        <ul class="dropdown-menu">
+                            <?php foreach ($barang as $b) : ?>
+                                <li class="dropdown-item" data-id="<?= $b['id_barang']; ?>" data-harga="<?= $b['harga_jual']; ?>">
+                                    <?= htmlspecialchars($b['nama_barang']); ?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </td>
+                <td><input type="text" name="harga[]" class="validate" oninput="updateRowTotal(this)"></td>
+                <td><input type="number" name="jumlah[]" min="1" class="validate" oninput="updateRowTotal(this)"></td>
+                <td><input type="text" name="total[]" readonly class="validate"></td>
+                <td>
+                <a href="#" class="btn-floating white-text waves-effect waves-light red" onclick="removeRow(this)"><i class="material-icons icon-transaksi">delete</i></a>
+                </td>
+                <input type="hidden" name="id_barang[]" class="id-barang" value="">
+                <input type="hidden" name="nama_barang[]" class="nama-barang" value="">                
+            </tr>
+        `;
+        tableBody.insertAdjacentHTML('beforeend', newRow);
+    }
+
+    initializeDropdowns();
+    updateDropdownItems();
+}
+
+// Fungsi untuk menghitung total per baris
+function updateRowTotal(input) {
+    var row = input.closest('tr');
+    if (!row) {
+        console.error("Baris tidak ditemukan.");
+        return;
+    }
+
+    var harga = parseFloat(row.querySelector('input[name="harga[]"]').value.replace(/\./g, ''));
+    var jumlah = parseFloat(row.querySelector('input[name="jumlah[]"]').value);
+    var total = harga * jumlah;
+
+    // Pastikan total bukan NaN
+    if (isNaN(total)) {
+        total = 0;
+    }
+
+    row.querySelector('input[name="total[]"]').value = total;
+
+    // Update total keseluruhan
+    updateTotalHarga();
+}
+
+function updateTotalHarga() {
+    var totalHarga = 0;
+    var totals = document.querySelectorAll('input[name="total[]"]');
+    totals.forEach(function(input) {
+        var value = parseFloat(input.value);
+        if (!isNaN(value)) {
+            totalHarga += value;
+        }
+    });
+    document.getElementById('total-harga').textContent = formatNumber(totalHarga);
+}
+
+function removeRow(button) {
+    var row = button.closest('tr');
+    row.remove();
+
+    var rows = document.querySelectorAll('#item-table-body tr');
+    rows.forEach(function(row, index) {
+        row.querySelector('td:first-child').textContent = index + 1;
+    });
+
+    updateTotalHarga();
+    updateDropdownItems();
+}
+
+function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    addMultipleRows();
+});
+
 </script>

@@ -275,7 +275,11 @@
         <div class="profile-details">
             <div class="name"><?php echo htmlspecialchars($pengguna['nama_lengkap']); ?></div>
             <div class="username">@<?php echo htmlspecialchars($pengguna['username']); ?></div>
-            <div class="limit">Sisa limit: 1500000</div>
+            <?php if ($this->session->userdata('level') == 'user'): ?>
+                <div class="limit">Sisa limit: <?php echo number_format($sisa, 0, ',', '.'); ?></div>
+                <?php elseif ($this->session->userdata('level') != 'user'): ?>
+                    <div class="limit">Satker: <?php echo htmlspecialchars($pengguna['satker']); ?></div>
+            <?php endif; ?>
         </div>
     </div>
     <div class="card">
@@ -289,7 +293,7 @@
             <div class="input-field">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username"
-                    value="<?php echo htmlspecialchars($pengguna['username']); ?>">
+                    value="<?php echo htmlspecialchars($pengguna['username']); ?>" disabled>
             </div>
             <div class="input-field">
                 <label for="email">Email</label>

@@ -184,27 +184,7 @@
                     <?php endif; ?>
 
 
-                    <?php if ($this->session->userdata('level') == 'admin'): ?>
-                        <li class="no-padding">
-                            <ul class="collapsible collapsible-accordion">
-                                <li class="bold">
-                                    <a class="collapsible-header">
-                                        <i class="material-icons">store</i> Master Data
-                                    </a>
-                                    <div class="collapsible-body">
-                                        <ul>
-                                            <li><a href="<?= base_url('barang') ?>">Barang</a>
-                                            </li>
-                                            <li><a href="<?= base_url('kategori') ?>">Kategori</a>
-                                            </li>
-                                            <li><a href="<?= base_url('satuan') ?>">Satuan</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                    <?php elseif ($this->session->userdata('level') == 'operator'): ?>
+                    <?php if ($this->session->userdata('level') != 'user'): ?>
                         <li class="no-padding">
                             <ul class="collapsible collapsible-accordion">
                                 <li class="bold">
@@ -227,44 +207,39 @@
                     <?php endif; ?>
 
 
-                    <?php if ($this->session->userdata('level') == 'admin'): ?>
+                    <?php if ($this->session->userdata('level') != 'user'): ?>
                         <li class="bold">
                             <a href="<?= base_url('transaksi') ?>">
-                                <i class="material-icons">shopping_cart</i> Data Transaksi
-                            </a>
-                        </li>
-                    <?php elseif ($this->session->userdata('level') == 'operator'): ?>
-                        <li class="bold">
-                            <a href="<?= base_url('transaksi') ?>">
-                                <i class="material-icons">shopping_cart</i> Data Transaksi
+                                <i class="material-icons">shopping_cart</i> Transaksi
                             </a>
                         </li>
                     <?php endif; ?>
 
 
-                    <?php if ($this->session->userdata('level') == 'admin'): ?>
+                    <?php if ($this->session->userdata('level') != 'user'): ?>
                         <li class="bold">
                             <a href="<?= base_url('pengguna') ?>" class="waves-effect waves-cyan">
-                                <i class="material-icons">group_add</i> Data pengguna
+                                <i class="material-icons">group_add</i> Pengguna
                             </a>
                         </li>
                     <?php endif; ?>
 
 
-                    <?php if ($this->session->userdata('level') == 'admin'): ?>
+                    <?php if ($this->session->userdata('level') != 'operator'): ?>
                         <li class="bold">
                             <a href="<?= base_url('pinjaman') ?>" class="waves-effect waves-cyan">
-                                <i class="material-icons">local_atm</i> Pengajuan Pinjaman
-                            </a>
-                        </li>
-                    <?php elseif ($this->session->userdata('level') == 'user'): ?>
-                        <li class="bold">
-                            <a href="<?= base_url('pinjaman') ?>" class="waves-effect waves-cyan">
-                                <i class="material-icons">local_atm</i> Pengajuan Pinjaman
+                                <i class="material-icons">local_atm</i> Pinjaman
                             </a>
                         </li>
                     <?php endif; ?>
 
+                    <?php if ($this->session->userdata('level') != 'user'): ?>
+                        <li class="bold">
+                            <a href="<?= base_url('laporan') ?>">
+                                <i class="material-icons">bar_chart</i> Laporan
+                            </a>
+                        </li>
+                    <?php endif; ?>
 
                     <?php if ($this->session->userdata('level') == 'admin'): ?>
                         <li class="bold">
