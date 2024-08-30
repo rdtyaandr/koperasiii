@@ -9,7 +9,7 @@ class BarangController extends GLOBAL_Controller
         $this->load->model('KategoriModel');
         $this->load->model('SatuanModel');
         $this->load->model('HistoryModel'); // Load model History
-        $this->load->library('Zend');
+        $this->load->library('zend');
         $this->load->database();
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
@@ -28,19 +28,29 @@ class BarangController extends GLOBAL_Controller
         $data['kategori'] = parent::model('KategoriModel')->lihat_semua();
         $data['satuan'] = parent::model('SatuanModel')->lihat_semua();
         $data['barang'] = parent::model('BarangModel')->lihat_semua();
-        $data['data']  = $this->db->get('tb_barang')->result();
-    // echo "<pre>";
-    //  print_r($data['data']);
-    //  exit();
-    // echo "</pre>";
-
+    
+        // Jika ada data barang
+        if (!empty($data['barang'])) {
+            foreach ($data['barang'] as &$item) {
+                $item['barcode_url'] = site_url('BarangController/generate_barcode/' . $item['id_barang']);
+            }
+        }
+    
         parent::template('barang/index', $data);
     }
-    public function Barcode($kodenya)
-    {
-      $this->zend->load('Zend/Barcode');
-      Zend_Barcode::render('code128', 'image', array('text' => $kodenya));
+    
+    public function generate_barcode($id_barang) {
+        $this->zend->load('Zend/Barcode');
+        
+        // Set header untuk output gambar
+        header('Content-Type: image/png');
+    
+        // Generate barcode dengan teks statis
+        Zend_Barcode::render('code128', 'image', array('text' => 'TEST1234'), array());
     }
+    
+    
+    
 
     // Fungsi untuk menambahkan pesan ke history
     private function addMessage($text, $summary, $icon)
@@ -77,7 +87,6 @@ class BarangController extends GLOBAL_Controller
 
             if ($simpan > 0) {
                 $this->addMessage('Barang baru ditambahkan', 'Barang ' . $data['nama_barang'] . ' telah ditambahkan', 'add_circle_outline');
-                $this->cekDanKirimNotifikasi($simpan);
                 parent::alert('alert', 'success-insert');
                 redirect('barang');
             } else {

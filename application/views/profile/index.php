@@ -1,158 +1,521 @@
-<!DOCTYPE html>
-<html lang="en">
+<style>
+    .container {
+        display: flex;
+        gap: 20px;
+        width: 95%;
+        max-width: 1200px;
+        margin-top: 15px;
+    }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?></title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <style>
-        .card-profile-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-        }
+    .card {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        flex: 1;
+    }
 
-        .card .card-image img {
-            height: 250px;
-            object-fit: cover;
-        }
+    .card-title {
+        font-size: 1.8em;
+        font-weight: 600 !important;
+        margin-bottom: 20px;
+        color: #1975d1;
+        text-align: center;
+        border-bottom: 2px solid #eaeff3;
+        padding-bottom: 15px;
+    }
 
-        .tabs .tab a {
-            color: #26a69a;
-        }
+    .profile-photo {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 15px;
+    }
 
-        .tabs .tab a.active {
-            background-color: #26a69a;
-            color: white;
-        }
+    .profile-photo img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, filter 0.3s ease;
+    }
 
-        .edit-form {
-            display: none;
-            position: fixed;
-            top: 0;
-            right: -430px;
-            /* Mulai dari luar tampilan */
-            width: 430px;
-            /* Memperbesar lebar form */
-            padding: 20px;
-            border-left: 1px solid #ddd;
-            background-color: #fff;
-            z-index: 1000;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            /* Menambahkan bayangan */
-            transition: right 0.5s ease;
-            /* Animasi slide */
-        }
+    .profile-photo:hover img {
+        transform: scale(1.05);
+    }
 
-        .container {
-            display: flex;
-            position: relative;
-        }
+    .profile-photo img.darkened {
+        filter: brightness(50%);
+    }
 
-        .profile-card-container {
-            flex: 1;
-            /* Profil card mengambil sisa ruang */
-        }
+    .delete-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -100%);
+        color: white;
+        font-size: 48px;
+        opacity: 0;
+        visibility: hidden;
+        cursor: pointer;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
 
-        .edit-form-container {
-            flex: 0 0 430px;
-            /* Lebar tetap untuk form edit */
-        }
+    .delete-icon.visible {
+        opacity: 1;
+        visibility: visible;
+    }
 
-        .btn-edit {
-            margin-top: 20px;
-        }
 
-        .edit-form .input-field input,
-        .edit-form .input-field label {
-            width: 100%;
-            /* Memperbesar lebar input */
-        }
+    .profile-photo a {
+        text-decoration: none;
+        color: #3498db;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 15px;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
 
-        .edit-form .btn {
-            margin-right: 10px;
-        }
-    </style>
-</head>
+    .profile-photo a:hover {
+        color: #2980b9;
+    }
 
-<body>
-    <div class="container">
-        <div class="profile-card-container">
-            <div class="row">
-                <div class="col s12 m8 l8">
-                    <div id="profile-card" class="card">
-                        <div class="card-image waves-effect waves-block waves-light">
-                            <img class="activator" src="<?= base_url('assets/images/office.jpg') ?>" alt="user bg">
-                        </div>
-                        <div class="card-content">
-                            <img src="<?= base_url('assets/upload/dokumen/' . $pengguna['pengguna_picture']) ?>" alt=""
-                                class="circle responsive-img activator card-profile-image">
-                            <span
-                                class="card-title activator grey-text text-darken-4"><?= $pengguna['nama_lengkap'] ?></span>
-                            <p class="grey-text"><i class="mdi-action-perm-identity"></i> <?= $pengguna['username'] ?>
-                            </p>
-                            <p class="grey-text"><i class="mdi-action-store"></i> <?= $pengguna['satker'] ?></p>
-                            <p class="grey-text"><i class="mdi-communication-email"></i> <?= $pengguna['email'] ?></p>
-                            <p class="grey-text">
-                                <i class="mdi-action-date-range"></i> Bergabung sejak:
-                                <?= formatTanggall($pengguna['pengguna_date_created']) ?>
-                            </p>
-                            <p class="grey-text">
-                                <i class="mdi-action-date-range"></i> Diperbarui Pada:
-                                <?= formatTanggall($pengguna['pengguna_date_update']) ?>
-                            </p>
-                            <button class="btn waves-effect waves-light btn-edit"
-                                onclick="toggleEditForm()">Edit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    .profile-details {
+        text-align: center;
+    }
+
+    .profile-details .name {
+        font-size: 1.4em;
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    .profile-details .username {
+        font-size: 1.1em;
+        color: #7f8c8d;
+        margin-top: 8px;
+    }
+
+    .profile-details .limit {
+        font-size: 1.1em;
+        color: #7f8c8d;
+        margin-top: 4px;
+    }
+
+    .input-field {
+        position: relative;
+    }
+
+    .input-field label {
+        font-size: 1em;
+        color: #95a5a6;
+        margin-bottom: 5px;
+        display: block;
+        font-weight: 500;
+    }
+
+    .input-field input {
+        width: 100%;
+        padding: 12px 15px;
+        font-size: 1em;
+        color: #34495e;
+        border: 1px solid #dcdfe3;
+        border-radius: 8px;
+        box-sizing: border-box;
+        transition: border 0.3s ease;
+    }
+
+    .input-field input:focus {
+        border-color: #3498db !important;
+        outline: none;
+    }
+
+    .password-wrapper {
+        position: relative;
+    }
+
+    .password-wrapper .toggle-password {
+        position: absolute;
+        right: 15px;
+        top: 35%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #7f8c8d;
+    }
+
+    .card-button {
+        display: inline-block;
+        background-color: #3498db;
+        color: #fff;
+        font-size: 1em;
+        font-weight: 500;
+        padding: 12px 20px;
+        border-radius: 8px;
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: none;
+    }
+
+    .card-button:hover {
+        background-color: #2980b9;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-button:active {
+        background-color: #1f6db2;
+    }
+
+    .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 1000;
+        /* Pastikan z-index cukup tinggi */
+    }
+
+    .popup-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .popup {
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 30px;
+        max-width: 400px;
+        width: 100%;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        transform: scale(0.7);
+        transition: transform 0.3s ease;
+    }
+
+    .popup-overlay.active .popup {
+        transform: scale(1);
+    }
+
+    .popup-title {
+        font-size: 1.6em;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .popup input[type="file"] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .popup-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .popup-button {
+        background-color: #3498db;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.3s ease;
+    }
+
+    .popup-button:hover {
+        background-color: #2980b9;
+    }
+
+    .popup-button.cancel {
+        background-color: #95a5a6;
+    }
+
+    .popup-button.cancel:hover {
+        background-color: #7f8c8d;
+    }
+
+    /* Nonaktifkan scroll pada body saat popup muncul */
+    body.no-scroll {
+        overflow: hidden;
+    }
+</style>
+
+<div class="container">
+    <div class="card">
+        <div class="card-title">Profil</div>
+        <div class="profile-photo">
+            <?php $profile_picture = !empty($pengguna['profile_picture']) ? $pengguna['profile_picture'] : 'default.png'; ?>
+            <img src="<?php echo base_url('assets/upload/profile_picture/' . $profile_picture); ?>" alt="Profile Photo"
+                id="profileImage">
+            <span class="material-icons delete-icon" id="deleteIcon">delete</span>
+            <a href="#" id="edit-photo" style="margin-top: 30px;">
+                <span class="material-icons">camera_alt</span> Edit Foto
+            </a>
         </div>
-        <div class="edit-form">
-            <h5>Edit Profil</h5>
-            <form action="<?= base_url('profile/update') ?>" method="post" enctype="multipart/form-data">
-                <div class="input-field">
-                    <input type="text" name="nama_lengkap" value="<?= $pengguna['nama_lengkap'] ?>" required>
-                    <label>Nama Lengkap</label>
-                </div>
-                <div class="input-field">
-                    <input type="text" name="username" value="<?= $pengguna['username'] ?>" disabled>
-                    <label>Username</label>
-                </div>
-                <div class="input-field">
-                    <input type="email" name="email" value="<?= $pengguna['email'] ?>" required>
-                    <label>Email</label>
-                </div>
-                <div class="input-field">
-                    <input type="text" name="satker" value="<?= $pengguna['satker'] ?>" required>
-                    <label>SATKER</label>
-                </div>
-                <div class="input-field">
-                    <input type="file" name="profile_picture">
-                    <label>Foto Profil</label>
-                </div>
-                <button type="submit" class="btn waves-effect waves-light">Simpan</button>
-                <button type="button" class="btn waves-effect waves-light" onclick="toggleEditForm()">Batal</button>
-            </form>
+        <div class="profile-details">
+            <div class="name"><?php echo htmlspecialchars($pengguna['nama_lengkap']); ?></div>
+            <div class="username">@<?php echo htmlspecialchars($pengguna['username']); ?></div>
+            <div class="limit">Sisa limit: 1500000</div>
         </div>
     </div>
+    <div class="card">
+        <div class="card-title">Detail Akun</div>
+        <form id="profileForm" action="<?php echo base_url('profile/update'); ?>" method="POST">
+            <div class="input-field" style="margin-top: 40px;">
+                <label for="nama_lengkap">Nama Lengkap</label>
+                <input type="text" id="nama_lengkap" name="nama_lengkap"
+                    value="<?php echo htmlspecialchars($pengguna['nama_lengkap']); ?>">
+            </div>
+            <div class="input-field">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username"
+                    value="<?php echo htmlspecialchars($pengguna['username']); ?>">
+            </div>
+            <div class="input-field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($pengguna['email']); ?>">
+            </div>
+            <div class="input-field">
+                <label for="satker">Satker</label>
+                <input type="text" id="satker" name="satker"
+                    value="<?php echo htmlspecialchars($pengguna['satker']); ?>">
+            </div>
+            <div class="input-field">
+                <div class="password-wrapper">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password"
+                        value="<?php echo htmlspecialchars($pengguna['password']); ?>">
+                    <span class="material-icons toggle-password" onclick="togglePassword()">visibility_off</span>
+                </div>
+            </div>
+            <button type="submit" class="card-button right">Simpan Perubahan</button>
+        </form>
+    </div>
+</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script>
-        function toggleEditForm() {
-            var form = document.querySelector('.edit-form');
-            if (form.style.display === 'none' || form.style.display === '') {
-                form.style.display = 'block';
-                form.style.right = '0'; // Menggeser form ke dalam tampilan
-            } else {
-                form.style.right = '-430px'; // Menggeser form keluar tampilan
-                setTimeout(function () {
-                    form.style.display = 'none'; // Menyembunyikan form setelah animasi selesai
-                }, 500); // Durasi animasi
-            }
+<!-- Popup HTML -->
+<div id="popupOverlay" class="popup-overlay">
+    <div class="popup">
+        <div class="popup-title">Upload Foto Profil</div>
+        <form id="uploadForm" action="<?php echo base_url('profile/image'); ?>" method="POST"
+            enctype="multipart/form-data">
+            <input type="file" id="profileImage" name="file" accept="image/*">
+            <div class="popup-buttons">
+                <button id="cancelButton" type="button" class="popup-button cancel">Batal</button>
+                <button id="uploadButton" type="submit" class="popup-button">Upload</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    /* CSS untuk tombol konfirmasi di SweetAlert */
+    .swal2-confirm.btn-danger {
+        background-color: #e53935;
+        /* Warna merah lebih terang */
+        border-color: #e53935;
+        /* Warna border merah lebih terang */
+        color: #fff;
+        /* Warna teks putih */
+    }
+
+    .swal2-confirm.btn-danger:hover {
+        background-color: #c62828;
+        /* Warna merah gelap saat hover */
+        border-color: #b71c1c;
+        /* Warna border merah gelap saat hover */
+    }
+
+    /* CSS untuk tombol OK di SweetAlert */
+    .swal2-confirm.btn-success {
+        background-color: #3599db;
+        /* Warna biru yang ditentukan */
+        border-color: #3599db;
+        /* Warna border biru yang ditentukan */
+        color: #fff;
+        /* Warna teks putih */
+    }
+
+    .swal2-confirm.btn-success:hover {
+        background-color: #1e88e5;
+        /* Warna biru gelap saat hover */
+        border-color: #1976d2;
+        /* Warna border biru gelap saat hover */
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    const profileImage = document.getElementById('profileImage');
+    const deleteIcon = document.getElementById('deleteIcon');
+    let hoverTimeout;
+
+    profileImage.addEventListener('mouseover', function () {
+        hoverTimeout = setTimeout(() => {
+            profileImage.classList.add('darkened');
+            deleteIcon.classList.add('visible');
+        }, 1000); // 1 detik delay
+    });
+
+    profileImage.addEventListener('mouseout', function () {
+        clearTimeout(hoverTimeout); // Hapus timeout jika mouse keluar sebelum delay selesai
+        if (!deleteIcon.matches(':hover')) {
+            // Hanya reset jika mouse tidak berada di atas ikon delete
+            profileImage.classList.remove('darkened');
+            deleteIcon.classList.remove('visible');
         }
-    </script>
-</body>
+    });
 
-</html>
+    deleteIcon.addEventListener('mouseover', function () {
+        clearTimeout(hoverTimeout); // Hapus timeout jika mouse berada di atas ikon delete
+        profileImage.classList.add('darkened');
+        deleteIcon.classList.add('visible');
+    });
+
+    deleteIcon.addEventListener('mouseout', function () {
+        // Jangan reset jika mouse berada di area gambar atau ikon delete
+        if (!profileImage.matches(':hover') && !deleteIcon.matches(':hover')) {
+            profileImage.classList.remove('darkened');
+            deleteIcon.classList.remove('visible');
+        }
+    });
+
+    profileImage.addEventListener('click', function () {
+        if (deleteIcon.classList.contains('visible')) {
+            Swal.fire({
+                title: 'Apakah Anda yakin ingin menghapus foto ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal',
+                customClass: {
+                    confirmButton: 'btn-danger', // Kelas untuk tombol konfirmasi
+                    cancelButton: 'btn-secondary' // Kelas untuk tombol batal (opsional, jika ingin mengubah warna tombol batal)
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload();
+                    // Kirim permintaan AJAX untuk menghapus foto
+                    fetch('<?= base_url('profile/delete_picture') ?>', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-Requested-With': 'XMLHttpRequest' // Menandakan bahwa ini adalah permintaan AJAX
+                        },
+                        body: new URLSearchParams({
+                            'csrf_test_name': '<?= $this->security->get_csrf_hash() ?>' // CSRF token
+                        })
+                    })
+                }
+            });
+        }
+    });
+
+    deleteIcon.addEventListener('click', function () {
+        if (deleteIcon.classList.contains('visible')) {
+            Swal.fire({
+                title: 'Apakah Anda yakin ingin menghapus foto ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal',
+                customClass: {
+                    confirmButton: 'btn-danger', // Kelas untuk tombol konfirmasi
+                    cancelButton: 'btn-secondary' // Kelas untuk tombol batal (opsional, jika ingin mengubah warna tombol batal)
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload();
+                    // Kirim permintaan AJAX untuk menghapus foto
+                    fetch('<?= base_url('profile/delete_picture') ?>', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-Requested-With': 'XMLHttpRequest' // Menandakan bahwa ini adalah permintaan AJAX
+                        },
+                        body: new URLSearchParams({
+                            'csrf_test_name': '<?= $this->security->get_csrf_hash() ?>' // CSRF token
+                        })
+                    })
+                }
+            });
+        }
+    });
+
+
+</script>
+
+<script>
+    document.getElementById('edit-photo').addEventListener('click', function (event) {
+        event.preventDefault();
+        showPopup();
+    });
+
+    function showPopup() {
+        const popupOverlay = document.getElementById('popupOverlay');
+        popupOverlay.classList.add('active');
+        document.body.classList.add('no-scroll'); // Nonaktifkan scroll pada body
+    }
+
+    function hidePopup() {
+        const popupOverlay = document.getElementById('popupOverlay');
+        popupOverlay.classList.remove('active');
+        document.body.classList.remove('no-scroll'); // Aktifkan kembali scroll pada body
+    }
+
+    document.getElementById('cancelButton').addEventListener('click', function () {
+        hidePopup();
+    });
+
+    document.getElementById('uploadButton').addEventListener('click', function (event) {
+        const fileInput = document.getElementById('profileImage');
+        const file = fileInput.files[0];
+        if (!file) {
+            event.preventDefault(); // Cegah pengiriman form jika file belum dipilih
+            Swal.fire({
+                icon: 'warning',
+                title: 'Tidak ada file dipilih',
+                text: 'Silakan pilih file gambar terlebih dahulu!',
+                confirmButtonText: 'OK'
+            });
+        }
+    });
+
+    document.getElementById('popupOverlay').addEventListener('click', function (event) {
+        if (event.target === this) {
+            hidePopup();
+        }
+    });
+
+    function togglePassword() {
+        var passwordInput = document.getElementById('password');
+        var toggleIcon = document.querySelector('.toggle-password');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.textContent = 'visibility';
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.textContent = 'visibility_off';
+        }
+    }
+</script>

@@ -6,14 +6,14 @@ class ProfileController extends GLOBAL_Controller
     {
         parent::__construct();
         $this->load->model('ProfileModel');
-        $this->load->model('HistoryModel'); // Load HistoryModel
-        $this->load->helper('url');
-        $this->load->helper('date'); 
-        
+        $this->load->model('HistoryModel');
+        $this->load->helper('date');
+
         if (!parent::hasLogin()) {
             redirect('login');
         }
         $this->HistoryModel->deleteOldMessages();
+        $this->ProfileModel->cleanupUnusedProfilePictures();
     }
 
     public function index()
@@ -31,34 +31,92 @@ class ProfileController extends GLOBAL_Controller
 
     public function upload_picture()
     {
-        // Ambil ID pengguna dari sesi
-        $penggunaID = $this->session->userdata('pengguna_id');
+        // Set path untuk menyimpan gambar
+        $upload_path = './assets/upload/profile_picture/';
 
         // Konfigurasi upload
-        $config['upload_path'] = './assets/upload/dokumen/';
-        $config['allowed_types'] = 'jpg|png|jpeg';
-        $config['overwrite'] = TRUE;
+        $config['upload_path'] = $upload_path;
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['max_size'] = 2048; // Ukuran maksimum dalam kilobyte (2MB)
+        $config['file_name'] = uniqid(); // Berikan nama unik pada file yang diupload
+
+        // Load library upload
         $this->load->library('upload', $config);
+        $this->upload->initialize($config);
 
-        if ($this->upload->do_upload('profile_picture')) {
-            $uploadData = $this->upload->data();
-            $fileName = $uploadData['file_name'];
+        // Jika upload berhasil
+        if ($this->upload->do_upload('file')) {
+            $file_data = $this->upload->data();
 
-            // Update nama file di database
-            $this->ProfileModel->update_profile_picture($penggunaID, $fileName);
+            // Dapatkan nama file yang telah diupload
+            $file_name = $file_data['file_name'];
 
-            // Tambahkan pesan ke history
-            $this->addMessage('Gambar profil diupload', 'Pengguna dengan ID ' . $penggunaID . ' telah mengubah gambar profil.', 'update');
+            // Dapatkan ID pengguna dari session
+            $pengguna_id = $this->session->userdata('pengguna_id');
 
-            // Tampilkan pesan sukses
-            parent::alert('alert', 'profile-picture-updated');
-            redirect('profile');
+            // Ambil nama file gambar profil yang sebelumnya
+            $current_picture = $this->session->userdata('pengguna_picture');
+
+            // Hapus gambar sebelumnya jika bukan 'default.png'
+            if ($current_picture && $current_picture !== 'default.png') {
+                $current_picture_path = $upload_path . $current_picture;
+                if (file_exists($current_picture_path)) {
+                    unlink($current_picture_path);
+                }
+            }
+
+            // Update nama file di database melalui model
+            $update_status = $this->ProfileModel->update_profile_picture($pengguna_id, $file_name);
+
+            // Cek apakah update berhasil
+            if ($update_status) {
+                $this->session->set_userdata('pengguna_picture', $file_name);
+                // Tampilkan pesan sukses hanya jika request via AJAX
+                if ($this->input->is_ajax_request()) {
+                    echo json_encode(['status' => 'success', 'message' => 'Foto profil berhasil diperbarui']);
+                } else {
+                    // Redirect ke halaman profil jika bukan AJAX
+                    redirect('profile');
+                }
+            } else {
+                // Tampilkan pesan error jika update di database gagal
+                if ($this->input->is_ajax_request()) {
+                    echo json_encode(['status' => 'error', 'message' => 'Gagal memperbarui foto profil di database']);
+                } else {
+                    // Tampilkan pesan error di halaman profil
+                    $this->session->set_flashdata('error', 'Gagal memperbarui foto profil di database');
+                    redirect('profile');
+                }
+            }
         } else {
-            // Tampilkan pesan error
-            parent::alert('alert', 'upload-error');
-            redirect('profile');
+            // Jika upload gagal, tampilkan pesan error
+            $error = $this->upload->display_errors();
+            if ($this->input->is_ajax_request()) {
+                echo json_encode(['status' => 'error', 'message' => $error]);
+            } else {
+                $this->session->set_flashdata('error', $error);
+                redirect('profile');
+            }
         }
     }
+
+    public function delete_picture()
+{
+    // Dapatkan ID pengguna dari session
+    $pengguna_id = $this->session->userdata('pengguna_id');
+
+    // Update nama file di database menjadi 'default.png'
+    $update_status = $this->ProfileModel->update_profile_picture($pengguna_id, 'default.png');
+
+    // Tampilkan respons JSON
+    if ($update_status) {
+        $this->session->set_userdata('pengguna_picture', 'default.png');
+        echo json_encode(['status' => 'success', 'message' => 'Foto profil berhasil dihapus']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Gagal menghapus foto profil']);
+    }
+}
+
 
     public function update()
     {
@@ -70,27 +128,8 @@ class ProfileController extends GLOBAL_Controller
             'nama_lengkap' => $this->input->post('nama_lengkap'),
             'email' => $this->input->post('email'),
             'satker' => $this->input->post('satker'),
-            'pengguna_date_update' => date('Y-m-d H:i:s') // Menambahkan data waktu sekarang
+            'password' => $this->input->post('password')
         );
-
-        // Cek apakah foto profil diupload
-        if (!empty($_FILES['profile_picture']['name'])) {
-            // Konfigurasi upload
-            $config['upload_path'] = './assets/upload/dokumen/';
-            $config['allowed_types'] = 'jpg|png|jpeg';
-            $config['overwrite'] = TRUE;
-            $this->load->library('upload', $config);
-
-            if ($this->upload->do_upload('profile_picture')) {
-                $uploadData = $this->upload->data();
-                $fileName = $uploadData['file_name'];
-                $data['pengguna_picture'] = $fileName;
-            } else {
-                // Tampilkan pesan error jika upload gagal
-                parent::alert('alert', 'upload-error');
-                redirect('profile');
-            }
-        }
 
         // Update data profil di database
         if ($this->ProfileModel->update_profile($penggunaID, $data)) {

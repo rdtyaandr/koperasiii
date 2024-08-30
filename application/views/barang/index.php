@@ -11,12 +11,6 @@
                             <a href="<?= base_url('barang/tambah') ?>" class="btn waves-effect waves-light green darken-1" style="border-radius: 8px;">
                                 <i class="material-icons left">add</i>Tambah Barang
                             </a>
-                            <a href="<?= base_url('kategori') ?>" class="btn waves-effect waves-light blue darken-1" style="border-radius: 8px;">
-                                <i class="material-icons left">arrow_forward</i>Kategori
-                            </a>
-                            <a href="<?= base_url('satuan') ?>" class="btn waves-effect waves-light orange darken-1" style="border-radius: 8px;">
-                                <i class="material-icons left">arrow_forward</i>Satuan
-                            </a>
                         </div>
                     </div>
                     <table class="striped highlight responsive-table mt">
@@ -38,7 +32,7 @@
                                 <?php foreach (array_reverse($barang) as $key => $item) : ?>
                                     <tr>
                                         <td><?= $key + 1 ?></td>
-                                        <td><img src="<?= site_url('barang/barcode/'.$item['kode_barang']); ?>" alt="Barcode"></td>
+                                        <td><img src="<?= $item['barcode_url']; ?>" alt="Barcode" /></td>
                                         <td>
                                             <?php
                                             $kategoriNama = '';
