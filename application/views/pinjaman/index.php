@@ -21,7 +21,9 @@
                         <thead class="blue darken-2 white-text">
                             <tr>
                                 <th>No</th>
-                                <th>Username</th>
+                                <?php if ($this->session->userdata('level') == 'admin'): ?>
+                                    <th>Username</th>
+                                <?php endif; ?>
                                 <th>Jenis Pinjaman</th>
                                 <th>Tanggal Pinjaman</th>
                                 <th>Jumlah Pinjaman</th>
@@ -37,7 +39,9 @@
                                 <?php foreach (array_reverse($pengajuan) as $key => $pinjaman): ?>
                                     <tr id="row-<?= $pinjaman['id'] ?>">
                                         <td><?= $key + 1 ?></td>
-                                        <td><?= htmlspecialchars($pinjaman['user_id'], ENT_QUOTES, 'UTF-8') ?></td>
+                                        <?php if ($this->session->userdata('level') == 'admin'): ?>
+                                            <td><?= htmlspecialchars($pinjaman['user_id'], ENT_QUOTES, 'UTF-8') ?></td>
+                                        <?php endif; ?>
                                         <td><?= htmlspecialchars($pinjaman['jenis_pinjaman'], ENT_QUOTES, 'UTF-8') ?></td>
                                         <td><?= formatTanggal($pinjaman['tanggal_pinjam']) ?></td>
                                         <td><?= number_format($pinjaman['jumlah_pinjaman'], 0, ',', '.') ?></td>

@@ -3,13 +3,16 @@
         <div class="col s12">
             <div class="card hoverable" style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
                 <div class="card-content">
-                    <h4 class="blue-text text-darken-2" style="font-size: 2em; text-align: center; font-weight: bold;">Data Satuan</h4>
+                    <h4 class="blue-text text-darken-2" style="font-size: 2em; text-align: center; font-weight: bold;">
+                        Data Satuan</h4>
                     <div class="row">
                         <div class="col s12">
-                            <a href="#" class="btn green darken-1" style="margin-bottom: 20px;" id="add-modal">
+                            <a href="#addSatuanModal" class="btn green darken-1 modal-trigger" style="margin-bottom: 20px;"
+                                id="add-modal">
                                 <i class="material-icons left">add</i>Tambah Satuan
                             </a>
-                            <a href="<?= base_url('barang') ?>" class="btn blue darken-1" style="margin-bottom: 20px;" id="add-modal">
+                            <a href="<?= base_url('barang') ?>" class="btn blue darken-1" style="margin-bottom: 20px;"
+                                id="add-modal">
                                 <i class="material-icons left">arrow_forward</i>Data Barang
                             </a>
                         </div>
@@ -23,16 +26,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (!empty($satuan)) : ?>
-                                <?php foreach (array_reverse($satuan) as $key => $item) : ?>
+                            <?php if (!empty($satuan)): ?>
+                                <?php foreach (array_reverse($satuan) as $key => $item): ?>
                                     <tr>
                                         <td><?= $key + 1 ?></td>
                                         <td><?= $item['nama_satuan'] ?></td>
                                         <td>
-                                            <a href="#" class="btn-floating yellow darken-3 tooltipped" data-position="top" data-tooltip="Edit" style="border-radius: 4px;" onclick="openEditModal('<?= $item['id_satuan'] ?>', '<?= $item['nama_satuan'] ?>')">
+                                            <a href="#editSatuanModal" class="btn-floating yellow darken-3 tooltipped modal-trigger" data-position="top"
+                                                data-tooltip="Edit" style="border-radius: 4px;"
+                                                onclick="openEditModal('<?= $item['id_satuan'] ?>', '<?= $item['nama_satuan'] ?>')">
                                                 <i class="material-icons">edit</i>
                                             </a>
-                                            <a href="#" class="btn-floating red tooltipped" data-position="top" data-tooltip="Hapus" style="border-radius: 4px;" onclick="event.preventDefault(); Swal.fire({
+                                            <a href="#" class="btn-floating red tooltipped" data-position="top"
+                                                data-tooltip="Hapus" style="border-radius: 4px;" onclick="event.preventDefault(); Swal.fire({
                                                 title: 'Apakah Anda yakin?',
                                                 text: 'Anda tidak akan dapat mengembalikan ini!',
                                                 icon: 'warning',
@@ -50,7 +56,7 @@
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
-                            <?php else : ?>
+                            <?php else: ?>
                                 <tr>
                                     <td colspan="10" class="center-align">Tidak ada data satuan.</td>
                                 </tr>
@@ -74,13 +80,14 @@
             <div class="input-field">
                 <input type="text" id="add-satuan-name" name="nama_satuan" class="validate" required>
                 <label for="add-satuan-name">Nama Satuan</label>
-                <span class="helper-text" id="add-satuan-error" style="display:none; color:red;">Nama satuan tidak boleh kosong</span>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="addSatuanSaveButton" class="btn green darken-1">Tambah</button>
-                <a href="#!" class="modal-close btn red" id="closea">Cancel</a>
+                <span class="helper-text" id="add-satuan-error" style="display:none; color:red;">Nama satuan tidak boleh
+                    kosong</span>
             </div>
         </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" id="addSatuanSaveButton" class="btn green darken-1">Tambah</button>
+        <a href="#!" class="modal-close btn-flat" id="closea">Cancel</a>
     </div>
 </div>
 
@@ -93,11 +100,12 @@
             <div class="input-field">
                 <input type="text" id="edit-satuan-name" name="nama_satuan" class="validate" required>
                 <label for="edit-satuan-name">Nama Satuan</label>
-                <span class="helper-text" id="edit-satuan-error" style="display:none; color:red;">Nama satuan tidak boleh kosong</span>
+                <span class="helper-text" id="edit-satuan-error" style="display:none; color:red;">Nama satuan tidak
+                    boleh kosong</span>
             </div>
             <div class="modal-footer">
                 <button type="button" id="editSatuanSaveButton" class="btn blue darken-1">Simpan</button>
-                <a href="#!" class="modal-close btn red">Cancel</a>
+                <a href="#!" class="modal-close btn-flat">Cancel</a>
             </div>
         </form>
     </div>
@@ -140,30 +148,29 @@
         position: relative;
     }
 
-    .mt-20 {
-        margin-top: 20px;
-    }
-
     .modal {
         border-radius: 8px;
+        max-width: 35%;
     }
 
     .modal-footer {
         padding: 0 24px 20px;
     }
-
-    .modal-close {
-        border-radius: 4px;
-    }
 </style>
 
 <!-- JavaScript for initializing Materialize components -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         M.AutoInit(); // Initialize all Materialize components
 
-        const addModal = M.Modal.init(document.getElementById("addSatuanModal"));
-        const editModal = M.Modal.init(document.getElementById("editSatuanModal"));
+        const addModal = M.Modal.init(document.getElementById("addSatuanModal"), {
+            dismissible: true, // Allow modal to be closed by clicking outside
+            opacity: 0.5 // Set overlay opacity to make the background darker
+        });
+        const editModal = M.Modal.init(document.getElementById("editSatuanModal"), {
+            dismissible: true, // Allow modal to be closed by clicking outside
+            opacity: 0.5 // Set overlay opacity to make the background darker
+        });
         const addSatuanForm = document.getElementById("addSatuanForm");
         const editSatuanForm = document.getElementById("editSatuanForm");
 
@@ -171,12 +178,12 @@
         const editSatuanSaveButton = document.getElementById("editSatuanSaveButton");
 
         // Event listener for the Add button
-        document.getElementById("add-modal").addEventListener("click", function() {
+        document.getElementById("add-modal").addEventListener("click", function () {
             addModal.open();
         });
 
         // Event listener for the Save button inside the Add modal
-        addSatuanSaveButton.addEventListener("click", function() {
+        addSatuanSaveButton.addEventListener("click", function () {
             const satuanNameInput = document.getElementById("add-satuan-name");
             const errorSpan = document.getElementById("add-satuan-error");
 
@@ -189,7 +196,7 @@
         });
 
         // Event listener for the Save button inside the Edit modal
-        editSatuanSaveButton.addEventListener("click", function() {
+        editSatuanSaveButton.addEventListener("click", function () {
             const satuanNameInput = document.getElementById("edit-satuan-name");
             const errorSpan = document.getElementById("edit-satuan-error");
 
@@ -203,7 +210,7 @@
 
         // Reset form and hide error messages on modal close
         document.querySelectorAll('.modal').forEach(modal => {
-            M.Modal.getInstance(modal).options.onCloseEnd = function() {
+            M.Modal.getInstance(modal).options.onCloseEnd = function () {
                 addSatuanForm.reset();
                 editSatuanForm.reset();
                 document.getElementById("add-satuan-error").style.display = "none";
@@ -221,7 +228,7 @@
         modal.open();
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         if (window.performance.navigation.type === 1) {
             // Browser was reloaded (POST data may be present)
             if (window.history.replaceState) {
@@ -230,8 +237,8 @@
         }
     });
 
-    $(document).ready(function() {
-        $('#editSatuanSaveButton').on('click', function() {
+    $(document).ready(function () {
+        $('#editSatuanSaveButton').on('click', function () {
             // Validasi input
             if ($('#edit-satuan-name').val().trim() === '') {
                 $('#edit-satuan-error').show(); // Tampilkan pesan kesalahan jika nama satuan kosong

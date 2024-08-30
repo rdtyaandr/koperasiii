@@ -6,7 +6,7 @@
                     <h4 class="blue-text text-darken-2" style="font-size: 2em; text-align: center; font-weight: bold;">Data Kategori</h4>
                     <div class="row">
                         <div class="col s12">
-                            <a href="#" class="btn green darken-1" style="margin-bottom: 20px;" id="add-modal">
+                            <a href="#addCategoryModal" class="btn green darken-1 modal-trigger" style="margin-bottom: 20px;" id="add-modal">
                                 <i class="material-icons left">add</i>Tambah Kategori
                             </a>
                             <a href="<?= base_url('barang') ?>" class="btn blue darken-1" style="margin-bottom: 20px;" id="add-modal">
@@ -29,7 +29,7 @@
                                         <td><?= $key + 1 ?></td>
                                         <td><?= $item['nama_kategori'] ?></td>
                                         <td>
-                                            <a href="#" class="btn-floating yellow darken-3 tooltipped" data-position="top" data-tooltip="Edit" style="border-radius: 4px;" onclick="openEditModal('<?= $item['id_kategori'] ?>', '<?= $item['nama_kategori'] ?>')">
+                                            <a href="#editCategoryModal" class="btn-floating yellow darken-3 tooltipped modal-trigger" data-position="top" data-tooltip="Edit" style="border-radius: 4px;" onclick="openEditModal('<?= $item['id_kategori'] ?>', '<?= $item['nama_kategori'] ?>')">
                                                 <i class="material-icons">edit</i>
                                             </a>
                                             <a href="#" class="btn-floating red tooltipped" data-position="top" data-tooltip="Hapus" style="border-radius: 4px;" onclick="event.preventDefault(); Swal.fire({
@@ -76,11 +76,11 @@
                 <label for="add-category-name">Nama Kategori</label>
                 <span class="helper-text" id="add-category-error" style="display:none; color:red;">Nama kategori tidak boleh kosong</span>
             </div>
-            <div class="modal-footer">
-                <button type="button" id="addCategorySaveButton" class="btn green darken-1">Tambah</button>
-                <a href="#!" class="modal-close btn red" id="closea">Cancel</a>
-            </div>
         </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" id="addCategorySaveButton" class="btn green darken-1">Tambah</button>
+        <a href="#!" class="modal-close btn-flat">Cancel</a>
     </div>
 </div>
 
@@ -95,11 +95,11 @@
                 <label for="edit-category-name">Nama Kategori</label>
                 <span class="helper-text" id="edit-category-error" style="display:none; color:red;">Nama kategori tidak boleh kosong</span>
             </div>
-            <div class="modal-footer">
-                <button type="button" id="editCategorySaveButton" class="btn blue darken-1">Simpan</button>
-                <a href="#!" class="modal-close btn red">Cancel</a>
-            </div>
         </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" id="editCategorySaveButton" class="btn blue darken-1">Simpan</button>
+        <a href="#!" class="modal-close btn-flat">Cancel</a>
     </div>
 </div>
 
@@ -129,7 +129,6 @@
 
     .btn {
         border-radius: 8px;
-        margin: 5px 0;
     }
 
     .btn-floating {
@@ -139,21 +138,14 @@
     .tooltipped {
         position: relative;
     }
-
-    .mt-20 {
-        margin-top: 20px;
-    }
-
+    
     .modal {
         border-radius: 8px;
+        max-width: 35%;
     }
 
     .modal-footer {
         padding: 0 24px 20px;
-    }
-
-    .modal-close {
-        border-radius: 4px;
     }
 </style>
 

@@ -22,20 +22,13 @@
                             <label for="email">Email</label>
                         </div>
                         <div class="input-field col s12 m6">
-						<label for="kategori-satker">satker</label><br><br>
-						<select name="satker" id="satker">
-							<option value="ipds" selected>ipds </option>
-							<option value="umum">umum</option>
-							<option value="neraca">neraca</option>
-							<option value="produksi">produksi</option>
-							<option value="distribusi">distribusi</option>
-							<option value="diseminasi">diseminasi</option>
-							<option value="sosial">sosial</option>
-						</select>
-							</div>
-							<div class="input-field col s12 m6">
-								<i class="mdi-action-lock-outline prefix grey-text text-lighten-1"></i>
-							<input id="password" type="password" name="password" >
+                            <i class="mdi-editor-merge-type prefix grey-text text-lighten-1"></i>
+                            <input id="satker" type="text"  class="validate" name="satker" required>
+                            <label for="satker">Satker</label>
+                        </div>
+						<div class="input-field col s12 m6">
+							<i class="mdi-action-lock-outline prefix grey-text text-lighten-1"></i>
+							<input id="password" type="password" name="password" required>
 							<label for="password type=">Kata Sandi</label>
 						</div>
 					</div>
@@ -44,9 +37,9 @@
 					<div class="input-field col s12 ">
 						<label for="kategori-pengguna">Pengguna Sebagai</label><br><br>
 						<select name="level" id="level">
-							<option value="admin" selected>Admin </option>
-							<option value="operator">operator</option>
-							<option value="user">user</option>
+							<option value="admin">Admin</option>
+							<option value="operator">Operator</option>
+							<option value="user" selected>User</option>
 						</select>
 						
 						</div>

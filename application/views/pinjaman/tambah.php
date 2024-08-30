@@ -6,14 +6,12 @@
                     <span class="card-title blue-text" style="font-size: 2em;"><?= $title ?></span>
                     <form action="<?= base_url('pinjaman/tambah') ?>" method="post">
                         <div class="row">
-                            <?php if ($this->session->userdata('level') == 'admin'): ?>
+                        <?php if ($this->session->userdata('level') == 'admin'): ?>
                                 <div class="input-field col s12">
                                     <select id="username" name="username" required>
                                         <option value="" disabled selected>Pilih Nama Pengguna</option>
                                         <?php foreach ($users as $user): ?>
-                                            <option value="<?= $user->username ?>">
-                                                <?= $user->username ?>
-                                            </option>
+                                            <option value="<?= htmlspecialchars(trim($user->pengguna_id), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(trim($user->username), ENT_QUOTES, 'UTF-8') ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                     <label for="username">Nama Pengguna</label>
@@ -21,7 +19,8 @@
                             <?php else: ?>
                                 <div class="input-field col s12">
                                     <input id="username" type="hidden" name="username"
-                                        value="<?= $this->session->userdata('username') ?>" readonly>
+                                        value="<?= htmlspecialchars(trim($this->session->userdata('username')), ENT_QUOTES, 'UTF-8') ?>"
+                                        readonly>
                                 </div>
                             <?php endif; ?>
                             <div class="input-field col s12">
@@ -38,8 +37,9 @@
                                 <label for="tanggal_pinjam"></label>
                             </div>
                             <div class="input-field col s12">
-                                <input id="jumlah_pinjaman" type="number" name="jumlah_pinjaman" required min="500">
-                                <label for="jumlah_pinjaman">Jumlah Pinjaman</label>
+                                <input id="jumlah_pinjaman_tampil" type="text" required>
+                                <input id="jumlah_pinjaman" type="hidden" name="jumlah_pinjaman" required>
+                                <label for="jumlah_pinjaman_tampil">Jumlah Pinjaman</label>
                             </div>
                             <div class="input-field col s12">
                                 <input id="lama_pinjaman" type="number" name="lama_pinjaman" required min="1" max="12">
@@ -55,25 +55,28 @@
     </div>
 </div>
 <script>
-    document.getElementById('jumlah_pinjaman').addEventListener('input', function (e) {
-        // Menghapus karakter selain angka
-        let value = e.target.value.replace(/[^,\d]/g, '');
+   document.getElementById('jumlah_pinjaman_tampil').addEventListener('input', function (e) {
+    // Menghapus karakter selain angka
+    let value = e.target.value.replace(/[^,\d]/g, '');
 
-        // Memisahkan bagian desimal dan integer
-        let split = value.split(',');
-        let sisa = split[0].length % 3;
-        let rupiah = split[0].substr(0, sisa);
-        let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+    // Memisahkan bagian desimal dan integer
+    let split = value.split(',');
+    let sisa = split[0].length % 3;
+    let rupiah = split[0].substr(0, sisa);
+    let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
 
-        // Menambahkan tanda titik jika input lebih dari ribuan
-        if (ribuan) {
-            let separator = sisa ? '.' : '';
-            rupiah += separator + ribuan.join('.');
-        }
+    // Menambahkan tanda titik jika input lebih dari ribuan
+    if (ribuan) {
+        let separator = sisa ? '.' : '';
+        rupiah += separator + ribuan.join('.');
+    }
 
-        e.target.value = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-    });
+    // Update input tampil dengan format rupiah
+    e.target.value = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
 
+    // Update input hidden dengan nilai asli tanpa format
+    document.getElementById('jumlah_pinjaman').value = value.replace(/\./g, '').replace(',', '.');
+});
 
     document.getElementById('lama_pinjaman').addEventListener('input', function () {
         let value = parseInt(this.value);

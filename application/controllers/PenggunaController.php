@@ -11,7 +11,7 @@ class PenggunaController extends GLOBAL_Controller {
             redirect(base_url('login'));
         }
         $level = $this->session->userdata('level');
-        if ($level != 'admin') {
+        if ($level == 'user') {
             redirect(base_url());
         }
         $this->HistoryModel->deleteOldMessages();
@@ -41,11 +41,12 @@ class PenggunaController extends GLOBAL_Controller {
     {
         if (isset($_POST['ubah'])) {
             $data = array(
+                'nama_lengkap' => parent::post('nama_lengkap'),
                 'username' => parent::post('username'),
                 'email' => parent::post('email'),
                 'satker' => parent::post('satker'),
-                'limit' => parent::post('limit'),
-                'role' => parent::post('role'),
+                'limit_total' => parent::post('limit_total'),
+                'pengguna_hak_akses' => parent::post('pengguna_hak_akses'),
             );
             $simpan = parent::model('PenggunaModel')->ubah($id, $data);
 
@@ -91,10 +92,9 @@ class PenggunaController extends GLOBAL_Controller {
                 'username' => parent::post('username'),
                 'email' => parent::post('email'),
                 'satker' => parent::post('satker'),
-                'password' => md5(parent::post('password')), // Menggunakan md5 untuk password
-                'limit' => parent::post('limit'),
-                'role' => parent::post('level'),
-                'limit' => '1500000'
+                'limit_total' => 1500000,
+                'password' => parent::post('password'),
+                'pengguna_hak_akses' => parent::post('level')
             );
 
             $simpan = parent::model('PenggunaModel')->tambah($data);
@@ -115,5 +115,77 @@ class PenggunaController extends GLOBAL_Controller {
             parent::template('pengguna/tambah', $data);
         }
     }
+
+    public function profile($userID)
+    {
+        // Mengecek apakah user sudah login
+        if (!$this->hasLogin()) {
+            redirect('login'); // Redirect ke halaman login jika belum login
+        }
+        
+        // Mengambil data profil user berdasarkan session user_id
+        $data['user'] = $this->ProfileModel->get_user_by_id($userID);
+
+        // Memuat template dan mengirim data ke view
+        $this->template('profile/index', $data);
+    }
+
+    public function limit()
+    {
+        $data['title'] = 'Limit Pengguna Koperasi Baru';
+        $data['Pengguna'] = parent::model('PenggunaModel')->get_users();
+
+        parent::template('limit/index', $data);
+    }
+
+    public function save_limit_total($id) {
+        if (isset($_POST['save_limit_total'])) {
+            $total_limit = parent::post('limit_total');
+            parent::model('PenggunaModel')->save_total_limit($id, $total_limit);
+
+            $this->addMessage('Total limit untuk pengguna dengan ID ' . $id . ' telah diperbarui', 'Limit diperbarui', 'update');
+            parent::alert('alert', 'sukses_ubah');
+            redirect('limit');
+        }
+    }
+
+    public function reset_limit($id) {
+        parent::model('PenggunaModel')->reset_limit($id);
+        $this->addMessage('Limit untuk pengguna dengan ID ' . $id . ' telah direset', 'Limit direset', 'update');
+        parent::alert('alert', 'sukses_reset');
+        redirect('limit');
+    }
+
+    public function reduce_limit($id) {
+        if (isset($_POST['amount'])) { 
+            $amount = parent::post('amount');
+            
+            // Validasi jumlah yang dimasukkan
+            if ($amount <= 0) {
+                parent::alert('alert', 'error-insert');
+                redirect('limit');
+            }
+
+            // Ambil limit pengguna saat ini
+            $current_limit = parent::model('PenggunaModel')->get_user_limit($id);
+
+            // Cek apakah limit cukup untuk dikurangi
+            if ($current_limit < $amount) {
+                parent::alert('alert', 'error-insert');
+                redirect('limit');
+            }
+
+            // Kurangi limit pengguna
+            parent::model('PenggunaModel')->reduce_user_limit($id, $amount);
+
+            // Tambahkan pesan ke history
+            $this->addMessage('Limit untuk pengguna dengan ID ' . $id . ' telah dikurangi sebesar ' . $amount, 'Limit dikurangi', 'update');
+            parent::alert('alert', 'success-insert');
+            redirect('limit');
+        } else {
+            redirect('limit');
+        }
+    }
+    
 
 }

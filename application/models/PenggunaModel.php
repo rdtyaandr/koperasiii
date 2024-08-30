@@ -44,8 +44,45 @@ class PenggunaModel extends GLOBAL_Model {
         $this->db->update('tb_pengguna', ['limit' => $new_limit]); // Update limit
     }
 
+    public function get_limit_total($pengguna_id) {
+        $this->db->select('limit_total');
+        $this->db->from('tb_pengguna'); 
+        $this->db->where('pengguna_id', $pengguna_id);
+        return $this->db->get()->row()->limit_total; // Mengembalikan limit total
+    }
+
     public function get_users_filtered() {
         $this->db->where('role', 'user'); // Menambahkan filter
         return parent::get_array_of_table('tb_pengguna');
     }
+
+    public function get_sisa_limit($pengguna_id) {
+        $user_limit = $this->get_user_limit($pengguna_id);
+        $limit_total = $this->get_limit_total($pengguna_id);
+        return $limit_total - $user_limit; // Mengembalikan sisa limit
+    }
+
+    public function save_total_limit($pengguna_id, $total_limit) {
+        $this->db->where('pengguna_id', $pengguna_id);
+        $this->db->update('tb_pengguna', ['limit_total' => $total_limit]);
+    }
+
+    public function reset_limit($pengguna_id) {
+        $this->db->where('pengguna_id', $pengguna_id);
+        $this->db->update('tb_pengguna', ['limit' => 0]);
+    }
+
+    public function reduce_user_limit($pengguna_id, $amount)
+    {
+        // Ambil limit pengguna saat ini
+        $current_limit = $this->get_user_limit($pengguna_id);
+        
+        // Hitung limit baru setelah pengurangan
+        $new_limit = $current_limit - $amount;
+        // Update limit pengguna di database
+        $this->db->where('pengguna_id', $pengguna_id);
+        $this->db->update('tb_pengguna', ['limit' => $new_limit]);
+    }
+    
+
 }

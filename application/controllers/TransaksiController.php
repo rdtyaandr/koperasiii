@@ -46,57 +46,72 @@ class TransaksiController extends GLOBAL_Controller
             $pengguna_id = $this->input->post('nama');
             $cara_bayar = $this->input->post('cara_bayar');
             $detail = $this->input->post('detail'); 
-
+    
             if (empty($pengguna_id) || empty($cara_bayar)) {
                 $this->session->set_flashdata('alert', 'error-insert');
                 redirect('transaksi/tambah');
             }
-
+    
             $total = array_sum(array_map('floatval', $this->input->post('total')));
             $id_barang = $this->input->post('id_barang');
             $jumlah = $this->input->post('jumlah');
-            
-
+            $harga_input = $this->input->post('harga');
+    
             foreach ($id_barang as $key => $barang_id) {
                 $barang = $this->BarangModel->get_barang_by_id($barang_id);
                 if (!$barang) {
                     $this->session->set_flashdata('alert', 'error-invalid-barang');
                     redirect('transaksi/tambah');
                 }
-
+    
                 if ($jumlah[$key] <= 0) {
                     $this->session->set_flashdata('alert', 'error-update-detail');
                     redirect('transaksi/tambah');
                 }
-
+    
                 if ($barang->stok < $jumlah[$key]) {
                     $this->session->set_flashdata('alert', 'error-stock');
                     redirect('transaksi/tambah');
                 }
-            }
+    
+                // Cek apakah harga berubah
+                if ($barang->harga_jual != floatval($harga_input[$key])) {
+                    // Simpan harga baru ke tabel tb_riwayat_harga
+                    $riwayat_data = array(
+                        'id_barang' => $barang_id,
+                        'harga_beli' => $barang->harga_beli,
+                        'harga_jual' => floatval($harga_input[$key]), // Simpan harga baru
+                        'tanggal_berlaku' => date('Y-m-d') // Simpan tanggal hari ini
+                    );
+                    $this->BarangModel->insert_riwayat_harga($riwayat_data);
 
+                    // Jangan update harga di tb_barang
+                }
+            }
+    
             // Tambahkan pengecekan untuk cara bayar Kredit
             if ($cara_bayar == 'Kredit') {
-                $user_limit = $this->PenggunaModel->get_user_limit($pengguna_id); // Ambil limit pengguna
-                if ($user_limit + $total > 1500000) {
-                    $this->session->set_flashdata('alert', 'error-limit'); // Alert jika limit terlampaui
+                $user_limit = $this->PenggunaModel->get_user_limit($pengguna_id);
+                $limit_total = $this->PenggunaModel->get_limit_total($pengguna_id);
+                if ($user_limit + $total > $limit_total) {
+                    $this->session->set_flashdata('alert', 'error-limit');
                     redirect('transaksi/tambah');
                 }
-
+    
                 // Update limit pengguna
-                $new_limit = $user_limit + $total; // Hitung limit baru
-                $this->PenggunaModel->update_user_limit($pengguna_id, $new_limit); // Update limit
+                $new_limit = $user_limit + $total;
+                $this->PenggunaModel->update_user_limit($pengguna_id, $new_limit);
             }
-
+    
             $data_transaksi = array(
                 'pengguna_id' => $pengguna_id,
                 'cara_bayar' => $cara_bayar,
                 'total' => $total,
                 'detail' => $detail,
             );
-
+    
             $id_transaksi = $this->TransaksiModel->insert_transaksi($data_transaksi);
-
+    
             if ($id_transaksi) {
                 $detail_data = array();
                 foreach ($id_barang as $key => $barang_id) {
@@ -104,20 +119,20 @@ class TransaksiController extends GLOBAL_Controller
                         'id_transaksi' => $id_transaksi,
                         'id_barang' => $barang_id,
                         'nama_barang' => trim($this->input->post('nama_barang')[$key]),
-                        'harga' => floatval($this->input->post('harga')[$key]),
+                        'harga' => floatval($harga_input[$key]),
                         'jumlah' => intval($jumlah[$key]),
                         'total' => floatval($this->input->post('total')[$key]),
                     );
-
+    
                     // Update stok barang
                     $this->BarangModel->update_stok_barang($barang_id, -intval($jumlah[$key]));
                 }
-
+    
                 $this->TransaksiModel->insert_transaksi_detail($detail_data);
-
+    
                 // Tambahkan pesan ke history
                 $this->addMessage('Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total ' . number_format($total, 0, ',', '.') . ' Rupiah', 'add_circle_outline');
-
+    
                 $this->session->set_flashdata('alert', 'success-insert');
                 redirect('transaksi');
             } else {
@@ -131,7 +146,7 @@ class TransaksiController extends GLOBAL_Controller
             parent::template('transaksi/tambah', $data);
         }
     }
-
+    
     public function ubah($id = null)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -157,10 +172,11 @@ class TransaksiController extends GLOBAL_Controller
             // Update limit pengguna jika cara bayar Kredit
             if ($cara_bayar == 'Kredit') {
                 $user_limit = $this->PenggunaModel->get_user_limit($pengguna_id);
+                $limit_total = $this->PenggunaModel->get_limit_total($pengguna_id); // Ambil limit total dari database
 
                 if ($total_baru > $total_lama) {
                     $selisih = $total_baru - $total_lama;
-                    if ($user_limit + $selisih > 1500000) {
+                    if ($user_limit + $selisih > $limit_total) {
                         $this->addMessage('Limit Kredit Terlampaui', 'Pengguna dengan ID ' . $pengguna_id . ' telah melampaui limit kredit', 'error'); // Tambahkan pesan ke history
                         $this->session->set_flashdata('alert', 'error-limit');
                         redirect('transaksi/ubah/' . $id_transaksi);
