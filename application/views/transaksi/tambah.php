@@ -1,14 +1,5 @@
 <!-- Native CSS for additional styling -->
 <style>
-    .container {
-        margin-top: 30px;
-    }
-
-    .card {
-        margin-top: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
 
     .card-content {
         padding-bottom: 0;
@@ -85,10 +76,10 @@
     }
 </style>
 
-<div class="container" style="margin-top: 30px;">
+<div class="container" style="margin-top: 20px;">
     <div class="row">
         <div class="col s12">
-            <div class="card hoverable" style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+            <div class="card hoverable" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 10px;">
                 <div class="card-content">
                     <h4 class="blue-text text-darken-2" style="font-size: 2em; text-align: center; font-weight: bold;">Tambah Transaksi</h4>
                     <form action="<?= base_url('transaksi/tambah') ?>" method="post">
@@ -143,9 +134,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col s12">
-                                <button type="submit" class="btn waves-effect waves-light green right darken-1" name="tambah">Simpan Transaksi</button>
-                                <a href="<?= base_url('transaksi') ?>" class="btn waves-effect waves-light red right darken-1" style="margin-right: 5px;">Kembali</a>
+                            <div class="col s12 right-align">
+                                <button type="submit" name="tambah" class="btn waves-effect waves-light blue darken-2" style="border-radius: 25px; width: auto;">Tambah</button>
+                                <a href="<?= base_url('transaksi')?>" class="btn waves-effect waves-light grey" style="border-radius: 25px; width: auto;">Batalkan</a>
                             </div>
                         </div>
                     </form>

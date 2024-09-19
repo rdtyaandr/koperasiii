@@ -1,37 +1,37 @@
-<div class="container" style="margin-top: 30px;">
+<div class="container" style="margin-top: 20px;">
     <div class="row">
         <div class="col s12">
-            <div class="card hoverable" style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+            <div class="card hoverable" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 10px;">
                 <div class="card-content">
                     <h4 class="blue-text text-darken-2" style="font-size: 2em; text-align: center; font-weight: bold;">
                         Data Satuan</h4>
                     <div class="row">
                         <div class="col s12">
-                            <a href="#addSatuanModal" class="btn green darken-1 modal-trigger" style="margin-bottom: 20px;"
+                            <a href="#addSatuanModal" class="btn green darken-1 modal-trigger" style="margin-bottom: 20px; border-radius: 25px;"
                                 id="add-modal">
                                 <i class="material-icons left">add</i>Tambah Satuan
                             </a>
-                            <a href="<?= base_url('barang') ?>" class="btn blue darken-1" style="margin-bottom: 20px;"
+                            <a href="<?= base_url('barang') ?>" class="btn blue darken-1" style="margin-bottom: 20px; border-radius: 25px;"
                                 id="add-modal">
                                 <i class="material-icons left">arrow_forward</i>Data Barang
                             </a>
                         </div>
                     </div>
-                    <table class="striped highlight responsive-table">
+                    <table class="striped highlight responsive-table" style="border-radius: 8px; overflow: hidden;">
                         <thead class="blue darken-2 white-text">
                             <tr>
-                                <th>No</th>
-                                <th>Nama Satuan</th>
-                                <th>Actions</th>
+                                <th class="center-align">No</th>
+                                <th class="center-align">Nama Satuan</th>
+                                <th class="center-align">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (!empty($satuan)): ?>
                                 <?php foreach (array_reverse($satuan) as $key => $item): ?>
                                     <tr>
-                                        <td><?= $key + 1 ?></td>
-                                        <td><?= $item['nama_satuan'] ?></td>
-                                        <td>
+                                        <td class="center-align"><?= $key + 1 ?></td>
+                                        <td class="center-align"><?= $item['nama_satuan'] ?></td>
+                                        <td class="center-align">
                                             <a href="#editSatuanModal" class="btn-floating yellow darken-3 tooltipped modal-trigger" data-position="top"
                                                 data-tooltip="Edit" style="border-radius: 4px;"
                                                 onclick="openEditModal('<?= $item['id_satuan'] ?>', '<?= $item['nama_satuan'] ?>')">
@@ -75,7 +75,7 @@
 <!-- Add Modal -->
 <div id="addSatuanModal" class="modal">
     <div class="modal-content">
-        <h4>Add Satuan</h4>
+        <h4 style="font-weight: bold;">Tambah Satuan</h4>
         <form id="addSatuanForm" method="post" action="<?= base_url('satuan/tambah') ?>">
             <div class="input-field">
                 <input type="text" id="add-satuan-name" name="nama_satuan" class="validate" required>
@@ -86,15 +86,15 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" id="addSatuanSaveButton" class="btn green darken-1">Tambah</button>
-        <a href="#!" class="modal-close btn-flat" id="closea">Cancel</a>
+        <button type="button" id="addSatuanSaveButton" class="btn green darken-1" style="border-radius: 25px;">Tambah</button>
+        <a href="#!" class="modal-close btn-flat" id="closea" style="border-radius: 25px;">Batalkan</a>
     </div>
 </div>
 
 <!-- Edit Modal -->
 <div id="editSatuanModal" class="modal">
     <div class="modal-content">
-        <h4>Edit Satuan</h4>
+        <h4 style="font-weight: bold;">Edit Satuan</h4>
         <form id="editSatuanForm" method="post" action="">
             <input type="hidden" id="edit-satuan-id" name="satuan_id" value="">
             <div class="input-field">
@@ -103,25 +103,16 @@
                 <span class="helper-text" id="edit-satuan-error" style="display:none; color:red;">Nama satuan tidak
                     boleh kosong</span>
             </div>
-            <div class="modal-footer">
-                <button type="button" id="editSatuanSaveButton" class="btn blue darken-1">Simpan</button>
-                <a href="#!" class="modal-close btn-flat">Cancel</a>
-            </div>
         </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" id="editSatuanSaveButton" class="btn blue darken-1" style="border-radius: 25px;">Ubah</button>
+        <a href="#!" class="modal-close btn-flat" style="border-radius: 25px;">Batalkan</a>
     </div>
 </div>
 
 <!-- Native CSS for additional styling -->
 <style>
-    .container {
-        margin-top: 30px;
-    }
-
-    .card {
-        margin-top: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
 
     .card-content {
         padding-bottom: 0;

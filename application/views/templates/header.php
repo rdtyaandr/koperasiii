@@ -169,15 +169,15 @@
 
 
                     <?php if ($this->session->userdata('level') == 'admin'): ?>
-                        <li class="bold active">
-                            <a href="<?= base_url() ?>"><i class="material-icons">equalizer</i> Dashboard</a>
+                        <li class="bold">
+                            <a href="<?= base_url('dashboard') ?>"><i class="material-icons">equalizer</i> Dashboard</a>
                         </li>
                     <?php elseif ($this->session->userdata('level') == 'operator'): ?>
-                        <li class="bold active">
-                            <a href="<?= base_url() ?>"><i class="material-icons">equalizer</i> Dashboard</a>
+                        <li class="bold">
+                            <a href="<?= base_url('dashboard') ?>"><i class="material-icons">equalizer</i> Dashboard</a>
                         </li>
                     <?php elseif ($this->session->userdata('level') == 'user'): ?>
-                        <li class="bold active">
+                        <li class="bold">
                             <a href="<?= base_url('dashboard/user') ?>"><i class="material-icons">equalizer</i>
                                 Dashboard</a>
                         </li>
@@ -269,11 +269,11 @@
                     <li class="li-hover">
                         <p class="ultra-small margin more-text">Akun</p>
                     </li>
-                    <li>
+                    <li class="bold">
                         <a href="<?= base_url('profile') ?>"><i class="material-icons">portrait</i> Profil</a>
                     </li>
                     <?php if ($this->session->userdata('level') == 'operator'): ?>
-                        <li>
+                        <li class="bold">
                             <a href="<?= base_url('faq') ?>"><i class="material-icons">help</i> Bantuan</a>
                         </li>
                     <?php endif; ?>
@@ -473,6 +473,72 @@
     </div>
 <?php endif; ?> -->
 
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuItems = document.querySelectorAll('.side-nav.fixed.leftside-navigation li.bold');
+        const dropdownItems = document.querySelectorAll('.collapsible-body li a');
+        const currentUrl = window.location.href;
+        const baseUrl = '<?= base_url() ?>';
+
+        // Fungsi untuk mengatur kelas 'active' berdasarkan URL saat ini
+        function setActiveMenu() {
+            // Hapus kelas 'active' dari semua item
+            menuItems.forEach(item => item.classList.remove('active'));
+
+            menuItems.forEach(item => {
+                const link = item.querySelector('a');
+                if (link && currentUrl.includes(link.getAttribute('href'))) {
+                    item.classList.add('active');
+                }
+            });
+
+            // Tambahkan kelas 'active' ke item induk dari dropdown yang aktif
+            dropdownItems.forEach(dropdownItem => {
+                if (currentUrl.includes(dropdownItem.getAttribute('href'))) {
+                    const parentCollapsible = dropdownItem.closest('.collapsible');
+                    if (parentCollapsible) {
+                        const parentLi = parentCollapsible.closest('li');
+                        parentLi.classList.add('active');
+                        parentCollapsible.querySelector('.collapsible-header').classList.add('active');
+                        parentCollapsible.classList.add('active');
+                        parentCollapsible.querySelector('.collapsible-body').style.display = 'block';
+                    }
+                }
+            });
+
+            // Tambahkan kelas 'active' ke dashboard jika URL adalah halaman root atau dashboard
+            if (currentUrl === baseUrl || currentUrl.includes(baseUrl + 'dashboard')) {
+                const dashboardItem = document.querySelector('a[href*="dashboard"]').closest('li.bold');
+                if (dashboardItem) {
+                    dashboardItem.classList.add('active');
+                }
+            }
+        }
+
+        // Panggil fungsi untuk mengatur kelas 'active' saat halaman dimuat
+        setActiveMenu();
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Hapus kelas 'active' dari semua item
+                menuItems.forEach(i => i.classList.remove('active'));
+                // Tambahkan kelas 'active' ke item yang diklik
+                this.classList.add('active');
+            });
+        });
+
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Hapus kelas 'active' dari semua item
+                menuItems.forEach(i => i.classList.remove('active'));
+                // Tambahkan kelas 'active' ke item induk dari dropdown yang diklik
+                const parentLi = this.closest('.collapsible').closest('li');
+                parentLi.classList.add('active');
+                parentLi.querySelector('.collapsible-header').classList.add('active');
+            });
+        });
+    });
+</script>
 <script type="text/javascript">
   document.getElementById('notification-button').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent default action

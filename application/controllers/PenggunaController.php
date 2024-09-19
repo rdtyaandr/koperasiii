@@ -92,6 +92,7 @@ class PenggunaController extends GLOBAL_Controller {
                 'username' => parent::post('username'),
                 'email' => parent::post('email'),
                 'satker' => parent::post('satker'),
+                'limit' => 0,
                 'limit_total' => 1500000,
                 'password' => parent::post('password'),
                 'pengguna_hak_akses' => parent::post('level')
@@ -111,7 +112,7 @@ class PenggunaController extends GLOBAL_Controller {
                 redirect('pengguna');
             }
         } else {
-            $data['title'] = 'Tambah Pengguna Koperasi Baru';
+            $data['title'] = 'Tambah Pengguna';
             parent::template('pengguna/tambah', $data);
         }
     }

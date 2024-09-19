@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Waktu pembuatan: 08 Agu 2024 pada 09.26
+-- Waktu pembuatan: 19 Sep 2024 pada 01.09
 -- Versi server: 8.0.30
--- Versi PHP: 8.3.8
+-- Versi PHP: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,339 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `db_koperasi`
 --
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `tb_anggota`
---
-
-CREATE TABLE `tb_anggota` (
-  `anggota_id` int NOT NULL,
-  `anggota_nama` varchar(100) NOT NULL,
-  `anggota_jk` enum('L','P') NOT NULL,
-  `anggota_tempat_lahir` varchar(50) NOT NULL,
-  `anggota_tanggal_lahir` date NOT NULL,
-  `anggota_nik` varchar(25) NOT NULL,
-  `anggota_agama` enum('Islam','Kristen','Katolik','Buddha','Hindu','Konghuchu') NOT NULL,
-  `anggota_nama_ibu` varchar(100) NOT NULL,
-  `anggota_alamat` text NOT NULL,
-  `anggota_pekerjaan` varchar(100) NOT NULL,
-  `anggota_pendidikan` varchar(50) NOT NULL,
-  `anggota_status_kawin` enum('lajang','menikah','janda','duda') NOT NULL,
-  `anggota_nomor_hp` varchar(20) NOT NULL,
-  `anggota_email` varchar(50) NOT NULL,
-  `anggota_pendapatan` bigint NOT NULL,
-  `anggota_dokumen` text,
-  `anggota_date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `tb_anggota`
---
-
-INSERT INTO `tb_anggota` (`anggota_id`, `anggota_nama`, `anggota_jk`, `anggota_tempat_lahir`, `anggota_tanggal_lahir`, `anggota_nik`, `anggota_agama`, `anggota_nama_ibu`, `anggota_alamat`, `anggota_pekerjaan`, `anggota_pendidikan`, `anggota_status_kawin`, `anggota_nomor_hp`, `anggota_email`, `anggota_pendapatan`, `anggota_dokumen`, `anggota_date_created`) VALUES
-(2, 'Nama Anggota 1', 'L', 'Tempat Lahir', '2011-08-15', '9131658728', 'Islam', 'Nama Ibu 1', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08126216562', 'email1@domain.com', 518266, NULL, '2024-08-02 13:48:22'),
-(3, 'Nama Anggota 2', 'P', 'Tempat Lahir', '2020-09-27', '2060158943', 'Islam', 'Nama Ibu 2', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08124880750', 'email2@domain.com', 309304, NULL, '2024-08-02 13:48:22'),
-(4, 'Nama Anggota 3', 'L', 'Tempat Lahir', '2000-06-04', '1710041278', 'Islam', 'Nama Ibu 3', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08121203410', 'email3@domain.com', 614401, NULL, '2024-08-02 13:48:22'),
-(5, 'Nama Anggota 4', 'P', 'Tempat Lahir', '1989-01-10', '4256556000', 'Islam', 'Nama Ibu 4', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08122522533', 'email4@domain.com', 870458, NULL, '2024-08-02 13:48:23'),
-(6, 'Nama Anggota 5', 'P', 'Tempat Lahir', '2006-04-15', '448127650', 'Islam', 'Nama Ibu 5', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08124916619', 'email5@domain.com', 82649, NULL, '2024-08-02 13:48:23'),
-(7, 'Nama Anggota 6', 'P', 'Tempat Lahir', '2002-06-08', '4020371487', 'Islam', 'Nama Ibu 6', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08129314301', 'email6@domain.com', 74130, NULL, '2024-08-02 13:48:23'),
-(8, 'Nama Anggota 7', 'P', 'Tempat Lahir', '1991-08-22', '5679819291', 'Islam', 'Nama Ibu 7', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08123719653', 'email7@domain.com', 548708, NULL, '2024-08-02 13:48:23'),
-(9, 'Nama Anggota 8', 'P', 'Tempat Lahir', '2000-01-01', '5775746736', 'Islam', 'Nama Ibu 8', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08123908525', 'email8@domain.com', 978930, NULL, '2024-08-02 13:48:23'),
-(10, 'Nama Anggota 9', 'P', 'Tempat Lahir', '1990-12-05', '2021424539', 'Islam', 'Nama Ibu 9', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08127402717', 'email9@domain.com', 675816, NULL, '2024-08-02 13:48:23'),
-(11, 'Nama Anggota 10', 'L', 'Tempat Lahir', '1986-06-02', '3446655230', 'Islam', 'Nama Ibu 10', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08123261888', 'email10@domain.com', 258271, NULL, '2024-08-02 13:48:23'),
-(12, 'Nama Anggota 11', 'L', 'Tempat Lahir', '1985-02-27', '73309056', 'Islam', 'Nama Ibu 11', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08126131430', 'email11@domain.com', 93211, NULL, '2024-08-02 13:48:24'),
-(13, 'Nama Anggota 12', 'P', 'Tempat Lahir', '1981-12-10', '3876519709', 'Islam', 'Nama Ibu 12', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08123000508', 'email12@domain.com', 13905, NULL, '2024-08-02 13:48:24'),
-(14, 'Nama Anggota 13', 'L', 'Tempat Lahir', '1984-05-11', '5176250138', 'Islam', 'Nama Ibu 13', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08123105209', 'email13@domain.com', 34567, NULL, '2024-08-02 13:48:24'),
-(15, 'Nama Anggota 14', 'L', 'Tempat Lahir', '2019-06-17', '7894884895', 'Islam', 'Nama Ibu 14', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08126423662', 'email14@domain.com', 534518, NULL, '2024-08-02 13:48:24'),
-(16, 'Nama Anggota 15', 'P', 'Tempat Lahir', '2018-05-25', '3830550754', 'Islam', 'Nama Ibu 15', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08123562347', 'email15@domain.com', 143921, NULL, '2024-08-02 13:48:24'),
-(17, 'Nama Anggota 16', 'P', 'Tempat Lahir', '1983-06-24', '1610761025', 'Islam', 'Nama Ibu 16', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08122013', 'email16@domain.com', 394094, NULL, '2024-08-02 13:48:24'),
-(18, 'Nama Anggota 17', 'P', 'Tempat Lahir', '1991-04-05', '4256545691', 'Islam', 'Nama Ibu 17', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08123586374', 'email17@domain.com', 411826, NULL, '2024-08-02 13:48:24'),
-(19, 'Nama Anggota 18', 'P', 'Tempat Lahir', '1990-07-31', '4534410894', 'Islam', 'Nama Ibu 18', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08127664021', 'email18@domain.com', 155975, NULL, '2024-08-02 13:48:24'),
-(20, 'Nama Anggota 19', 'L', 'Tempat Lahir', '1977-11-06', '2351453176', 'Islam', 'Nama Ibu 19', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08126002840', 'email19@domain.com', 576275, NULL, '2024-08-02 13:48:24'),
-(21, 'Nama Anggota 20', 'L', 'Tempat Lahir', '1990-12-03', '1274412014', 'Islam', 'Nama Ibu 20', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '0812893301', 'email20@domain.com', 539087, NULL, '2024-08-02 13:48:24'),
-(22, 'Nama Anggota 21', 'L', 'Tempat Lahir', '1998-08-10', '3175050889', 'Islam', 'Nama Ibu 21', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08121855820', 'email21@domain.com', 845051, NULL, '2024-08-02 13:48:25'),
-(23, 'Nama Anggota 22', 'P', 'Tempat Lahir', '1984-03-30', '315098166', 'Islam', 'Nama Ibu 22', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08127757307', 'email22@domain.com', 765490, NULL, '2024-08-02 13:48:25'),
-(24, 'Nama Anggota 23', 'P', 'Tempat Lahir', '2014-05-09', '5233522425', 'Islam', 'Nama Ibu 23', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08124413583', 'email23@domain.com', 199942, NULL, '2024-08-02 13:48:25'),
-(25, 'Nama Anggota 24', 'P', 'Tempat Lahir', '1985-09-11', '8649036072', 'Islam', 'Nama Ibu 24', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08127938384', 'email24@domain.com', 911920, NULL, '2024-08-02 13:48:25'),
-(26, 'Nama Anggota 25', 'L', 'Tempat Lahir', '2016-11-10', '2391328487', 'Islam', 'Nama Ibu 25', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08127216613', 'email25@domain.com', 81997, NULL, '2024-08-02 13:48:25'),
-(27, 'Nama Anggota 26', 'L', 'Tempat Lahir', '1975-09-02', '1600888698', 'Islam', 'Nama Ibu 26', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08124559213', 'email26@domain.com', 500049, NULL, '2024-08-02 13:48:25'),
-(28, 'Nama Anggota 27', 'L', 'Tempat Lahir', '2016-06-24', '4138452302', 'Islam', 'Nama Ibu 27', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '0812192896', 'email27@domain.com', 277558, NULL, '2024-08-02 13:48:25'),
-(29, 'Nama Anggota 28', 'L', 'Tempat Lahir', '1983-10-08', '949035967', 'Islam', 'Nama Ibu 28', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08128338742', 'email28@domain.com', 98220, NULL, '2024-08-02 13:48:25'),
-(30, 'Nama Anggota 29', 'P', 'Tempat Lahir', '1991-12-22', '2952119468', 'Islam', 'Nama Ibu 29', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08127138948', 'email29@domain.com', 674430, NULL, '2024-08-02 13:48:25'),
-(31, 'Nama Anggota 30', 'L', 'Tempat Lahir', '2018-02-21', '9537883558', 'Islam', 'Nama Ibu 30', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '0812934599', 'email30@domain.com', 323927, NULL, '2024-08-02 13:48:25'),
-(32, 'Nama Anggota 31', 'L', 'Tempat Lahir', '1988-05-21', '6047863043', 'Islam', 'Nama Ibu 31', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08126368548', 'email31@domain.com', 871453, NULL, '2024-08-02 13:48:25'),
-(33, 'Nama Anggota 32', 'L', 'Tempat Lahir', '1993-08-26', '7556789645', 'Islam', 'Nama Ibu 32', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08129250701', 'email32@domain.com', 612651, NULL, '2024-08-02 13:48:25'),
-(34, 'Nama Anggota 33', 'L', 'Tempat Lahir', '1994-06-30', '1472513099', 'Islam', 'Nama Ibu 33', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08122385201', 'email33@domain.com', 576528, NULL, '2024-08-02 13:48:25'),
-(35, 'Nama Anggota 34', 'L', 'Tempat Lahir', '2019-04-20', '278950333', 'Islam', 'Nama Ibu 34', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08126653299', 'email34@domain.com', 247871, NULL, '2024-08-02 13:48:25'),
-(36, 'Nama Anggota 35', 'L', 'Tempat Lahir', '2000-12-10', '6360436367', 'Islam', 'Nama Ibu 35', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08122712510', 'email35@domain.com', 783390, NULL, '2024-08-02 13:48:25'),
-(37, 'Nama Anggota 36', 'L', 'Tempat Lahir', '2016-04-20', '5195686095', 'Islam', 'Nama Ibu 36', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08129429908', 'email36@domain.com', 413936, NULL, '2024-08-02 13:48:25'),
-(38, 'Nama Anggota 37', 'L', 'Tempat Lahir', '1976-07-14', '865645120', 'Islam', 'Nama Ibu 37', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08127488786', 'email37@domain.com', 309374, NULL, '2024-08-02 13:48:25'),
-(39, 'Nama Anggota 38', 'L', 'Tempat Lahir', '1995-12-15', '9645460843', 'Islam', 'Nama Ibu 38', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08126242663', 'email38@domain.com', 810589, NULL, '2024-08-02 13:48:25'),
-(40, 'Nama Anggota 39', 'L', 'Tempat Lahir', '2001-02-26', '8043820465', 'Islam', 'Nama Ibu 39', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08123374752', 'email39@domain.com', 293393, NULL, '2024-08-02 13:48:25'),
-(41, 'Nama Anggota 40', 'L', 'Tempat Lahir', '2004-12-22', '5990630533', 'Islam', 'Nama Ibu 40', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '081234087', 'email40@domain.com', 143142, NULL, '2024-08-02 13:48:26'),
-(42, 'Nama Anggota 41', 'P', 'Tempat Lahir', '2019-09-10', '3735513131', 'Islam', 'Nama Ibu 41', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08128519970', 'email41@domain.com', 202201, NULL, '2024-08-02 13:48:26'),
-(43, 'Nama Anggota 42', 'L', 'Tempat Lahir', '1991-03-10', '9773520519', 'Islam', 'Nama Ibu 42', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08127287206', 'email42@domain.com', 219997, NULL, '2024-08-02 13:48:26'),
-(44, 'Nama Anggota 43', 'P', 'Tempat Lahir', '1979-03-01', '8042417166', 'Islam', 'Nama Ibu 43', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08123993954', 'email43@domain.com', 828547, NULL, '2024-08-02 13:48:26'),
-(45, 'Nama Anggota 44', 'P', 'Tempat Lahir', '2012-09-27', '3519081998', 'Islam', 'Nama Ibu 44', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08121852979', 'email44@domain.com', 781876, NULL, '2024-08-02 13:48:26'),
-(46, 'Nama Anggota 45', 'L', 'Tempat Lahir', '2003-07-06', '485936860', 'Islam', 'Nama Ibu 45', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08126585056', 'email45@domain.com', 962028, NULL, '2024-08-02 13:48:26'),
-(47, 'Nama Anggota 46', 'P', 'Tempat Lahir', '2010-03-31', '9313500299', 'Islam', 'Nama Ibu 46', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08125332307', 'email46@domain.com', 114112, NULL, '2024-08-02 13:48:26'),
-(48, 'Nama Anggota 47', 'P', 'Tempat Lahir', '1999-01-02', '6474473379', 'Islam', 'Nama Ibu 47', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08128827537', 'email47@domain.com', 269505, NULL, '2024-08-02 13:48:26'),
-(49, 'Nama Anggota 48', 'P', 'Tempat Lahir', '1990-03-22', '3413000594', 'Islam', 'Nama Ibu 48', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '0812273515', 'email48@domain.com', 562876, NULL, '2024-08-02 13:48:26'),
-(50, 'Nama Anggota 49', 'P', 'Tempat Lahir', '1975-12-21', '6681138963', 'Islam', 'Nama Ibu 49', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08122514349', 'email49@domain.com', 947601, NULL, '2024-08-02 13:48:26'),
-(51, 'Nama Anggota 50', 'P', 'Tempat Lahir', '2020-10-21', '4274808265', 'Islam', 'Nama Ibu 50', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08126132154', 'email50@domain.com', 259703, NULL, '2024-08-02 13:48:26'),
-(52, 'Nama Anggota 51', 'L', 'Tempat Lahir', '1998-11-04', '1996497131', 'Islam', 'Nama Ibu 51', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08128094097', 'email51@domain.com', 167125, NULL, '2024-08-02 13:48:26'),
-(53, 'Nama Anggota 52', 'L', 'Tempat Lahir', '1997-10-28', '4559141569', 'Islam', 'Nama Ibu 52', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08128163767', 'email52@domain.com', 199674, NULL, '2024-08-02 13:48:26'),
-(54, 'Nama Anggota 53', 'P', 'Tempat Lahir', '2017-03-26', '881968458', 'Islam', 'Nama Ibu 53', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08121250069', 'email53@domain.com', 631409, NULL, '2024-08-02 13:48:26'),
-(55, 'Nama Anggota 54', 'P', 'Tempat Lahir', '2023-10-17', '7334488367', 'Islam', 'Nama Ibu 54', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08124473957', 'email54@domain.com', 353426, NULL, '2024-08-02 13:48:26'),
-(56, 'Nama Anggota 55', 'L', 'Tempat Lahir', '2021-05-14', '473816544', 'Islam', 'Nama Ibu 55', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '0812757524', 'email55@domain.com', 248024, NULL, '2024-08-02 13:48:26'),
-(57, 'Nama Anggota 56', 'L', 'Tempat Lahir', '2008-08-02', '5626205118', 'Islam', 'Nama Ibu 56', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08128428915', 'email56@domain.com', 275477, NULL, '2024-08-02 13:48:26'),
-(58, 'Nama Anggota 57', 'P', 'Tempat Lahir', '2003-09-30', '5395502956', 'Islam', 'Nama Ibu 57', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08127915433', 'email57@domain.com', 779343, NULL, '2024-08-02 13:48:26'),
-(59, 'Nama Anggota 58', 'P', 'Tempat Lahir', '2010-12-23', '7958105986', 'Islam', 'Nama Ibu 58', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08124215960', 'email58@domain.com', 622563, NULL, '2024-08-02 13:48:27'),
-(60, 'Nama Anggota 59', 'P', 'Tempat Lahir', '2005-12-23', '3182105266', 'Islam', 'Nama Ibu 59', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08126476241', 'email59@domain.com', 996936, NULL, '2024-08-02 13:48:27'),
-(61, 'Nama Anggota 60', 'L', 'Tempat Lahir', '2013-09-06', '9658066136', 'Islam', 'Nama Ibu 60', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08129740200', 'email60@domain.com', 347236, NULL, '2024-08-02 13:48:27'),
-(62, 'Nama Anggota 61', 'P', 'Tempat Lahir', '2023-02-22', '7021259290', 'Islam', 'Nama Ibu 61', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08127946961', 'email61@domain.com', 933579, NULL, '2024-08-02 13:48:27'),
-(63, 'Nama Anggota 62', 'L', 'Tempat Lahir', '1993-09-11', '2400636712', 'Islam', 'Nama Ibu 62', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08129984604', 'email62@domain.com', 971455, NULL, '2024-08-02 13:48:27'),
-(64, 'Nama Anggota 63', 'P', 'Tempat Lahir', '2004-11-05', '3899085516', 'Islam', 'Nama Ibu 63', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08128633430', 'email63@domain.com', 426575, NULL, '2024-08-02 13:48:27'),
-(65, 'Nama Anggota 64', 'P', 'Tempat Lahir', '2002-11-16', '5440708282', 'Islam', 'Nama Ibu 64', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '081281189', 'email64@domain.com', 685517, NULL, '2024-08-02 13:48:27'),
-(66, 'Nama Anggota 65', 'L', 'Tempat Lahir', '1976-08-22', '5883228383', 'Islam', 'Nama Ibu 65', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08125490533', 'email65@domain.com', 556853, NULL, '2024-08-02 13:48:27'),
-(67, 'Nama Anggota 66', 'L', 'Tempat Lahir', '2023-11-03', '6635836452', 'Islam', 'Nama Ibu 66', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '0812516424', 'email66@domain.com', 135876, NULL, '2024-08-02 13:48:27'),
-(68, 'Nama Anggota 67', 'P', 'Tempat Lahir', '2013-11-11', '4998233229', 'Islam', 'Nama Ibu 67', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08122563721', 'email67@domain.com', 330216, NULL, '2024-08-02 13:48:27'),
-(69, 'Nama Anggota 68', 'P', 'Tempat Lahir', '2003-08-24', '4499756670', 'Islam', 'Nama Ibu 68', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08125755154', 'email68@domain.com', 630924, NULL, '2024-08-02 13:48:27'),
-(70, 'Nama Anggota 69', 'L', 'Tempat Lahir', '2012-03-20', '9537769229', 'Islam', 'Nama Ibu 69', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08122690912', 'email69@domain.com', 267203, NULL, '2024-08-02 13:48:27'),
-(71, 'Nama Anggota 70', 'P', 'Tempat Lahir', '1982-07-06', '6242673356', 'Islam', 'Nama Ibu 70', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08127269065', 'email70@domain.com', 327313, NULL, '2024-08-02 13:48:27'),
-(72, 'Nama Anggota 71', 'L', 'Tempat Lahir', '2009-09-25', '1189887981', 'Islam', 'Nama Ibu 71', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08126816301', 'email71@domain.com', 933735, NULL, '2024-08-02 13:48:27'),
-(73, 'Nama Anggota 72', 'P', 'Tempat Lahir', '2008-09-17', '7172413251', 'Islam', 'Nama Ibu 72', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08121684603', 'email72@domain.com', 801737, NULL, '2024-08-02 13:48:27'),
-(74, 'Nama Anggota 73', 'P', 'Tempat Lahir', '2019-01-10', '466537531', 'Islam', 'Nama Ibu 73', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '0812853968', 'email73@domain.com', 356957, NULL, '2024-08-02 13:48:27'),
-(75, 'Nama Anggota 74', 'P', 'Tempat Lahir', '1996-01-02', '2747246811', 'Islam', 'Nama Ibu 74', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08123401360', 'email74@domain.com', 313425, NULL, '2024-08-02 13:48:27'),
-(76, 'Nama Anggota 75', 'P', 'Tempat Lahir', '1984-12-12', '3264335005', 'Islam', 'Nama Ibu 75', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08126521964', 'email75@domain.com', 415679, NULL, '2024-08-02 13:48:27'),
-(77, 'Nama Anggota 76', 'L', 'Tempat Lahir', '2006-07-02', '4446274931', 'Islam', 'Nama Ibu 76', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08123516302', 'email76@domain.com', 346843, NULL, '2024-08-02 13:48:27'),
-(78, 'Nama Anggota 77', 'P', 'Tempat Lahir', '2006-10-18', '7425441283', 'Islam', 'Nama Ibu 77', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08122105956', 'email77@domain.com', 936711, NULL, '2024-08-02 13:48:27'),
-(79, 'Nama Anggota 78', 'L', 'Tempat Lahir', '2002-03-03', '882399334', 'Islam', 'Nama Ibu 78', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08122106430', 'email78@domain.com', 767997, NULL, '2024-08-02 13:48:27'),
-(80, 'Nama Anggota 79', 'L', 'Tempat Lahir', '1987-10-19', '573139545', 'Islam', 'Nama Ibu 79', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08122164440', 'email79@domain.com', 849188, NULL, '2024-08-02 13:48:28'),
-(81, 'Nama Anggota 80', 'P', 'Tempat Lahir', '2002-10-30', '3876164447', 'Islam', 'Nama Ibu 80', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08124204824', 'email80@domain.com', 858741, NULL, '2024-08-02 13:48:28'),
-(82, 'Nama Anggota 81', 'L', 'Tempat Lahir', '1995-05-10', '8285616494', 'Islam', 'Nama Ibu 81', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '0812989241', 'email81@domain.com', 137574, NULL, '2024-08-02 13:48:28'),
-(83, 'Nama Anggota 82', 'L', 'Tempat Lahir', '1997-06-20', '5405468871', 'Islam', 'Nama Ibu 82', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08127505082', 'email82@domain.com', 529251, NULL, '2024-08-02 13:48:28'),
-(84, 'Nama Anggota 83', 'L', 'Tempat Lahir', '2005-04-21', '7453910035', 'Islam', 'Nama Ibu 83', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08128779541', 'email83@domain.com', 365332, NULL, '2024-08-02 13:48:28'),
-(85, 'Nama Anggota 84', 'L', 'Tempat Lahir', '1981-03-20', '7616205557', 'Islam', 'Nama Ibu 84', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08127355870', 'email84@domain.com', 65666, NULL, '2024-08-02 13:48:28'),
-(86, 'Nama Anggota 85', 'L', 'Tempat Lahir', '2004-01-22', '6895474872', 'Islam', 'Nama Ibu 85', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '081272720', 'email85@domain.com', 390811, NULL, '2024-08-02 13:48:28'),
-(87, 'Nama Anggota 86', 'P', 'Tempat Lahir', '2000-03-01', '6471414944', 'Islam', 'Nama Ibu 86', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08123805057', 'email86@domain.com', 244299, NULL, '2024-08-02 13:48:28'),
-(88, 'Nama Anggota 87', 'L', 'Tempat Lahir', '1991-04-06', '950346599', 'Islam', 'Nama Ibu 87', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '081266981', 'email87@domain.com', 775926, NULL, '2024-08-02 13:48:28'),
-(89, 'Nama Anggota 88', 'P', 'Tempat Lahir', '1976-02-15', '2709835528', 'Islam', 'Nama Ibu 88', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08127286573', 'email88@domain.com', 404813, NULL, '2024-08-02 13:48:28'),
-(90, 'Nama Anggota 89', 'P', 'Tempat Lahir', '1975-10-27', '3658802205', 'Islam', 'Nama Ibu 89', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08123404600', 'email89@domain.com', 475679, NULL, '2024-08-02 13:48:28'),
-(91, 'Nama Anggota 90', 'L', 'Tempat Lahir', '2006-09-12', '7191637230', 'Islam', 'Nama Ibu 90', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08126897597', 'email90@domain.com', 95898, NULL, '2024-08-02 13:48:28'),
-(92, 'Nama Anggota 91', 'L', 'Tempat Lahir', '1986-06-12', '5861869115', 'Islam', 'Nama Ibu 91', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08123057021', 'email91@domain.com', 191575, NULL, '2024-08-02 13:48:28'),
-(93, 'Nama Anggota 92', 'L', 'Tempat Lahir', '1993-02-25', '233288742', 'Islam', 'Nama Ibu 92', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '0812763103', 'email92@domain.com', 693773, NULL, '2024-08-02 13:48:28'),
-(94, 'Nama Anggota 93', 'L', 'Tempat Lahir', '2018-09-03', '8719986666', 'Islam', 'Nama Ibu 93', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08124085475', 'email93@domain.com', 28011, NULL, '2024-08-02 13:48:28'),
-(95, 'Nama Anggota 94', 'P', 'Tempat Lahir', '2000-03-15', '6969619139', 'Islam', 'Nama Ibu 94', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '0812125395', 'email94@domain.com', 642, NULL, '2024-08-02 13:48:28'),
-(96, 'Nama Anggota 95', 'P', 'Tempat Lahir', '1983-04-25', '2334502537', 'Islam', 'Nama Ibu 95', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '0812577391', 'email95@domain.com', 312692, NULL, '2024-08-02 13:48:28'),
-(97, 'Nama Anggota 96', 'L', 'Tempat Lahir', '2023-12-06', '8950492524', 'Islam', 'Nama Ibu 96', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08121612324', 'email96@domain.com', 325034, NULL, '2024-08-02 13:48:29'),
-(98, 'Nama Anggota 97', 'L', 'Tempat Lahir', '1988-01-01', '2369252939', 'Islam', 'Nama Ibu 97', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08121780963', 'email97@domain.com', 205553, NULL, '2024-08-02 13:48:29'),
-(99, 'Nama Anggota 98', 'L', 'Tempat Lahir', '1982-01-30', '7732070998', 'Islam', 'Nama Ibu 98', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08123066296', 'email98@domain.com', 784237, NULL, '2024-08-02 13:48:29'),
-(100, 'Nama Anggota 99', 'L', 'Tempat Lahir', '1991-12-03', '2650168400', 'Islam', 'Nama Ibu 99', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '0812269331', 'email99@domain.com', 63781, NULL, '2024-08-02 13:48:29'),
-(101, 'Nama Anggota 100', 'L', 'Tempat Lahir', '1974-08-30', '2816630194', 'Islam', 'Nama Ibu 100', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08128109407', 'email100@domain.com', 428839, NULL, '2024-08-02 13:48:29'),
-(102, 'Nama Anggota 1', 'L', 'Tempat Lahir', '2003-12-04', '4568283552', 'Islam', 'Nama Ibu 1', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08128471944', 'email1@domain.com', 105364, NULL, '2024-08-02 13:49:27'),
-(103, 'Nama Anggota 2', 'P', 'Tempat Lahir', '1994-02-07', '948204948', 'Islam', 'Nama Ibu 2', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08129006833', 'email2@domain.com', 281042, NULL, '2024-08-02 13:49:28'),
-(104, 'Nama Anggota 3', 'P', 'Tempat Lahir', '1990-12-23', '2539270299', 'Islam', 'Nama Ibu 3', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08127260199', 'email3@domain.com', 141630, NULL, '2024-08-02 13:49:28'),
-(105, 'Nama Anggota 4', 'P', 'Tempat Lahir', '2013-04-26', '5375613156', 'Islam', 'Nama Ibu 4', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08124428408', 'email4@domain.com', 180889, NULL, '2024-08-02 13:49:28'),
-(106, 'Nama Anggota 5', 'P', 'Tempat Lahir', '2007-10-02', '9569871155', 'Islam', 'Nama Ibu 5', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08123764827', 'email5@domain.com', 857531, NULL, '2024-08-02 13:49:28'),
-(107, 'Nama Anggota 6', 'L', 'Tempat Lahir', '2013-09-03', '6176188426', 'Islam', 'Nama Ibu 6', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08122561630', 'email6@domain.com', 348172, NULL, '2024-08-02 13:49:28'),
-(108, 'Nama Anggota 7', 'P', 'Tempat Lahir', '1983-10-01', '1695854367', 'Islam', 'Nama Ibu 7', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08121661901', 'email7@domain.com', 418602, NULL, '2024-08-02 13:49:28'),
-(109, 'Nama Anggota 8', 'P', 'Tempat Lahir', '1988-10-16', '7987133141', 'Islam', 'Nama Ibu 8', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08124972707', 'email8@domain.com', 701978, NULL, '2024-08-02 13:49:29'),
-(110, 'Nama Anggota 9', 'L', 'Tempat Lahir', '1975-05-26', '8680844845', 'Islam', 'Nama Ibu 9', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08124933427', 'email9@domain.com', 474058, NULL, '2024-08-02 13:49:29'),
-(111, 'Nama Anggota 10', 'P', 'Tempat Lahir', '2023-02-18', '4749250770', 'Islam', 'Nama Ibu 10', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08121944309', 'email10@domain.com', 938543, NULL, '2024-08-02 13:49:29'),
-(112, 'Nama Anggota 11', 'L', 'Tempat Lahir', '1988-01-15', '3292324816', 'Islam', 'Nama Ibu 11', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08129979132', 'email11@domain.com', 177840, NULL, '2024-08-02 13:49:29'),
-(113, 'Nama Anggota 12', 'P', 'Tempat Lahir', '1977-06-06', '325389644', 'Islam', 'Nama Ibu 12', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08123298998', 'email12@domain.com', 245193, NULL, '2024-08-02 13:49:29'),
-(114, 'Nama Anggota 13', 'L', 'Tempat Lahir', '2002-04-25', '5199904381', 'Islam', 'Nama Ibu 13', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08126348428', 'email13@domain.com', 237173, NULL, '2024-08-02 13:49:29'),
-(115, 'Nama Anggota 14', 'L', 'Tempat Lahir', '1989-11-08', '6318701539', 'Islam', 'Nama Ibu 14', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08124734754', 'email14@domain.com', 145925, NULL, '2024-08-02 13:49:29'),
-(116, 'Nama Anggota 15', 'L', 'Tempat Lahir', '2019-03-07', '6135653682', 'Islam', 'Nama Ibu 15', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08121014183', 'email15@domain.com', 71382, NULL, '2024-08-02 13:49:29'),
-(117, 'Nama Anggota 16', 'L', 'Tempat Lahir', '2022-02-18', '877193800', 'Islam', 'Nama Ibu 16', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '0812902260', 'email16@domain.com', 872866, NULL, '2024-08-02 13:49:30'),
-(118, 'Nama Anggota 17', 'L', 'Tempat Lahir', '1982-02-18', '9673639870', 'Islam', 'Nama Ibu 17', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08124975435', 'email17@domain.com', 22514, NULL, '2024-08-02 13:49:30'),
-(119, 'Nama Anggota 18', 'P', 'Tempat Lahir', '2022-12-25', '3009581177', 'Islam', 'Nama Ibu 18', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08124687728', 'email18@domain.com', 927615, NULL, '2024-08-02 13:49:30'),
-(120, 'Nama Anggota 19', 'L', 'Tempat Lahir', '2005-10-20', '1845091471', 'Islam', 'Nama Ibu 19', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08127151028', 'email19@domain.com', 316046, NULL, '2024-08-02 13:49:30'),
-(121, 'Nama Anggota 20', 'L', 'Tempat Lahir', '2013-04-09', '8276308130', 'Islam', 'Nama Ibu 20', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08129540481', 'email20@domain.com', 738606, NULL, '2024-08-02 13:49:30'),
-(122, 'Nama Anggota 21', 'P', 'Tempat Lahir', '1977-09-09', '2004283118', 'Islam', 'Nama Ibu 21', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08123301512', 'email21@domain.com', 91894, NULL, '2024-08-02 13:49:30'),
-(123, 'Nama Anggota 22', 'L', 'Tempat Lahir', '2021-02-13', '9399943490', 'Islam', 'Nama Ibu 22', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08126758207', 'email22@domain.com', 223906, NULL, '2024-08-02 13:49:30'),
-(124, 'Nama Anggota 23', 'L', 'Tempat Lahir', '1985-03-08', '6669915799', 'Islam', 'Nama Ibu 23', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '0812366371', 'email23@domain.com', 241666, NULL, '2024-08-02 13:49:30'),
-(125, 'Nama Anggota 24', 'L', 'Tempat Lahir', '1986-04-05', '5402404065', 'Islam', 'Nama Ibu 24', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08126942455', 'email24@domain.com', 334856, NULL, '2024-08-02 13:49:30'),
-(126, 'Nama Anggota 25', 'P', 'Tempat Lahir', '1976-12-17', '9911546753', 'Islam', 'Nama Ibu 25', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08125080294', 'email25@domain.com', 251251, NULL, '2024-08-02 13:49:31'),
-(127, 'Nama Anggota 26', 'P', 'Tempat Lahir', '1979-04-07', '3389356297', 'Islam', 'Nama Ibu 26', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08121045405', 'email26@domain.com', 529508, NULL, '2024-08-02 13:49:31'),
-(128, 'Nama Anggota 27', 'L', 'Tempat Lahir', '2020-07-15', '4036313829', 'Islam', 'Nama Ibu 27', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08129777876', 'email27@domain.com', 907589, NULL, '2024-08-02 13:49:31'),
-(129, 'Nama Anggota 28', 'P', 'Tempat Lahir', '2009-08-04', '6870363957', 'Islam', 'Nama Ibu 28', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08124526905', 'email28@domain.com', 889479, NULL, '2024-08-02 13:49:31'),
-(130, 'Nama Anggota 29', 'L', 'Tempat Lahir', '1985-09-15', '6229283899', 'Islam', 'Nama Ibu 29', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08128183395', 'email29@domain.com', 996508, NULL, '2024-08-02 13:49:31'),
-(131, 'Nama Anggota 30', 'P', 'Tempat Lahir', '1992-03-16', '6579342630', 'Islam', 'Nama Ibu 30', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08123859533', 'email30@domain.com', 742760, NULL, '2024-08-02 13:49:31'),
-(132, 'Nama Anggota 31', 'P', 'Tempat Lahir', '1997-01-13', '893456228', 'Islam', 'Nama Ibu 31', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08123833320', 'email31@domain.com', 637324, NULL, '2024-08-02 13:49:31'),
-(133, 'Nama Anggota 32', 'L', 'Tempat Lahir', '2011-01-15', '2459059788', 'Islam', 'Nama Ibu 32', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08124647204', 'email32@domain.com', 295862, NULL, '2024-08-02 13:49:31'),
-(134, 'Nama Anggota 33', 'L', 'Tempat Lahir', '1997-09-12', '4354059793', 'Islam', 'Nama Ibu 33', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08127019062', 'email33@domain.com', 976966, NULL, '2024-08-02 13:49:31'),
-(135, 'Nama Anggota 34', 'P', 'Tempat Lahir', '1976-05-21', '4859740096', 'Islam', 'Nama Ibu 34', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08124998355', 'email34@domain.com', 834685, NULL, '2024-08-02 13:49:31'),
-(136, 'Nama Anggota 35', 'P', 'Tempat Lahir', '1981-05-04', '3059778048', 'Islam', 'Nama Ibu 35', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08124637147', 'email35@domain.com', 493422, NULL, '2024-08-02 13:49:31'),
-(137, 'Nama Anggota 36', 'L', 'Tempat Lahir', '1979-08-22', '2699692242', 'Islam', 'Nama Ibu 36', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08122751305', 'email36@domain.com', 38556, NULL, '2024-08-02 13:49:31'),
-(138, 'Nama Anggota 37', 'L', 'Tempat Lahir', '1988-07-19', '5042230975', 'Islam', 'Nama Ibu 37', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08122968317', 'email37@domain.com', 662954, NULL, '2024-08-02 13:49:31'),
-(139, 'Nama Anggota 38', 'L', 'Tempat Lahir', '2017-12-19', '3897580703', 'Islam', 'Nama Ibu 38', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08126436551', 'email38@domain.com', 375627, NULL, '2024-08-02 13:49:31'),
-(140, 'Nama Anggota 39', 'P', 'Tempat Lahir', '1994-02-28', '2033338231', 'Islam', 'Nama Ibu 39', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08123388128', 'email39@domain.com', 124775, NULL, '2024-08-02 13:49:31'),
-(141, 'Nama Anggota 40', 'P', 'Tempat Lahir', '1991-06-20', '4920288310', 'Islam', 'Nama Ibu 40', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08123220599', 'email40@domain.com', 630191, NULL, '2024-08-02 13:49:31'),
-(142, 'Nama Anggota 41', 'L', 'Tempat Lahir', '2022-12-04', '6122279461', 'Islam', 'Nama Ibu 41', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08129073394', 'email41@domain.com', 647487, NULL, '2024-08-02 13:49:31'),
-(143, 'Nama Anggota 42', 'P', 'Tempat Lahir', '1992-11-16', '6269590823', 'Islam', 'Nama Ibu 42', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08122734270', 'email42@domain.com', 674552, NULL, '2024-08-02 13:49:31'),
-(144, 'Nama Anggota 43', 'P', 'Tempat Lahir', '1987-09-04', '363102453', 'Islam', 'Nama Ibu 43', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08123068342', 'email43@domain.com', 458464, NULL, '2024-08-02 13:49:31'),
-(145, 'Nama Anggota 44', 'L', 'Tempat Lahir', '2000-06-02', '3030406099', 'Islam', 'Nama Ibu 44', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08124114065', 'email44@domain.com', 864715, NULL, '2024-08-02 13:49:31'),
-(146, 'Nama Anggota 45', 'L', 'Tempat Lahir', '1981-12-26', '9951720740', 'Islam', 'Nama Ibu 45', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08122664399', 'email45@domain.com', 20097, NULL, '2024-08-02 13:49:31'),
-(147, 'Nama Anggota 46', 'L', 'Tempat Lahir', '2002-04-29', '3242438634', 'Islam', 'Nama Ibu 46', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08123968736', 'email46@domain.com', 634018, NULL, '2024-08-02 13:49:31'),
-(148, 'Nama Anggota 47', 'P', 'Tempat Lahir', '1974-11-09', '381365195', 'Islam', 'Nama Ibu 47', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08129093313', 'email47@domain.com', 932412, NULL, '2024-08-02 13:49:31'),
-(149, 'Nama Anggota 48', 'P', 'Tempat Lahir', '1980-12-18', '5632790229', 'Islam', 'Nama Ibu 48', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08122957046', 'email48@domain.com', 887198, NULL, '2024-08-02 13:49:31'),
-(150, 'Nama Anggota 49', 'P', 'Tempat Lahir', '2020-06-14', '7673297419', 'Islam', 'Nama Ibu 49', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08122420327', 'email49@domain.com', 914081, NULL, '2024-08-02 13:49:32'),
-(151, 'Nama Anggota 50', 'P', 'Tempat Lahir', '2000-08-21', '8635471173', 'Islam', 'Nama Ibu 50', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08125920129', 'email50@domain.com', 749326, NULL, '2024-08-02 13:49:32'),
-(152, 'Nama Anggota 51', 'P', 'Tempat Lahir', '1994-05-12', '1131448132', 'Islam', 'Nama Ibu 51', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08128197758', 'email51@domain.com', 855627, NULL, '2024-08-02 13:49:32'),
-(153, 'Nama Anggota 52', 'P', 'Tempat Lahir', '1998-04-01', '1793859099', 'Islam', 'Nama Ibu 52', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08122489372', 'email52@domain.com', 127528, NULL, '2024-08-02 13:49:32'),
-(154, 'Nama Anggota 53', 'P', 'Tempat Lahir', '2021-01-04', '6853373867', 'Islam', 'Nama Ibu 53', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '081239393', 'email53@domain.com', 383725, NULL, '2024-08-02 13:49:32'),
-(155, 'Nama Anggota 54', 'P', 'Tempat Lahir', '2005-06-16', '1939525037', 'Islam', 'Nama Ibu 54', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08122066320', 'email54@domain.com', 566340, NULL, '2024-08-02 13:49:32'),
-(156, 'Nama Anggota 55', 'L', 'Tempat Lahir', '2006-08-07', '1646403597', 'Islam', 'Nama Ibu 55', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08128800352', 'email55@domain.com', 734457, NULL, '2024-08-02 13:49:32'),
-(157, 'Nama Anggota 56', 'L', 'Tempat Lahir', '1976-09-29', '6911138060', 'Islam', 'Nama Ibu 56', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08127691890', 'email56@domain.com', 469664, NULL, '2024-08-02 13:49:32'),
-(158, 'Nama Anggota 57', 'L', 'Tempat Lahir', '1984-11-16', '8516326750', 'Islam', 'Nama Ibu 57', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08128057027', 'email57@domain.com', 679475, NULL, '2024-08-02 13:49:32'),
-(159, 'Nama Anggota 58', 'P', 'Tempat Lahir', '1981-06-21', '3738175065', 'Islam', 'Nama Ibu 58', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08125595556', 'email58@domain.com', 957486, NULL, '2024-08-02 13:49:32'),
-(160, 'Nama Anggota 59', 'L', 'Tempat Lahir', '1991-01-16', '305927396', 'Islam', 'Nama Ibu 59', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08126023497', 'email59@domain.com', 595272, NULL, '2024-08-02 13:49:32'),
-(161, 'Nama Anggota 60', 'L', 'Tempat Lahir', '2021-07-21', '7957729425', 'Islam', 'Nama Ibu 60', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08121597943', 'email60@domain.com', 30508, NULL, '2024-08-02 13:49:32'),
-(162, 'Nama Anggota 61', 'P', 'Tempat Lahir', '2010-11-19', '3518659838', 'Islam', 'Nama Ibu 61', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08127466971', 'email61@domain.com', 756820, NULL, '2024-08-02 13:49:32'),
-(163, 'Nama Anggota 62', 'P', 'Tempat Lahir', '2002-02-14', '6159831980', 'Islam', 'Nama Ibu 62', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08127997764', 'email62@domain.com', 465409, NULL, '2024-08-02 13:49:32'),
-(164, 'Nama Anggota 63', 'P', 'Tempat Lahir', '2012-06-23', '4286768226', 'Islam', 'Nama Ibu 63', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08122542691', 'email63@domain.com', 87087, NULL, '2024-08-02 13:49:32'),
-(165, 'Nama Anggota 64', 'P', 'Tempat Lahir', '2019-07-01', '4915061858', 'Islam', 'Nama Ibu 64', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08122849675', 'email64@domain.com', 969146, NULL, '2024-08-02 13:49:32'),
-(166, 'Nama Anggota 65', 'P', 'Tempat Lahir', '2022-04-03', '2610254737', 'Islam', 'Nama Ibu 65', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '0812420317', 'email65@domain.com', 715093, NULL, '2024-08-02 13:49:32'),
-(167, 'Nama Anggota 66', 'L', 'Tempat Lahir', '2019-07-07', '1598193404', 'Islam', 'Nama Ibu 66', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08124134714', 'email66@domain.com', 633310, NULL, '2024-08-02 13:49:32'),
-(168, 'Nama Anggota 67', 'P', 'Tempat Lahir', '1988-01-28', '8753591802', 'Islam', 'Nama Ibu 67', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08122965920', 'email67@domain.com', 929358, NULL, '2024-08-02 13:49:32'),
-(169, 'Nama Anggota 68', 'P', 'Tempat Lahir', '1974-10-09', '7139937139', 'Islam', 'Nama Ibu 68', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08128758943', 'email68@domain.com', 299024, NULL, '2024-08-02 13:49:32'),
-(170, 'Nama Anggota 69', 'P', 'Tempat Lahir', '2002-08-06', '5982871899', 'Islam', 'Nama Ibu 69', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08122650699', 'email69@domain.com', 957393, NULL, '2024-08-02 13:49:32'),
-(171, 'Nama Anggota 70', 'P', 'Tempat Lahir', '2020-04-05', '4577361433', 'Islam', 'Nama Ibu 70', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08127711823', 'email70@domain.com', 769277, NULL, '2024-08-02 13:49:32'),
-(172, 'Nama Anggota 71', 'P', 'Tempat Lahir', '2006-10-13', '1833150556', 'Islam', 'Nama Ibu 71', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08124113010', 'email71@domain.com', 372354, NULL, '2024-08-02 13:49:32'),
-(173, 'Nama Anggota 72', 'P', 'Tempat Lahir', '2023-06-23', '2277642462', 'Islam', 'Nama Ibu 72', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08126767175', 'email72@domain.com', 167581, NULL, '2024-08-02 13:49:32'),
-(174, 'Nama Anggota 73', 'P', 'Tempat Lahir', '1997-10-21', '2569016779', 'Islam', 'Nama Ibu 73', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08123031609', 'email73@domain.com', 433513, NULL, '2024-08-02 13:49:32'),
-(175, 'Nama Anggota 74', 'L', 'Tempat Lahir', '1975-02-16', '1751718522', 'Islam', 'Nama Ibu 74', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08123088824', 'email74@domain.com', 527917, NULL, '2024-08-02 13:49:32'),
-(176, 'Nama Anggota 75', 'P', 'Tempat Lahir', '1975-07-29', '7659554255', 'Islam', 'Nama Ibu 75', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '0812226538', 'email75@domain.com', 703241, NULL, '2024-08-02 13:49:32'),
-(177, 'Nama Anggota 76', 'L', 'Tempat Lahir', '2018-01-06', '3128264987', 'Islam', 'Nama Ibu 76', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08129094722', 'email76@domain.com', 38590, NULL, '2024-08-02 13:49:32'),
-(178, 'Nama Anggota 77', 'L', 'Tempat Lahir', '2014-04-02', '6409011125', 'Islam', 'Nama Ibu 77', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08121618385', 'email77@domain.com', 118726, NULL, '2024-08-02 13:49:32'),
-(179, 'Nama Anggota 78', 'L', 'Tempat Lahir', '2015-05-17', '5976489499', 'Islam', 'Nama Ibu 78', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08126063087', 'email78@domain.com', 884673, NULL, '2024-08-02 13:49:32'),
-(180, 'Nama Anggota 79', 'P', 'Tempat Lahir', '2006-03-11', '275865840', 'Islam', 'Nama Ibu 79', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '0812841828', 'email79@domain.com', 320748, NULL, '2024-08-02 13:49:32'),
-(181, 'Nama Anggota 80', 'L', 'Tempat Lahir', '1984-12-05', '9150789882', 'Islam', 'Nama Ibu 80', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08122257366', 'email80@domain.com', 546099, NULL, '2024-08-02 13:49:33'),
-(182, 'Nama Anggota 81', 'L', 'Tempat Lahir', '1993-03-15', '9808121025', 'Islam', 'Nama Ibu 81', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08121558524', 'email81@domain.com', 720288, NULL, '2024-08-02 13:49:33'),
-(183, 'Nama Anggota 82', 'L', 'Tempat Lahir', '1999-03-06', '1411928964', 'Islam', 'Nama Ibu 82', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08124776768', 'email82@domain.com', 847630, NULL, '2024-08-02 13:49:33'),
-(184, 'Nama Anggota 83', 'P', 'Tempat Lahir', '2000-06-20', '9982705507', 'Islam', 'Nama Ibu 83', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08127149822', 'email83@domain.com', 648082, NULL, '2024-08-02 13:49:33'),
-(185, 'Nama Anggota 84', 'L', 'Tempat Lahir', '1997-12-14', '3790158539', 'Islam', 'Nama Ibu 84', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08128230401', 'email84@domain.com', 88881, NULL, '2024-08-02 13:49:33'),
-(186, 'Nama Anggota 85', 'P', 'Tempat Lahir', '1994-02-13', '1230627755', 'Islam', 'Nama Ibu 85', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08125442896', 'email85@domain.com', 385751, NULL, '2024-08-02 13:49:33'),
-(187, 'Nama Anggota 86', 'L', 'Tempat Lahir', '2008-06-28', '7232686669', 'Islam', 'Nama Ibu 86', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08124462069', 'email86@domain.com', 993700, NULL, '2024-08-02 13:49:33'),
-(188, 'Nama Anggota 87', 'P', 'Tempat Lahir', '2016-03-06', '9518636995', 'Islam', 'Nama Ibu 87', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08123191920', 'email87@domain.com', 346496, NULL, '2024-08-02 13:49:33'),
-(189, 'Nama Anggota 88', 'P', 'Tempat Lahir', '1982-11-12', '8505134087', 'Islam', 'Nama Ibu 88', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08126856626', 'email88@domain.com', 871549, NULL, '2024-08-02 13:49:33'),
-(190, 'Nama Anggota 89', 'L', 'Tempat Lahir', '1980-02-28', '5434870166', 'Islam', 'Nama Ibu 89', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08126194084', 'email89@domain.com', 947120, NULL, '2024-08-02 13:49:33'),
-(191, 'Nama Anggota 90', 'P', 'Tempat Lahir', '1997-05-01', '955036031', 'Islam', 'Nama Ibu 90', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08125856586', 'email90@domain.com', 724195, NULL, '2024-08-02 13:49:33'),
-(192, 'Nama Anggota 91', 'P', 'Tempat Lahir', '2017-03-22', '1451364645', 'Islam', 'Nama Ibu 91', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08123434639', 'email91@domain.com', 544428, NULL, '2024-08-02 13:49:33'),
-(193, 'Nama Anggota 92', 'P', 'Tempat Lahir', '1983-05-06', '520758899', 'Islam', 'Nama Ibu 92', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '0812414614', 'email92@domain.com', 807785, NULL, '2024-08-02 13:49:33'),
-(194, 'Nama Anggota 93', 'P', 'Tempat Lahir', '2017-02-15', '31469408', 'Islam', 'Nama Ibu 93', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08127210292', 'email93@domain.com', 280484, NULL, '2024-08-02 13:49:33'),
-(195, 'Nama Anggota 94', 'L', 'Tempat Lahir', '2006-11-03', '581343044', 'Islam', 'Nama Ibu 94', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08129505218', 'email94@domain.com', 77654, NULL, '2024-08-02 13:49:33'),
-(196, 'Nama Anggota 95', 'P', 'Tempat Lahir', '2002-01-28', '6427214915', 'Islam', 'Nama Ibu 95', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08123210541', 'email95@domain.com', 461211, NULL, '2024-08-02 13:49:33'),
-(197, 'Nama Anggota 96', 'L', 'Tempat Lahir', '2008-01-21', '6255584495', 'Islam', 'Nama Ibu 96', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08127995368', 'email96@domain.com', 591956, NULL, '2024-08-02 13:49:33'),
-(198, 'Nama Anggota 97', 'P', 'Tempat Lahir', '2023-02-02', '4664651830', 'Islam', 'Nama Ibu 97', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08128122774', 'email97@domain.com', 334383, NULL, '2024-08-02 13:49:33'),
-(199, 'Nama Anggota 98', 'L', 'Tempat Lahir', '2015-12-25', '1561144386', 'Islam', 'Nama Ibu 98', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08127527886', 'email98@domain.com', 381529, NULL, '2024-08-02 13:49:33'),
-(200, 'Nama Anggota 99', 'P', 'Tempat Lahir', '2019-07-02', '5612622448', 'Islam', 'Nama Ibu 99', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08125370733', 'email99@domain.com', 886324, NULL, '2024-08-02 13:49:33'),
-(201, 'Nama Anggota 100', 'P', 'Tempat Lahir', '2002-06-14', '7539412358', 'Islam', 'Nama Ibu 100', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '0812989067', 'email100@domain.com', 340880, NULL, '2024-08-02 13:49:33'),
-(202, 'Nama Anggota 1', 'P', 'Tempat Lahir', '1981-09-30', '4803774752', 'Islam', 'Nama Ibu 1', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08121224090', 'email1@domain.com', 464786, NULL, '2024-08-02 13:51:19'),
-(203, 'Nama Anggota 2', 'P', 'Tempat Lahir', '2005-02-21', '757384338', 'Islam', 'Nama Ibu 2', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08128286738', 'email2@domain.com', 509835, NULL, '2024-08-02 13:51:19'),
-(204, 'Nama Anggota 3', 'L', 'Tempat Lahir', '1985-04-20', '7419254768', 'Islam', 'Nama Ibu 3', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08123578654', 'email3@domain.com', 23905, NULL, '2024-08-02 13:51:19'),
-(205, 'Nama Anggota 4', 'L', 'Tempat Lahir', '2016-09-11', '6518849103', 'Islam', 'Nama Ibu 4', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08126094329', 'email4@domain.com', 531109, NULL, '2024-08-02 13:51:19'),
-(206, 'Nama Anggota 5', 'P', 'Tempat Lahir', '1997-06-17', '2328152910', 'Islam', 'Nama Ibu 5', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08124915878', 'email5@domain.com', 602120, NULL, '2024-08-02 13:51:19'),
-(207, 'Nama Anggota 6', 'P', 'Tempat Lahir', '1980-12-22', '7566083164', 'Islam', 'Nama Ibu 6', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08125530272', 'email6@domain.com', 271424, NULL, '2024-08-02 13:51:19'),
-(208, 'Nama Anggota 7', 'P', 'Tempat Lahir', '1990-10-25', '2855762115', 'Islam', 'Nama Ibu 7', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08125176238', 'email7@domain.com', 157441, NULL, '2024-08-02 13:51:19'),
-(209, 'Nama Anggota 8', 'L', 'Tempat Lahir', '1989-08-23', '7937390867', 'Islam', 'Nama Ibu 8', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08123249864', 'email8@domain.com', 880279, NULL, '2024-08-02 13:51:19'),
-(210, 'Nama Anggota 9', 'L', 'Tempat Lahir', '2000-01-14', '1774853125', 'Islam', 'Nama Ibu 9', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08125535698', 'email9@domain.com', 474039, NULL, '2024-08-02 13:51:19'),
-(211, 'Nama Anggota 10', 'P', 'Tempat Lahir', '2018-04-29', '4981706668', 'Islam', 'Nama Ibu 10', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '0812798379', 'email10@domain.com', 54579, NULL, '2024-08-02 13:51:19'),
-(212, 'Nama Anggota 11', 'L', 'Tempat Lahir', '2024-06-05', '9157831845', 'Islam', 'Nama Ibu 11', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08127889998', 'email11@domain.com', 646765, NULL, '2024-08-02 13:51:19'),
-(213, 'Nama Anggota 12', 'P', 'Tempat Lahir', '2004-11-28', '3687413291', 'Islam', 'Nama Ibu 12', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '0812366367', 'email12@domain.com', 569294, NULL, '2024-08-02 13:51:19'),
-(214, 'Nama Anggota 13', 'P', 'Tempat Lahir', '1975-11-16', '6649404574', 'Islam', 'Nama Ibu 13', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08128242903', 'email13@domain.com', 107008, NULL, '2024-08-02 13:51:19'),
-(215, 'Nama Anggota 14', 'L', 'Tempat Lahir', '1975-02-17', '7626765042', 'Islam', 'Nama Ibu 14', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08128305286', 'email14@domain.com', 777994, NULL, '2024-08-02 13:51:19'),
-(216, 'Nama Anggota 15', 'L', 'Tempat Lahir', '1991-09-18', '945430156', 'Islam', 'Nama Ibu 15', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08125576037', 'email15@domain.com', 155440, NULL, '2024-08-02 13:51:19'),
-(217, 'Nama Anggota 16', 'L', 'Tempat Lahir', '2021-10-22', '9650119375', 'Islam', 'Nama Ibu 16', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '081240605', 'email16@domain.com', 833201, NULL, '2024-08-02 13:51:19'),
-(218, 'Nama Anggota 17', 'L', 'Tempat Lahir', '2011-02-14', '8861504037', 'Islam', 'Nama Ibu 17', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08123955918', 'email17@domain.com', 620689, NULL, '2024-08-02 13:51:19'),
-(219, 'Nama Anggota 18', 'P', 'Tempat Lahir', '1988-07-19', '8564396368', 'Islam', 'Nama Ibu 18', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '0812223061', 'email18@domain.com', 756555, NULL, '2024-08-02 13:51:19'),
-(220, 'Nama Anggota 19', 'P', 'Tempat Lahir', '2009-02-12', '4006077781', 'Islam', 'Nama Ibu 19', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08121687970', 'email19@domain.com', 621613, NULL, '2024-08-02 13:51:19'),
-(221, 'Nama Anggota 20', 'P', 'Tempat Lahir', '2017-06-01', '9126373388', 'Islam', 'Nama Ibu 20', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08129250415', 'email20@domain.com', 227435, NULL, '2024-08-02 13:51:19'),
-(222, 'Nama Anggota 21', 'L', 'Tempat Lahir', '2018-03-12', '5536549515', 'Islam', 'Nama Ibu 21', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08121516319', 'email21@domain.com', 975288, NULL, '2024-08-02 13:51:19'),
-(223, 'Nama Anggota 22', 'L', 'Tempat Lahir', '2015-07-02', '6447307631', 'Islam', 'Nama Ibu 22', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08122456640', 'email22@domain.com', 860470, NULL, '2024-08-02 13:51:19'),
-(224, 'Nama Anggota 23', 'P', 'Tempat Lahir', '2012-04-29', '5308814798', 'Islam', 'Nama Ibu 23', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08121935697', 'email23@domain.com', 254406, NULL, '2024-08-02 13:51:19'),
-(225, 'Nama Anggota 24', 'P', 'Tempat Lahir', '1989-12-10', '3930320044', 'Islam', 'Nama Ibu 24', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08125735816', 'email24@domain.com', 130835, NULL, '2024-08-02 13:51:19'),
-(226, 'Nama Anggota 25', 'P', 'Tempat Lahir', '2010-11-12', '5730258697', 'Islam', 'Nama Ibu 25', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08124865791', 'email25@domain.com', 309501, NULL, '2024-08-02 13:51:19'),
-(227, 'Nama Anggota 26', 'L', 'Tempat Lahir', '1999-02-02', '2884407856', 'Islam', 'Nama Ibu 26', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08125222867', 'email26@domain.com', 455279, NULL, '2024-08-02 13:51:20'),
-(228, 'Nama Anggota 27', 'P', 'Tempat Lahir', '2015-07-03', '7806647222', 'Islam', 'Nama Ibu 27', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08121606221', 'email27@domain.com', 462779, NULL, '2024-08-02 13:51:20'),
-(229, 'Nama Anggota 28', 'P', 'Tempat Lahir', '1986-01-09', '3630213629', 'Islam', 'Nama Ibu 28', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08125466561', 'email28@domain.com', 505943, NULL, '2024-08-02 13:51:20'),
-(230, 'Nama Anggota 29', 'P', 'Tempat Lahir', '1978-01-27', '9853387027', 'Islam', 'Nama Ibu 29', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08127136885', 'email29@domain.com', 166619, NULL, '2024-08-02 13:51:20');
-INSERT INTO `tb_anggota` (`anggota_id`, `anggota_nama`, `anggota_jk`, `anggota_tempat_lahir`, `anggota_tanggal_lahir`, `anggota_nik`, `anggota_agama`, `anggota_nama_ibu`, `anggota_alamat`, `anggota_pekerjaan`, `anggota_pendidikan`, `anggota_status_kawin`, `anggota_nomor_hp`, `anggota_email`, `anggota_pendapatan`, `anggota_dokumen`, `anggota_date_created`) VALUES
-(231, 'Nama Anggota 30', 'P', 'Tempat Lahir', '1976-08-09', '7254527823', 'Islam', 'Nama Ibu 30', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '0812215407', 'email30@domain.com', 495247, NULL, '2024-08-02 13:51:20'),
-(232, 'Nama Anggota 31', 'L', 'Tempat Lahir', '1995-12-28', '6268171943', 'Islam', 'Nama Ibu 31', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08127736961', 'email31@domain.com', 253503, NULL, '2024-08-02 13:51:20'),
-(233, 'Nama Anggota 32', 'P', 'Tempat Lahir', '1976-01-15', '188618852', 'Islam', 'Nama Ibu 32', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08128405265', 'email32@domain.com', 664365, NULL, '2024-08-02 13:51:20'),
-(234, 'Nama Anggota 33', 'P', 'Tempat Lahir', '2024-03-07', '6399516906', 'Islam', 'Nama Ibu 33', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08129568608', 'email33@domain.com', 258274, NULL, '2024-08-02 13:51:20'),
-(235, 'Nama Anggota 34', 'L', 'Tempat Lahir', '2008-02-22', '3832874469', 'Islam', 'Nama Ibu 34', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08126895785', 'email34@domain.com', 961873, NULL, '2024-08-02 13:51:20'),
-(236, 'Nama Anggota 35', 'P', 'Tempat Lahir', '1983-09-28', '8657530926', 'Islam', 'Nama Ibu 35', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '0812974524', 'email35@domain.com', 618232, NULL, '2024-08-02 13:51:20'),
-(237, 'Nama Anggota 36', 'P', 'Tempat Lahir', '2017-08-17', '3001948877', 'Islam', 'Nama Ibu 36', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08125144716', 'email36@domain.com', 323324, NULL, '2024-08-02 13:51:20'),
-(238, 'Nama Anggota 37', 'L', 'Tempat Lahir', '2004-10-18', '7606843521', 'Islam', 'Nama Ibu 37', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08122425408', 'email37@domain.com', 837724, NULL, '2024-08-02 13:51:20'),
-(239, 'Nama Anggota 38', 'L', 'Tempat Lahir', '1985-01-09', '5760974516', 'Islam', 'Nama Ibu 38', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08129556226', 'email38@domain.com', 370376, NULL, '2024-08-02 13:51:20'),
-(240, 'Nama Anggota 39', 'P', 'Tempat Lahir', '1983-12-02', '1146810493', 'Islam', 'Nama Ibu 39', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08123138054', 'email39@domain.com', 174318, NULL, '2024-08-02 13:51:20'),
-(241, 'Nama Anggota 40', 'P', 'Tempat Lahir', '2018-03-13', '8490546735', 'Islam', 'Nama Ibu 40', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08128075218', 'email40@domain.com', 384242, NULL, '2024-08-02 13:51:20'),
-(242, 'Nama Anggota 41', 'L', 'Tempat Lahir', '2007-07-29', '2065764639', 'Islam', 'Nama Ibu 41', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08124371396', 'email41@domain.com', 151576, NULL, '2024-08-02 13:51:20'),
-(243, 'Nama Anggota 42', 'L', 'Tempat Lahir', '1985-09-25', '5485736537', 'Islam', 'Nama Ibu 42', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08127933227', 'email42@domain.com', 752462, NULL, '2024-08-02 13:51:20'),
-(244, 'Nama Anggota 43', 'L', 'Tempat Lahir', '1991-11-23', '1246496505', 'Islam', 'Nama Ibu 43', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08124956913', 'email43@domain.com', 512012, NULL, '2024-08-02 13:51:20'),
-(245, 'Nama Anggota 44', 'L', 'Tempat Lahir', '1983-03-04', '9255338189', 'Islam', 'Nama Ibu 44', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08129282583', 'email44@domain.com', 218376, NULL, '2024-08-02 13:51:20'),
-(246, 'Nama Anggota 45', 'L', 'Tempat Lahir', '1980-08-06', '4806728572', 'Islam', 'Nama Ibu 45', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08125576767', 'email45@domain.com', 681869, NULL, '2024-08-02 13:51:20'),
-(247, 'Nama Anggota 46', 'P', 'Tempat Lahir', '1992-10-23', '9709064149', 'Islam', 'Nama Ibu 46', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08128490954', 'email46@domain.com', 459333, NULL, '2024-08-02 13:51:20'),
-(248, 'Nama Anggota 47', 'P', 'Tempat Lahir', '2006-02-26', '5963368980', 'Islam', 'Nama Ibu 47', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08127668304', 'email47@domain.com', 919267, NULL, '2024-08-02 13:51:20'),
-(249, 'Nama Anggota 48', 'L', 'Tempat Lahir', '1988-07-17', '7195577814', 'Islam', 'Nama Ibu 48', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08127444149', 'email48@domain.com', 695061, NULL, '2024-08-02 13:51:20'),
-(250, 'Nama Anggota 49', 'L', 'Tempat Lahir', '2018-05-03', '8995015052', 'Islam', 'Nama Ibu 49', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08129119434', 'email49@domain.com', 193448, NULL, '2024-08-02 13:51:20'),
-(251, 'Nama Anggota 50', 'L', 'Tempat Lahir', '1995-10-09', '1893282879', 'Islam', 'Nama Ibu 50', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08125145341', 'email50@domain.com', 923159, NULL, '2024-08-02 13:51:20'),
-(252, 'Nama Anggota 51', 'L', 'Tempat Lahir', '1995-01-13', '7408903406', 'Islam', 'Nama Ibu 51', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08123459248', 'email51@domain.com', 448128, NULL, '2024-08-02 13:51:20'),
-(253, 'Nama Anggota 52', 'L', 'Tempat Lahir', '1991-02-11', '7411594798', 'Islam', 'Nama Ibu 52', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08121932925', 'email52@domain.com', 197794, NULL, '2024-08-02 13:51:20'),
-(254, 'Nama Anggota 53', 'L', 'Tempat Lahir', '2001-12-31', '331935566', 'Islam', 'Nama Ibu 53', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08127287047', 'email53@domain.com', 698437, NULL, '2024-08-02 13:51:20'),
-(255, 'Nama Anggota 54', 'L', 'Tempat Lahir', '2002-11-07', '2570465051', 'Islam', 'Nama Ibu 54', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08127059111', 'email54@domain.com', 141877, NULL, '2024-08-02 13:51:20'),
-(256, 'Nama Anggota 55', 'P', 'Tempat Lahir', '1997-12-22', '8882291492', 'Islam', 'Nama Ibu 55', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08124838027', 'email55@domain.com', 736092, NULL, '2024-08-02 13:51:20'),
-(257, 'Nama Anggota 56', 'L', 'Tempat Lahir', '1977-10-08', '9977752426', 'Islam', 'Nama Ibu 56', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08128962565', 'email56@domain.com', 947533, NULL, '2024-08-02 13:51:20'),
-(258, 'Nama Anggota 57', 'L', 'Tempat Lahir', '2004-07-04', '8627351716', 'Islam', 'Nama Ibu 57', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08129518952', 'email57@domain.com', 435415, NULL, '2024-08-02 13:51:20'),
-(259, 'Nama Anggota 58', 'L', 'Tempat Lahir', '2009-07-24', '5394201460', 'Islam', 'Nama Ibu 58', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08123973852', 'email58@domain.com', 917602, NULL, '2024-08-02 13:51:20'),
-(260, 'Nama Anggota 59', 'L', 'Tempat Lahir', '2013-04-09', '9448245763', 'Islam', 'Nama Ibu 59', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08123889500', 'email59@domain.com', 810696, NULL, '2024-08-02 13:51:20'),
-(261, 'Nama Anggota 60', 'P', 'Tempat Lahir', '2024-07-14', '3454327940', 'Islam', 'Nama Ibu 60', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08129784995', 'email60@domain.com', 655013, NULL, '2024-08-02 13:51:21'),
-(262, 'Nama Anggota 61', 'L', 'Tempat Lahir', '1987-12-22', '6452862943', 'Islam', 'Nama Ibu 61', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08122043327', 'email61@domain.com', 937548, NULL, '2024-08-02 13:51:21'),
-(263, 'Nama Anggota 62', 'L', 'Tempat Lahir', '1996-07-21', '5811799984', 'Islam', 'Nama Ibu 62', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08123697059', 'email62@domain.com', 180582, NULL, '2024-08-02 13:51:21'),
-(264, 'Nama Anggota 63', 'P', 'Tempat Lahir', '2003-03-30', '7547340595', 'Islam', 'Nama Ibu 63', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08125030014', 'email63@domain.com', 927605, NULL, '2024-08-02 13:51:21'),
-(265, 'Nama Anggota 64', 'L', 'Tempat Lahir', '1981-07-03', '9244118388', 'Islam', 'Nama Ibu 64', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08124026242', 'email64@domain.com', 907605, NULL, '2024-08-02 13:51:21'),
-(266, 'Nama Anggota 65', 'L', 'Tempat Lahir', '1978-03-22', '6492996631', 'Islam', 'Nama Ibu 65', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08124386336', 'email65@domain.com', 97232, NULL, '2024-08-02 13:51:21'),
-(267, 'Nama Anggota 66', 'L', 'Tempat Lahir', '1996-08-17', '2872420514', 'Islam', 'Nama Ibu 66', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08129947041', 'email66@domain.com', 911235, NULL, '2024-08-02 13:51:21'),
-(268, 'Nama Anggota 67', 'P', 'Tempat Lahir', '2018-04-06', '9169226288', 'Islam', 'Nama Ibu 67', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08122729335', 'email67@domain.com', 750446, NULL, '2024-08-02 13:51:21'),
-(269, 'Nama Anggota 68', 'P', 'Tempat Lahir', '2003-10-24', '2788477263', 'Islam', 'Nama Ibu 68', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08128971994', 'email68@domain.com', 45751, NULL, '2024-08-02 13:51:21'),
-(270, 'Nama Anggota 69', 'P', 'Tempat Lahir', '1997-03-07', '1312474404', 'Islam', 'Nama Ibu 69', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08126592606', 'email69@domain.com', 264501, NULL, '2024-08-02 13:51:21'),
-(271, 'Nama Anggota 70', 'L', 'Tempat Lahir', '1978-02-11', '6164373677', 'Islam', 'Nama Ibu 70', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '0812379135', 'email70@domain.com', 669212, NULL, '2024-08-02 13:51:21'),
-(272, 'Nama Anggota 71', 'L', 'Tempat Lahir', '2016-11-22', '729370965', 'Islam', 'Nama Ibu 71', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08127662191', 'email71@domain.com', 946432, NULL, '2024-08-02 13:51:21'),
-(273, 'Nama Anggota 72', 'L', 'Tempat Lahir', '2008-03-09', '3406387943', 'Islam', 'Nama Ibu 72', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08127753640', 'email72@domain.com', 784549, NULL, '2024-08-02 13:51:21'),
-(274, 'Nama Anggota 73', 'P', 'Tempat Lahir', '1993-02-16', '3581429658', 'Islam', 'Nama Ibu 73', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08124686113', 'email73@domain.com', 38555, NULL, '2024-08-02 13:51:21'),
-(275, 'Nama Anggota 74', 'P', 'Tempat Lahir', '1983-08-31', '7344091094', 'Islam', 'Nama Ibu 74', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08128712893', 'email74@domain.com', 711736, NULL, '2024-08-02 13:51:21'),
-(276, 'Nama Anggota 75', 'P', 'Tempat Lahir', '1995-03-02', '1098878617', 'Islam', 'Nama Ibu 75', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08121171098', 'email75@domain.com', 863126, NULL, '2024-08-02 13:51:21'),
-(277, 'Nama Anggota 76', 'P', 'Tempat Lahir', '2012-12-27', '2677589629', 'Islam', 'Nama Ibu 76', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08121163063', 'email76@domain.com', 355437, NULL, '2024-08-02 13:51:21'),
-(278, 'Nama Anggota 77', 'L', 'Tempat Lahir', '2020-11-02', '902969949', 'Islam', 'Nama Ibu 77', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08128612491', 'email77@domain.com', 626961, NULL, '2024-08-02 13:51:21'),
-(279, 'Nama Anggota 78', 'P', 'Tempat Lahir', '1980-11-23', '7189269510', 'Islam', 'Nama Ibu 78', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08128307695', 'email78@domain.com', 395280, NULL, '2024-08-02 13:51:21'),
-(280, 'Nama Anggota 79', 'L', 'Tempat Lahir', '2012-11-11', '7208697420', 'Islam', 'Nama Ibu 79', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08129970047', 'email79@domain.com', 965998, NULL, '2024-08-02 13:51:21'),
-(281, 'Nama Anggota 80', 'P', 'Tempat Lahir', '2009-10-02', '9675527438', 'Islam', 'Nama Ibu 80', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08121132152', 'email80@domain.com', 599297, NULL, '2024-08-02 13:51:21'),
-(282, 'Nama Anggota 81', 'P', 'Tempat Lahir', '2000-04-15', '4610553648', 'Islam', 'Nama Ibu 81', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08129715655', 'email81@domain.com', 747629, NULL, '2024-08-02 13:51:21'),
-(283, 'Nama Anggota 82', 'P', 'Tempat Lahir', '1980-11-24', '9015116448', 'Islam', 'Nama Ibu 82', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08125216915', 'email82@domain.com', 803678, NULL, '2024-08-02 13:51:21'),
-(284, 'Nama Anggota 83', 'L', 'Tempat Lahir', '1981-11-03', '9177789156', 'Islam', 'Nama Ibu 83', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08123579561', 'email83@domain.com', 723005, NULL, '2024-08-02 13:51:21'),
-(285, 'Nama Anggota 84', 'P', 'Tempat Lahir', '1997-10-07', '603888510', 'Islam', 'Nama Ibu 84', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08123099686', 'email84@domain.com', 718932, NULL, '2024-08-02 13:51:21'),
-(286, 'Nama Anggota 85', 'P', 'Tempat Lahir', '2016-03-30', '8406848403', 'Islam', 'Nama Ibu 85', 'Alamat', 'Pekerjaan', 'Pendidikan', 'duda', '08122474504', 'email85@domain.com', 706439, NULL, '2024-08-02 13:51:21'),
-(287, 'Nama Anggota 86', 'P', 'Tempat Lahir', '1983-02-13', '7800533126', 'Islam', 'Nama Ibu 86', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08125148047', 'email86@domain.com', 582850, NULL, '2024-08-02 13:51:21'),
-(288, 'Nama Anggota 87', 'L', 'Tempat Lahir', '2019-07-24', '3937193419', 'Islam', 'Nama Ibu 87', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08127605756', 'email87@domain.com', 346557, NULL, '2024-08-02 13:51:21'),
-(289, 'Nama Anggota 88', 'L', 'Tempat Lahir', '2013-10-24', '7249690412', 'Islam', 'Nama Ibu 88', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '0812577628', 'email88@domain.com', 367394, NULL, '2024-08-02 13:51:21'),
-(290, 'Nama Anggota 89', 'P', 'Tempat Lahir', '2013-10-13', '901592169', 'Islam', 'Nama Ibu 89', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08122458319', 'email89@domain.com', 349919, NULL, '2024-08-02 13:51:21'),
-(291, 'Nama Anggota 90', 'L', 'Tempat Lahir', '2024-01-19', '174545971', 'Islam', 'Nama Ibu 90', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08122227179', 'email90@domain.com', 948540, NULL, '2024-08-02 13:51:21'),
-(292, 'Nama Anggota 91', 'L', 'Tempat Lahir', '1998-04-01', '4120000586', 'Islam', 'Nama Ibu 91', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08123494017', 'email91@domain.com', 275871, NULL, '2024-08-02 13:51:21'),
-(293, 'Nama Anggota 92', 'L', 'Tempat Lahir', '1983-03-18', '1472614483', 'Islam', 'Nama Ibu 92', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08122091398', 'email92@domain.com', 48526, NULL, '2024-08-02 13:51:21'),
-(294, 'Nama Anggota 93', 'P', 'Tempat Lahir', '1978-02-04', '8068111388', 'Islam', 'Nama Ibu 93', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08127924841', 'email93@domain.com', 234670, NULL, '2024-08-02 13:51:21'),
-(295, 'Nama Anggota 94', 'P', 'Tempat Lahir', '2010-10-28', '9897049032', 'Islam', 'Nama Ibu 94', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08126413116', 'email94@domain.com', 840302, NULL, '2024-08-02 13:51:21'),
-(296, 'Nama Anggota 95', 'L', 'Tempat Lahir', '1981-04-08', '5021681520', 'Islam', 'Nama Ibu 95', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08124852866', 'email95@domain.com', 297440, NULL, '2024-08-02 13:51:22'),
-(297, 'Nama Anggota 96', 'L', 'Tempat Lahir', '2011-05-18', '2279270526', 'Islam', 'Nama Ibu 96', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08122032736', 'email96@domain.com', 870771, NULL, '2024-08-02 13:51:22'),
-(298, 'Nama Anggota 97', 'P', 'Tempat Lahir', '2019-03-14', '3071954867', 'Islam', 'Nama Ibu 97', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08121404029', 'email97@domain.com', 64821, NULL, '2024-08-02 13:51:22'),
-(299, 'Nama Anggota 98', 'P', 'Tempat Lahir', '2008-08-06', '8914296281', 'Islam', 'Nama Ibu 98', 'Alamat', 'Pekerjaan', 'Pendidikan', 'janda', '08123877283', 'email98@domain.com', 246053, NULL, '2024-08-02 13:51:22'),
-(300, 'Nama Anggota 99', 'L', 'Tempat Lahir', '1994-09-30', '7850212164', 'Islam', 'Nama Ibu 99', 'Alamat', 'Pekerjaan', 'Pendidikan', 'lajang', '08123116569', 'email99@domain.com', 158252, NULL, '2024-08-02 13:51:22'),
-(301, 'Nama Anggota 100', 'P', 'Tempat Lahir', '1984-04-12', '4646260100', 'Islam', 'Nama Ibu 100', 'Alamat', 'Pekerjaan', 'Pendidikan', 'menikah', '08128972658', 'email100@domain.com', 122516, NULL, '2024-08-02 13:51:22');
 
 -- --------------------------------------------------------
 
@@ -375,9 +42,9 @@ CREATE TABLE `tb_angsuran` (
 
 CREATE TABLE `tb_barang` (
   `id_barang` int NOT NULL,
-  `kode_barang` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `kode_barang` varchar(100) DEFAULT NULL,
   `nama_barang` varchar(100) NOT NULL,
-  `detail_barang` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `detail_barang` varchar(100) DEFAULT NULL,
   `id_satuan` int NOT NULL,
   `id_kategori` int NOT NULL,
   `harga_beli` int NOT NULL,
@@ -392,9 +59,11 @@ CREATE TABLE `tb_barang` (
 --
 
 INSERT INTO `tb_barang` (`id_barang`, `kode_barang`, `nama_barang`, `detail_barang`, `id_satuan`, `id_kategori`, `harga_beli`, `harga_jual`, `stok`, `created_at`, `updated_at`) VALUES
-(358, '-', 'Susu', '-', 12, 35, 3000, 5000, 6, '2024-08-06 01:13:58', '2024-08-08 08:50:14'),
-(359, '-', 'Gorengan', '-', 15, 36, 500, 2000, 9, '2024-08-06 01:14:26', '2024-08-06 02:56:23'),
-(361, '', 'hhgft', '', 6, 36, 76587658, 856658, 85664, '2024-08-06 07:46:18', '2024-08-06 07:51:10');
+(358, '-', 'Susu', '-', 12, 35, 3000, 5000, 9968, '2024-08-06 01:13:58', '2024-08-20 02:36:58'),
+(359, '-', 'Gorengan', '-', 15, 36, 500, 2000, 99882, '2024-08-06 01:14:26', '2024-08-20 02:36:46'),
+(363, '', 'pc', '', 5, 35, 68568, 658865, 9999, '2024-08-13 01:55:49', '2024-08-20 02:36:50'),
+(364, '', '6565', '', 5, 39, 6765, 5000, 8, '2024-08-13 08:48:04', '2024-09-19 01:05:41'),
+(365, 'dasd', 'isoplus', '', 13, 38, 5000, 10000, 113, '2024-09-18 06:29:28', '2024-09-18 06:29:28');
 
 -- --------------------------------------------------------
 
@@ -417,13 +86,23 @@ CREATE TABLE `tb_detransaksi` (
 --
 
 INSERT INTO `tb_detransaksi` (`id_detail`, `id_transaksi`, `id_barang`, `nama_barang`, `harga`, `jumlah`, `total`) VALUES
-(242, 132, 358, 'Susu', 5000, 70, 350000),
-(243, 133, 359, 'Gorengan', 2000, 50, 100000),
-(246, 130, 358, 'Susu', 5000, 60, 300000),
-(247, 130, 359, 'Gorengan', 2000, 18, 36000),
-(248, 131, 358, 'Susu', 5000, 67, 335000),
-(249, 134, 358, 'Susu', 5000, 4, 20000),
-(250, 135, 359, 'Gorengan', 2000, 421, 842000);
+(274, 151, 358, 'Susu', 50000, 2, 100000),
+(276, 152, 358, 'Susu', 50000, 1, 50000),
+(277, 153, 359, 'Gorengan', 2000, 7, 14000),
+(279, 154, 364, '6565', 6000, 1, 6000),
+(281, 155, 364, '6565', 6000, 1, 6000),
+(282, 156, 358, 'Susu', 5000, 1, 5000),
+(283, 157, 358, 'Susu', 5000, 1, 5000),
+(284, 158, 358, 'Susu', 6000, 2, 12000),
+(285, 159, 359, 'Gorengan', 2000, 99, 198000),
+(286, 160, 364, '6565', 5000, 2, 10000),
+(287, 161, 358, 'Susu', 5000, 1, 5000),
+(288, 162, 358, 'Susu', 5000, 2, 10000),
+(289, 163, 359, 'Gorengan', 1000, 3, 3000),
+(290, 164, 358, 'Susu', 5000, 21, 105000),
+(292, 165, 359, 'Gorengan', 2000, 8, 16000),
+(293, 166, 365, 'isoplus', 10000, 4, 40000),
+(294, 167, 365, 'isoplus', 10000, 6, 60000);
 
 -- --------------------------------------------------------
 
@@ -435,9 +114,9 @@ CREATE TABLE `tb_histori` (
   `id` int NOT NULL,
   `message_text` varchar(255) NOT NULL,
   `message_summary` varchar(255) NOT NULL,
-  `role` enum('admin','operator','user') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `role` enum('admin','operator','user') NOT NULL,
   `message_icon` varchar(50) NOT NULL,
-  `message_date_time` datetime NOT NULL
+  `message_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -445,55 +124,165 @@ CREATE TABLE `tb_histori` (
 --
 
 INSERT INTO `tb_histori` (`id`, `message_text`, `message_summary`, `role`, `message_icon`, `message_date_time`) VALUES
-(36, 'Kategori dihapus', 'Kategori  telah dihapus', 'admin', 'delete', '2024-08-07 02:52:34'),
-(37, 'Kategori ditambahkan', 'Kategori 68588 telah ditambahkan', 'admin', 'add_circle_outline', '2024-08-07 02:55:07'),
-(38, 'Kategori ditambahkan', 'Kategori 68588 telah ditambahkan', 'admin', 'add_circle_outline', '2024-08-07 02:55:08'),
-(39, 'Kategori ditambahkan', 'Kategori 68588 telah ditambahkan', 'admin', 'add_circle_outline', '2024-08-07 02:55:09'),
-(40, 'Kategori dihapus', 'Kategori  telah dihapus', 'admin', 'delete', '2024-08-07 02:55:15'),
-(41, 'Kategori dihapus', 'Kategori  telah dihapus', 'admin', 'delete', '2024-08-07 02:55:19'),
-(42, 'Kategori dihapus', 'Kategori  telah dihapus', 'admin', 'delete', '2024-08-07 02:55:23'),
-(43, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 280.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-07 03:31:44'),
-(44, 'Pengguna dengan nama a telah ditambahkan', 'Pengguna ditambahkan', 'admin', 'add_circle_outline', '2024-08-07 03:32:36'),
-(45, 'Kategori ditambahkan', 'Kategori okkk telah ditambahkan', 'operator', 'add_circle_outline', '2024-08-07 03:35:10'),
-(46, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 10.000 Rupiah', 'operator', 'add_circle_outline', '2024-08-07 06:36:16'),
-(47, 'Pengajuan pinjaman', 'Pengguna dengan ID 8 telah mengajukan pinjaman sebesar 34,000.00', 'user', 'add_circle_outline', '2024-08-07 07:40:57'),
-(48, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 300.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-08 02:10:13'),
-(49, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 403.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-08 02:10:38'),
-(50, 'Transaksi diubah', 'Transaksi dengan total 403.000 Rupiah telah diubah', 'admin', 'update', '2024-08-08 02:11:14'),
-(51, 'Transaksi diubah', 'Transaksi dengan total 425.000 Rupiah telah diubah', 'admin', 'update', '2024-08-08 02:11:25'),
-(52, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 350.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-08 02:11:53'),
-(53, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 100.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-08 02:12:21'),
-(54, 'Transaksi diubah', 'Transaksi dengan total 300.000 Rupiah telah diubah', 'admin', 'update', '2024-08-08 02:13:23'),
-(55, 'Transaksi diubah', 'Transaksi dengan total 320.000 Rupiah telah diubah', 'admin', 'update', '2024-08-08 02:13:50'),
-(56, 'Transaksi diubah', 'Transaksi dengan total 320.000 Rupiah telah diubah', 'admin', 'update', '2024-08-08 02:13:55'),
-(57, 'Transaksi diubah', 'Transaksi dengan total 357.000 Rupiah telah diubah', 'admin', 'update', '2024-08-08 02:14:06'),
-(58, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 20.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-08 04:26:32'),
-(59, 'Pengajuan pinjaman', 'Pengguna dengan ID 113 telah mengajukan pinjaman sebesar 12,000.00', 'admin', 'add_circle_outline', '2024-08-08 04:27:49'),
-(60, 'Profil diupdate', 'Pengguna dengan ID 113 telah memperbarui profil.', 'admin', 'update', '2024-08-08 04:28:15'),
-(61, 'Profil diupdate', 'Pengguna dengan ID 113 telah memperbarui profil.', 'admin', 'update', '2024-08-08 06:29:07'),
-(62, 'Pengajuan pinjaman', 'Pengguna dengan ID 124 telah mengajukan pinjaman sebesar 120,000.00', 'user', 'add_circle_outline', '2024-08-08 06:32:04'),
-(63, 'Pengajuan pinjaman', 'Pengguna dengan ID 124 telah mengajukan pinjaman sebesar 12,000.00', 'user', 'add_circle_outline', '2024-08-08 06:33:32'),
-(64, 'Pengajuan pinjaman', 'Pengguna dengan ID 124 telah mengajukan pinjaman sebesar 456,546.00', 'user', 'add_circle_outline', '2024-08-08 06:36:45'),
-(65, 'Pinjaman dihapus', 'Pinjaman dengan ID 17 telah dihapus', 'admin', 'delete', '2024-08-08 06:38:08'),
-(66, 'Pinjaman disetujui', 'Pinjaman dengan ID 18 telah disetujui oleh Admin', 'admin', 'update', '2024-08-08 06:38:12'),
-(67, 'Pengguna dengan nama user telah ditambahkan', 'Pengguna ditambahkan', 'admin', 'add_circle_outline', '2024-08-08 06:40:09'),
-(68, 'Pengajuan pinjaman', 'Pengguna dengan ID 125 telah mengajukan pinjaman sebesar 12,000.00', 'user', 'add_circle_outline', '2024-08-08 06:40:43'),
-(69, 'Pinjaman dibatalkan', 'Pinjaman dengan ID 19 telah dibatalkan oleh Admin', 'admin', 'delete', '2024-08-08 06:41:50'),
-(70, 'Pinjaman disetujui', 'Pinjaman dengan ID 19 telah disetujui oleh Admin', 'admin', 'update', '2024-08-08 06:42:05'),
-(71, 'Pinjaman disetujui', 'Pinjaman dengan ID 18 telah disetujui oleh Admin', 'admin', 'update', '2024-08-08 06:42:47'),
-(72, 'Pinjaman dibatalkan', 'Pinjaman dengan ID 19 telah dibatalkan oleh Admin', 'admin', 'delete', '2024-08-08 06:42:52'),
-(73, 'Barang diubah', 'Barang Susu telah diubah', 'admin', 'update', '2024-08-08 07:48:50'),
-(74, 'Barang diubah', 'Barang Susu telah diubah', 'admin', 'update', '2024-08-08 07:49:25'),
-(75, 'Pengajuan pinjaman', 'Pengguna dengan ID 113 telah mengajukan pinjaman sebesar 12.00', 'admin', 'add_circle_outline', '2024-08-08 08:20:40'),
-(76, 'Pinjaman disetujui', 'Pinjaman dengan ID 20 telah disetujui oleh Admin', 'admin', 'update', '2024-08-08 08:20:46'),
-(77, 'Pengajuan pinjaman', 'Pengguna dengan ID 113 telah mengajukan pinjaman sebesar 24.00', 'admin', 'add_circle_outline', '2024-08-08 08:22:09'),
-(78, 'Pengajuan pinjaman', 'Pengguna dengan ID 113 telah mengajukan pinjaman sebesar 57,547.00', 'admin', 'add_circle_outline', '2024-08-08 08:22:44'),
-(79, 'Barang diubah', 'Barang Susu telah diubah', 'admin', 'update', '2024-08-08 08:46:03'),
-(80, 'Pinjaman disetujui', 'Pinjaman dengan ID 21 telah disetujui oleh Admin', 'admin', 'update', '2024-08-08 08:46:29'),
-(81, 'Pinjaman disetujui', 'Pinjaman dengan ID 22 telah disetujui oleh Admin', 'admin', 'update', '2024-08-08 08:46:46'),
-(82, 'Barang diubah', 'Barang Susu telah diubah', 'admin', 'update', '2024-08-08 08:50:14'),
-(83, 'Pengajuan pinjaman', 'Pengguna dengan ID 113 telah mengajukan pinjaman sebesar 86,568.00', 'admin', 'add_circle_outline', '2024-08-08 08:54:58'),
-(84, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 842.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-08 08:56:13');
+(275, 'Barang dihapus', 'Barang  telah dihapus', 'admin', 'delete', '2024-08-20 07:05:04'),
+(276, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 5.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-20 07:07:34'),
+(277, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 12.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-20 07:09:46'),
+(278, 'Limit untuk pengguna dengan ID 124 telah direset', 'Limit direset', 'admin', 'update', '2024-08-20 07:27:37'),
+(279, 'Limit untuk pengguna dengan ID 124 telah direset', 'Limit direset', 'admin', 'update', '2024-08-20 07:27:41'),
+(280, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:10:15'),
+(281, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:10:16'),
+(282, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:10:16'),
+(283, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:10:17'),
+(284, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:10:17'),
+(285, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:10:17'),
+(286, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:10:42'),
+(287, 'Limit untuk pengguna dengan ID 133 telah direset', 'Limit direset', 'admin', 'update', '2024-08-20 08:12:05'),
+(288, 'Total limit untuk pengguna dengan ID 125 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:27:34'),
+(289, 'Total limit untuk pengguna dengan ID 125 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:27:36'),
+(290, 'Total limit untuk pengguna dengan ID 125 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:27:42'),
+(291, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 11:52:07'),
+(292, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 08:19:23'),
+(293, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 198.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-21 08:19:38'),
+(294, 'Limit untuk pengguna dengan ID 125 telah direset', 'Limit direset', 'admin', 'update', '2024-08-21 08:19:47'),
+(295, 'Total limit untuk pengguna dengan ID 124 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:08:11'),
+(296, 'Limit untuk pengguna dengan ID 124 telah direset', 'Limit direset', 'admin', 'update', '2024-08-21 09:08:14'),
+(297, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:08:16'),
+(298, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:08:17'),
+(299, 'Total limit untuk pengguna dengan ID 125 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:08:18'),
+(300, 'Total limit untuk pengguna dengan ID 124 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:08:18'),
+(301, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:45:07'),
+(302, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:45:18'),
+(303, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:45:23'),
+(304, 'Total limit untuk pengguna dengan ID 125 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:45:41'),
+(305, 'Total limit untuk pengguna dengan ID 125 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:45:48'),
+(306, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:46:43'),
+(307, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:46:44'),
+(308, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:46:45'),
+(309, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:46:45'),
+(310, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:46:45'),
+(311, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:46:46'),
+(312, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:46:46'),
+(313, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:46:46'),
+(314, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 10.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-21 09:47:42'),
+(315, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 5.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-21 09:48:13'),
+(316, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 08:38:57'),
+(317, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 08:39:01'),
+(318, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 08:39:05'),
+(319, 'Total limit untuk pengguna dengan ID 124 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 08:39:08'),
+(320, 'Limit untuk pengguna dengan ID 125 telah direset', 'Limit direset', 'admin', 'update', '2024-08-21 08:39:12'),
+(321, 'Limit untuk pengguna dengan ID 133 telah direset', 'Limit direset', 'admin', 'update', '2024-08-21 08:39:16'),
+(322, 'Pinjaman dibatalkan', 'Pinjaman dengan ID 30 telah dibatalkan oleh Admin', 'admin', 'delete', '2024-08-21 08:39:36'),
+(323, 'Pinjaman disetujui', 'Pinjaman dengan ID 30 telah disetujui oleh Admin', 'admin', 'update', '2024-08-21 08:39:38'),
+(324, 'Pinjaman dibatalkan', 'Pinjaman dengan ID 30 telah dibatalkan oleh Admin', 'admin', 'delete', '2024-08-21 08:39:45'),
+(325, 'Pinjaman disetujui', 'Pinjaman dengan ID 30 telah disetujui oleh Admin', 'admin', 'update', '2024-08-21 08:39:53'),
+(326, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-26 01:04:46'),
+(327, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-26 01:04:48'),
+(328, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-26 01:06:35'),
+(329, 'Pinjaman dibatalkan', 'Pinjaman dengan ID 30 telah dibatalkan oleh Admin', 'admin', 'delete', '2024-08-26 05:43:55'),
+(330, 'Pinjaman disetujui', 'Pinjaman dengan ID 30 telah disetujui oleh Admin', 'admin', 'update', '2024-08-26 05:44:08'),
+(331, 'Pengajuan pinjaman', 'Pengguna dengan ID bagas telah mengajukan pinjaman sebesar 500.000', 'admin', 'add_circle_outline', '2024-08-26 05:44:57'),
+(332, 'Pengajuan pinjaman', 'Pengguna dengan ID Yono telah mengajukan pinjaman sebesar 60.000', 'admin', 'add_circle_outline', '2024-08-26 05:45:27'),
+(333, 'Kategori ditambahkan', 'Kategori 89098- telah ditambahkan', 'admin', 'add_circle_outline', '2024-08-26 06:02:52'),
+(334, 'Kategori dihapus', 'Kategori  telah dihapus', 'admin', 'delete', '2024-08-26 06:02:59'),
+(335, 'Satuan ditambahkan', 'Satuan 68686 telah ditambahkan', 'admin', 'add_circle_outline', '2024-08-26 06:03:05'),
+(336, 'Satuan dihapus', 'Satuan  telah dihapus', 'admin', 'delete', '2024-08-26 06:03:11'),
+(337, 'Pengguna dengan nama 8558 telah ditambahkan', 'Pengguna ditambahkan', 'admin', 'add_circle_outline', '2024-08-26 06:03:37'),
+(338, 'Pengguna dengan nama  telah dihapus', 'Pengguna dihapus', 'admin', 'delete', '2024-08-26 06:03:44'),
+(339, 'Pengajuan pinjaman', 'Pengguna dengan ID 124 telah mengajukan pinjaman sebesar 7.000', 'admin', 'add_circle_outline', '2024-08-26 07:12:06'),
+(340, 'Pengajuan pinjaman', 'Pengguna dengan ID 124 telah mengajukan pinjaman sebesar 65.865.856.655.686.865.777.962.793.304.064', 'admin', 'add_circle_outline', '2024-08-26 07:23:39'),
+(341, 'Pinjaman disetujui', 'Pinjaman dengan ID 34 telah disetujui oleh Admin', 'admin', 'update', '2024-08-26 07:24:05'),
+(342, 'Pinjaman dibatalkan', 'Pinjaman dengan ID 34 telah dibatalkan oleh Admin', 'admin', 'delete', '2024-08-26 07:24:20'),
+(343, 'Pengajuan pinjaman', 'Pengguna dengan ID Sunandi telah mengajukan pinjaman sebesar 0', 'admin', 'add_circle_outline', '2024-08-26 07:56:41'),
+(344, 'Pengajuan pinjaman', 'Pengguna dengan ID 124 telah mengajukan pinjaman sebesar 6.745', 'admin', 'add_circle_outline', '2024-08-26 07:57:06'),
+(345, 'Pengajuan pinjaman', 'Pengguna dengan ID 124 telah mengajukan pinjaman sebesar 0', 'admin', 'add_circle_outline', '2024-08-26 07:57:20'),
+(346, 'Pinjaman disetujui', 'Pinjaman dengan ID 33 telah disetujui oleh Admin', 'admin', 'update', '2024-08-27 03:13:00'),
+(347, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 10.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-27 03:51:27'),
+(348, 'Total limit untuk pengguna dengan ID 124 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 03:51:50'),
+(349, 'Total limit untuk pengguna dengan ID 124 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 03:52:03'),
+(350, 'Total limit untuk pengguna dengan ID 124 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 03:52:10'),
+(351, 'Total limit untuk pengguna dengan ID 124 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 03:52:15'),
+(352, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 3.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-27 03:53:03'),
+(353, 'Kategori diubah', 'Kategori rtre799 telah diubah', 'admin', 'update', '2024-08-27 04:03:55'),
+(354, 'Kategori diubah', 'Kategori vcncghjfgu telah diubah', 'admin', 'update', '2024-08-27 04:04:04'),
+(355, 'Kategori diubah', 'Kategori vcncghjfgu telah diubah', 'admin', 'update', '2024-08-27 04:30:45'),
+(356, 'Kategori ditambahkan', 'Kategori jhkjghkg telah ditambahkan', 'admin', 'add_circle_outline', '2024-08-27 04:34:48'),
+(357, 'Kategori dihapus', 'Kategori  telah dihapus', 'admin', 'delete', '2024-08-27 04:34:52'),
+(358, 'Kategori dihapus', 'Kategori  telah dihapus', 'admin', 'delete', '2024-08-27 04:34:55'),
+(359, 'Kategori ditambahkan', 'Kategori jhgkhhkkkkkkkkkkkkkkk telah ditambahkan', 'admin', 'add_circle_outline', '2024-08-27 04:35:01'),
+(360, 'Kategori dihapus', 'Kategori  telah dihapus', 'admin', 'delete', '2024-08-27 04:35:11'),
+(361, 'Kategori diubah', 'Kategori oiiiiiiiiiiiiiiiiiiiiiiiiiii telah diubah', 'admin', 'update', '2024-08-27 04:35:26'),
+(362, 'Pengajuan pinjaman', 'Pengguna dengan ID 125 telah mengajukan pinjaman sebesar 656.666', 'admin', 'add_circle_outline', '2024-08-27 06:51:51'),
+(363, 'Pengajuan pinjaman', 'Pengguna dengan ID 125 telah mengajukan pinjaman sebesar 9.000', 'user', 'add_circle_outline', '2024-08-27 06:52:20'),
+(364, 'Pinjaman disetujui', 'Pinjaman dengan ID 39 telah disetujui oleh Admin', 'admin', 'update', '2024-08-27 06:53:13'),
+(365, 'Pinjaman disetujui', 'Pinjaman dengan ID 37 telah disetujui oleh Admin', 'admin', 'update', '2024-08-27 06:53:14'),
+(366, 'Pinjaman disetujui', 'Pinjaman dengan ID 36 telah disetujui oleh Admin', 'admin', 'update', '2024-08-27 06:53:14'),
+(367, 'Pinjaman disetujui', 'Pinjaman dengan ID 38 telah disetujui oleh Admin', 'admin', 'update', '2024-08-27 06:53:16'),
+(368, 'Kategori ditambahkan', 'Kategori 9867976 telah ditambahkan', 'admin', 'add_circle_outline', '2024-08-27 06:59:45'),
+(369, 'Kategori diubah', 'Kategori hgjfgjfg telah diubah', 'admin', 'update', '2024-08-27 06:59:49'),
+(370, 'Kategori dihapus', 'Kategori  telah dihapus', 'admin', 'delete', '2024-08-27 06:59:52'),
+(371, 'Satuan ditambahkan', 'Satuan hgikku telah ditambahkan', 'admin', 'add_circle_outline', '2024-08-27 07:22:13'),
+(372, 'Satuan diubah', 'Satuan uuuuuuuuuuu telah diubah', 'admin', 'update', '2024-08-27 07:22:18'),
+(373, 'Satuan dihapus', 'Satuan  telah dihapus', 'admin', 'delete', '2024-08-27 07:22:33'),
+(374, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 07:37:26'),
+(375, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 07:37:33'),
+(376, 'Limit untuk pengguna dengan ID 133 telah direset', 'Limit direset', 'admin', 'update', '2024-08-27 07:37:37'),
+(377, 'Limit untuk pengguna dengan ID 124 telah direset', 'Limit direset', 'admin', 'update', '2024-08-27 07:37:40'),
+(378, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 09:04:41'),
+(379, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 09:04:44'),
+(380, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 09:04:56'),
+(381, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 09:04:57'),
+(382, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 09:04:58'),
+(383, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 09:04:58'),
+(384, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 09:04:59'),
+(385, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-28 07:21:41'),
+(386, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-28 07:21:44'),
+(387, 'Total limit untuk pengguna dengan ID 125 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-28 07:29:02'),
+(388, 'Total limit untuk pengguna dengan ID 125 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-28 07:29:07'),
+(389, 'Total limit untuk pengguna dengan ID 125 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-28 07:29:13'),
+(390, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-28 07:29:20'),
+(391, 'Limit untuk pengguna dengan ID 133 telah dikurangi sebesar 4575474', 'Limit dikurangi', 'admin', 'update', '2024-08-28 07:32:14'),
+(392, 'Limit untuk pengguna dengan ID 133 telah direset', 'Limit direset', 'admin', 'update', '2024-08-28 07:32:19'),
+(393, 'Limit untuk pengguna dengan ID 133 telah dikurangi sebesar 500000', 'Limit dikurangi', 'admin', 'update', '2024-08-28 07:32:29'),
+(394, 'Limit untuk pengguna dengan ID 124 telah dikurangi sebesar 46443', 'Limit dikurangi', 'admin', 'update', '2024-08-28 07:33:19'),
+(395, 'Limit untuk pengguna dengan ID 124 telah direset', 'Limit direset', 'admin', 'update', '2024-08-28 07:33:27'),
+(396, 'Limit untuk pengguna dengan ID 133 telah direset', 'Limit direset', 'admin', 'update', '2024-08-28 07:42:27'),
+(397, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-28 07:42:57'),
+(398, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-28 07:43:01'),
+(399, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 105.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-28 07:43:21'),
+(400, 'Limit untuk pengguna dengan ID 124 telah dikurangi sebesar 5000', 'Limit dikurangi', 'admin', 'update', '2024-08-28 07:43:37'),
+(401, 'Limit untuk pengguna dengan ID 124 telah dikurangi sebesar 99000', 'Limit dikurangi', 'admin', 'update', '2024-08-28 07:44:42'),
+(402, 'Limit untuk pengguna dengan ID 124 telah dikurangi sebesar 999', 'Limit dikurangi', 'admin', 'update', '2024-08-28 07:44:49'),
+(403, 'Limit untuk pengguna dengan ID 124 telah dikurangi sebesar 1', 'Limit dikurangi', 'admin', 'update', '2024-08-28 07:45:10'),
+(404, 'Pinjaman disetujui', 'Pinjaman dengan ID 34 telah disetujui oleh Admin', 'admin', 'update', '2024-08-28 07:59:57'),
+(405, 'Profil diupdate', 'Pengguna dengan ID 127 telah memperbarui profil.', 'admin', 'update', '2024-09-10 06:47:21'),
+(406, 'Profil diupdate', 'Pengguna dengan ID 127 telah memperbarui profil.', 'admin', 'update', '2024-09-10 06:48:01'),
+(407, 'Barang baru ditambahkan', 'Barang isoplus telah ditambahkan', 'admin', 'add_circle_outline', '2024-09-18 06:29:28'),
+(408, 'Kategori ditambahkan', 'Kategori AKP telah ditambahkan', 'admin', 'add_circle_outline', '2024-09-18 06:29:54'),
+(409, 'Satuan ditambahkan', 'Satuan Paket telah ditambahkan', 'admin', 'add_circle_outline', '2024-09-18 06:30:15'),
+(410, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 12.000 Rupiah', 'admin', 'add_circle_outline', '2024-09-18 06:33:08'),
+(411, 'Transaksi diubah', 'Transaksi dengan total 12.000 Rupiah telah diubah', 'admin', 'update', '2024-09-18 06:41:23'),
+(412, 'Pengguna dengan nama bambang telah ditambahkan', 'Pengguna ditambahkan', 'admin', 'add_circle_outline', '2024-09-18 06:42:06'),
+(413, 'Pengguna dengan nama  telah dihapus', 'Pengguna dihapus', 'admin', 'delete', '2024-09-18 07:28:54'),
+(414, 'Pengguna dengan nama banu telah ditambahkan', 'Pengguna ditambahkan', 'admin', 'add_circle_outline', '2024-09-18 07:29:50'),
+(415, 'Pengguna dengan nama uzumaki bayu telah ditambahkan', 'Pengguna ditambahkan', 'admin', 'add_circle_outline', '2024-09-18 07:48:50'),
+(416, 'Pengajuan pinjaman', 'Pengguna dengan ID 137 telah mengajukan pinjaman sebesar 2.000.000', 'admin', 'add_circle_outline', '2024-09-18 07:58:32'),
+(417, 'Pinjaman disetujui', 'Pinjaman dengan ID 40 telah disetujui oleh Admin', 'admin', 'update', '2024-09-18 07:58:50'),
+(418, 'Profil diupdate', 'Pengguna dengan ID 127 telah memperbarui profil.', 'admin', 'update', '2024-09-18 07:59:14'),
+(419, 'Pengajuan pinjaman', 'Pengguna dengan ID 137 telah mengajukan pinjaman sebesar 2.000.000', 'user', 'add_circle_outline', '2024-09-18 08:59:14'),
+(420, 'Pengguna dengan nama  telah dihapus', 'Pengguna dihapus', 'admin', 'delete', '2024-09-18 11:55:06'),
+(421, 'Pengguna dengan nama banu telah diubah', 'Pengguna diubah', 'admin', 'update', '2024-09-18 11:55:25'),
+(422, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-09-19 00:34:55'),
+(423, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 40.000 Rupiah', 'operator', 'add_circle_outline', '2024-09-19 00:57:39'),
+(424, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 60.000 Rupiah', 'operator', 'add_circle_outline', '2024-09-19 00:58:05'),
+(425, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'operator', 'update', '2024-09-19 00:58:21'),
+(426, 'Limit untuk pengguna dengan ID 133 telah dikurangi sebesar 1', 'Limit dikurangi', 'operator', 'update', '2024-09-19 00:58:38'),
+(427, 'Limit untuk pengguna dengan ID 133 telah direset', 'Limit direset', 'operator', 'update', '2024-09-19 00:58:45'),
+(428, 'Pengguna dengan nama  telah dihapus', 'Pengguna dihapus', 'operator', 'delete', '2024-09-19 00:59:04'),
+(429, 'Pengguna dengan nama Sunandi telah diubah', 'Pengguna diubah', 'operator', 'update', '2024-09-19 00:59:26'),
+(430, 'Profil diupdate', 'Pengguna dengan ID 127 telah memperbarui profil.', 'admin', 'update', '2024-09-19 01:03:15'),
+(431, 'Pinjaman dibatalkan', 'Pinjaman dengan ID 39 telah dibatalkan oleh Admin', 'admin', 'delete', '2024-09-19 01:04:34'),
+(432, 'Barang diubah', 'Barang 6565 telah diubah', 'admin', 'update', '2024-09-19 01:05:31'),
+(433, 'Barang diubah', 'Barang 6565 telah diubah', 'admin', 'update', '2024-09-19 01:05:41');
 
 -- --------------------------------------------------------
 
@@ -503,7 +292,7 @@ INSERT INTO `tb_histori` (`id`, `message_text`, `message_summary`, `role`, `mess
 
 CREATE TABLE `tb_kategori` (
   `id_kategori` int NOT NULL,
-  `nama_kategori` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `nama_kategori` varchar(255) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -517,7 +306,8 @@ INSERT INTO `tb_kategori` (`id_kategori`, `nama_kategori`, `created_at`, `update
 (36, 'Makanan', '2024-07-30 03:52:18', '2024-07-30 03:52:18'),
 (38, 'ATK', '2024-07-30 06:28:16', '2024-07-30 06:28:16'),
 (39, 'AKM (Alat kamar mandi)', '2024-07-30 06:30:25', '2024-07-30 06:30:25'),
-(48, 'okkk', '2024-08-07 03:35:10', '2024-08-07 03:35:10');
+(48, 'oiiiiiiiiiiiiiiiiiiiiiiiiiii', '2024-08-07 03:35:10', '2024-08-27 04:35:26'),
+(54, 'AKP', '2024-09-18 06:29:54', '2024-09-18 06:29:54');
 
 -- --------------------------------------------------------
 
@@ -527,28 +317,16 @@ INSERT INTO `tb_kategori` (`id_kategori`, `nama_kategori`, `created_at`, `update
 
 CREATE TABLE `tb_pengajuan` (
   `id` int NOT NULL,
-  `jenis_pinjaman` text COLLATE utf8mb4_general_ci NOT NULL,
-  `tanggal_pinjam` text COLLATE utf8mb4_general_ci NOT NULL,
-  `jumlah_pinjaman` text COLLATE utf8mb4_general_ci NOT NULL,
-  `lama_pinjaman` text COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis_pinjaman` text NOT NULL,
+  `tanggal_pinjam` text NOT NULL,
+  `jumlah_pinjaman` text NOT NULL,
+  `lama_pinjaman` text NOT NULL,
   `is_read` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
   `waktu_pengajuan` datetime DEFAULT NULL,
   `user_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data untuk tabel `tb_pengajuan`
---
-
-INSERT INTO `tb_pengajuan` (`id`, `jenis_pinjaman`, `tanggal_pinjam`, `jumlah_pinjaman`, `lama_pinjaman`, `is_read`, `created_at`, `status`, `waktu_pengajuan`, `user_id`) VALUES
-(18, 'Produktif', '2024-08-08', '456546', '4', 0, '2024-08-08 06:36:45', 'Telah Disetujui oleh Admin', '2024-08-08 06:36:45', 124),
-(19, 'Konsumtif', '2024-08-08', '12000', '23', 0, '2024-08-08 06:40:43', 'Dibatalkan oleh Admin', '2024-08-08 06:40:43', 125),
-(20, 'Konsumtif', '2024-08-08', '12', '12', 0, '2024-08-08 08:20:40', 'Telah Disetujui oleh Admin', '2024-08-08 08:20:40', 113),
-(21, 'Produktif', '2024-08-08', '24', '11', 0, '2024-08-08 08:22:09', 'Telah Disetujui oleh Admin', '2024-08-08 08:22:09', 113),
-(22, 'Produktif', '2024-08-08', '57547', '5', 0, '2024-08-08 08:22:44', 'Telah Disetujui oleh Admin', '2024-08-08 08:22:44', 113),
-(23, 'Produktif', '2024-08-08', '86568', '65', 0, '2024-08-08 08:54:58', 'Menunggu Persetujuan', '2024-08-08 08:54:58', 113);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -558,14 +336,15 @@ INSERT INTO `tb_pengajuan` (`id`, `jenis_pinjaman`, `tanggal_pinjam`, `jumlah_pi
 
 CREATE TABLE `tb_pengguna` (
   `pengguna_id` int NOT NULL,
-  `nama_lengkap` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `username` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `email` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `satker` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `password` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `pengguna_hak_akses` enum('user','operator','admin') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `nama_lengkap` varchar(100) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `satker` varchar(255) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `pengguna_hak_akses` enum('user','operator','admin') NOT NULL,
   `limit` int DEFAULT NULL,
-  `pengguna_picture` varchar(255) DEFAULT NULL,
+  `limit_total` int DEFAULT NULL,
+  `profile_picture` varchar(255) DEFAULT NULL,
   `pengguna_date_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `pengguna_date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -574,27 +353,35 @@ CREATE TABLE `tb_pengguna` (
 -- Dumping data untuk tabel `tb_pengguna`
 --
 
-INSERT INTO `tb_pengguna` (`pengguna_id`, `nama_lengkap`, `username`, `email`, `satker`, `password`, `pengguna_hak_akses`, `limit`, `pengguna_picture`, `pengguna_date_update`, `pengguna_date_created`) VALUES
-(113, 'Ganendra Praditya Kencana', 'a', 'aselole@gmail.com', 'IPDS', 'aaaa', 'admin', NULL, NULL, '2024-08-08 08:50:30', '2024-08-08 08:50:30'),
-(123, 'Aeng Nurjani', 'Aeng', 'striohh@gmail.com', 'IPDS', 'aaaa', 'operator', NULL, NULL, '2024-08-08 08:54:52', '2024-08-08 08:54:52'),
-(124, 'pegawai keuangan', 'orang', 'orang@gmail.com', 'Keuangan', 'aaaa', 'user', 1021000, NULL, '2024-08-08 08:58:10', '2024-08-08 08:58:10'),
-(125, 'user', 'user', 'dgffdghdf@fdhfg.c', 'aa', 'aaaa', 'user', NULL, NULL, '2024-08-08 13:40:09', '2024-08-08 13:40:09');
+INSERT INTO `tb_pengguna` (`pengguna_id`, `nama_lengkap`, `username`, `email`, `satker`, `password`, `pengguna_hak_akses`, `limit`, `limit_total`, `profile_picture`, `pengguna_date_update`, `pengguna_date_created`) VALUES
+(124, 'pegawai keuangan', 'siwung', 'orang@gmail.com', 'Keuangan', 'aaaa', 'user', 0, 1500000, NULL, '2024-08-08 08:58:10', '2024-08-08 08:58:10'),
+(125, 'user', 'bagas', 'dgffdghdf@fdhfg.c', 'aa', 'aaaa', 'user', 0, 1500000, 'default.png', '2024-08-08 13:40:09', '2024-08-08 13:40:09'),
+(126, 'o', 'o', 'gfjgff@bhcv.g', 'ut', 'o', 'operator', NULL, 0, '66c2b1371f126.png', '2024-08-12 13:14:04', '2024-08-12 13:14:04'),
+(127, 'Bambang', 'a', 'Bambang@gmail.com', 'IPDS', 'a', 'admin', NULL, 0, 'default.png', '2024-08-13 09:04:05', '2024-08-13 09:04:05'),
+(128, 'y', 'ytu', 'ytityi@fghf.hl', 'dyd', 'dyfy', 'operator', NULL, NULL, NULL, '2024-08-13 14:07:40', '2024-08-13 14:07:40'),
+(132, 'hjkgh', 'Yono', 'tgfjgf@fgjgh.hjhf', 'ufgjugf', 'ftgufuj', 'user', 0, 1500000, NULL, '2024-08-19 12:01:54', '2024-08-19 12:01:54'),
+(133, 'okeee', 'Sunandi', 'sadlskn@kdsgsd.gsdg', 'ipds', 'khgkghk', 'user', 0, NULL, NULL, '2024-08-19 14:08:23', '2024-08-19 14:08:23');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_pinjaman`
+-- Struktur dari tabel `tb_riwayat_harga`
 --
 
-CREATE TABLE `tb_pinjaman` (
-  `pinjaman_id` int NOT NULL,
-  `pinjaman_anggota_id` int NOT NULL,
-  `pinjaman_jenis` enum('mudharobah','murabahah','musyarakah','ijarah') NOT NULL,
-  `pinjaman_total` double NOT NULL,
-  `pinjaman_tenggat` int NOT NULL,
-  `pinjaman_keterangan` text NOT NULL,
-  `pinjaman_date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `tb_riwayat_harga` (
+  `id_riwayat` int NOT NULL,
+  `id_barang` int NOT NULL,
+  `harga_beli` int NOT NULL,
+  `harga_jual` int NOT NULL,
+  `tanggal_berlaku` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data untuk tabel `tb_riwayat_harga`
+--
+
+INSERT INTO `tb_riwayat_harga` (`id_riwayat`, `id_barang`, `harga_beli`, `harga_jual`, `tanggal_berlaku`) VALUES
+(7, 359, 500, 1000, '2024-08-27');
 
 -- --------------------------------------------------------
 
@@ -604,7 +391,7 @@ CREATE TABLE `tb_pinjaman` (
 
 CREATE TABLE `tb_satuan` (
   `id_satuan` int NOT NULL,
-  `nama_satuan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `nama_satuan` varchar(255) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -625,7 +412,11 @@ INSERT INTO `tb_satuan` (`id_satuan`, `nama_satuan`, `created_at`, `updated_at`)
 (12, 'Kemasan', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
 (13, 'PCS', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
 (14, 'Buah', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
-(15, 'Biji', '2024-07-30 08:32:12', '2024-07-30 08:32:12');
+(15, 'Biji', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
+(20, 'uuuuuuuuuuu', '2024-08-13 08:49:46', '2024-08-13 08:49:46'),
+(21, 'uuuuuuuuuuu', '2024-08-13 08:49:47', '2024-08-13 08:49:47'),
+(22, 'oooooooo', '2024-08-13 08:49:53', '2024-08-13 08:49:53'),
+(25, 'Paket', '2024-09-18 06:30:15', '2024-09-18 06:30:15');
 
 -- --------------------------------------------------------
 
@@ -663,22 +454,27 @@ CREATE TABLE `tb_transaksi` (
 --
 
 INSERT INTO `tb_transaksi` (`id_transaksi`, `pengguna_id`, `cara_bayar`, `total`, `detail`, `created_at`, `updated_at`) VALUES
-(130, 124, 'Kredit', 336000, '', '2024-08-08 02:10:13', '2024-08-08 02:13:54'),
-(131, 124, 'Kredit', 335000, '', '2024-08-08 02:10:37', '2024-08-08 02:14:06'),
-(132, 124, 'Kredit', 350000, '', '2024-08-08 02:11:53', '2024-08-08 02:11:53'),
-(133, 124, 'Cash', 100000, '', '2024-08-08 02:12:20', '2024-08-08 02:12:20'),
-(134, 124, 'Cash', 20000, '', '2024-08-08 04:26:31', '2024-08-08 04:26:31'),
-(135, 124, 'Cash', 842000, '', '2024-08-08 08:56:12', '2024-08-08 08:56:12');
+(151, 125, 'Cash', 100000, '', '2024-08-20 02:54:48', '2024-08-20 02:54:48'),
+(152, 125, 'Kredit', 50000, '', '2024-08-20 02:55:34', '2024-08-20 02:55:57'),
+(153, 125, 'Kredit', 14000, '', '2024-08-20 04:03:12', '2024-08-20 04:03:12'),
+(154, 133, 'Kredit', 6000, '', '2024-08-20 05:09:02', '2024-08-20 05:09:37'),
+(155, 132, 'Kredit', 6000, '', '2024-08-20 06:58:32', '2024-08-20 06:59:40'),
+(156, 124, 'Cash', 5000, '', '2024-08-20 07:01:51', '2024-08-20 07:01:51'),
+(157, 133, 'Kredit', 5000, '', '2024-08-20 07:07:34', '2024-08-20 07:07:34'),
+(158, 124, 'Kredit', 12000, '', '2024-08-20 07:09:46', '2024-08-20 07:09:46'),
+(159, 125, 'Kredit', 198000, '', '2024-08-21 06:19:38', '2024-08-21 06:19:38'),
+(160, 125, 'Kredit', 10000, '', '2024-08-21 07:47:42', '2024-08-21 07:47:42'),
+(161, 133, 'Kredit', 5000, '', '2024-08-21 07:48:12', '2024-08-21 07:48:12'),
+(162, 124, 'Kredit', 10000, '', '2024-08-27 03:51:27', '2024-08-27 03:51:27'),
+(163, 124, 'Kredit', 3000, '', '2024-08-27 03:53:03', '2024-08-27 03:53:03'),
+(164, 124, 'Kredit', 105000, '', '2024-08-28 07:43:20', '2024-08-28 07:43:20'),
+(165, 125, 'Cash', 16000, '', '2024-09-18 06:33:08', '2024-09-18 06:41:23'),
+(166, 133, 'Kredit', 40000, '', '2024-09-19 00:57:39', '2024-09-19 00:57:39'),
+(167, 133, 'Cash', 60000, '', '2024-09-19 00:58:05', '2024-09-19 00:58:05');
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indeks untuk tabel `tb_anggota`
---
-ALTER TABLE `tb_anggota`
-  ADD PRIMARY KEY (`anggota_id`);
 
 --
 -- Indeks untuk tabel `tb_angsuran`
@@ -725,10 +521,11 @@ ALTER TABLE `tb_pengguna`
   ADD PRIMARY KEY (`pengguna_id`);
 
 --
--- Indeks untuk tabel `tb_pinjaman`
+-- Indeks untuk tabel `tb_riwayat_harga`
 --
-ALTER TABLE `tb_pinjaman`
-  ADD PRIMARY KEY (`pinjaman_id`);
+ALTER TABLE `tb_riwayat_harga`
+  ADD PRIMARY KEY (`id_riwayat`),
+  ADD KEY `id_barang` (`id_barang`);
 
 --
 -- Indeks untuk tabel `tb_satuan`
@@ -754,76 +551,70 @@ ALTER TABLE `tb_transaksi`
 --
 
 --
--- AUTO_INCREMENT untuk tabel `tb_anggota`
---
-ALTER TABLE `tb_anggota`
-  MODIFY `anggota_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=302;
-
---
 -- AUTO_INCREMENT untuk tabel `tb_angsuran`
 --
 ALTER TABLE `tb_angsuran`
-  MODIFY `angsuran_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=301;
+  MODIFY `angsuran_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_barang`
 --
 ALTER TABLE `tb_barang`
-  MODIFY `id_barang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=362;
+  MODIFY `id_barang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=366;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_detransaksi`
 --
 ALTER TABLE `tb_detransaksi`
-  MODIFY `id_detail` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=251;
+  MODIFY `id_detail` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=295;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_histori`
 --
 ALTER TABLE `tb_histori`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=434;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_kategori`
 --
 ALTER TABLE `tb_kategori`
-  MODIFY `id_kategori` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id_kategori` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pengajuan`
 --
 ALTER TABLE `tb_pengajuan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pengguna`
 --
 ALTER TABLE `tb_pengguna`
-  MODIFY `pengguna_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+  MODIFY `pengguna_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_pinjaman`
+-- AUTO_INCREMENT untuk tabel `tb_riwayat_harga`
 --
-ALTER TABLE `tb_pinjaman`
-  MODIFY `pinjaman_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+ALTER TABLE `tb_riwayat_harga`
+  MODIFY `id_riwayat` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_satuan`
 --
 ALTER TABLE `tb_satuan`
-  MODIFY `id_satuan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_satuan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_simpanan`
 --
 ALTER TABLE `tb_simpanan`
-  MODIFY `simpanan_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `simpanan_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_transaksi`
 --
 ALTER TABLE `tb_transaksi`
-  MODIFY `id_transaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
+  MODIFY `id_transaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -835,6 +626,12 @@ ALTER TABLE `tb_transaksi`
 ALTER TABLE `tb_detransaksi`
   ADD CONSTRAINT `tb_detransaksi_ibfk_1` FOREIGN KEY (`id_transaksi`) REFERENCES `tb_transaksi` (`id_transaksi`),
   ADD CONSTRAINT `tb_detransaksi_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `tb_barang` (`id_barang`);
+
+--
+-- Ketidakleluasaan untuk tabel `tb_riwayat_harga`
+--
+ALTER TABLE `tb_riwayat_harga`
+  ADD CONSTRAINT `tb_riwayat_harga_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `tb_barang` (`id_barang`);
 
 --
 -- Ketidakleluasaan untuk tabel `tb_transaksi`

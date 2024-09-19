@@ -223,9 +223,9 @@ tr.introjs-showElement > th {
   width: 8px;
   height: 8px;
   background: rgba(255,255,255,0.1);
-  border-radius: 10px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
+  border-radius: 20px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
   text-decoration: none;
 }
 .introjs-bullets ul li a:hover {

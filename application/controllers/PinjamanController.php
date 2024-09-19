@@ -75,7 +75,7 @@ class PinjamanController extends GLOBAL_Controller
                 redirect('pinjaman/tambah');
             }
         } else {
-            $data['title'] = 'Tambah Pengajuan';
+            $data['title'] = 'Tambah Pinjaman';
     
             // Load users if the user is an admin
             if ($this->session->userdata('level') == 'admin') {

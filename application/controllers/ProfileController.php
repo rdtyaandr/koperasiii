@@ -57,7 +57,7 @@ class ProfileController extends GLOBAL_Controller
             $pengguna_id = $this->session->userdata('pengguna_id');
 
             // Ambil nama file gambar profil yang sebelumnya
-            $current_picture = $this->session->userdata('pengguna_picture');
+            $current_picture = $this->session->userdata('profile_picture');
 
             // Hapus gambar sebelumnya jika bukan 'default.png'
             if ($current_picture && $current_picture !== 'default.png') {
@@ -72,7 +72,7 @@ class ProfileController extends GLOBAL_Controller
 
             // Cek apakah update berhasil
             if ($update_status) {
-                $this->session->set_userdata('pengguna_picture', $file_name);
+                $this->session->set_userdata('profile_picture', $file_name);
                 // Tampilkan pesan sukses hanya jika request via AJAX
                 if ($this->input->is_ajax_request()) {
                     echo json_encode(['status' => 'success', 'message' => 'Foto profil berhasil diperbarui']);
@@ -112,7 +112,7 @@ class ProfileController extends GLOBAL_Controller
 
     // Tampilkan respons JSON
     if ($update_status) {
-        $this->session->set_userdata('pengguna_picture', 'default.png');
+        $this->session->set_userdata('profile_picture', 'default.png');
         echo json_encode(['status' => 'success', 'message' => 'Foto profil berhasil dihapus']);
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Gagal menghapus foto profil']);

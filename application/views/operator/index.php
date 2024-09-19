@@ -1,7 +1,7 @@
 <div class="container" style="margin-top: 10px;">
     <div class="row">
         <div class="col s12">
-            <div class="card hoverable" style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+            <div class="card hoverable" style="border-radius: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
                 <div class="card-content">
                     <span class="card-title blue-text" style="font-size: 2em; text-align: center;"><?= $title ?></span>
                     <p id="current-datetime" class="right blue" style="font-size: 1.2em; font-weight: bold; color: #FFFFFF; padding: 10px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); text-align: center;"></p>

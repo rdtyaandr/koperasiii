@@ -1,7 +1,7 @@
-<div class="container" style="margin-top: 30px;">
+<div class="container" style="margin-top: 20px;">
     <div class="row">
         <div class="col s12">
-            <div class="card hoverable" style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+            <div class="card hoverable" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 10px;">
                 <div class="card-content">
                     <div class="row">
                         <div class="col s12">
@@ -12,25 +12,25 @@
                     <div class="row">
                         <div class="col s12">
                             <a href="<?= base_url('pinjaman/tambah') ?>"
-                                class="btn waves-effect waves-light green darken-1" style="border-radius: 8px;">
+                                class="btn waves-effect waves-light green darken-1" style="border-radius: 25px;">
                                 <i class="material-icons left">add</i>Tambah Pinjaman
                             </a>
                         </div>
                     </div>
-                    <table class="striped highlight responsive-table mt">
+                    <table class="striped highlight responsive-table mt" style="border-radius: 8px; overflow: hidden;">
                         <thead class="blue darken-2 white-text">
                             <tr>
-                                <th>No</th>
+                                <th class="center-align">No</th>
                                 <?php if ($this->session->userdata('level') == 'admin'): ?>
-                                    <th>Username</th>
+                                    <th class="center-align">Username</th>
                                 <?php endif; ?>
-                                <th>Jenis Pinjaman</th>
-                                <th>Tanggal Pinjaman</th>
-                                <th>Jumlah Pinjaman</th>
-                                <th>Lama Pinjaman</th>
-                                <th>Status</th>
+                                <th class="center-align">Jenis Pinjaman</th>
+                                <th class="center-align">Tanggal Pinjaman</th>
+                                <th class="center-align">Jumlah Pinjaman</th>
+                                <th class="center-align">Lama Pinjaman</th>
+                                <th class="center-align">Status</th>
                                 <?php if ($this->session->userdata('level') == 'admin'): ?>
-                                    <th>Aksi</th>
+                                    <th class="center-align">Aksi</th>
                                 <?php endif; ?>
                             </tr>
                         </thead>
@@ -38,15 +38,15 @@
                             <?php if (!empty($pengajuan)): ?>
                                 <?php foreach (array_reverse($pengajuan) as $key => $pinjaman): ?>
                                     <tr id="row-<?= $pinjaman['id'] ?>">
-                                        <td><?= $key + 1 ?></td>
+                                        <td class="center-align"><?= $key + 1 ?></td>
                                         <?php if ($this->session->userdata('level') == 'admin'): ?>
-                                            <td><?= htmlspecialchars($pinjaman['user_id'], ENT_QUOTES, 'UTF-8') ?></td>
+                                            <td class="center-align"><?= htmlspecialchars($pinjaman['user_id'], ENT_QUOTES, 'UTF-8') ?></td>
                                         <?php endif; ?>
-                                        <td><?= htmlspecialchars($pinjaman['jenis_pinjaman'], ENT_QUOTES, 'UTF-8') ?></td>
-                                        <td><?= formatTanggal($pinjaman['tanggal_pinjam']) ?></td>
-                                        <td><?= number_format($pinjaman['jumlah_pinjaman'], 0, ',', '.') ?></td>
-                                        <td><?= htmlspecialchars($pinjaman['lama_pinjaman'], ENT_QUOTES, 'UTF-8') ?> bulan</td>
-                                        <td id="status-<?= $pinjaman['id'] ?>" class="status-cell">
+                                        <td class="center-align"><?= htmlspecialchars($pinjaman['jenis_pinjaman'], ENT_QUOTES, 'UTF-8') ?></td>
+                                        <td class="center-align"><?= formatTanggal($pinjaman['tanggal_pinjam']) ?></td>
+                                        <td class="center-align"><?= number_format($pinjaman['jumlah_pinjaman'], 0, ',', '.') ?></td>
+                                        <td class="center-align"><?= htmlspecialchars($pinjaman['lama_pinjaman'], ENT_QUOTES, 'UTF-8') ?> bulan</td>
+                                        <td id="status-<?= $pinjaman['id'] ?>" class="status-cell center-align">
                                             <?php
                                             $status = isset($pinjaman['status']) ? htmlspecialchars($pinjaman['status'], ENT_QUOTES, 'UTF-8') : 'Tidak Diketahui';
                                             $statusClass = '';
@@ -64,7 +64,7 @@
                                             <span class="status-badge <?= $statusClass ?>"><?= $status ?></span>
                                         </td>
                                         <?php if ($this->session->userdata('level') == 'admin'): ?>
-                                            <td>
+                                            <td class="center-align">
                                                 <a href="<?= base_url('pinjaman/approve/' . $pinjaman['id']) ?>"
                                                     class="btn-floating waves-effect waves-light green tooltipped"
                                                     data-position="top" data-tooltip="Setujui" <?= $pinjaman['status'] === 'Telah Disetujui oleh Admin' ? 'disabled' : '' ?>>
@@ -98,15 +98,6 @@
 
 <!-- Native CSS for additional styling -->
 <style>
-    .container {
-        margin-top: 30px;
-    }
-
-    .card {
-        margin-top: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
 
     .card-content {
         padding-bottom: 0;

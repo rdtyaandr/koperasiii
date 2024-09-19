@@ -268,9 +268,9 @@
   width: 6px;
   height: 6px;
   background: #ccc;
-  border-radius: 10px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
+  border-radius: 20px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
   text-decoration: none;
 }
 .introjs-bullets ul li a:hover {

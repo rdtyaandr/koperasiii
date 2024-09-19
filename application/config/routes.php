@@ -61,7 +61,8 @@ $route['barang/tambah'] = 'BarangController/tambah';
 $route['barang/ubah/(:any)'] = 'BarangController/ubah/$1';
 $route['barang/hapus/(:any)'] = 'BarangController/hapus/$1';
 $route['barang/(:any)'] = 'BarangController/detail/$1';
-$route['barang/barcode']= 'BarangController/Barcode';
+$route['barang/barcode']= 'BarangController/generate_Barcode';
+$route['barang/qrcode'] = 'BarangController/QRcode';
 
 /*
 * kategori modul routes
@@ -120,6 +121,7 @@ $route['notification/account_change'] = 'notification/account_change';
 $route['notification/out_of_stock'] = 'notification/out_of_stock';
 
 $route['dashboard'] = 'DashboardController/user';
+$route['laporan'] = 'LaporanController';
 
 $route['default_controller'] = 'DashboardController';
 $route['error'] = '';

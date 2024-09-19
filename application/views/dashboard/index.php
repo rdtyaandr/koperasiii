@@ -147,7 +147,7 @@
                                 </a>
                             </div>
                             <div class="col s12 m6 l4">
-                                <div class="card-link">
+                            <a href="<?php echo base_url( 'pengguna'); ?>" class="card-link">
                                     <div class="card amber darken-2 white-text"
                                         style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s;">
                                         <div class="card-content" style="padding: 20px;">

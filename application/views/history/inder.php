@@ -1,7 +1,7 @@
 <div class="container" style="margin-top: 30px;">
     <div class="row">
         <div class="col s12">
-            <div class="card hoverable" style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+            <div class="card hoverable" style="border-radius: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
                 <div class="card-content">
                     <div class="row">
                         <div class="col s12">

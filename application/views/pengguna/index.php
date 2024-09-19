@@ -1,7 +1,7 @@
-<div class="container" style="margin-top: 30px;">
+<div class="container" style="margin-top: 20px;">
     <div class="row">
         <div class="col s12">
-            <div class="card hoverable" style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+            <div class="card hoverable" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 10px;">
                 <div class="card-content">
                     <div class="row">
                         <div class="col s12">
@@ -12,37 +12,37 @@
                     <div class="row">
                         <div class="col s12 left-align">
                             <a href="<?= base_url('pengguna/tambah') ?>"
-                                class="btn waves-effect waves-light green darken-1" style="border-radius: 8px;">
+                                class="btn waves-effect waves-light green darken-1" style="border-radius: 25px;">
                                 <i class="material-icons left">add</i>Pengguna
                             </a>
                             <a href="<?= base_url('limit') ?>"
-                                class="btn waves-effect waves-light blue darken-2" style="border-radius: 8px;">
+                                class="btn waves-effect waves-light blue darken-1" style="border-radius: 25px;">
                                 <i class="material-icons left">edit</i>Limit
                             </a>
                         </div>
                     </div>
-                    <table class="highlight striped responsive-table mt">
+                    <table class="highlight striped responsive-table" style="border-radius: 8px; overflow: hidden;">
                         <thead class="blue darken-2 white-text">
                             <tr>
-                                <th>No</th>
-                                <th>Nama Pengguna</th>
-                                <th>Email</th>
-                                <th>Satker</th>
-                                <th>Role</th>
-                                <th>Aksi</th>
+                                <th class="center-align">No</th>
+                                <th class="center-align">Nama Pengguna</th>
+                                <th class="center-align">Email</th>
+                                <th class="center-align">Satker</th>
+                                <th class="center-align">Role</th>
+                                <th class="center-align">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (!empty($Pengguna)): ?>
                                 <?php foreach (array_reverse($Pengguna) as $key => $hitam): ?>
                                     <tr>
-                                        <td><?= $key + 1 ?></td>
-                                        <td><?= htmlspecialchars($hitam['username'], ENT_QUOTES, 'UTF-8') ?></td>
-                                        <td><?= htmlspecialchars($hitam['email'], ENT_QUOTES, 'UTF-8') ?></td>
-                                        <td><?= htmlspecialchars($hitam['satker'], ENT_QUOTES, 'UTF-8') ?></td>
-                                        <td>
+                                        <td class="center-align"><?= $key + 1 ?></td>
+                                        <td class="center-align"><?= htmlspecialchars($hitam['username'], ENT_QUOTES, 'UTF-8') ?></td>
+                                        <td class="center-align"><?= htmlspecialchars($hitam['email'], ENT_QUOTES, 'UTF-8') ?></td>
+                                        <td class="center-align"><?= htmlspecialchars($hitam['satker'], ENT_QUOTES, 'UTF-8') ?></td>
+                                        <td class="center-align">
                                             <?php
-                                            $role = htmlspecialchars($hitam['role'], ENT_QUOTES, 'UTF-8');
+                                            $role = htmlspecialchars($hitam['pengguna_hak_akses'], ENT_QUOTES, 'UTF-8');
                                             $roleClass = '';
 
                                             switch ($role) {
@@ -61,7 +61,7 @@
                                             ?>
                                             <span class="role-badge <?= $roleClass ?>"><?= $role ?></span>
                                         </td>
-                                        <td>
+                                        <td class="center-align">
                                             <a href="<?= base_url('pengguna/ubah/' . $hitam['pengguna_id']) ?>"
                                                 class="btn-floating waves-effect waves-light yellow darken-3 tooltipped"
                                                 data-position="top" data-tooltip="Edit" style="border-radius: 4px;">
@@ -95,22 +95,13 @@
                     </table>
                 </div>
                 <div class="card-action right-align">
-                    <!-- Any additional actions -->
+                    <p class="grey-text text-darken-1">Total Pengguna: <strong><?= count($Pengguna) ?></strong></p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <style>
-    .container {
-        margin-top: 30px;
-    }
-
-    .card {
-        margin-top: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
 
     .card-content {
         padding-bottom: 0;

@@ -1,5 +1,5 @@
 <?php
-
+use Picqer\Barcode\BarcodeGeneratorPNG;
 class BarangController extends GLOBAL_Controller
 {
     public function __construct()
@@ -9,8 +9,12 @@ class BarangController extends GLOBAL_Controller
         $this->load->model('KategoriModel');
         $this->load->model('SatuanModel');
         $this->load->model('HistoryModel'); // Load model History
-        $this->load->library('zend');
+        $this->load->library('Ciqrcode');
+        $this->load->library('Zend');
+        $this->load->helper('url');
         $this->load->database();
+        require_once APPPATH . 'third_party/BarcodeGenerator.php';
+        require_once APPPATH . 'third_party/BarcodeGeneratorPNG.php'; 
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
@@ -28,26 +32,35 @@ class BarangController extends GLOBAL_Controller
         $data['kategori'] = parent::model('KategoriModel')->lihat_semua();
         $data['satuan'] = parent::model('SatuanModel')->lihat_semua();
         $data['barang'] = parent::model('BarangModel')->lihat_semua();
-    
-        // Jika ada data barang
-        if (!empty($data['barang'])) {
-            foreach ($data['barang'] as &$item) {
-                $item['barcode_url'] = site_url('BarangController/generate_barcode/' . $item['id_barang']);
-            }
-        }
+        $data['data']  = $this->db->get('tb_barang')->result();
+
     
         parent::template('barang/index', $data);
     }
     
-    public function generate_barcode($id_barang) {
-        $this->zend->load('Zend/Barcode');
-        
-        // Set header untuk output gambar
-        header('Content-Type: image/png');
-    
-        // Generate barcode dengan teks statis
-        Zend_Barcode::render('code128', 'image', array('text' => 'TEST1234'), array());
-    }
+    public function QRcode($kodenya)
+  {
+    //render  qr code dengan format gambar PNG
+    QRcode::png(
+      $kodenya,
+      $outfile = false,
+      $level = QR_ECLEVEL_H,
+      $size  = 6,
+      $margin = 2
+    );
+  }
+
+   // Fungsi untuk generate barcode
+   public function generate_barcode($kode_barang)
+   {
+       // Load Barcode Generator
+       $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
+       $barcode = $generator->getBarcode($kode_barang, $generator::TYPE_CODE_128);
+
+       // Output barcode sebagai image
+       header('Content-Type: image/png');
+       echo $barcode;
+   }
     
     
     

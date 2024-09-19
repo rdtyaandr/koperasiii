@@ -260,8 +260,8 @@
     }
 </style>
 
-<div class="container">
-    <div class="card">
+<div class="container" style="margin-top: 20px;">
+    <div class="card hoverable" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 30px;">
         <div class="card-title">Profil</div>
         <div class="profile-photo">
             <?php $profile_picture = !empty($pengguna['profile_picture']) ? $pengguna['profile_picture'] : 'default.png'; ?>
@@ -282,7 +282,7 @@
             <?php endif; ?>
         </div>
     </div>
-    <div class="card">
+    <div class="card hoverable" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 30px;">
         <div class="card-title">Detail Akun</div>
         <form id="profileForm" action="<?php echo base_url('profile/update'); ?>" method="POST">
             <div class="input-field" style="margin-top: 40px;">
@@ -418,7 +418,6 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    location.reload();
                     // Kirim permintaan AJAX untuk menghapus foto
                     fetch('<?= base_url('profile/delete_picture') ?>', {
                         method: 'POST',
@@ -431,6 +430,7 @@
                         })
                     })
                 }
+                location.reload();
             });
         }
     });
@@ -449,7 +449,6 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    location.reload();
                     // Kirim permintaan AJAX untuk menghapus foto
                     fetch('<?= base_url('profile/delete_picture') ?>', {
                         method: 'POST',
@@ -462,6 +461,7 @@
                         })
                     })
                 }
+                location.reload();
             });
         }
     });

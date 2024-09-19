@@ -1,7 +1,7 @@
-<div class="container" style="margin-top: 30px;">
+<div class="container" style="margin-top: 20px;">
     <div class="row">
         <div class="col s12">
-            <div class="card hoverable" style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+            <div class="card hoverable" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 10px;">
                 <div class="card-content">
                     <div class="row">
                         <div class="col s12">
@@ -10,19 +10,19 @@
                         </div>
                         <div class="col s12 left-align">
                             <a href="<?= base_url('pengguna') ?>" class="btn waves-effect waves-light green darken-1"
-                                style="border-radius: 8px;">
+                                style="border-radius: 25px;">
                                 <i class="material-icons left">arrow_forward</i>Data Pengguna
                             </a>
                         </div>
                     </div>
-                    <table class="highlight striped responsive-table mt">
+                    <table class="highlight striped responsive-table mt" style="border-radius: 8px; overflow: hidden;">
                         <thead class="blue darken-2 white-text">
                             <tr>
-                                <th>No</th>
-                                <th>Nama Pengguna</th>
-                                <th>Sisa Limit</th>
-                                <th>Total Limit</th>
-                                <th>Aksi</th>
+                                <th class="center-align">No</th>
+                                <th class="center-align">Nama Pengguna</th>
+                                <th class="center-align">Sisa Limit</th>
+                                <th class="center-align">Total Limit</th>
+                                <th class="center-align">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,11 +36,11 @@
                                         $sisaLimit = $totalLimit - $limitTerpakai;
                                         ?>
                                         <tr>
-                                            <td><?= $key + 1 ?></td>
-                                            <td><?= htmlspecialchars($hitam['username'], ENT_QUOTES, 'UTF-8') ?></td>
-                                            <td><?= number_format($sisaLimit, 0, ',', '.') ?></td>
-                                            <td>
-                                                <div class="limit-control">
+                                            <td class="center-align"><?= $key + 1 ?></td>
+                                            <td class="center-align"><?= htmlspecialchars($hitam['username'], ENT_QUOTES, 'UTF-8') ?></td>
+                                            <td class="center-align"><?= number_format($sisaLimit, 0, ',', '.') ?></td>
+                                            <td class="center-align">
+                                                <div class="limit-control" style="margin-left: 10px;">
                                                     <button type="button" class="limit-btn decrease"
                                                         data-id="<?= $hitam['pengguna_id'] ?>">&#8722;</button>
                                                     <input type="text" name="limit_total"
@@ -50,8 +50,8 @@
                                                         data-id="<?= $hitam['pengguna_id'] ?>">&#43;</button>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <div class="action-buttons">
+                                            <td class="center-align">
+                                                <div class="action-buttons" style="justify-content: center;">
                                                     <form action="<?= base_url('limit/save/' . $hitam['pengguna_id']) ?>"
                                                         method="post" class="limit-form">
                                                         <input type="hidden" name="limit_total" class="limit-input-hidden"
@@ -131,15 +131,6 @@
 </div>
 
 <style>
-    .container {
-        margin-top: 30px;
-    }
-
-    .card {
-        margin-top: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
 
     .card-content {
         padding-bottom: 0;

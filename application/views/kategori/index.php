@@ -1,34 +1,34 @@
-<div class="container" style="margin-top: 30px;">
+<div class="container" style="margin-top: 20px;">
     <div class="row">
         <div class="col s12">
-            <div class="card hoverable" style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+            <div class="card hoverable" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 10px;">
                 <div class="card-content">
                     <h4 class="blue-text text-darken-2" style="font-size: 2em; text-align: center; font-weight: bold;">Data Kategori</h4>
                     <div class="row">
                         <div class="col s12">
-                            <a href="#addCategoryModal" class="btn green darken-1 modal-trigger" style="margin-bottom: 20px;" id="add-modal">
+                            <a href="#addCategoryModal" class="btn green darken-1 modal-trigger" style="margin-bottom: 20px; border-radius: 25px;" id="add-modal">
                                 <i class="material-icons left">add</i>Tambah Kategori
                             </a>
-                            <a href="<?= base_url('barang') ?>" class="btn blue darken-1" style="margin-bottom: 20px;" id="add-modal">
+                            <a href="<?= base_url('barang') ?>" class="btn blue darken-1" style="margin-bottom: 20px; border-radius: 25px;" id="add-modal">
                                 <i class="material-icons left">arrow_forward</i>Data Barang
                             </a>
                         </div>
                     </div>
-                    <table class="striped highlight responsive-table">
+                    <table class="striped highlight responsive-table" style="border-radius: 8px; overflow: hidden;">
                         <thead class="blue darken-2 white-text">
                             <tr>
-                                <th>No</th>
-                                <th>Nama Kategori</th>
-                                <th>Actions</th>
+                                <th class="center-align">No</th>
+                                <th class="center-align">Nama Kategori</th>
+                                <th class="center-align">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (!empty($kategori)) : ?>
                                 <?php foreach (array_reverse($kategori) as $key => $item) : ?>
                                     <tr>
-                                        <td><?= $key + 1 ?></td>
-                                        <td><?= $item['nama_kategori'] ?></td>
-                                        <td>
+                                        <td class="center-align"><?= $key + 1 ?></td>
+                                        <td class="center-align"><?= $item['nama_kategori'] ?></td>
+                                        <td class="center-align">
                                             <a href="#editCategoryModal" class="btn-floating yellow darken-3 tooltipped modal-trigger" data-position="top" data-tooltip="Edit" style="border-radius: 4px;" onclick="openEditModal('<?= $item['id_kategori'] ?>', '<?= $item['nama_kategori'] ?>')">
                                                 <i class="material-icons">edit</i>
                                             </a>
@@ -69,7 +69,7 @@
 <!-- Add Modal -->
 <div id="addCategoryModal" class="modal">
     <div class="modal-content">
-        <h4>Add Kategori</h4>
+        <h4 style="font-weight: bold;">Tambah Kategori</h4>
         <form id="addCategoryForm" method="post" action="<?= base_url('kategori/tambah') ?>">
             <div class="input-field">
                 <input type="text" id="add-category-name" name="nama_kategori" class="validate" required>
@@ -79,15 +79,15 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" id="addCategorySaveButton" class="btn green darken-1">Tambah</button>
-        <a href="#!" class="modal-close btn-flat">Cancel</a>
+        <button type="button" id="addCategorySaveButton" class="btn green darken-1" style="border-radius: 25px;">Tambah</button>
+        <a href="#!" class="modal-close btn-flat">Batalkan</a>
     </div>
 </div>
 
 <!-- Edit Modal -->
 <div id="editCategoryModal" class="modal">
     <div class="modal-content">
-        <h4>Edit Kategori</h4>
+        <h4 style="font-weight: bold;">Edit Kategori</h4>
         <form id="editCategoryForm" method="post" action="">
             <input type="hidden" id="edit-category-id" name="category_id" value="">
             <div class="input-field">
@@ -98,22 +98,13 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" id="editCategorySaveButton" class="btn blue darken-1">Simpan</button>
-        <a href="#!" class="modal-close btn-flat">Cancel</a>
+        <button type="button" id="editCategorySaveButton" class="btn blue darken-1" style="border-radius: 25px;">Ubah</button>
+        <a href="#!" class="modal-close btn-flat">Batalkan</a>
     </div>
 </div>
 
 <!-- Native CSS for additional styling -->
 <style>
-    .container {
-        margin-top: 30px;
-    }
-
-    .card {
-        margin-top: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
 
     .card-content {
         padding-bottom: 0;

@@ -1,7 +1,7 @@
 <div class="container" style="margin-top: 10px;">
     <div class="row">
         <div class="col s12">
-            <div class="card hoverable" style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+            <div class="card hoverable" style="border-radius: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
                 <div class="card-content">
                     <span class="card-title" style="font-size: 2em; color: #00796B; text-align: center;">Dashboard</span>
                     <p id="current-datetime" class="right" style="font-size: 1.2em; font-weight: bold; color: #FFFFFF; background-color: #00796B; padding: 10px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); text-align: center;"></p>
@@ -9,7 +9,7 @@
                 </div>
                 <div class="row">
     <div class="col s12 m5">
-      <div class="card-panel #e1f5fe light-blue lighten-5" style="border-radius: 10px; margin-left:1.2em">
+      <div class="card-panel #e1f5fe light-blue lighten-5" style="border-radius: 20px; margin-left:1.2em">
       <p>Saldo Pinjaman: Rp. <?= number_format($loan['saldo_pinjaman'], 0, ',', '.') ?></p>
       <p>Batas Pinjaman: Rp. <?= number_format($loan['batas_pinjaman'], 0, ',', '.') ?></p>
         </span>

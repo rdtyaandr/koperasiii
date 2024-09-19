@@ -31,7 +31,7 @@ class ProfileModel extends GLOBAL_Model
     {
         // Data untuk diperbarui
         $data = array(
-            'pengguna_picture' => $fileName
+            'profile_picture' => $fileName
         );
 
         // Melakukan update foto profil di database
@@ -57,11 +57,11 @@ class ProfileModel extends GLOBAL_Model
     public function cleanupUnusedProfilePictures() {
         $this->load->database();
     
-        // Ambil semua nama file gambar dari kolom 'pengguna_picture' di database
-        $this->db->select('pengguna_picture');
+        // Ambil semua nama file gambar dari kolom 'profile_picture' di database
+        $this->db->select('profile_picture');
         $query = $this->db->get('tb_pengguna'); // Ganti 'tb_pengguna' dengan nama tabel yang sesuai
         $profile_pictures_in_db = array_map(function($row) {
-            return $row['pengguna_picture'];
+            return $row['profile_picture'];
         }, $query->result_array());
     
         // Tambahkan 'default.png' ke dalam array agar tidak terhapus

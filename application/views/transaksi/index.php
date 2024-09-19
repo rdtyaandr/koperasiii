@@ -1,12 +1,6 @@
 <style>
-    .container {
-        margin-top: 30px;
-    }
-
     .card {
-        margin-top: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 20px;
     }
 
     .card-content {
@@ -31,10 +25,6 @@
         border-bottom: 1px solid #ddd;
     }
 
-    table tbody tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-
     .card-action {
         padding: 10px 24px;
     }
@@ -45,7 +35,6 @@
 
     .btn {
         border-radius: 8px;
-        margin: 5px 0;
     }
 
     .btn-floating {
@@ -78,10 +67,10 @@
     }
 </style>
 
-<div class="container" style="margin-top: 30px;">
+<div class="container" style="margin-top: 20px;">
     <div class="row">
         <div class="col s12">
-            <div class="card hoverable" style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+            <div class="card hoverable" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 10px;">
                 <div class="card-content">
                     <div class="row">
                         <div class="col s12">
@@ -90,19 +79,19 @@
                         </div>
                         <div class="col s12">
                             <a href="<?= base_url('transaksi/tambah') ?>"
-                                class="btn waves-effect waves-light green darken-1">
+                                class="btn waves-effect waves-light green darken-1" style="border-radius: 25px;">
                                 <i class="material-icons left">add</i>Tambah Transaksi
                             </a>
                         </div>
                     </div>
-                    <table class="striped highlight responsive-table mt-20">
+                    <table class="striped highlight responsive-table">
                         <thead class="blue darken-2 white-text">
                             <tr>
-                                <th>No</th>
-                                <th>Nama</th>
-                                <th>Cara Bayar</th>
-                                <th>Tanggal</th>
-                                <th>Actions</th>
+                                <th class="center-align">No</th>
+                                <th class="center-align">Nama</th>
+                                <th class="center-align">Cara Bayar</th>
+                                <th class="center-align">Tanggal</th>
+                                <th class="center-align">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -110,9 +99,9 @@
                                 <?php $no = 1;
                                 foreach (array_reverse($transaksi) as $t): ?>
                                     <tr>
-                                        <td><?= $no++ ?></td>
-                                        <td><?= htmlspecialchars($t->username) ?></td>
-                                        <td>
+                                        <td class="center-align"><?= $no++ ?></td>
+                                        <td class="center-align"><?= htmlspecialchars($t->username) ?></td>
+                                        <td class="center-align">
                                             <?php
                                             // Tentukan kelas badge berdasarkan nilai cara bayar
                                             $badgeClass = ($t->cara_bayar === 'Kredit') ? 'red' :
@@ -122,8 +111,8 @@
                                                 <?= htmlspecialchars($t->cara_bayar) ?>
                                             </div>
                                         </td>
-                                        <td><?= formatTanggalWaktu($t->created_at) ?></td>
-                                        <td>
+                                        <td class="center-align"><?= formatTanggalWaktu($t->created_at) ?></td>
+                                        <td class="center-align">
                                             <a href="<?= base_url('transaksi/ubah/' . $t->id_transaksi) ?>"
                                                 class="btn-floating white-text waves-effect waves-light yellow darken-3 tooltipped"
                                                 data-position="top" data-tooltip="Edit">
