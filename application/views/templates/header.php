@@ -480,61 +480,59 @@
         const currentUrl = window.location.href;
         const baseUrl = '<?= base_url() ?>';
 
-        // Fungsi untuk mengatur kelas 'active' berdasarkan URL saat ini
         function setActiveMenu() {
-            // Hapus kelas 'active' dari semua item
-            menuItems.forEach(item => item.classList.remove('active'));
-
             menuItems.forEach(item => {
                 const link = item.querySelector('a');
                 if (link && currentUrl.includes(link.getAttribute('href'))) {
                     item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
                 }
             });
 
-            // Tambahkan kelas 'active' ke item induk dari dropdown yang aktif
             dropdownItems.forEach(dropdownItem => {
                 if (currentUrl.includes(dropdownItem.getAttribute('href'))) {
-                    const parentCollapsible = dropdownItem.closest('.collapsible');
-                    if (parentCollapsible) {
-                        const parentLi = parentCollapsible.closest('li');
+                    const parentLi = dropdownItem.closest('li.bold');
+                    if (parentLi) {
                         parentLi.classList.add('active');
-                        parentCollapsible.querySelector('.collapsible-header').classList.add('active');
-                        parentCollapsible.classList.add('active');
-                        parentCollapsible.querySelector('.collapsible-body').style.display = 'block';
+                        parentLi.querySelector('.collapsible-header').classList.add('active');
+                        parentLi.querySelector('.collapsible-body').style.display = 'block';
                     }
                 }
             });
 
-            // Tambahkan kelas 'active' ke dashboard jika URL adalah halaman root atau dashboard
             if (currentUrl === baseUrl || currentUrl.includes(baseUrl + 'dashboard')) {
                 const dashboardItem = document.querySelector('a[href*="dashboard"]').closest('li.bold');
                 if (dashboardItem) {
                     dashboardItem.classList.add('active');
                 }
             }
+
+            if (currentUrl.includes(baseUrl + 'limit')) {
+                const penggunaItem = document.querySelector('a[href*="pengguna"]').closest('li.bold');
+                if (penggunaItem) {
+                    penggunaItem.classList.add('active');
+                }
+            }
         }
 
-        // Panggil fungsi untuk mengatur kelas 'active' saat halaman dimuat
         setActiveMenu();
 
         menuItems.forEach(item => {
             item.addEventListener('click', function() {
-                // Hapus kelas 'active' dari semua item
                 menuItems.forEach(i => i.classList.remove('active'));
-                // Tambahkan kelas 'active' ke item yang diklik
                 this.classList.add('active');
             });
         });
 
         dropdownItems.forEach(item => {
             item.addEventListener('click', function() {
-                // Hapus kelas 'active' dari semua item
                 menuItems.forEach(i => i.classList.remove('active'));
-                // Tambahkan kelas 'active' ke item induk dari dropdown yang diklik
-                const parentLi = this.closest('.collapsible').closest('li');
-                parentLi.classList.add('active');
-                parentLi.querySelector('.collapsible-header').classList.add('active');
+                const parentLi = this.closest('li.bold');
+                if (parentLi) {
+                    parentLi.classList.add('active');
+                    parentLi.querySelector('.collapsible-header').classList.add('active');
+                }
             });
         });
     });

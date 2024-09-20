@@ -193,6 +193,9 @@
     .status-badge.red.lighten-2 {
         background-color: #e57373;
     }
+    table tbody tr {
+        border-bottom: 1px solid #ddd;
+    }
 </style>
 
 <!-- JavaScript for initializing Materialize components -->

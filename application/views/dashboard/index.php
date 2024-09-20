@@ -5,8 +5,7 @@
     }
 
     .card-link:hover .card {
-        transform: scale(1.02);
-        /* Contoh efek hover */
+        transform: scale(0.97);
     }
 </style>
 <div class="container-fluid" style="padding: 20px;">
@@ -147,7 +146,7 @@
                                 </a>
                             </div>
                             <div class="col s12 m6 l4">
-                            <a href="<?php echo base_url( 'pengguna'); ?>" class="card-link">
+                                <a href="<?php echo base_url('pengguna'); ?>" class="card-link">
                                     <div class="card amber darken-2 white-text"
                                         style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s;">
                                         <div class="card-content" style="padding: 20px;">
@@ -162,49 +161,35 @@
                                             </p>
                                         </div>
                                     </div>
+                                </a>
+                            </div>
+                        </div>
+                <?php endif ?>
+                </div>
+                <!-- Grafik -->
+                <div class="row">
+                    <?php $level = $this->session->userdata('level'); ?>
+                    <div class="col <?php echo ($level == 'admin') ? 's6 m6' : 's12 m12'; ?>" <?php echo ($level == 'operator') ? 'style="display: flex; justify-content: center;"' : ''; ?>>
+                        <?php if ($level == 'operator'): ?>
+                            <div style="width: 96%;">
+                            <?php endif; ?>
+                            <div class="cardd" style="border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
+                                <div class="card-content">
+                                    <span class="card-title blue-text text-darken-2" style="font-size: 1.8em; font-weight: 500;">Data Transaksi</span>
+                                    <div id="sales-chart"></div>
                                 </div>
                             </div>
-                        <?php endif ?>
-                    </div>
-
-                    <style>
-                        .card:hover {
-                            transform: translateY(-5px);
-                            /* Mengangkat kartu sedikit saat hover */
-                            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-                            /* Menambahkan bayangan saat hover */
-                        }
-                    </style>
-
-                    <!-- Grafik -->
-                    <div class="row">
-                        <?php if ($this->session->userdata('level') == 'admin'): ?>
-                            <div class="col s6">
-                            <?php elseif ($this->session->userdata('level') == 'operator'): ?>
-                                <div class="col s12">
-                                <?php endif; ?>
-                                <div class="card"
-                                    style="border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
-                                    <div class="card-content">
-                                        <span class="card-title blue-text text-darken-2"
-                                            style="font-size: 1.8em; font-weight: 500;">Data Transaksi</span>
-                                        <div id="sales-chart" style="height: 300px;"></div>
-                                    </div>
-                                </div>
                             </div>
-                            <?php if ($this->session->userdata('level') == 'admin'): ?>
+                            <?php if ($level == 'admin'): ?>
                                 <div class="col s6 m6">
-                                    <div class="card"
-                                        style="border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
+                                    <div class="cardd" style="border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
                                         <div class="card-content">
-                                            <span class="card-title green-text text-darken-1"
-                                                style="font-size: 1.8em; font-weight: 500;">Banyak Pinjaman</span>
-                                            <div id="user-growth-chart" style="height: 300px;"></div>
+                                            <span class="card-title green-text text-darken-1" style="font-size: 1.8em; font-weight: 500;">Banyak Pinjaman</span>
+                                            <div id="user-growth-chart"></div>
                                         </div>
                                     </div>
                                 </div>
                             <?php endif; ?>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -245,7 +230,7 @@
             }],
             chart: {
                 type: 'area',
-                height: 450,
+                height: 400,
                 zoom: {
                     enabled: false
                 }
@@ -267,7 +252,7 @@
             xaxis: {
                 categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 labels: {
-                    formatter: function (value) {
+                    formatter: function(value) {
                         return value;
                     }
                 }
@@ -275,7 +260,7 @@
             yaxis: {
                 opposite: true,
                 labels: {
-                    formatter: function (value) {
+                    formatter: function(value) {
                         return value;
                     }
                 }
@@ -285,7 +270,7 @@
             },
             tooltip: {
                 y: {
-                    formatter: function (value) {
+                    formatter: function(value) {
                         return value + ' Transaksi';
                     }
                 }
@@ -308,7 +293,7 @@
             }],
             chart: {
                 type: 'bar',
-                height: 450
+                height: 400
             },
             plotOptions: {
                 bar: {
@@ -338,7 +323,7 @@
             },
             tooltip: {
                 y: {
-                    formatter: function (val) {
+                    formatter: function(val) {
                         return val + " User";
                     }
                 }

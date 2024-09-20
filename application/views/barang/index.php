@@ -1,3 +1,8 @@
+<style>
+    table tbody tr {
+        border-bottom: 1px solid #ddd;
+    }
+</style>
 <div class="container" style="margin-top: 20px;">
     <div class="row">
         <div class="col s12">

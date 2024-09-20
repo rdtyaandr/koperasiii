@@ -40,7 +40,7 @@
                                             <td class="center-align"><?= htmlspecialchars($hitam['username'], ENT_QUOTES, 'UTF-8') ?></td>
                                             <td class="center-align"><?= number_format($sisaLimit, 0, ',', '.') ?></td>
                                             <td class="center-align">
-                                                <div class="limit-control" style="margin-left: 10px;">
+                                                <div class="limit-control" style="margin-left: 30px;">
                                                     <button type="button" class="limit-btn decrease"
                                                         data-id="<?= $hitam['pengguna_id'] ?>">&#8722;</button>
                                                     <input type="text" name="limit_total"
@@ -59,7 +59,7 @@
                                                             value="<?= htmlspecialchars($hitam['limit_total'], ENT_QUOTES, 'UTF-8') ?>">
                                                         <button type="submit" name="save_limit_total"
                                                             class="btn-floating waves-effect waves-light yellow darken-3 tooltipped"
-                                                            data-position="top" data-tooltip="Simpan" style="border-radius: 4px;">
+                                                            data-position="top" data-tooltip="Simpan" style="border-radius: 25px; padding: 20px; display: flex; align-items: center; justify-content: center;">
                                                             <i class="material-icons">save</i>
                                                         </button>
                                                     </form>
@@ -68,7 +68,7 @@
                                                         <button type="submit"
                                                             class="btn-floating waves-effect waves-light red tooltipped"
                                                             data-position="top" data-tooltip="Reset Limit"
-                                                            style="border-radius: 4px;" onclick="event.preventDefault(); Swal.fire({
+                                                            style="border-radius: 25px; padding: 20px; display: flex; align-items: center; justify-content: center;" onclick="event.preventDefault(); Swal.fire({
                                                                 title: 'Reset Limit?',
                                                                 text: 'Apakah Anda yakin ingin mereset limit ini?',
                                                                 icon: 'warning',
@@ -87,7 +87,7 @@
                                                     </form>
                                                     <a href="#modalBayarKredit"
                                                         class="btn-floating waves-effect waves-light green tooltipped modal-trigger"
-                                                        data-position="top" data-tooltip="Bayar Kredit" style="border-radius: 4px;"
+                                                        data-position="top" data-tooltip="Bayar Kredit" style="border-radius: 25px; padding: 20px; display: flex; align-items: center; justify-content: center;"
                                                         onclick="openPaymentModal(<?= $hitam['pengguna_id'] ?>)">
                                                         <i class="material-icons">attach_money</i>
                                                     </a>
@@ -162,10 +162,6 @@
         border-radius: 8px;
     }
 
-    .mt {
-        margin-top: 15px;
-    }
-
     .limit-control {
         display: flex;
         align-items: center;
@@ -234,6 +230,13 @@
 
     .modal-footer {
         padding: 0 24px 20px;
+    }
+    table tbody tr {
+        border-bottom: 1px solid #ddd;
+    }
+
+    td {
+        padding: 8px 8px;
     }
 </style>
 

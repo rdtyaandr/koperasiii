@@ -138,6 +138,10 @@
     .modal-footer {
         padding: 0 24px 20px;
     }
+
+    table tbody tr {
+        border-bottom: 1px solid #ddd;
+    }
 </style>
 
 <!-- JavaScript for initializing Materialize components -->

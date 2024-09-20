@@ -102,7 +102,6 @@
     </div>
 </div>
 <style>
-
     .card-content {
         padding-bottom: 0;
     }
@@ -193,13 +192,19 @@
     }
 
     .limit-not-user {
-    color: #b0bec5; /* Warna teks abu-abu pudar */
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: 4px;
-    transform: skew(-6deg); /* Miringkan teks ke kanan */
-    font-style: italic; /* Miringkan teks */
-}
+        color: #b0bec5;
+        /* Warna teks abu-abu pudar */
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transform: skew(-6deg);
+        /* Miringkan teks ke kanan */
+        font-style: italic;
+        /* Miringkan teks */
+    }
 
+    table tbody tr {
+        border-bottom: 1px solid #ddd;
+    }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
