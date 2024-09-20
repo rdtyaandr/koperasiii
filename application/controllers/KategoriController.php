@@ -32,7 +32,6 @@ class KategoriController extends GLOBAL_Controller
             'message_text' => $text,
             'message_summary' => $summary,
             'message_icon' => $icon,
-            'message_date_time' => date('Y-m-d H:i:s'),
             'role' => $this->session->userdata('level')
         ];
         $this->HistoryModel->addMessage($data);
@@ -48,9 +47,7 @@ class KategoriController extends GLOBAL_Controller
                 redirect('kategori');
             } else {
                 $data = array(
-                    'nama_kategori' => $this->input->post('nama_kategori'),
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s')
+                    'nama_kategori' => $this->input->post('nama_kategori')
                 );
 
                 $simpan = parent::model('KategoriModel')->tambah($data);
@@ -76,8 +73,7 @@ class KategoriController extends GLOBAL_Controller
                 redirect('kategori');
             } else {
                 $data = array(
-                    'nama_kategori' => $this->input->post('nama_kategori'),
-                    'updated_at' => date('Y-m-d H:i:s')
+                    'nama_kategori' => $this->input->post('nama_kategori')
                 );
 
                 $simpan = parent::model('KategoriModel')->ubah($id_kategori, $data);
