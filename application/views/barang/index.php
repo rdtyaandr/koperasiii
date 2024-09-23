@@ -10,7 +10,7 @@
                 <div class="card-content">
                     <div class="row">
                         <div class="col s12">
-                            <h4 class="blue-text text-darken-2" style="font-size: 2em; text-align: center; font-weight: bold;">Data Barang</h4>
+                            <h4 class="blue-text text-darken-2" style="font-size: 2em; text-align: center; font-weight: bold;">Barang</h4>
                         </div>
                         <div class="col s12 left-align">
                             <a href="<?= base_url('barang/tambah') ?>" class="btn waves-effect waves-light green darken-1" style="border-radius: 25px; margin-bottom: 20px;">

@@ -8,16 +8,20 @@ class LaporanController extends GLOBAL_Controller {
 
     public function index() {
         // Ambil data dari GET request
-        $month = $this->input->get('month');
-        $year = $this->input->get('year');
-        $report_type = $this->input->get('report_type');
+        $year = $this->input->get('tahun');
+        $month = $this->input->get('bulan');
+        $day = $this->input->get('tanggal');
+        $end_day = $this->input->get('sampai_tanggal');
+        $payment_method = $this->input->get('cara_bayar');
 
-        // Ambil data laporan dari model
-        $data['laporan'] = $this->LaporanModel->get_laporan_data($month, $year, $report_type);
+        // Validasi input
+        if (empty($year)) {
+            $data['laporan'] = [];
+        } else {
+            $data['laporan'] = $this->LaporanModel->get_filtered_data($year, $month, $day, $end_day, $payment_method);
+        }
+
         $data['title'] = 'Laporan';
-
-        // Kirim data ke view
-        parent::template('laporan/laba_rugi', $data);
+        parent::template('laporan/index', $data);
     }
 }
-?>
