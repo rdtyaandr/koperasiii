@@ -81,10 +81,10 @@
                                             <a class="btn waves-effect waves-light blue tooltipped" data-position="top" data-tooltip="Download PNG" id="download-png" style="border-radius: 25px;">
                                                 <i class="material-icons left">image</i>Download PNG
                                             </a>
-                                            <a class="btn waves-effect waves-light green tooltipped" data-position="top" data-tooltip="Download XLSX" href="<?= base_url('laporan/download/xlsx'); ?>" style="border-radius: 25px;">
+                                            <a class="btn waves-effect waves-light green tooltipped" data-position="top" data-tooltip="Download XLSX" id="download-xlsx" style="border-radius: 25px;">
                                                 <i class="material-icons left">grid_on</i>Download XLSX
                                             </a>
-                                            <a class="btn waves-effect waves-light red tooltipped" data-position="top" data-tooltip="Download PDF" href="<?= base_url('laporan/download/pdf'); ?>" style="border-radius: 25px;">
+                                            <a class="btn waves-effect waves-light red tooltipped" data-position="top" data-tooltip="Download PDF" id="download-pdf" style="border-radius: 25px;">
                                                 <i class="material-icons left">picture_as_pdf</i>Download PDF
                                             </a>
                                         </div>
@@ -94,7 +94,7 @@
                         </div>
                     </div>
                     <div class="area-download" id="area-download">
-                        <table class="striped highlight responsive-table mt" style="border-radius: 8px; overflow: hidden;">
+                        <table id="laporanTable" class="striped highlight responsive-table mt" style="border-radius: 8px; overflow: hidden;">
                             <thead class="blue darken-2 white-text">
                                 <tr>
                                     <th class="center-align">No</th>
@@ -236,6 +236,9 @@
 
 <!-- JavaScript for initializing Materialize components -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         M.AutoInit();
@@ -283,10 +286,71 @@
         window.location.href = `<?= base_url('laporan') ?>?${params.toString()}`;
     });
 
-    document.getElementById('download-png').addEventListener('click', function() {
+    function validateDropdownWithUrl() {
+        const currentUrl = new URL(window.location.href);
+        const currentYear = currentUrl.searchParams.get('tahun');
+        const currentMonth = currentUrl.searchParams.get('bulan');
+        const currentDay = currentUrl.searchParams.get('tanggal');
+        const currentEndDay = currentUrl.searchParams.get('sampai_tanggal');
+        const currentPaymentMethod = currentUrl.searchParams.get('cara_bayar');
+
+        const selectedYear = document.getElementById('tahun').value;
+        const selectedMonth = document.getElementById('bulan').value;
+        const selectedDay = document.getElementById('tanggal').value;
+        const selectedEndDay = document.getElementById('sampai_tanggal').value;
+        const selectedPaymentMethod = document.getElementById('cara_bayar').value;
+
+        if (currentYear !== selectedYear || currentMonth !== selectedMonth || currentDay !== selectedDay || currentEndDay !== selectedEndDay || currentPaymentMethod !== selectedPaymentMethod) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Tolong tekan tombol "Buat Sekarang" terlebih dahulu!',
+                timer: 3000,
+                showConfirmButton: false,
+                timerProgressBar: true
+            });
+            return false;
+        }
+        return true;
+    }
+
+    document.getElementById('download-png').addEventListener('click', function(event) {
+        if (!validateDropdownWithUrl()) {
+            event.preventDefault();
+            return;
+        }
         html2canvas(document.getElementById('area-download'), {
             onclone: function(clonedDoc) {
                 clonedDoc.getElementById('area-download').style.padding = '20px';
+                const header = document.createElement('div');
+                header.style.textAlign = 'center';
+                const year = document.getElementById('tahun').value;
+                const month = document.getElementById('bulan').value ? document.getElementById('bulan').options[document.getElementById('bulan').selectedIndex].text : '';
+                const day = document.getElementById('tanggal').value ? document.getElementById('tanggal').value : '';
+                const endDay = document.getElementById('sampai_tanggal').value ? document.getElementById('sampai_tanggal').value : '';
+                let dateText = '';
+
+                if (year) {
+                    dateText = `Tahun ${year}`;
+                    if (month) {
+                        dateText += ` Bulan ${month}`;
+                        if (day) {
+                            dateText = `Tanggal ${day} ${month} ${year}`;
+                            if (endDay) {
+                                dateText = `Tanggal ${day} sampai ${endDay} ${month} ${year}`;
+                            }
+                        }
+                    }
+                }
+
+                const paymentMethod = document.getElementById('cara_bayar').value || 'Semua';
+
+                header.innerHTML = `
+                    <h2 style="color: #1565c0; font-weight: bold; margin-bottom: 5px;">Laporan Penjualan</h2>
+                    <p style="color: #1565c0;">${dateText}</p>
+                    <p style="color: #1565c0;">Cara Bayar : ${paymentMethod}</p>
+                `;
+                clonedDoc.getElementById('area-download').insertBefore(header, clonedDoc.getElementById('area-download').firstChild);
             }
         }).then(function(canvas) {
             const link = document.createElement('a');
@@ -296,5 +360,149 @@
             link.download = `laporan_${formattedDate}.png`;
             link.click();
         });
+    });
+
+    document.getElementById('download-xlsx').addEventListener('click', function(event) {
+        if (!validateDropdownWithUrl()) {
+            event.preventDefault();
+            return;
+        }
+
+        const table = document.getElementById('laporanTable');
+        const rows = table.querySelectorAll('tr');
+        const data = [];
+        let totalPendapatan = 0;
+
+        // Add header information
+        const header = [];
+        header.push(['Laporan Penjualan']);
+        const year = document.getElementById('tahun').value;
+        const month = document.getElementById('bulan').value ? document.getElementById('bulan').options[document.getElementById('bulan').selectedIndex].text : '';
+        const day = document.getElementById('tanggal').value ? document.getElementById('tanggal').value : '';
+        const endDay = document.getElementById('sampai_tanggal').value ? document.getElementById('sampai_tanggal').value : '';
+        let dateText = '';
+
+        if (year) {
+            dateText = `Tahun ${year}`;
+            if (month) {
+                dateText += ` Bulan ${month}`;
+                if (day) {
+                    dateText = `Tanggal ${day} ${month} ${year}`;
+                    if (endDay) {
+                        dateText = `Tanggal ${day} sampai ${endDay} ${month} ${year}`;
+                    }
+                }
+            }
+        }
+
+        const paymentMethod = document.getElementById('cara_bayar').value || 'Semua';
+        header.push([dateText]);
+        header.push([`Cara Bayar : ${paymentMethod}`]);
+        header.push(['']); // Empty row for spacing
+
+        data.push(...header);
+
+        rows.forEach(function(row, rowIndex) {
+            const cols = row.querySelectorAll('td, th');
+            const rowData = [];
+            cols.forEach(function(col, colIndex) {
+                const cellValue = col.innerText.replace(/\./g, '');
+                rowData.push(cellValue);
+                if (rowIndex > 0 && colIndex === 5) { // Assuming the 6th column is the total pendapatan
+                    totalPendapatan += parseFloat(cellValue);
+                }
+            });
+            data.push(rowData);
+        });
+
+        // Add total pendapatan to the data
+        data.push(['', '', '', '', 'Total Pendapatan', totalPendapatan.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')]);
+
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.aoa_to_sheet(data);
+
+        XLSX.utils.book_append_sheet(wb, ws, 'Laporan');
+        const now = new Date();
+        const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
+        XLSX.writeFile(wb, `laporan_${formattedDate}.xlsx`);
+    });
+
+    document.getElementById('download-pdf').addEventListener('click', function(event) {
+        if (!validateDropdownWithUrl()) {
+            event.preventDefault();
+            return;
+        }
+
+        var { jsPDF } = window.jspdf;
+        var doc = new jsPDF();
+
+        // Styling for the PDF
+        doc.setFontSize(18);
+        doc.setTextColor(33, 150, 243);
+        doc.setFont("helvetica", "bold"); // Membuat teks lebih tebal
+        doc.text("Laporan Penjualan", 105, 10, null, null, 'center');
+
+        const year = document.getElementById('tahun').value;
+        const month = document.getElementById('bulan').value ? document.getElementById('bulan').options[document.getElementById('bulan').selectedIndex].text : '';
+        const day = document.getElementById('tanggal').value ? document.getElementById('tanggal').value : '';
+        const endDay = document.getElementById('sampai_tanggal').value ? document.getElementById('sampai_tanggal').value : '';
+        let dateText = '';
+
+        if (year) {
+            dateText = `Tahun ${year}`;
+            if (month) {
+                dateText += ` Bulan ${month}`;
+                if (day) {
+                    dateText = `Tanggal ${day} ${month} ${year}`;
+                    if (endDay) {
+                        dateText = `Tanggal ${day} sampai ${endDay} ${month} ${year}`;
+                    }
+                }
+            }
+        }
+
+        const paymentMethod = document.getElementById('cara_bayar').value || 'Semua';
+
+        doc.setFontSize(12);
+        doc.setTextColor(100, 100, 100);
+        doc.text(dateText, 105, 20, null, null, 'center');
+        doc.text(`Cara Bayar : ${paymentMethod}`, 105, 30, null, null, 'center');
+
+        doc.autoTable({
+            html: '#laporanTable',
+            startY: 40,
+            styles: {
+                fontSize: 10,
+                cellPadding: 3,
+                halign: 'center',
+                valign: 'middle'
+            },
+            headStyles: {
+                fillColor: [33, 150, 243],
+                textColor: [255, 255, 255]
+            },
+            footStyles: {
+                fillColor: [33, 150, 243],
+                textColor: [255, 255, 255]
+            }
+        });
+
+        // Calculate total pendapatan
+        let totalPendapatan = 0;
+        const rows = document.querySelectorAll('#laporanTable tbody tr');
+        rows.forEach(function(row) {
+            const cols = row.querySelectorAll('td');
+            const pendapatan = parseFloat(cols[5].innerText.replace(/\./g, ''));
+            totalPendapatan += pendapatan;
+        });
+
+        // Add total pendapatan to the PDF
+        doc.setFontSize(12);
+        doc.setTextColor(100, 100, 100); // Ubah warna teks menjadi abu-abu pudar
+        doc.text(`Total Pendapatan: ${totalPendapatan.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`, 200, doc.autoTable.previous.finalY + 10, null, null, 'right');
+
+        const now = new Date();
+        const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
+        doc.save(`laporan_${formattedDate}.pdf`);
     });
 </script>
