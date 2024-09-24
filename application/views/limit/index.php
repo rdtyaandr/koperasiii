@@ -27,7 +27,7 @@
                         </thead>
                         <tbody>
                             <?php if (!empty($Pengguna)): ?>
-                                <?php foreach (array_reverse($Pengguna) as $key => $hitam): ?>
+                                <?php  $no = 1; foreach (array_reverse($Pengguna) as $key => $hitam): ?>
                                     <?php if ($hitam['pengguna_hak_akses'] === 'user'): ?>
                                         <?php
                                         // Menghitung sisa limit
@@ -36,7 +36,7 @@
                                         $sisaLimit = $totalLimit - $limitTerpakai;
                                         ?>
                                         <tr>
-                                            <td class="center-align"><?= $key + 1 ?></td>
+                                            <td class="center-align"><?= $no++ ?></td>
                                             <td class="center-align"><?= htmlspecialchars($hitam['username'], ENT_QUOTES, 'UTF-8') ?></td>
                                             <td class="center-align"><?= number_format($sisaLimit, 0, ',', '.') ?></td>
                                             <td class="center-align">

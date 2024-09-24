@@ -28,39 +28,45 @@
                                 <th class="center-align">Nama Pengguna</th>
                                 <th class="center-align">Email</th>
                                 <th class="center-align">Satker</th>
-                                <th class="center-align">Role</th>
+                                <?php if ($this->session->userdata('level') != 'operator'): ?>
+                                    <th class="center-align">Role</th>
+                                <?php endif; ?>
                                 <th class="center-align">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (!empty($Pengguna)): ?>
-                                <?php foreach (array_reverse($Pengguna) as $key => $hitam): ?>
+                                <?php  $no = 1; foreach (array_reverse($Pengguna) as $key => $hitam): ?>
+                                    <!-- if ($this->session->userdata('level') == 'operator' && $hitam['pengguna_hak_akses'] != 'user' && $hitam['pengguna_hak_akses'] != 'operator') continue;  -->
+                                    <?php if ($this->session->userdata('level') == 'operator' && $hitam['pengguna_hak_akses'] != 'user') continue; ?>
                                     <tr>
-                                        <td class="center-align"><?= $key + 1 ?></td>
+                                        <td class="center-align"><?= $no++ ?></td>
                                         <td class="center-align"><?= htmlspecialchars($hitam['username'], ENT_QUOTES, 'UTF-8') ?></td>
                                         <td class="center-align"><?= htmlspecialchars($hitam['email'], ENT_QUOTES, 'UTF-8') ?></td>
                                         <td class="center-align"><?= htmlspecialchars($hitam['satker'], ENT_QUOTES, 'UTF-8') ?></td>
-                                        <td class="center-align">
-                                            <?php
-                                            $role = htmlspecialchars($hitam['pengguna_hak_akses'], ENT_QUOTES, 'UTF-8');
-                                            $roleClass = '';
+                                        <?php if ($this->session->userdata('level') != 'operator'): ?>
+                                            <td class="center-align">
+                                                <?php
+                                                $role = htmlspecialchars($hitam['pengguna_hak_akses'], ENT_QUOTES, 'UTF-8');
+                                                $roleClass = '';
 
-                                            switch ($role) {
-                                                case 'user':
-                                                    $roleClass = 'grey lighten-1 white-text'; // Abu-abu
-                                                    break;
-                                                case 'operator':
-                                                    $roleClass = 'blue lighten-1 white-text'; // Biru
-                                                    break;
-                                                case 'admin':
-                                                    $roleClass = 'green lighten-1 white-text'; // Hijau
-                                                    break;
-                                                default:
-                                                    $roleClass = 'grey lighten-3 black-text'; // Default (misalnya putih dengan teks hitam)
-                                            }
-                                            ?>
-                                            <span class="role-badge <?= $roleClass ?>"><?= $role ?></span>
-                                        </td>
+                                                switch ($role) {
+                                                    case 'user':
+                                                        $roleClass = 'grey lighten-1 white-text'; // Abu-abu
+                                                        break;
+                                                    case 'operator':
+                                                        $roleClass = 'blue lighten-1 white-text'; // Biru
+                                                        break;
+                                                    case 'admin':
+                                                        $roleClass = 'green lighten-1 white-text'; // Hijau
+                                                        break;
+                                                    default:
+                                                        $roleClass = 'grey lighten-3 black-text'; // Default (misalnya putih dengan teks hitam)
+                                                }
+                                                ?>
+                                                <span class="role-badge <?= $roleClass ?>"><?= $role ?></span>
+                                            </td>
+                                        <?php endif; ?>
                                         <td class="center-align">
                                             <a href="<?= base_url('pengguna/ubah/' . $hitam['pengguna_id']) ?>"
                                                 class="btn-floating waves-effect waves-light yellow darken-3 tooltipped"
@@ -83,11 +89,13 @@
                                             })">
                                                 <i class="material-icons">delete</i>
                                             </a>
-                                            <a href="<?= base_url('pengguna/detail/' . $hitam['pengguna_id']) ?>"
-                                                class="btn-floating waves-effect waves-light blue darken-1 tooltipped"
-                                                data-position="top" data-tooltip="Detail" style="border-radius: 4px;">
-                                                <i class="material-icons">info</i>
-                                            </a>
+                                            <?php if ($hitam['pengguna_hak_akses'] == 'user'): ?>
+                                                <a href="<?= base_url('pengguna/detail/' . $hitam['pengguna_id']) ?>"
+                                                    class="btn-floating waves-effect waves-light blue darken-1 tooltipped"
+                                                    data-position="top" data-tooltip="Detail" style="border-radius: 4px;">
+                                                    <i class="material-icons">info</i>
+                                                </a>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

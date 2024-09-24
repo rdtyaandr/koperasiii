@@ -91,6 +91,7 @@
                                 <th class="center-align">Nama</th>
                                 <th class="center-align">Cara Bayar</th>
                                 <th class="center-align">Tanggal</th>
+                                <th class="center-align">Total Harga</th>
                                 <th class="center-align">Actions</th>
                             </tr>
                         </thead>
@@ -112,6 +113,7 @@
                                             </div>
                                         </td>
                                         <td class="center-align"><?= formatTanggalWaktu($t->created_at) ?></td>
+                                        <td class="center-align"><?= htmlspecialchars(number_format($t->total_harga, 0, ',', '.')) ?></td>
                                         <td class="center-align">
                                             <a href="<?= base_url('transaksi/ubah/' . $t->id_transaksi) ?>"
                                                 class="btn-floating white-text waves-effect waves-light yellow darken-3 tooltipped"
@@ -123,7 +125,7 @@
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="5" class="center-align">Tidak ada data transaksi.</td>
+                                    <td colspan="6" class="center-align">Tidak ada data transaksi.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>

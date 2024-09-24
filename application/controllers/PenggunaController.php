@@ -3,7 +3,7 @@ class PenggunaController extends GLOBAL_Controller {
 
     public function __construct() {
         parent::__construct();
-        $model = array('PenggunaModel', 'HistoryModel'); // Load HistoryModel
+        $model = array('PenggunaModel', 'HistoryModel', 'TransaksiModel'); // Tambahkan TransaksiModel
         $this->load->model($model);
         // Pastikan admin sudah login dan memiliki hak akses yang benar
         if (!parent::hasLogin()) {
@@ -199,6 +199,10 @@ class PenggunaController extends GLOBAL_Controller {
         $data['title'] = 'Detail Pengguna';
         $query = array('pengguna_id' => $id);
         $data['Pengguna'] = parent::model('PenggunaModel')->Lihat_Pengguna($query);
+        
+        // Ambil data transaksi pengguna
+        $data['transaksi'] = $this->TransaksiModel->get_transaksi_by_user_id($id);
+        
         parent::template('pengguna/detail', $data);
     }
 

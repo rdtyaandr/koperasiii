@@ -21,7 +21,7 @@ class TransaksiModel extends GLOBAL_Model
 
     public function get_all_transaksi()
     {
-        $this->db->select('t.*, p.username');
+        $this->db->select('t.*, p.username, t.total as total_harga');
         $this->db->from('tb_transaksi t');
         $this->db->join('tb_pengguna p', 't.pengguna_id = p.pengguna_id');
         return $this->db->get()->result(); // Mengembalikan data sebagai objek
@@ -83,4 +83,14 @@ class TransaksiModel extends GLOBAL_Model
 
         $this->delete_detail_transaksi($id_transaksi);
     }
-}       
+
+    // Fungsi untuk mengambil data transaksi berdasarkan pengguna_id
+    public function get_transaksi_by_user_id($pengguna_id)
+    {
+        $this->db->select('t.*, p.username, t.created_at');
+        $this->db->from('tb_transaksi t');
+        $this->db->join('tb_pengguna p', 't.pengguna_id = p.pengguna_id');
+        $this->db->where('t.pengguna_id', $pengguna_id);
+        return $this->db->get()->result(); // Mengembalikan data sebagai objek
+    }
+}
