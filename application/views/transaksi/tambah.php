@@ -112,7 +112,7 @@
                                 <table class="striped highlight responsive-table">
                                     <thead class="blue darken-2 white-text">
                                         <tr>
-                                            <th>No</th>
+                                            <th class="center-align">No</th>
                                             <th>Nama Barang</th>
                                             <th>Harga</th>
                                             <th>Jumlah</th>
@@ -240,7 +240,7 @@ function addMultipleRows() {
         var rowNumber = tableBody.getElementsByTagName('tr').length + 1;
         var newRow = `
             <tr>
-                <td>${rowNumber}</td>
+                <td class="center-align">${rowNumber}</td>
                 <td>
                     <div class="dropdown" name="nama_barang">
                         <div class="dropdown-trigger">

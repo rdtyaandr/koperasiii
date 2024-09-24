@@ -34,7 +34,6 @@ class TransaksiController extends GLOBAL_Controller
             'message_text' => $text,
             'message_summary' => $summary,
             'message_icon' => $icon,
-            'message_date_time' => date('Y-m-d H:i:s'),
             'role' => $this->session->userdata('level')
         ];
         $this->HistoryModel->addMessage($data);

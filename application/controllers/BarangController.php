@@ -72,7 +72,6 @@ class BarangController extends GLOBAL_Controller
             'message_text' => $text,
             'message_summary' => $summary,
             'message_icon' => $icon,
-            'message_date_time' => date('Y-m-d H:i:s'),
             'role' => $this->session->userdata('level')
         ];
         $this->HistoryModel->addMessage($data);
@@ -91,9 +90,7 @@ class BarangController extends GLOBAL_Controller
                 'id_kategori' => parent::post('kategori'),
                 'harga_beli' => parent::post('harga_beli'),
                 'harga_jual' => parent::post('harga_jual'),
-                'stok' => parent::post('stok'),
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s')
+                'stok' => parent::post('stok')
             );
 
             $simpan = parent::model('BarangModel')->tambah($data);
@@ -125,8 +122,7 @@ class BarangController extends GLOBAL_Controller
                 'id_kategori' => parent::post('kategori'),
                 'harga_beli' => parent::post('harga_beli'),
                 'harga_jual' => parent::post('harga_jual'),
-                'stok' => parent::post('stok'),
-                'updated_at' => date('Y-m-d H:i:s')
+                'stok' => parent::post('stok')
             );
 
             $simpan = parent::model('BarangModel')->ubah($id, $data);

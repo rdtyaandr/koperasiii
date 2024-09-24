@@ -6,7 +6,7 @@
                     <div class="row">
                         <div class="col s12">
                             <h4 class="blue-text text-darken-2"
-                                style="font-size: 2em; text-align: center; font-weight: bold;">Data Pinjaman</h4>
+                                style="font-size: 2em; text-align: center; font-weight: bold;">Pinjaman</h4>
                         </div>
                     </div>
                     <div class="row">

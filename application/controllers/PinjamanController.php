@@ -56,7 +56,6 @@ class PinjamanController extends GLOBAL_Controller
                 'tanggal_pinjam' => $tanggal_pinjam,
                 'jumlah_pinjaman' => $jumlah_pinjaman,
                 'lama_pinjaman' => $lama_pinjaman,
-                'waktu_pengajuan' => date('Y-m-d H:i:s'),
                 'status' => 'Menunggu Persetujuan',
                 'user_id' => $user_id
             ];
@@ -151,7 +150,6 @@ class PinjamanController extends GLOBAL_Controller
             'message_text' => $text,
             'message_summary' => $summary,
             'message_icon' => $icon,
-            'message_date_time' => date('Y-m-d H:i:s'),
             'role' => $this->session->userdata('level')
         ];
         $this->HistoryModel->addMessage($data);

@@ -3,7 +3,7 @@
         <div class="col s12">
             <div class="card hoverable" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 10px;">
                 <div class="card-content">
-                    <h4 class="blue-text text-darken-2" style="font-size: 2em; text-align: center; font-weight: bold;">Data Kategori</h4>
+                    <h4 class="blue-text text-darken-2" style="font-size: 2em; text-align: center; font-weight: bold;">Kategori</h4>
                     <div class="row">
                         <div class="col s12">
                             <a href="#addCategoryModal" class="btn green darken-1 modal-trigger" style="margin-bottom: 20px; border-radius: 25px;" id="add-modal">

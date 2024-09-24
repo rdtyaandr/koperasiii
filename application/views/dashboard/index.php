@@ -31,305 +31,201 @@
                     </div>
 
                     <div class="row">
-                        <?php if ($this->session->userdata('level') == 'admin'): ?>
-                            <div class="row">
-                                <div class="col s12 m6 l3">
-                                    <a href="<?php echo base_url('barang'); ?>" class="card-link">
-                                        <div class="card blue darken-2 white-text"
-                                            style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s;">
-                                            <div class="card-content" style="padding: 20px;">
-                                                <i class="material-icons right" style="font-size: 3em;">assessment</i>
-                                                <span class="card-title" style="font-size: 1.2em;">Barang</span>
-                                                <h4 style="font-size: 2.5em; margin: 10px 0;">
-                                                    <?php echo $stats['total_barang']; ?>
-                                                </h4>
-                                                <p style="font-size: 1em;">
-                                                    <?php echo ($statss['change_barang'] >= 0 ? '+' : '') . $statss['change_barang']; ?>
-                                                    bulan ini
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col s12 m6 l3">
-                                    <a href="<?php echo base_url('transaksi'); ?>" class="card-link">
-                                        <div class="card green darken-2 white-text"
-                                            style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s;">
-                                            <div class="card-content" style="padding: 20px;">
-                                                <i class="material-icons right" style="font-size: 3em;">monetization_on</i>
-                                                <span class="card-title" style="font-size: 1.2em;">Transaksi</span>
-                                                <h4 style="font-size: 2.5em; margin: 10px 0;">
-                                                    <?php echo $stats['total_transaksi']; ?>
-                                                </h4>
-                                                <p style="font-size: 1em;">
-                                                    <?php echo ($statss['change_transaksi'] >= 0 ? '+' : '') . $statss['change_transaksi']; ?>
-                                                    bulan ini
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col s12 m6 l3">
-                                    <a href="<?php echo base_url('pengguna'); ?>" class="card-link">
-                                        <div class="card amber darken-2 white-text"
-                                            style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s;">
-                                            <div class="card-content" style="padding: 20px;">
-                                                <i class="material-icons right" style="font-size: 3em;">people_alt</i>
-                                                <span class="card-title" style="font-size: 1.2em;">Pengguna</span>
-                                                <h4 style="font-size: 2.5em; margin: 10px 0;">
-                                                    <?php echo $stats['total_anggota']; ?>
-                                                </h4>
-                                                <p style="font-size: 1em;">
-                                                    <?php echo ($statss['change_anggota'] >= 0 ? '+' : '') . $statss['change_anggota']; ?>
-                                                    bulan ini
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col s12 m6 l3">
-                                    <a href="<?php echo base_url('pinjaman'); ?>" class="card-link">
-                                        <div class="card red darken-2 white-text"
-                                            style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s;">
-                                            <div class="card-content" style="padding: 20px;">
-                                                <i class="material-icons right" style="font-size: 3em;">credit_card</i>
-                                                <span class="card-title" style="font-size: 1.2em;">Pinjaman</span>
-                                                <h4 style="font-size: 2.5em; margin: 10px 0;">
-                                                    <?php echo $stats['total_pengajuan']; ?>
-                                                </h4>
-                                                <p style="font-size: 1em;">
-                                                    <?php echo ($statss['change_pengajuan'] >= 0 ? '+' : '') . $statss['change_pengajuan']; ?>
-                                                    bulan ini
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        <?php endif ?>
+                        <?php
+                        $level = $this->session->userdata('level');
+                        $cards = [
+                            'admin' => [
+                                ['url' => 'barang', 'color' => 'blue darken-2', 'icon' => 'assessment', 'title' => 'Barang', 'total' => $stats['total_barang'], 'change' => $statss['change_barang']],
+                                ['url' => 'transaksi', 'color' => 'green darken-2', 'icon' => 'monetization_on', 'title' => 'Transaksi', 'total' => $stats['total_transaksi'], 'change' => $statss['change_transaksi']],
+                                ['url' => 'pengguna', 'color' => 'amber darken-2', 'icon' => 'people_alt', 'title' => 'Pengguna', 'total' => $stats['total_anggota'], 'change' => $statss['change_anggota']],
+                                ['url' => 'pinjaman', 'color' => 'red darken-2', 'icon' => 'credit_card', 'title' => 'Pinjaman', 'total' => $stats['total_pengajuan'], 'change' => $statss['change_pengajuan']]
+                            ],
+                            'operator' => [
+                                ['url' => 'barang', 'color' => 'blue darken-2', 'icon' => 'assessment', 'title' => 'Barang', 'total' => $stats['total_barang'], 'change' => $statss['change_barang']],
+                                ['url' => 'transaksi', 'color' => 'green darken-2', 'icon' => 'monetization_on', 'title' => 'Transaksi', 'total' => $stats['total_transaksi'], 'change' => $statss['change_transaksi']],
+                                ['url' => 'pengguna', 'color' => 'amber darken-2', 'icon' => 'people_alt', 'title' => 'Pengguna', 'total' => $stats['total_anggota'], 'change' => $statss['change_anggota']]
+                            ]
+                        ];
 
-                        <?php if ($this->session->userdata('level') == 'operator'): ?>
-                            <div class="col s12 m6 l4">
-                                <a href="<?php echo base_url('barang'); ?>" class="card-link">
-                                    <div class="card blue darken-2 white-text"
-                                        style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s;">
+                        foreach ($cards[$level] as $card): ?>
+                            <div class="col s12 m6 l<?php echo ($level == 'admin') ? '3' : '4'; ?>">
+                                <a href="<?php echo base_url($card['url']); ?>" class="card-link">
+                                    <div class="card <?php echo $card['color']; ?> white-text" style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s;">
                                         <div class="card-content" style="padding: 20px;">
-                                            <i class="material-icons right" style="font-size: 3em;">assessment</i>
-                                            <span class="card-title" style="font-size: 1.2em;">Barang</span>
-                                            <h4 style="font-size: 2.5em; margin: 10px 0;">
-                                                <?php echo $stats['total_barang']; ?>
-                                            </h4>
-                                            <p style="font-size: 1em;">
-                                                <?php echo ($statss['change_barang'] >= 0 ? '+' : '') . $statss['change_barang']; ?>
-                                                bulan ini
-                                            </p>
+                                            <i class="material-icons right" style="font-size: 3em;"><?php echo $card['icon']; ?></i>
+                                            <span class="card-title" style="font-size: 1.2em;"><?php echo $card['title']; ?></span>
+                                            <h4 style="font-size: 2.5em; margin: 10px 0;"><?php echo $card['total']; ?></h4>
+                                            <p style="font-size: 1em;"><?php echo ($card['change'] >= 0 ? '+' : '') . $card['change']; ?> bulan ini</p>
                                         </div>
                                     </div>
                                 </a>
                             </div>
-                            <div class="col s12 m6 l4">
-                                <a href="<?php echo base_url('transaksi'); ?>" class="card-link">
-                                    <div class="card green darken-2 white-text"
-                                        style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s;">
-                                        <div class="card-content" style="padding: 20px;">
-                                            <i class="material-icons right" style="font-size: 3em;">monetization_on</i>
-                                            <span class="card-title" style="font-size: 1.2em;">Transaksi</span>
-                                            <h4 style="font-size: 2.5em; margin: 10px 0;">
-                                                <?php echo $stats['total_transaksi']; ?>
-                                            </h4>
-                                            <p style="font-size: 1em;">
-                                                <?php echo ($statss['change_transaksi'] >= 0 ? '+' : '') . $statss['change_transaksi']; ?>
-                                                bulan ini
-                                            </p>
+                        <?php endforeach; ?>
+                    </div>
+                    <!-- Grafik -->
+                    <div class="row">
+                        <?php $level = $this->session->userdata('level'); ?>
+                        <div class="col <?php echo ($level == 'admin') ? 's6 m6' : 's12 m12'; ?>" <?php echo ($level == 'operator') ? 'style="display: flex; justify-content: center;"' : ''; ?>>
+                            <?php if ($level == 'operator'): ?>
+                                <div style="width: 96%;">
+                                <?php endif; ?>
+                                <div class="cardd" style="border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
+                                    <div class="card-content">
+                                        <span class="card-title blue-text text-darken-2" style="font-size: 1.8em; font-weight: 500;">Data Transaksi</span>
+                                        <div id="sales-chart"></div>
+                                    </div>
+                                </div>
+                                </div>
+                                <?php if ($level == 'admin'): ?>
+                                    <div class="col s6 m6">
+                                        <div class="cardd" style="border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
+                                            <div class="card-content">
+                                                <span class="card-title green-text text-darken-1" style="font-size: 1.8em; font-weight: 500;">Banyak Pinjaman</span>
+                                                <div id="user-growth-chart"></div>
+                                            </div>
                                         </div>
                                     </div>
-                                </a>
-                            </div>
-                            <div class="col s12 m6 l4">
-                                <a href="<?php echo base_url('pengguna'); ?>" class="card-link">
-                                    <div class="card amber darken-2 white-text"
-                                        style="border-radius: 15px; transition: transform 0.3s, box-shadow 0.3s;">
-                                        <div class="card-content" style="padding: 20px;">
-                                            <i class="material-icons right" style="font-size: 3em;">people_alt</i>
-                                            <span class="card-title" style="font-size: 1.2em;">Pengguna</span>
-                                            <h4 style="font-size: 2.5em; margin: 10px 0;">
-                                                <?php echo $stats['total_anggota']; ?>
-                                            </h4>
-                                            <p style="font-size: 1em;">
-                                                <?php echo ($statss['change_anggota'] >= 0 ? '+' : '') . $statss['change_anggota']; ?>
-                                                bulan ini
-                                            </p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
+                                <?php endif; ?>
                         </div>
-                <?php endif ?>
-                </div>
-                <!-- Grafik -->
-                <div class="row">
-                    <?php $level = $this->session->userdata('level'); ?>
-                    <div class="col <?php echo ($level == 'admin') ? 's6 m6' : 's12 m12'; ?>" <?php echo ($level == 'operator') ? 'style="display: flex; justify-content: center;"' : ''; ?>>
-                        <?php if ($level == 'operator'): ?>
-                            <div style="width: 96%;">
-                            <?php endif; ?>
-                            <div class="cardd" style="border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
-                                <div class="card-content">
-                                    <span class="card-title blue-text text-darken-2" style="font-size: 1.8em; font-weight: 500;">Data Transaksi</span>
-                                    <div id="sales-chart"></div>
-                                </div>
-                            </div>
-                            </div>
-                            <?php if ($level == 'admin'): ?>
-                                <div class="col s6 m6">
-                                    <div class="cardd" style="border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
-                                        <div class="card-content">
-                                            <span class="card-title green-text text-darken-1" style="font-size: 1.8em; font-weight: 500;">Banyak Pinjaman</span>
-                                            <div id="user-growth-chart"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script>
-        // Update current date and time
-        function updateDateTime() {
-            var now = new Date();
-            var dateOptions = {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            };
-            var timeOptions = {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            };
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <script>
+            // Update current date and time
+            function updateDateTime() {
+                var now = new Date();
+                var dateOptions = {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                };
+                var timeOptions = {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                };
 
-            var formattedDate = now.toLocaleDateString('id-ID', dateOptions);
-            var formattedTime = now.toLocaleTimeString('id-ID', timeOptions);
+                var formattedDate = now.toLocaleDateString('id-ID', dateOptions);
+                var formattedTime = now.toLocaleTimeString('id-ID', timeOptions);
 
-            document.getElementById('date').textContent = formattedDate;
-            document.getElementById('time').textContent = formattedTime;
-        }
-        setInterval(updateDateTime, 1000);
-        updateDateTime();
-
-        // Sales Overview Chart
-        var salesOptions = {
-            series: [{
-                name: 'Total',
-                data: <?php echo json_encode($monthly_data); ?>
-            }],
-            chart: {
-                type: 'area',
-                height: 400,
-                zoom: {
-                    enabled: false
-                }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                curve: 'smooth'
-            },
-            title: {
-                text: 'Jumlah transaksi perbulan',
-                align: 'left'
-            },
-            subtitle: {
-                text: 'Total transaksi dari waktu ke waktu',
-                align: 'left'
-            },
-            xaxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                labels: {
-                    formatter: function(value) {
-                        return value;
-                    }
-                }
-            },
-            yaxis: {
-                opposite: true,
-                labels: {
-                    formatter: function(value) {
-                        return value;
-                    }
-                }
-            },
-            legend: {
-                horizontalAlign: 'left'
-            },
-            tooltip: {
-                y: {
-                    formatter: function(value) {
-                        return value + ' Transaksi';
-                    }
-                }
+                document.getElementById('date').textContent = formattedDate;
+                document.getElementById('time').textContent = formattedTime;
             }
-        };
+            setInterval(updateDateTime, 1000);
+            updateDateTime();
 
-        var salesChart = new ApexCharts(document.querySelector("#sales-chart"), salesOptions);
-        salesChart.render();
-
-        var userGrowthOptions = {
-            series: [{
-                name: 'Menunggu',
-                data: <?php echo json_encode($pending_data); ?>,
-            }, {
-                name: 'Disetujui',
-                data: <?php echo json_encode($approved_data); ?>,
-            }, {
-                name: 'Ditolak',
-                data: <?php echo json_encode($rejected_data); ?>,
-            }],
-            chart: {
-                type: 'bar',
-                height: 400
-            },
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: '55%',
-                    endingShape: 'rounded'
+            // Sales Overview Chart
+            var salesOptions = {
+                series: [{
+                    name: 'Total',
+                    data: <?php echo json_encode($monthly_data); ?>
+                }],
+                chart: {
+                    type: 'area',
+                    height: 400,
+                    zoom: {
+                        enabled: false
+                    }
                 },
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                show: true,
-                width: 2,
-                colors: ['transparent']
-            },
-            xaxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            },
-            yaxis: {
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth'
+                },
                 title: {
-                    text: 'Jumlah'
-                }
-            },
-            fill: {
-                opacity: 1
-            },
-            tooltip: {
-                y: {
-                    formatter: function(val) {
-                        return val + " User";
+                    text: 'Jumlah transaksi perbulan',
+                    align: 'left'
+                },
+                subtitle: {
+                    text: 'Total transaksi dari waktu ke waktu',
+                    align: 'left'
+                },
+                xaxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    labels: {
+                        formatter: function(value) {
+                            return value;
+                        }
+                    }
+                },
+                yaxis: {
+                    opposite: true,
+                    labels: {
+                        formatter: function(value) {
+                            return value;
+                        }
+                    }
+                },
+                legend: {
+                    horizontalAlign: 'left'
+                },
+                tooltip: {
+                    y: {
+                        formatter: function(value) {
+                            return value + ' Transaksi';
+                        }
                     }
                 }
-            }
-        };
+            };
 
-        var userGrowthChart = new ApexCharts(document.querySelector("#user-growth-chart"), userGrowthOptions);
-        userGrowthChart.render();
-    </script>
+            var salesChart = new ApexCharts(document.querySelector("#sales-chart"), salesOptions);
+            salesChart.render();
+
+            var userGrowthOptions = {
+                series: [{
+                    name: 'Menunggu',
+                    data: <?php echo json_encode($pending_data); ?>,
+                }, {
+                    name: 'Disetujui',
+                    data: <?php echo json_encode($approved_data); ?>,
+                }, {
+                    name: 'Ditolak',
+                    data: <?php echo json_encode($rejected_data); ?>,
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 400
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: '55%',
+                        endingShape: 'rounded'
+                    },
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    show: true,
+                    width: 2,
+                    colors: ['transparent']
+                },
+                xaxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                },
+                yaxis: {
+                    title: {
+                        text: 'Jumlah'
+                    }
+                },
+                fill: {
+                    opacity: 1
+                },
+                tooltip: {
+                    y: {
+                        formatter: function(val) {
+                            return val + " User";
+                        }
+                    }
+                }
+            };
+
+            var userGrowthChart = new ApexCharts(document.querySelector("#user-growth-chart"), userGrowthOptions);
+            userGrowthChart.render();
+        </script>
