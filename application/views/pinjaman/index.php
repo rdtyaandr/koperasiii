@@ -86,6 +86,7 @@
                                 </tr>
                             <?php endif; ?>
                         </tbody>
+
                     </table>
                 </div>
                 <div class="card-action right-align">
@@ -98,7 +99,6 @@
 
 <!-- Native CSS for additional styling -->
 <style>
-
     .card-content {
         padding-bottom: 0;
     }
@@ -193,6 +193,7 @@
     .status-badge.red.lighten-2 {
         background-color: #e57373;
     }
+
     table tbody tr {
         border-bottom: 1px solid #ddd;
     }
@@ -200,11 +201,11 @@
 
 <!-- JavaScript for initializing Materialize components -->
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         M.AutoInit(); // Initialize Materialize components
     });
 
-    document.getElementById('search').addEventListener('keyup', function () {
+    document.getElementById('search').addEventListener('keyup', function() {
         const searchTerm = this.value.toLowerCase();
         const tableRows = document.querySelectorAll('tbody tr');
         let rowFound = false;
