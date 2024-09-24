@@ -38,4 +38,13 @@ class SatuanModel extends GLOBAL_Model
         // Hapus kategori jika tidak digunakan
         return parent::delete_row_with_status('tb_satuan', array('id_satuan' => $id_satuan));
     }
+
+    public function cek_nama_satuan($nama_satuan, $id_satuan = null)
+    {
+        $this->db->where('nama_satuan', $nama_satuan);
+        if ($id_satuan) {
+            $this->db->where('id_satuan !=', $id_satuan);
+        }
+        return $this->db->get('tb_satuan')->num_rows() > 0;
+    }
 }

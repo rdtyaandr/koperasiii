@@ -82,9 +82,15 @@ class BarangController extends GLOBAL_Controller
         $data['kategori'] = parent::model('KategoriModel')->lihat_semua();
         $data['satuan'] = parent::model('SatuanModel')->lihat_semua();
         if (isset($_POST['tambah'])) {
+            $nama_barang = parent::post('nama_barang');
+            if (parent::model('BarangModel')->cek_nama_barang($nama_barang)) {
+                parent::alert('alert', 'error-duplicate');
+                redirect('barang/tambah');
+            }
+
             $data = array(
                 'kode_barang' => parent::post('kode_barang'),
-                'nama_barang' => parent::post('nama_barang'),
+                'nama_barang' => $nama_barang,
                 'detail_barang' => parent::post('detail_barang'),
                 'id_satuan' => parent::post('satuan'),
                 'id_kategori' => parent::post('kategori'),
@@ -114,9 +120,15 @@ class BarangController extends GLOBAL_Controller
         $data['kategori'] = parent::model('KategoriModel')->lihat_semua();
         $data['satuan'] = parent::model('SatuanModel')->lihat_semua();
         if (isset($_POST['ubah'])) {
+            $nama_barang = parent::post('nama_barang');
+            if (parent::model('BarangModel')->cek_nama_barang($nama_barang, $id)) {
+                parent::alert('alert', 'error-duplicate');
+                redirect('barang/ubah/' . $id);
+            }
+
             $data = array(
                 'kode_barang' => parent::post('kode_barang'),
-                'nama_barang' => parent::post('nama_barang'),
+                'nama_barang' => $nama_barang,
                 'detail_barang' => parent::post('detail_barang'),
                 'id_satuan' => parent::post('satuan'),
                 'id_kategori' => parent::post('kategori'),

@@ -46,8 +46,14 @@ class KategoriController extends GLOBAL_Controller
                 parent::alert('alert', 'gagal_validasi');
                 redirect('kategori');
             } else {
+                $nama_kategori = $this->input->post('nama_kategori');
+                if (parent::model('KategoriModel')->cek_nama_kategori($nama_kategori)) {
+                    parent::alert('alert', 'error-duplicate');
+                    redirect('kategori');
+                }
+
                 $data = array(
-                    'nama_kategori' => $this->input->post('nama_kategori')
+                    'nama_kategori' => $nama_kategori
                 );
 
                 $simpan = parent::model('KategoriModel')->tambah($data);
@@ -72,8 +78,14 @@ class KategoriController extends GLOBAL_Controller
                 parent::alert('alert', 'gagal_validasi');
                 redirect('kategori');
             } else {
+                $nama_kategori = $this->input->post('nama_kategori');
+                if (parent::model('KategoriModel')->cek_nama_kategori($nama_kategori, $id_kategori)) {
+                    parent::alert('alert', 'error-duplicate');
+                    redirect('kategori');
+                }
+
                 $data = array(
-                    'nama_kategori' => $this->input->post('nama_kategori')
+                    'nama_kategori' => $nama_kategori
                 );
 
                 $simpan = parent::model('KategoriModel')->ubah($id_kategori, $data);

@@ -30,13 +30,13 @@
                             <label for="satker">Satker</label><br><br>
                             <select name="satker" id="satker" class="browser-default">
                                 <option value="" disabled>Pilih Satker</option>
-                                <option value="ipds">ipds</option>
-                                <option value="umum">umum</option>
-                                <option value="neraca">neraca</option>
-                                <option value="produksi">produksi</option>
-                                <option value="distribusi">distribusi</option>
-                                <option value="diseminasi">diseminasi</option>
-                                <option value="sosial">sosial</option>
+                                <option value="ipds">IPDS</option>
+                                <option value="umum">Umum</option>
+                                <option value="neraca">Neraca</option>
+                                <option value="produksi">Produksi</option>
+                                <option value="distribusi">Distribusi</option>
+                                <option value="diseminasi">Diseminasi</option>
+                                <option value="sosial">Sosial</option>
                             </select>
                         </div>
                         <div class="input-field col s12 m6">

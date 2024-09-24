@@ -83,6 +83,11 @@
                                             })">
                                                 <i class="material-icons">delete</i>
                                             </a>
+                                            <a href="<?= base_url('pengguna/detail/' . $hitam['pengguna_id']) ?>"
+                                                class="btn-floating waves-effect waves-light blue darken-1 tooltipped"
+                                                data-position="top" data-tooltip="Detail" style="border-radius: 4px;">
+                                                <i class="material-icons">info</i>
+                                            </a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

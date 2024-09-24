@@ -72,4 +72,13 @@ class BarangModel extends GLOBAL_Model
         $this->db->where('id_barang', $id_barang);
         $this->db->update('tb_barang', array('harga_jual' => $harga_baru));
     }
+
+    public function cek_nama_barang($nama_barang, $id_barang = null)
+    {
+        $this->db->where('nama_barang', $nama_barang);
+        if ($id_barang) {
+            $this->db->where('id_barang !=', $id_barang);
+        }
+        return $this->db->get('tb_barang')->num_rows() > 0;
+    }
 }

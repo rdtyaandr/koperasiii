@@ -38,4 +38,13 @@ class KategoriModel extends GLOBAL_Model
         // Hapus kategori jika tidak digunakan
         return parent::delete_row_with_status('tb_kategori', array('id_kategori' => $id_kategori));
     }
+
+    public function cek_nama_kategori($nama_kategori, $id_kategori = null)
+    {
+        $this->db->where('nama_kategori', $nama_kategori);
+        if ($id_kategori) {
+            $this->db->where('id_kategori !=', $id_kategori);
+        }
+        return $this->db->get('tb_kategori')->num_rows() > 0;
+    }
 }

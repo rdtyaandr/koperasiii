@@ -30,13 +30,13 @@
                             <label for="satker">Satker</label><br><br>
                             <select name="satker" id="satker" class="browser-default">
                                 <option value="" disabled>Pilih Satker</option>
-                                <option value="ipds" <?= $Pengguna['satker'] === 'ipds' ? 'selected' : '' ?>>ipds</option>
-                                <option value="umum" <?= $Pengguna['satker'] === 'umum' ? 'selected' : '' ?>>umum</option>
-                                <option value="neraca" <?= $Pengguna['satker'] === 'neraca' ? 'selected' : '' ?>>neraca</option>
-                                <option value="produksi" <?= $Pengguna['satker'] === 'produksi' ? 'selected' : '' ?>>produksi</option>
-                                <option value="distribusi" <?= $Pengguna['satker'] === 'distribusi' ? 'selected' : '' ?>>distribusi</option>
-                                <option value="diseminasi" <?= $Pengguna['satker'] === 'diseminasi' ? 'selected' : '' ?>>diseminasi</option>
-                                <option value="sosial" <?= $Pengguna['satker'] === 'sosial' ? 'selected' : '' ?>>sosial</option>
+                                <option value="ipds" <?= $Pengguna['satker'] === 'ipds' ? 'selected' : '' ?>>IPDS</option>
+                                <option value="umum" <?= $Pengguna['satker'] === 'umum' ? 'selected' : '' ?>>Umum</option>
+                                <option value="neraca" <?= $Pengguna['satker'] === 'neraca' ? 'selected' : '' ?>>Neraca</option>
+                                <option value="produksi" <?= $Pengguna['satker'] === 'produksi' ? 'selected' : '' ?>>Produksi</option>
+                                <option value="distribusi" <?= $Pengguna['satker'] === 'distribusi' ? 'selected' : '' ?>>Distribusi</option>
+                                <option value="diseminasi" <?= $Pengguna['satker'] === 'diseminasi' ? 'selected' : '' ?>>Diseminasi</option>
+                                <option value="sosial" <?= $Pengguna['satker'] === 'sosial' ? 'selected' : '' ?>>Sosial</option>
                             </select>
                         </div>
                         <div class="input-field col s12 m6">

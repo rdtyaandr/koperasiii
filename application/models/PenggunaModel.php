@@ -15,8 +15,7 @@ class PenggunaModel extends GLOBAL_Model {
     }
 
     // Menambahkan method baru untuk mendapatkan pengguna berdasarkan ID
-    public function Lihat_Pengguna($query)
-    {
+    public function Lihat_Pengguna($query) {
         return parent::get_array_of_row('tb_pengguna', $query);
     }
 

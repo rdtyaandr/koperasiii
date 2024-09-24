@@ -46,8 +46,14 @@ class SatuanController extends GLOBAL_Controller
                 parent::alert('alert', 'gagal_validasi');
                 redirect('satuan');
             } else {
+                $nama_satuan = $this->input->post('nama_satuan');
+                if (parent::model('SatuanModel')->cek_nama_satuan($nama_satuan)) {
+                    parent::alert('alert', 'error-duplicate');
+                    redirect('satuan');
+                }
+
                 $data = array(
-                    'nama_satuan' => $this->input->post('nama_satuan')
+                    'nama_satuan' => $nama_satuan
                 );
 
                 $simpan = parent::model('SatuanModel')->tambah($data);
@@ -72,8 +78,14 @@ class SatuanController extends GLOBAL_Controller
                 parent::alert('alert', 'gagal_validasi');
                 redirect('satuan');
             } else {
+                $nama_satuan = $this->input->post('nama_satuan');
+                if (parent::model('SatuanModel')->cek_nama_satuan($nama_satuan, $id_satuan)) {
+                    parent::alert('alert', 'error-duplicate');
+                    redirect('satuan');
+                }
+
                 $data = array(
-                    'nama_satuan' => $this->input->post('nama_satuan')
+                    'nama_satuan' => $nama_satuan
                 );
 
                 $simpan = parent::model('SatuanModel')->ubah($id_satuan, $data);

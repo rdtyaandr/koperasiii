@@ -186,6 +186,12 @@ class PenggunaController extends GLOBAL_Controller {
             redirect('limit');
         }
     }
-    
+
+    public function detail($id) {
+        $data['title'] = 'Detail Pengguna';
+        $query = array('pengguna_id' => $id);
+        $data['Pengguna'] = parent::model('PenggunaModel')->Lihat_Pengguna($query);
+        parent::template('pengguna/detail', $data);
+    }
 
 }
