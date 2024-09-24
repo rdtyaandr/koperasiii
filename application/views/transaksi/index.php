@@ -75,7 +75,7 @@
                     <div class="row">
                         <div class="col s12">
                             <h4 class="blue-text text-darken-2"
-                                style="font-size: 2em; text-align: center; font-weight: bold;">Data Transaksi</h4>
+                                style="font-size: 2em; text-align: center; font-weight: bold;">Transaksi</h4>
                         </div>
                         <div class="col s12">
                             <a href="<?= base_url('transaksi/tambah') ?>"
