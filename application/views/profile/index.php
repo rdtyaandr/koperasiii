@@ -303,12 +303,13 @@
                 <label for="satker">Satker</label>
                 <input type="text" id="satker" name="satker"
                     value="<?php echo htmlspecialchars($pengguna['satker']); ?>">
+                    
             </div>
             <div class="input-field">
                 <div class="password-wrapper">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password"
-                        value="<?php echo htmlspecialchars($pengguna['password']); ?>">
+                        value="">
                     <span class="material-icons toggle-password" onclick="togglePassword()">visibility_off</span>
                 </div>
             </div>

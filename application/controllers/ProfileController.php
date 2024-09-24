@@ -120,33 +120,45 @@ class ProfileController extends GLOBAL_Controller
 }
 
 
-    public function update()
-    {
-        // Ambil ID pengguna dari sesi
-        $penggunaID = $this->session->userdata('pengguna_id');
+public function update()
+{
+    // Ambil ID pengguna dari sesi
+    $penggunaID = $this->session->userdata('pengguna_id');
 
-        // Data yang akan diperbarui
-        $data = array(
-            'nama_lengkap' => $this->input->post('nama_lengkap'),
-            'email' => $this->input->post('email'),
-            'satker' => $this->input->post('satker'),
-            'password' => $this->input->post('password')
-        );
+    // Ambil data pengguna dari model untuk mendapatkan password lama
+    $current_user = $this->ProfileModel->get_profile_by_id($penggunaID);
 
-        // Update data profil di database
-        if ($this->ProfileModel->update_profile($penggunaID, $data)) {
-            // Tambahkan pesan ke history
-            $this->addMessage('Profil diupdate', 'Pengguna dengan ID ' . $penggunaID . ' telah memperbarui profil.', 'update');
+    // Data yang akan diperbarui
+    $data = array(
+        'nama_lengkap' => $this->input->post('nama_lengkap'),
+        'email' => $this->input->post('email'),
+        'satker' => $this->input->post('satker'),
+    );
 
-            // Tampilkan pesan sukses
-            parent::alert('alert', 'profile-updated');
-        } else {
-            // Tampilkan pesan error jika update gagal
-            parent::alert('alert', 'update-error');
-        }
+    // Ambil input password baru
+    $new_password = $this->input->post('password');
 
-        redirect('profile');
+    // Jika password baru diisi, hash password baru, jika tidak, hapus dari array data
+    if (!empty($new_password)) {
+        $data['password'] = md5($new_password); // Hash password baru
     }
+
+    // Update data profil di database
+    if ($this->ProfileModel->update_profile($penggunaID, $data)) {
+        // Tambahkan pesan ke history
+        $this->addMessage('Profil diupdate', 'Pengguna dengan ID ' . $penggunaID . ' telah memperbarui profil.', 'update');
+
+        // Tampilkan pesan sukses
+        parent::alert('alert', 'profile-updated');
+    } else {
+        // Tampilkan pesan error jika update gagal
+        parent::alert('alert', 'update-error');
+    }
+
+    redirect('profile');
+}
+
+
 
     // Fungsi untuk menambahkan pesan ke history
     private function addMessage($text, $summary, $icon)

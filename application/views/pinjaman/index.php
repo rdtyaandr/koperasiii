@@ -40,7 +40,7 @@
                                     <tr id="row-<?= $pinjaman['id'] ?>">
                                         <td class="center-align"><?= $key + 1 ?></td>
                                         <?php if ($this->session->userdata('level') == 'admin'): ?>
-                                            <td class="center-align"><?= htmlspecialchars($pinjaman['user_id'], ENT_QUOTES, 'UTF-8') ?></td>
+                                            <td class="center-align"><?= htmlspecialchars($pinjaman['username'], ENT_QUOTES, 'UTF-8') ?></td>
                                         <?php endif; ?>
                                         <td class="center-align"><?= htmlspecialchars($pinjaman['jenis_pinjaman'], ENT_QUOTES, 'UTF-8') ?></td>
                                         <td class="center-align"><?= formatTanggal($pinjaman['tanggal_pinjam']) ?></td>
