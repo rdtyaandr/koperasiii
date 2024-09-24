@@ -52,21 +52,22 @@ class PinjamanModel extends GLOBAL_Model
 	}
 
 	public function get_all_pinjaman()
-	{
-		$this->db->select('tb_pengajuan.*, tb_pengguna.username'); // Select all fields from tb_pengajuan and username from tb_pengguna
-		$this->db->from('tb_pengajuan');
-		$this->db->join('tb_pengguna', 'tb_pengajuan.user_id = tb_pengguna.pengguna_id'); // Join with tb_pengguna based on user_id
-		return $this->db->get()->result_array();
-	}
+    {
+        $this->db->select('tb_pengajuan.*, tb_pengguna.username'); // Ambil username
+        $this->db->from('tb_pengajuan');
+        $this->db->join('tb_pengguna', 'tb_pengajuan.user_id = tb_pengguna.pengguna_id'); // Lakukan join
+        return $this->db->get()->result_array();
+    }
 
-	public function get_pinjaman_by_user($user_id)
-	{
-		$this->db->select('tb_pengajuan.*, tb_pengguna.username'); // Select all fields from tb_pengajuan and username from tb_pengguna
-		$this->db->from('tb_pengajuan');
-		$this->db->join('tb_pengguna', 'tb_pengajuan.user_id = tb_pengguna.pengguna_id'); // Join with tb_pengguna based on user_id
-		$this->db->where('tb_pengajuan.user_id', $user_id); // Only fetch records matching the user_id
-		return $this->db->get()->result_array();
-	}
+    // Fungsi untuk user (mengambil pinjaman berdasarkan user_id)
+    public function get_pinjaman_by_user($user_id)
+    {
+        $this->db->select('tb_pengajuan.*, tb_pengguna.username'); // Ambil username
+        $this->db->from('tb_pengajuan');
+        $this->db->join('tb_pengguna', 'tb_pengajuan.user_id = tb_pengguna.pengguna_id'); // Lakukan join
+        $this->db->where('tb_pengajuan.user_id', $user_id); // Ambil data berdasarkan user_id
+        return $this->db->get()->result_array();
+    }
 
 
 	public function update_status($id, $status)
