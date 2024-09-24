@@ -33,10 +33,10 @@ public function login()
         // Jika form login disubmit
         if (isset($_POST['login'])){
             $username = parent::post('username');
-            $password = parent::post('password');
+            $password = (parent::post('password'));
             
             // Ambil data pengguna dari database
-            $dataPengguna = $this->AuthModel->get_pengguna($username, ($password));
+            $dataPengguna = $this->AuthModel->get_pengguna($username, md5($password));
             
             // Jika data pengguna ditemukan
             if ($dataPengguna->num_rows() > 0){

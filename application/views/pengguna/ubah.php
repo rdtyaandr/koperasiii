@@ -22,7 +22,7 @@
                         </div>
                         <div class="input-field col s12 m6" style="position: relative;">
                             <i class="mdi-action-lock-outline prefix grey-text text-lighten-1"></i>
-                            <input type="password" id="password" name="password" value="<?= $Pengguna['password'] ?>" required>
+                            <input type="password" id="password" name="password" value="" >
                             <label for="password">Password</label>
                             <i class="material-icons toggle-password-icon grey-text" id="toggle-password-icon" style="position: absolute; right: 10px; top: 38%; transform: translateY(-50%); cursor: pointer;">visibility_off</i>
                         </div>

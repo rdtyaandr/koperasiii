@@ -53,7 +53,33 @@
         media="screen,projection">
     </body>
 </head>
+<style>
+    #card-alert {
+        position: fixed;
+        /* Mengambang di atas */
+        top: 20px;
+        /* Jarak dari atas */
+        right: 20px;
+        /* Jarak dari kanan */
+        z-index: 1000;
+        /* Agar tetap di atas elemen lain */
+        width: 300px;
+        /* Atur lebar sesuai kebutuhan */
+        transition: all 0.3s ease;
+        /* Efek transisi */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        /* Bayangan untuk efek mengambang */
+        opacity: 1;
+        /* Memastikan alert terlihat */
+        border-radius: 8px;
+        /* Tambahkan border-radius */
+    }
 
+    .card {
+        margin-top: 20px;
+        /* Jarak antara card dan elemen di atasnya */
+    }
+</style>
 
 <body>
 
@@ -93,34 +119,34 @@
                                 <span class="newbadge"
                                     style="position: absolute; left:24px; bottom: 4px; width: 10px; height: 10px; background-color: red; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;"></span>
                                 <!-- Badge untuk jumlah item -->
-                            </a>
-                            <ul id='dropdown1' class='dropdown-content'
-                                style="margin-top: 37px; margin-right: 60px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); background-color: white; padding: 10px; min-width: 200px;">
-                                <?php if (in_array($this->session->userdata('level'), ['admin', 'operator']) && !empty($stok_rendah)): ?>
-                                    <li><strong style="color: #616161;">Stok <br>Rendah :</strong></li>
-                                    <?php foreach ($stok_rendah as $barang): ?>
-                                        <li><a href="<?php echo base_url('barang/ubah/' . $barang->id_barang); ?>" class="red-text"
-                                                style="text-decoration: none; color: #d32f2f;"><?php echo $barang->nama_barang; ?>
-                                                (Sisa: <?php echo $barang->stok; ?>)</a></li>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                                <?php if ($this->session->userdata('level') === 'admin' && !empty($pinjaman_menunggu)): ?>
-                                    <li><strong style="color: #616161;">Menunggu <br>Persetujuan :</strong></li>
-                                    <?php foreach ($pinjaman_menunggu as $pinjaman): ?>
-                                        <li><a href="<?php echo base_url('pinjaman'); ?>" class="red-text"
-                                                style="text-decoration: none; color: #1976d2;"><?php echo $pinjaman->jenis_pinjaman; ?>
-                                                (Jumlah: <?php echo number_format($pinjaman->jumlah_pinjaman, 2); ?>)</a></li>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </ul>
-                        <?php endif; ?>
+                        </a>
+                        <ul id='dropdown1' class='dropdown-content'
+                            style="margin-top: 37px; margin-right: 60px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); background-color: white; padding: 10px; min-width: 200px;">
+                            <?php if (in_array($this->session->userdata('level'), ['admin', 'operator']) && !empty($stok_rendah)): ?>
+                                <li><strong style="color: #616161;">Stok <br>Rendah :</strong></li>
+                                <?php foreach ($stok_rendah as $barang): ?>
+                                    <li><a href="<?php echo base_url('barang/ubah/' . $barang->id_barang); ?>" class="red-text"
+                                            style="text-decoration: none; color: #d32f2f;"><?php echo $barang->nama_barang; ?>
+                                            (Sisa: <?php echo $barang->stok; ?>)</a></li>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                            <?php if ($this->session->userdata('level') === 'admin' && !empty($pinjaman_menunggu)): ?>
+                                <li><strong style="color: #616161;">Menunggu <br>Persetujuan :</strong></li>
+                                <?php foreach ($pinjaman_menunggu as $pinjaman): ?>
+                                    <li><a href="<?php echo base_url('pinjaman'); ?>" class="red-text"
+                                            style="text-decoration: none; color: #1976d2;"><?php echo $pinjaman->jenis_pinjaman; ?>
+                                            (Jumlah: <?php echo number_format($pinjaman->jumlah_pinjaman, 2); ?>)</a></li>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </ul>
                     <?php endif; ?>
+                <?php endif; ?>
 
-                    <a href="#" data-activates="slide-out"
-                        class="sidebar-collapse btn-floating hide-on-large-only blue darken-2"
-                        style="position: absolute; left: 10px; top: 10px; box-shadow: 0px 0px 0px transparent !important;">
-                        <i class="mdi-navigation-menu"></i>
-                    </a>
+                <a href="#" data-activates="slide-out"
+                    class="sidebar-collapse btn-floating hide-on-large-only blue darken-2"
+                    style="position: absolute; left: 10px; top: 10px; box-shadow: 0px 0px 0px transparent !important;">
+                    <i class="mdi-navigation-menu"></i>
+                </a>
                 </div>
             </nav>
         </div>
@@ -142,14 +168,14 @@
                     <li class="user-details cyan darken-2">
                         <div class="row">
                             <div class="col col s4 m4 l4">
-                                <?php 
+                                <?php
                                 $profile_picture = $this->session->userdata('profile_picture');
                                 if (empty($profile_picture)) {
                                     $profile_picture = 'default.png';
                                 }
                                 ?>
                                 <img src="<?php echo base_url('assets/upload/profile_picture/' . $profile_picture); ?>"
-                                style="width: 55px; height: 55px; object-fit: cover; border-radius: 50%;">
+                                    style="width: 55px; height: 55px; object-fit: cover; border-radius: 50%;">
                             </div>
                             <div class="col col s8 m8 l8">
                                 <a class="btn-flat  waves-effect waves-light white-text profile-btn"
@@ -292,7 +318,7 @@
 
             <!-- //////////////////////////////////////////////////////////////////////////// -->
             <script>
-                document.getElementById('logoutButton').addEventListener('click', function () {
+                document.getElementById('logoutButton').addEventListener('click', function() {
                     Swal.fire({
                         title: 'Keluar dari aplikasi?',
                         text: "Anda akan keluar dari akun ini.",
@@ -325,7 +351,7 @@
                                     <p>BERHASIL : Data telah ditambahkan.</p>
                                 </div>
                             </div>
-                            <?php
+                        <?php
                             break;
                         case 'error-insert': ?>
                             <div id="card-alert" class="card red lighten-5 animated slideInDown">
@@ -333,7 +359,7 @@
                                     <p>GAGAL : Kesalahan saat menambahkan data</p>
                                 </div>
                             </div>
-                            <?php
+                        <?php
                             break;
                         case 'success-delete': ?>
                             <div id="card-alert" class="card green lighten-5 animated slideInDown">
@@ -341,7 +367,7 @@
                                     <p>BERHASIL : Data telah dihapus.</p>
                                 </div>
                             </div>
-                            <?php
+                        <?php
                             break;
                         case 'error-delete': ?>
                             <div id="card-alert" class="card red lighten-5 animated slideInDown">
@@ -349,7 +375,7 @@
                                     <p>GAGAL : Kesalahan saat menghapus data</p>
                                 </div>
                             </div>
-                            <?php
+                        <?php
                             break;
                         case 'error-delete-used': ?>
                             <div id="card-alert" class="card red lighten-5 animated slideInDown">
@@ -357,7 +383,7 @@
                                     <p>GAGAL : Data ini tidak dapat dihapus karena masih digunakan.</p>
                                 </div>
                             </div>
-                            <?php
+                        <?php
                             break;
                         case 'success-update': ?>
                             <div id="card-alert" class="card green lighten-5 animated slideInDown">
@@ -365,7 +391,7 @@
                                     <p>BERHASIL : Data telah diubah.</p>
                                 </div>
                             </div>
-                            <?php
+                        <?php
                             break;
                         case 'error-update': ?>
                             <div id="card-alert" class="card red lighten-5 animated slideInDown">
@@ -373,7 +399,7 @@
                                     <p>GAGAL : Kesalahan saat mengubah data</p>
                                 </div>
                             </div>
-                            <?php
+                        <?php
                             break;
                         case 'error-stock': ?>
                             <div id="card-alert" class="card red lighten-5 animated slideInDown">
@@ -381,7 +407,7 @@
                                     <p>GAGAL : Stok barang tidak mencukupi.</p>
                                 </div>
                             </div>
-                            <?php
+                        <?php
                             break;
                         case 'error-update-detail': ?>
                             <div id="card-alert" class="card red lighten-5 animated slideInDown">
@@ -389,7 +415,7 @@
                                     <p>GAGAL : Detail barang tidak lengkap atau salah.</p>
                                 </div>
                             </div>
-                            <?php
+                        <?php
                             break;
                         case 'error-invalid-barang': ?>
                             <div id="card-alert" class="card red lighten-5 animated slideInDown">
@@ -397,7 +423,7 @@
                                     <p>GAGAL : Barang tidak valid.</p>
                                 </div>
                             </div>
-                            <?php
+                        <?php
                             break;
                         case 'error-limit': ?>
                             <div id="card-alert" class="card red lighten-5 animated slideInDown">
@@ -405,7 +431,7 @@
                                     <p>GAGAL : Telah mencapai batas limit.</p>
                                 </div>
                             </div>
-                            <?php
+                    <?php
                             break;
                     }
                     ?>
@@ -442,136 +468,134 @@
                         <!-- <?php if ($this->session->flashdata('alert')): ?>
     <div class="alert <?php echo $this->session->flashdata('alert'); ?>">
         <?php
-        // switch ($this->session->flashdata('alert')) {
-        //     case 'belum_login':
-        //         echo "Anda belum login. Silakan login terlebih dahulu.";
-        //         break;
-        //     case 'sukses_tambah':
-        //         echo "Pengguna berhasil ditambahkan.";
-        //         break;
-        //     case 'gagal_tambah':
-        //         echo "Pengguna gagal ditambahkan.";
-        //         break;
-        //     case 'sukses_ubah':
-        //         echo "Pengguna berhasil diubah.";
-        //         break;
-        //     case 'gagal_ubah':
-        //         echo "Pengguna gagal diubah.";
-        //         break;
-        //     case 'sukses_hapus':
-        //         echo "Pengguna berhasil dihapus.";
-        //         break;
-        //     case 'gagal_hapus':
-        //         echo "Pengguna gagal dihapus.";
-        //         break;
-        //     default:
-        //         echo "Terjadi kesalahan.";
-        //         break;
-        // }
+                                    // switch ($this->session->flashdata('alert')) {
+                                    //     case 'belum_login':
+                                    //         echo "Anda belum login. Silakan login terlebih dahulu.";
+                                    //         break;
+                                    //     case 'sukses_tambah':
+                                    //         echo "Pengguna berhasil ditambahkan.";
+                                    //         break;
+                                    //     case 'gagal_tambah':
+                                    //         echo "Pengguna gagal ditambahkan.";
+                                    //         break;
+                                    //     case 'sukses_ubah':
+                                    //         echo "Pengguna berhasil diubah.";
+                                    //         break;
+                                    //     case 'gagal_ubah':
+                                    //         echo "Pengguna gagal diubah.";
+                                    //         break;
+                                    //     case 'sukses_hapus':
+                                    //         echo "Pengguna berhasil dihapus.";
+                                    //         break;
+                                    //     case 'gagal_hapus':
+                                    //         echo "Pengguna gagal dihapus.";
+                                    //         break;
+                                    //     default:
+                                    //         echo "Terjadi kesalahan.";
+                                    //         break;
+                                    // }
         ?>
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
     </div>
 <?php endif; ?> -->
 
-<script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuItems = document.querySelectorAll('.side-nav.fixed.leftside-navigation li.bold');
-        const dropdownItems = document.querySelectorAll('.collapsible-body li a');
-        const currentUrl = window.location.href;
-        const baseUrl = '<?= base_url() ?>';
+                        <script type="text/javascript">
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const menuItems = document.querySelectorAll('.side-nav.fixed.leftside-navigation li.bold');
+                                const dropdownItems = document.querySelectorAll('.collapsible-body li a');
+                                const currentUrl = window.location.href;
+                                const baseUrl = '<?= base_url() ?>';
 
-        function setActiveMenu() {
-            menuItems.forEach(item => {
-                const link = item.querySelector('a');
-                if (link && currentUrl.includes(link.getAttribute('href'))) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
-            });
+                                function setActiveMenu() {
+                                    menuItems.forEach(item => {
+                                        const link = item.querySelector('a');
+                                        if (link && currentUrl.includes(link.getAttribute('href'))) {
+                                            item.classList.add('active');
+                                        } else {
+                                            item.classList.remove('active');
+                                        }
+                                    });
 
-            dropdownItems.forEach(dropdownItem => {
-                if (currentUrl.includes(dropdownItem.getAttribute('href'))) {
-                    const parentLi = dropdownItem.closest('li.bold');
-                    if (parentLi) {
-                        parentLi.classList.add('active');
-                        parentLi.querySelector('.collapsible-header').classList.add('active');
-                        parentLi.querySelector('.collapsible-body').style.display = 'block';
-                    }
-                }
-            });
+                                    dropdownItems.forEach(dropdownItem => {
+                                        if (currentUrl.includes(dropdownItem.getAttribute('href'))) {
+                                            const parentLi = dropdownItem.closest('li.bold');
+                                            if (parentLi) {
+                                                parentLi.classList.add('active');
+                                                parentLi.querySelector('.collapsible-header').classList.add('active');
+                                                parentLi.querySelector('.collapsible-body').style.display = 'block';
+                                            }
+                                        }
+                                    });
 
-            if (currentUrl === baseUrl || currentUrl.includes(baseUrl + 'dashboard')) {
-                const dashboardItem = document.querySelector('a[href*="dashboard"]').closest('li.bold');
-                if (dashboardItem) {
-                    dashboardItem.classList.add('active');
-                }
-            }
+                                    if (currentUrl === baseUrl || currentUrl.includes(baseUrl + 'dashboard')) {
+                                        const dashboardItem = document.querySelector('a[href*="dashboard"]').closest('li.bold');
+                                        if (dashboardItem) {
+                                            dashboardItem.classList.add('active');
+                                        }
+                                    }
 
-            if (currentUrl.includes(baseUrl + 'limit')) {
-                const penggunaItem = document.querySelector('a[href*="pengguna"]').closest('li.bold');
-                if (penggunaItem) {
-                    penggunaItem.classList.add('active');
-                }
-            }
-        }
+                                    if (currentUrl.includes(baseUrl + 'limit')) {
+                                        const penggunaItem = document.querySelector('a[href*="pengguna"]').closest('li.bold');
+                                        if (penggunaItem) {
+                                            penggunaItem.classList.add('active');
+                                        }
+                                    }
+                                }
 
-        setActiveMenu();
+                                setActiveMenu();
 
-        menuItems.forEach(item => {
-            item.addEventListener('click', function() {
-                menuItems.forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
+                                menuItems.forEach(item => {
+                                    item.addEventListener('click', function() {
+                                        menuItems.forEach(i => i.classList.remove('active'));
+                                        this.classList.add('active');
+                                    });
+                                });
 
-        dropdownItems.forEach(item => {
-            item.addEventListener('click', function() {
-                menuItems.forEach(i => i.classList.remove('active'));
-                const parentLi = this.closest('li.bold');
-                if (parentLi) {
-                    parentLi.classList.add('active');
-                    parentLi.querySelector('.collapsible-header').classList.add('active');
-                }
-            });
-        });
-    });
-</script>
-<script type="text/javascript">
-  document.getElementById('notification-button').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent default action
-    const modal = document.getElementById('notification-modal');
-    modal.style.display = 'block'; // Show modal
-    setTimeout(() => {
-        modal.style.transform = 'translateX(0)'; // Slide in animation
-    }, 10); // Small delay to ensure animation works
+                                dropdownItems.forEach(item => {
+                                    item.addEventListener('click', function() {
+                                        menuItems.forEach(i => i.classList.remove('active'));
+                                        const parentLi = this.closest('li.bold');
+                                        if (parentLi) {
+                                            parentLi.classList.add('active');
+                                            parentLi.querySelector('.collapsible-header').classList.add('active');
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                        <script type="text/javascript">
+                            document.getElementById('notification-button').addEventListener('click', function(event) {
+                                event.preventDefault(); // Prevent default action
+                                const modal = document.getElementById('notification-modal');
+                                modal.style.display = 'block'; // Show modal
+                                setTimeout(() => {
+                                    modal.style.transform = 'translateX(0)'; // Slide in animation
+                                }, 10); // Small delay to ensure animation works
 
-    // Fetch notifications from the server
-    fetch('<?= base_url('NotificationController/get_notifications') ?>')
-        .then(response => response.json())
-        .then(notifications => {
-            // Display notifications in the modal
-            const notificationList = document.getElementById('notification-list');
-            notificationList.innerHTML = ''; // Clear previous notifications
-            notifications.forEach(notification => {
-                const li = document.createElement('li');
-                li.textContent = notification.message; // Adjust according to your notification data structure
-                li.style.padding = '10px';
-                li.style.borderBottom = '1px solid #ddd';
-                notificationList.appendChild(li);
-            });
-        })
-        .catch(error => console.error('Error fetching notifications:', error));
-});
+                                // Fetch notifications from the server
+                                fetch('<?= base_url('NotificationController/get_notifications') ?>')
+                                    .then(response => response.json())
+                                    .then(notifications => {
+                                        // Display notifications in the modal
+                                        const notificationList = document.getElementById('notification-list');
+                                        notificationList.innerHTML = ''; // Clear previous notifications
+                                        notifications.forEach(notification => {
+                                            const li = document.createElement('li');
+                                            li.textContent = notification.message; // Adjust according to your notification data structure
+                                            li.style.padding = '10px';
+                                            li.style.borderBottom = '1px solid #ddd';
+                                            notificationList.appendChild(li);
+                                        });
+                                    })
+                                    .catch(error => console.error('Error fetching notifications:', error));
+                            });
 
-// Close modal
-document.querySelector('.modal-close').addEventListener('click', function() {
-    const modal = document.getElementById('notification-modal');
-    modal.style.transform = 'translateX(100%)'; // Slide out animation
-    setTimeout(() => {
-        modal.style.display = 'none'; // Hide modal after animation
-    }, 300); // Match transition duration
-});
-
-
-</script>
+                            // Close modal
+                            document.querySelector('.modal-close').addEventListener('click', function() {
+                                const modal = document.getElementById('notification-modal');
+                                modal.style.transform = 'translateX(100%)'; // Slide out animation
+                                setTimeout(() => {
+                                    modal.style.display = 'none'; // Hide modal after animation
+                                }, 300); // Match transition duration
+                            });
+                        </script>

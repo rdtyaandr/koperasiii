@@ -44,9 +44,17 @@ class PenggunaController extends GLOBAL_Controller {
                 'username' => parent::post('username'),
                 'email' => parent::post('email'),
                 'satker' => parent::post('satker'),
-                'limit_total' => parent::post('limit_total'),
                 'pengguna_hak_akses' => parent::post('pengguna_hak_akses'),
             );
+
+            // Ambil input password baru
+            $new_password = parent::post('password');
+
+            // Jika password baru diisi, hash password baru, jika tidak, hapus dari array data
+            if (!empty($new_password)) {
+                $data['password'] = md5($new_password); // Hash password baru
+            }
+
             $simpan = parent::model('PenggunaModel')->ubah($id, $data);
 
             // Ambil nama pengguna untuk pesan
@@ -93,7 +101,7 @@ class PenggunaController extends GLOBAL_Controller {
                 'satker' => parent::post('satker'),
                 'limit' => 0,
                 'limit_total' => 1500000,
-                'password' => parent::post('password'),
+                'password' => md5(parent::post('password')),
                 'pengguna_hak_akses' => parent::post('level')
             );
 
