@@ -67,7 +67,7 @@
                         <?php $level = $this->session->userdata('level'); ?>
                         <div class="col <?php echo ($level == 'admin') ? 's6 m6' : 's12 m12'; ?>" <?php echo ($level == 'operator') ? 'style="display: flex; justify-content: center;"' : ''; ?>>
                             <?php if ($level == 'operator'): ?>
-                                <div style="width: 96%;">
+                                <div style="width: 100%;">
                                 <?php endif; ?>
                                 <div class="cardd" style="border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
                                     <div class="card-content">

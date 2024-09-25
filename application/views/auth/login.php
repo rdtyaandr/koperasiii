@@ -37,19 +37,19 @@
 	<body class="blue darken-2">
 
 		<div id="login-page" class="row">
-			<div class="col s12 z-depth-4 card-panel">
+			<div class="col s12 z-depth-4 card-panel" style="border-radius: 20px;">
 				<form class="login-form" action="<?= base_url('login') ?>" method="post">
 					<div class="row">
 						<div class="input-field col s12 center">
 							<img src="<?= base_url('assets/images/favicon/icon.png') ?>" alt="" class=" responsive-img valign profile-image-login">
-							<p class="center login-form-text">sistem koperasi bps jawa timur</p>
+							<h5 class="center login-form-text" style="font-weight: bold; color: #2c3e50;">Sistem Koperasi BPS Jawa Timur</h5>						
 						</div>
 					</div>
 					<div class="row margin">
 						<?php if ($this->session->flashdata('alert') === 'error-login') : ?>
-							<div id="card-alert" class="card red lighten-5 animated slideInDown ">
-								<div class="card-content red-text " style="padding: 6px !important;">
-									<p>gunakan username & password yang benar!</p>
+							<div id="card-alert" class="card red lighten-5 animated bounceIn " style="border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+								<div class="card-content red-text " style="padding: 10px !important; font-weight: bold;">
+									<p style="text-align: center;">Gunakan username & password yang benar!</p>
 								</div>
 							</div>
 						<?php endif; ?>
@@ -68,11 +68,8 @@
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<button type="submit" name="login" class="btn blue waves-effect waves-dark col s12">Login</button>
+							<button type="submit" name="login" class="btn blue waves-effect waves-dark col s12" style="border-radius: 25px; margin-bottom: 15px;">Login</button>
 						</div>
-					</div>
-					<div class="row">
-						<label>Lupa password akun? <a href="<?= base_url('register') ?>">Klik ini</a></label>
 					</div>
 				</form>
 			</div>

@@ -3,8 +3,9 @@ class PenggunaController extends GLOBAL_Controller {
 
     public function __construct() {
         parent::__construct();
-        $model = array('PenggunaModel', 'HistoryModel', 'TransaksiModel'); // Tambahkan TransaksiModel
+        $model = array('PenggunaModel', 'HistoryModel', 'TransaksiModel', 'PinjamanModel'); // Tambahkan TransaksiModel
         $this->load->model($model);
+        $this->load->helper('date'); // Tambahkan helper date
         // Pastikan admin sudah login dan memiliki hak akses yang benar
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
@@ -61,7 +62,7 @@ class PenggunaController extends GLOBAL_Controller {
             $nama_pengguna = parent::post('username');
 
             if ($simpan > 0) {
-                $this->addMessage('Pengguna dengan nama ' . $nama_pengguna . ' telah diubah', 'Pengguna diubah', 'update');
+                $this->addMessage('Pengguna dengan nama ' . $nama_pengguna . ' telah diubah', 'Pengguna diubah', 'edit');
                 parent::alert('alert', 'sukses_ubah');
                 redirect('pengguna');
             } else {
@@ -202,6 +203,9 @@ class PenggunaController extends GLOBAL_Controller {
         
         // Ambil data transaksi pengguna
         $data['transaksi'] = $this->TransaksiModel->get_transaksi_by_user_id($id);
+        
+        // Ambil data pinjaman pengguna
+        $data['pinjaman'] = $this->PinjamanModel->get_pinjaman_for_user($id);
         
         parent::template('pengguna/detail', $data);
     }

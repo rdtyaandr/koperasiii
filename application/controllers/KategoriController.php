@@ -61,7 +61,7 @@ class KategoriController extends GLOBAL_Controller
                 if ($simpan) {
                     parent::alert('alert', 'error-insert');
                 } else {
-                    $this->addMessage('Kategori ditambahkan', 'Kategori ' . $data['nama_kategori'] . ' telah ditambahkan', 'add_circle_outline');
+                    $this->addMessage('Kategori ditambahkan', 'Kategori dengan nama ' . $data['nama_kategori'] . ' telah ditambahkan', 'add_circle_outline');
                     parent::alert('alert', 'success-insert');
                 }
                 redirect('kategori');
@@ -93,7 +93,7 @@ class KategoriController extends GLOBAL_Controller
                 if ($simpan) {
                     parent::alert('alert', 'error-update');
                 } else {
-                    $this->addMessage('Kategori diubah', 'Kategori ' . $data['nama_kategori'] . ' telah diubah', 'update');
+                    $this->addMessage('Kategori diubah', 'Kategori dengan nama ' . $data['nama_kategori'] . ' telah diubah', 'edit');
                     parent::alert('alert', 'success-update');
                 }
                 redirect('kategori');
@@ -103,13 +103,19 @@ class KategoriController extends GLOBAL_Controller
 
     public function hapus($id)
     {
-        // Cek apakah kategori bisa dihapus
-        $kategori = parent::model('KategoriModel')->lihat_kategori($id); // Ambil data kategori untuk nama
-        if (parent::model('KategoriModel')->hapus($id)) {
-            $this->addMessage('Kategori dihapus', 'Kategori ' . $kategori->nama_kategori . ' telah dihapus', 'delete');
-            parent::alert('alert', 'success-delete');
+        // Ambil data kategori untuk nama
+        $query = array('id_kategori' => $id);
+        $kategori = parent::model('KategoriModel')->lihat_kategori($query);
+    
+        if ($kategori) { // Pastikan $kategori adalah objek yang valid
+            if (parent::model('KategoriModel')->hapus($id)) {
+                $this->addMessage('Kategori dihapus', 'Kategori dengan nama ' . $kategori['nama_kategori'] . ' telah dihapus', 'delete');
+                parent::alert('alert', 'success-delete');
+            } else {
+                parent::alert('alert', 'error-delete-used');
+            }
         } else {
-            parent::alert('alert', 'error-delete-used');
+            parent::alert('alert', 'error-not-found');
         }
         redirect('kategori');
     }

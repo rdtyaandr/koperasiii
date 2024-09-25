@@ -132,7 +132,6 @@ public function update()
     $data = array(
         'nama_lengkap' => $this->input->post('nama_lengkap'),
         'email' => $this->input->post('email'),
-        'satker' => $this->input->post('satker'),
     );
 
     // Ambil input password baru
@@ -147,6 +146,9 @@ public function update()
     if ($this->ProfileModel->update_profile($penggunaID, $data)) {
         // Tambahkan pesan ke history
         $this->addMessage('Profil diupdate', 'Pengguna dengan ID ' . $penggunaID . ' telah memperbarui profil.', 'update');
+
+        $this->session->set_userdata('name', $data['nama_lengkap']);
+        $this->session->set_userdata('email', $data['email']);
 
         // Tampilkan pesan sukses
         parent::alert('alert', 'profile-updated');

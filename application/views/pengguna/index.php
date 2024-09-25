@@ -68,6 +68,13 @@
                                             </td>
                                         <?php endif; ?>
                                         <td class="center-align">
+                                            <?php if ($hitam['pengguna_hak_akses'] == 'user'): ?>
+                                                <a href="<?= base_url('pengguna/detail/' . $hitam['pengguna_id']) ?>"
+                                                    class="btn-floating waves-effect waves-light blue darken-1 tooltipped"
+                                                    data-position="top" data-tooltip="Detail" style="border-radius: 4px;">
+                                                    <i class="material-icons">search</i>
+                                                </a>
+                                            <?php endif; ?>
                                             <a href="<?= base_url('pengguna/ubah/' . $hitam['pengguna_id']) ?>"
                                                 class="btn-floating waves-effect waves-light yellow darken-3 tooltipped"
                                                 data-position="top" data-tooltip="Edit" style="border-radius: 4px;">
@@ -89,13 +96,6 @@
                                             })">
                                                 <i class="material-icons">delete</i>
                                             </a>
-                                            <?php if ($hitam['pengguna_hak_akses'] == 'user'): ?>
-                                                <a href="<?= base_url('pengguna/detail/' . $hitam['pengguna_id']) ?>"
-                                                    class="btn-floating waves-effect waves-light blue darken-1 tooltipped"
-                                                    data-position="top" data-tooltip="Detail" style="border-radius: 4px;">
-                                                    <i class="material-icons">info</i>
-                                                </a>
-                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

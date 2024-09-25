@@ -61,7 +61,7 @@ class SatuanController extends GLOBAL_Controller
                 if ($simpan) {
                     parent::alert('alert', 'error-insert');
                 } else {
-                    $this->addMessage('Satuan ditambahkan', 'Satuan ' . $data['nama_satuan'] . ' telah ditambahkan', 'add_circle_outline');
+                    $this->addMessage('Satuan ditambahkan', 'Satuan dengan nama ' . $data['nama_satuan'] . ' telah ditambahkan', 'add_circle_outline');
                     parent::alert('alert', 'success-insert');
                 }
                 redirect('satuan');
@@ -93,7 +93,7 @@ class SatuanController extends GLOBAL_Controller
                 if ($simpan) {
                     parent::alert('alert', 'error-update');
                 } else {
-                    $this->addMessage('Satuan diubah', 'Satuan ' . $data['nama_satuan'] . ' telah diubah', 'update');
+                    $this->addMessage('Satuan diubah', 'Satuan dengan nama ' . $data['nama_satuan'] . ' telah diubah', 'edit');
                     parent::alert('alert', 'success-update');
                 }
                 redirect('satuan');
@@ -103,10 +103,11 @@ class SatuanController extends GLOBAL_Controller
 
     public function hapus($id_satuan)
     {
-        $satuan = parent::model('SatuanModel')->lihat_satuan($id_satuan); // Ambil data satuan untuk nama
+        $query = array('id_satuan' => $id_satuan);
+        $satuan = parent::model('SatuanModel')->lihat_satuan($query); // Ambil data satuan untuk nama
         $hapus = parent::model('SatuanModel')->hapus($id_satuan);
         if ($hapus) {
-            $this->addMessage('Satuan dihapus', 'Satuan ' . $satuan->nama_satuan . ' telah dihapus', 'delete');
+            $this->addMessage('Satuan dihapus', 'Satuan dengan nama ' . $satuan['nama_satuan'] . ' telah dihapus', 'delete');
             parent::alert('alert', 'success-delete');
         } else {
             parent::alert('alert', 'error-delete-used'); // Bisa tambahkan pesan khusus untuk "sedang digunakan"

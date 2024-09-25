@@ -19,26 +19,48 @@
                                 <input id="username" type="hidden" name="username" value="<?= htmlspecialchars(trim($this->session->userdata('username')), ENT_QUOTES, 'UTF-8') ?>" readonly>
                             </div>
                         <?php endif; ?>
-                        <div class="input-field col s12 m6">
-                            <select name="jenis_pinjaman" class="browser-default" required>
-                                <option value="" disabled selected>Pilih Jenis Pinjaman</option>
-                                <option value="Konsumtif">Konsumtif</option>
-                                <option value="Produktif">Produktif</option>
-                            </select>
-                        </div>
-                        <div class="input-field col s12 m4" style="margin-top: 20px;">
-                            <input id="jumlah_pinjaman_tampil" type="text" required>
-                            <input id="jumlah_pinjaman" type="hidden" name="jumlah_pinjaman" required>
-                            <label for="jumlah_pinjaman_tampil">Jumlah Pinjaman</label>
-                        </div>
-                        <div class="input-field col s12 m4" style="margin-top: 20px;">
-                            <input id="lama_pinjaman" type="number" name="lama_pinjaman" required min="1" max="12">
-                            <label for="lama_pinjaman">Lama Pinjaman (bulan)</label>
-                        </div>
-                        <div class="input-field col s12 m4" style="margin-top: 20px;">
-                            <input id="tanggal_pinjam" type="date" name="tanggal_pinjam" required value="<?= date('Y-m-d') ?>">
-                            <label for="tanggal_pinjam"></label>
-                        </div>
+                        <?php if ($this->session->userdata('level') == 'admin'): ?>
+                            <div class="input-field col s12 m6">
+                                <select name="jenis_pinjaman" class="browser-default" required>
+                                    <option value="" disabled selected>Pilih Jenis Pinjaman</option>
+                                    <option value="Konsumtif">Konsumtif</option>
+                                    <option value="Produktif">Produktif</option>
+                                </select>
+                            </div>
+                        <?php else: ?>
+                            <div class="input-field col s12 m6 offset-m3">
+                                <select name="jenis_pinjaman" class="browser-default" required>
+                                    <option value="" disabled selected>Pilih Jenis Pinjaman</option>
+                                    <option value="Konsumtif">Konsumtif</option>
+                                    <option value="Produktif">Produktif</option>
+                                </select>
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($this->session->userdata('level') == 'admin'): ?>
+                            <div class="input-field col s12 m4" style="margin-top: 20px;">
+                                <input id="jumlah_pinjaman_tampil" type="text" required>
+                                <input id="jumlah_pinjaman" type="hidden" name="jumlah_pinjaman" required>
+                                <label for="jumlah_pinjaman_tampil">Jumlah Pinjaman</label>
+                            </div>
+                            <div class="input-field col s12 m4" style="margin-top: 20px;">
+                                <input id="lama_pinjaman" type="number" name="lama_pinjaman" required min="1" max="12">
+                                <label for="lama_pinjaman">Lama Pinjaman (bulan)</label>
+                            </div>
+                            <div class="input-field col s12 m4" style="margin-top: 20px;">
+                                <input id="tanggal_pinjam" type="date" name="tanggal_pinjam" required value="<?= date('Y-m-d') ?>">
+                                <label for="tanggal_pinjam"></label>
+                            </div>
+                        <?php else: ?>
+                            <div class="input-field col s12 m6" style="margin-top: 20px;">
+                                <input id="jumlah_pinjaman_tampil" type="text" required>
+                                <input id="jumlah_pinjaman" type="hidden" name="jumlah_pinjaman" required>
+                                <label for="jumlah_pinjaman_tampil">Jumlah Pinjaman</label>
+                            </div>
+                            <div class="input-field col s12 m6" style="margin-top: 20px;">
+                                <input id="lama_pinjaman" type="number" name="lama_pinjaman" required min="1" max="12">
+                                <label for="lama_pinjaman">Lama Pinjaman (bulan)</label>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <div class="row">
                         <div class="col s12 right-align" style="margin-top: 20px;">

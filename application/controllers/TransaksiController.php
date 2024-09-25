@@ -55,6 +55,8 @@ class TransaksiController extends GLOBAL_Controller
             $id_barang = $this->input->post('id_barang');
             $jumlah = $this->input->post('jumlah');
             $harga_input = $this->input->post('harga');
+            $pengguna = $this->PenggunaModel->get_user_by_id($pengguna_id);
+            $nama_pengguna = $pengguna->username;
     
             foreach ($id_barang as $key => $barang_id) {
                 $barang = $this->BarangModel->get_barang_by_id($barang_id);
@@ -130,7 +132,7 @@ class TransaksiController extends GLOBAL_Controller
                 $this->TransaksiModel->insert_transaksi_detail($detail_data);
     
                 // Tambahkan pesan ke history
-                $this->addMessage('Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total ' . number_format($total, 0, ',', '.') . ' Rupiah', 'add_circle_outline');
+                $this->addMessage('Transaksi ditambahkan', 'Transaksi baru telah berhasil ditambahkan yang dibeli oleh ' . $nama_pengguna . ' dengan total ' . number_format($total, 0, ',', '.') . ' Rupiah', 'add_circle_outline');
     
                 $this->session->set_flashdata('alert', 'success-insert');
                 redirect('transaksi');
@@ -159,6 +161,8 @@ class TransaksiController extends GLOBAL_Controller
             $transaksi_lama = $this->TransaksiModel->get_transaksi_by_id($id_transaksi);
             $total_lama = floatval($transaksi_lama->total);
             $cara_bayar_lama = $transaksi_lama->cara_bayar;
+            $pengguna = $this->PenggunaModel->get_user_by_id($pengguna_id);
+            $nama_pengguna = $pengguna->username;
 
             // Update data transaksi
             $data_transaksi = [
@@ -176,7 +180,6 @@ class TransaksiController extends GLOBAL_Controller
                 if ($total_baru > $total_lama) {
                     $selisih = $total_baru - $total_lama;
                     if ($user_limit + $selisih > $limit_total) {
-                        $this->addMessage('Limit Kredit Terlampaui', 'Pengguna dengan ID ' . $pengguna_id . ' telah melampaui limit kredit', 'error'); // Tambahkan pesan ke history
                         $this->session->set_flashdata('alert', 'error-limit');
                         redirect('transaksi/ubah/' . $id_transaksi);
                     }
@@ -194,7 +197,7 @@ class TransaksiController extends GLOBAL_Controller
             }
 
             // Tambahkan pesan ke history
-            $this->addMessage('Transaksi diubah','Transaksi dengan total ' . number_format($total_lama, 0, ',', '.') . ' Rupiah' . ' telah diubah', 'update');
+            $this->addMessage('Transaksi diubah', 'Transaksi telah berhasil diubah yang dibeli oleh ' . $nama_pengguna . ' dengan total ' . number_format($total_baru, 0, ',', '.') . ' Rupiah', 'edit');
 
             $id_barang = $this->input->post('id_barang');
             $harga = $this->input->post('harga');

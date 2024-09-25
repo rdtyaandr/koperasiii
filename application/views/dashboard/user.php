@@ -1,5 +1,5 @@
 <style>
-    body {
+    .container-fluid {
         background-color: #f4f4f9;
         color: #333;
         font-family: 'Roboto', sans-serif;

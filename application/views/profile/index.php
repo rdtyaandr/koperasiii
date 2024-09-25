@@ -302,7 +302,7 @@
             <div class="input-field">
                 <label for="satker">Satker</label>
                 <input type="text" id="satker" name="satker"
-                    value="<?php echo htmlspecialchars($pengguna['satker']); ?>">
+                    value="<?php echo htmlspecialchars($pengguna['satker']); ?>" disabled>
                     
             </div>
             <div class="input-field">

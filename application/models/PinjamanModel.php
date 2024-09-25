@@ -52,23 +52,31 @@ class PinjamanModel extends GLOBAL_Model
 	}
 
 	public function get_all_pinjaman()
-    {
-        $this->db->select('tb_pengajuan.*, tb_pengguna.username'); // Ambil username
-        $this->db->from('tb_pengajuan');
-        $this->db->join('tb_pengguna', 'tb_pengajuan.user_id = tb_pengguna.pengguna_id'); // Lakukan join
-        return $this->db->get()->result_array();
-    }
+	{
+		$this->db->select('tb_pengajuan.*, tb_pengguna.username'); // Ambil username
+		$this->db->from('tb_pengajuan');
+		$this->db->join('tb_pengguna', 'tb_pengajuan.user_id = tb_pengguna.pengguna_id'); // Lakukan join
+		return $this->db->get()->result_array();
+	}
 
-    // Fungsi untuk user (mengambil pinjaman berdasarkan user_id)
-    public function get_pinjaman_by_user($user_id)
-    {
-        $this->db->select('tb_pengajuan.*, tb_pengguna.username'); // Ambil username
-        $this->db->from('tb_pengajuan');
-        $this->db->join('tb_pengguna', 'tb_pengajuan.user_id = tb_pengguna.pengguna_id'); // Lakukan join
-        $this->db->where('tb_pengajuan.user_id', $user_id); // Ambil data berdasarkan user_id
-        return $this->db->get()->result_array();
-    }
+	// Fungsi untuk user (mengambil pinjaman berdasarkan user_id)
+	public function get_pinjaman_by_user($user_id)
+	{
+		$this->db->select('tb_pengajuan.*, tb_pengguna.username'); // Ambil username
+		$this->db->from('tb_pengajuan');
+		$this->db->join('tb_pengguna', 'tb_pengajuan.user_id = tb_pengguna.pengguna_id'); // Lakukan join
+		$this->db->where('tb_pengajuan.user_id', $user_id); // Ambil data berdasarkan user_id
+		return $this->db->get()->result_array();
+	}
 
+	public function get_pinjaman_for_user($user_id)
+	{
+		$this->db->select('p.*, u.username');
+		$this->db->from('tb_pengajuan p');
+		$this->db->join('tb_pengguna u', 'p.user_id = u.pengguna_id');
+		$this->db->where('p.user_id', $user_id);
+		return $this->db->get()->result(); // Mengembalikan data sebagai objek
+	}
 
 	public function update_status($id, $status)
 	{
@@ -102,7 +110,7 @@ class PinjamanModel extends GLOBAL_Model
 		$this->db->where('id', $id);
 		return $this->db->update('tb_pinjaman', $data);
 	}
-	
+
 	public function get_all_users()
 	{
 		$this->db->select('pengguna_id, username');

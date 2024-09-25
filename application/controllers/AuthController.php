@@ -47,6 +47,8 @@ public function login()
                     'pengguna_id' => $pengguna['pengguna_id'],
                     'username' => $pengguna['username'],
                     'name' => $pengguna['nama_lengkap'],
+                    'email' => $pengguna['email'],
+                    'satker' => $pengguna['satker'],
                     'level' => $pengguna['pengguna_hak_akses'],
                     'profile_picture' => $pengguna['profile_picture'], // Tambahkan foto profil ke sesi
                     'login' => true

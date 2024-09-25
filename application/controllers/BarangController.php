@@ -102,7 +102,7 @@ class BarangController extends GLOBAL_Controller
             $simpan = parent::model('BarangModel')->tambah($data);
 
             if ($simpan > 0) {
-                $this->addMessage('Barang baru ditambahkan', 'Barang ' . $data['nama_barang'] . ' telah ditambahkan', 'add_circle_outline');
+                $this->addMessage('Barang baru ditambahkan', 'Barang dengan nama ' . $data['nama_barang'] . ' telah ditambahkan', 'add_circle_outline');
                 parent::alert('alert', 'success-insert');
                 redirect('barang');
             } else {
@@ -140,7 +140,7 @@ class BarangController extends GLOBAL_Controller
             $simpan = parent::model('BarangModel')->ubah($id, $data);
 
             if ($simpan > 0) {
-                $this->addMessage('Barang diubah', 'Barang ' . $data['nama_barang'] . ' telah diubah', 'update');
+                $this->addMessage('Barang diubah', 'Barang dengan nama ' . $data['nama_barang'] . ' telah diubah', 'edit');
                 parent::alert('alert', 'success-update');
                 redirect('barang');
             } else {
@@ -159,13 +159,18 @@ class BarangController extends GLOBAL_Controller
     {
         $query = array('id_barang' => $id);
         $barang = parent::model('BarangModel')->lihat_barang($query);
-        $hapus = parent::model('BarangModel')->hapus($query);
-        if ($hapus > 0) {
-            $this->addMessage('Barang dihapus', 'Barang ' . $barang->nama_barang . ' telah dihapus', 'delete');
-            parent::alert('alert', 'success-delete');
-            redirect('barang');
+        if ($barang) { // Pastikan $barang adalah objek yang valid
+            $hapus = parent::model('BarangModel')->hapus($query);
+            if ($hapus > 0) {
+                $this->addMessage('Barang dihapus', 'Barang dengan nama ' . $barang['nama_barang'] . ' telah dihapus', 'delete');
+                parent::alert('alert', 'success-delete');
+                redirect('barang');
+            } else {
+                parent::alert('alert', 'error-update');
+                redirect('barang');
+            }
         } else {
-            parent::alert('alert', 'error-update');
+            parent::alert('alert', 'error-not-found');
             redirect('barang');
         }
     }

@@ -82,6 +82,12 @@ class PenggunaModel extends GLOBAL_Model {
         $this->db->where('pengguna_id', $pengguna_id);
         $this->db->update('tb_pengguna', ['limit' => $new_limit]);
     }
+
+    public function get_user_by_id($pengguna_id)
+    {
+        $this->db->where('pengguna_id', $pengguna_id);
+        return $this->db->get('tb_pengguna')->row();
+    }
     
 
 }

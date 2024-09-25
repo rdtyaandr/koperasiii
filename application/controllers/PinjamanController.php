@@ -35,21 +35,26 @@ class PinjamanController extends GLOBAL_Controller
     public function tambah()
     {
         if ($this->input->post()) {
-            // Determine the user ID based on the user level
+            // Tentukan user ID berdasarkan level user
             if ($this->session->userdata('level') == 'admin') {
                 $user_id = $this->input->post('username');
             } else {
                 $user_id = $this->session->userdata('pengguna_id');
             }
     
-            // Get the raw input values
+            // Ambil nilai input mentah
             $jenis_pinjaman = $this->input->post('jenis_pinjaman');
             $tanggal_pinjam = $this->input->post('tanggal_pinjam');
             $jumlah_pinjaman = $this->input->post('jumlah_pinjaman');
             $lama_pinjaman = $this->input->post('lama_pinjaman');
     
-            // Remove formatting from jumlah_pinjaman (remove dots)
+            // Hapus format dari jumlah_pinjaman (hapus titik)
             $jumlah_pinjaman = str_replace('.', '', $jumlah_pinjaman);
+    
+            // Beri nilai default untuk tanggal_pinjam jika tidak ada
+            if (empty($tanggal_pinjam)) {
+                $tanggal_pinjam = date('Y-m-d');
+            }
     
             $data = [
                 'jenis_pinjaman' => $jenis_pinjaman,
@@ -77,9 +82,9 @@ class PinjamanController extends GLOBAL_Controller
         } else {
             $data['title'] = 'Tambah Pinjaman';
     
-            // Load users if the user is an admin
+            // Load users jika user adalah admin
             if ($this->session->userdata('level') == 'admin') {
-                $data['users'] = $this->PinjamanModel->get_all_users(); // Get all users for dropdown
+                $data['users'] = $this->PinjamanModel->get_all_users(); // Ambil semua pengguna untuk dropdown
             }
     
             parent::template('pinjaman/tambah', $data);
