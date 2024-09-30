@@ -7,6 +7,7 @@ class PinjamanController extends GLOBAL_Controller
         parent::__construct();
         $this->load->model('PinjamanModel');
         $this->load->model('HistoryModel'); 
+        $this->load->model('PenggunaModel'); // Tambahkan ini untuk memuat model PenggunaModel
         $this->load->helper('date'); 
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
@@ -64,14 +65,17 @@ class PinjamanController extends GLOBAL_Controller
                 'status' => 'Menunggu Persetujuan',
                 'user_id' => $user_id
             ];
-            $username = $this->session->userdata('username');
     
             $this->PinjamanModel->insert_pinjaman($data);
     
             if ($this->db->affected_rows() > 0) {
+                // Ambil nama pengguna
+                $pengguna = $this->PenggunaModel->get_user_by_id($user_id);
+                $nama_pengguna = $pengguna->username;
+
                 $this->addMessage(
                     'Pengajuan pinjaman',
-                    'Pengguna dengan ID ' . $user_id . ' telah mengajukan pinjaman sebesar ' . number_format($data['jumlah_pinjaman'], 0, ',', '.'),
+                    'Pinjaman sebesar Rp ' . number_format($data['jumlah_pinjaman'], 0, ',', '.') . ' telah diajukan dengan nama ' . $nama_pengguna,
                     'add_circle_outline'
                 );
                 redirect('pinjaman');
@@ -93,15 +97,23 @@ class PinjamanController extends GLOBAL_Controller
 
     public function update_status()
     {
-        $name = $this->input->post('username');
+        $id_pinjaman = $this->input->post('id_pinjaman');
         $status = $this->input->post('status');
 
         $newStatus = ($status === 'approved') ? 'Telah Disetujui oleh Admin' : 'Dibatalkan oleh Admin';
-        $result = $this->PinjamanModel->update_status($name, $newStatus);
+        $result = $this->PinjamanModel->update_status($id_pinjaman, $newStatus);
 
         if ($result) {
+            // Ambil user_id dari pinjaman
+            $pinjaman = $this->PinjamanModel->get_pinjaman_by_id($id_pinjaman);
+            $user_id = $pinjaman->user_id;
+
+            // Ambil nama pengguna
+            $pengguna = $this->PenggunaModel->get_user_by_id($user_id);
+            $nama_pengguna = $pengguna->username;
+
             // Tambahkan pesan ke history
-            $this->addMessage('Status pinjaman', 'Status pinjaman dengan nama ' . $name . ' telah diubah menjadi: ' . $newStatus, 'update');
+            $this->addMessage('Status pinjaman', 'Status pinjaman dengan nama ' . $nama_pengguna . ' telah diubah menjadi: ' . $newStatus, 'update');
             echo json_encode(['success' => true]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Gagal memperbarui status.']);
@@ -110,10 +122,17 @@ class PinjamanController extends GLOBAL_Controller
 
     public function approve($id)
     {
-        $username = $this->session->userdata('username');
         if ($this->PinjamanModel->updateStatus($id, 'Telah Disetujui oleh Admin')) {
+            // Ambil user_id dari pinjaman
+            $pinjaman = $this->PinjamanModel->get_pinjaman_by_id($id);
+            $user_id = $pinjaman->user_id;
+
+            // Ambil nama pengguna
+            $pengguna = $this->PenggunaModel->get_user_by_id($user_id);
+            $nama_pengguna = $pengguna->username;
+
             // Tambahkan pesan ke history
-            $this->addMessage('Pinjaman disetujui', 'Pinjaman dengan ID ' . $username . ' telah disetujui oleh Admin', 'update');
+            $this->addMessage('Pinjaman disetujui', 'Pinjaman dengan nama ' . $nama_pengguna . ' telah disetujui oleh Admin', 'check_circle'); // Ganti icon dengan 'check_circle'
             $this->session->set_flashdata('message', 'Pinjaman berhasil disetujui.');
         } else {
             $this->session->set_flashdata('message', 'Gagal menyetujui pinjaman.');
@@ -125,10 +144,17 @@ class PinjamanController extends GLOBAL_Controller
     // Cancel a loan
     public function cancel($id)
     {
-        $username = $this->session->userdata('username');
         if ($this->PinjamanModel->updateStatus($id, 'Dibatalkan oleh Admin')) {
+            // Ambil user_id dari pinjaman
+            $pinjaman = $this->PinjamanModel->get_pinjaman_by_id($id);
+            $user_id = $pinjaman->user_id;
+
+            // Ambil nama pengguna
+            $pengguna = $this->PenggunaModel->get_user_by_id($user_id);
+            $nama_pengguna = $pengguna->username;
+
             // Tambahkan pesan ke history
-            $this->addMessage('Pinjaman dibatalkan', 'Pinjaman dengan Nama ' . $username . ' telah dibatalkan oleh Admin', 'delete');
+            $this->addMessage('Pinjaman dibatalkan', 'Pinjaman dengan nama ' . $nama_pengguna . ' telah dibatalkan oleh Admin', 'cancel'); // Ganti icon dengan 'cancel'
             $this->session->set_flashdata('message', 'Pinjaman berhasil dibatalkan.');
         } else {
             $this->session->set_flashdata('message', 'Gagal membatalkan pinjaman.');
@@ -141,8 +167,16 @@ class PinjamanController extends GLOBAL_Controller
     public function delete($id)
     {
         if ($this->PinjamanModel->deleteLoan($id)) {
+            // Ambil user_id dari pinjaman
+            $pinjaman = $this->PinjamanModel->get_pinjaman_by_id($id);
+            $user_id = $pinjaman->user_id;
+
+            // Ambil nama pengguna
+            $pengguna = $this->PenggunaModel->get_user_by_id($user_id);
+            $nama_pengguna = $pengguna->username;
+
             // Tambahkan pesan ke history
-            $this->addMessage('Pinjaman dihapus', 'Pinjaman dengan ID ' . $id . ' telah dihapus', 'delete');
+            $this->addMessage('Pinjaman dihapus', 'Pinjaman dengan nama ' . $nama_pengguna . ' telah dihapus', 'delete');
             $this->session->set_flashdata('message', 'Pinjaman berhasil dihapus.');
         } else {
             $this->session->set_flashdata('message', 'Gagal menghapus pinjaman.');

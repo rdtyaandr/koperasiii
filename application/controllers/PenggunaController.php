@@ -1,7 +1,9 @@
 <?php
-class PenggunaController extends GLOBAL_Controller {
+class PenggunaController extends GLOBAL_Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $model = array('PenggunaModel', 'HistoryModel', 'TransaksiModel', 'PinjamanModel'); // Tambahkan TransaksiModel
         $this->load->model($model);
@@ -18,7 +20,8 @@ class PenggunaController extends GLOBAL_Controller {
         $this->HistoryModel->deleteOldMessages();
     }
 
-    public function index() {
+    public function index()
+    {
         $data['title'] = 'Daftar Pengguna ';
         $data['Pengguna'] = parent::model('PenggunaModel')->get_users();
 
@@ -37,7 +40,7 @@ class PenggunaController extends GLOBAL_Controller {
         $this->HistoryModel->addMessage($data);
     }
 
-    public function ubah($id) 
+    public function ubah($id)
     {
         if (isset($_POST['ubah'])) {
             $data = array(
@@ -62,7 +65,7 @@ class PenggunaController extends GLOBAL_Controller {
             $nama_pengguna = parent::post('username');
 
             if ($simpan > 0) {
-                $this->addMessage('Pengguna dengan nama ' . $nama_pengguna . ' telah diubah', 'Pengguna diubah', 'edit');
+                $this->addMessage('Pengguna diubah', 'Pengguna dengan nama ' . $nama_pengguna . ' telah diubah', 'edit');
                 parent::alert('alert', 'sukses_ubah');
                 redirect('pengguna');
             } else {
@@ -83,7 +86,7 @@ class PenggunaController extends GLOBAL_Controller {
         $pengguna = parent::model('PenggunaModel')->Lihat_Pengguna($query); // Ambil nama pengguna
         $hapus = parent::model('PenggunaModel')->hapus($query);
         if ($hapus > 0) {
-            $this->addMessage('Pengguna dengan nama ' . $pengguna->username . ' telah dihapus', 'Pengguna dihapus', 'delete');
+            $this->addMessage('Pengguna dihapus', 'Pengguna dengan nama ' . $pengguna['username'] . ' telah dihapus', 'delete');
             parent::alert('alert', 'sukses_hapus');
             redirect('pengguna');
         } else {
@@ -109,10 +112,10 @@ class PenggunaController extends GLOBAL_Controller {
             $simpan = parent::model('PenggunaModel')->tambah($data);
 
             // Ambil nama pengguna untuk pesan
-            $nama_pengguna = $data['nama_lengkap'];
+            $nama_pengguna = $data['username'];
 
             if ($simpan > 0) {
-                $this->addMessage('Pengguna dengan nama ' . $nama_pengguna . ' telah ditambahkan', 'Pengguna ditambahkan', 'add_circle_outline');
+                $this->addMessage('Pengguna ditambahkan', 'Pengguna dengan nama ' . $nama_pengguna . ' telah ditambahkan', 'add_circle_outline');
                 parent::alert('alert', 'sukses_tambah');
                 redirect('pengguna');
             } else {
@@ -131,7 +134,7 @@ class PenggunaController extends GLOBAL_Controller {
         if (!$this->hasLogin()) {
             redirect('login'); // Redirect ke halaman login jika belum login
         }
-        
+
         // Mengambil data profil user berdasarkan session user_id
         $data['user'] = $this->ProfileModel->get_user_by_id($userID);
 
@@ -147,28 +150,41 @@ class PenggunaController extends GLOBAL_Controller {
         parent::template('limit/index', $data);
     }
 
-    public function save_limit_total($id) {
+    public function save_limit_total($id)
+    {
         if (isset($_POST['save_limit_total'])) {
             $total_limit = parent::post('limit_total');
             parent::model('PenggunaModel')->save_total_limit($id, $total_limit);
 
-            $this->addMessage('Total limit untuk pengguna dengan ID ' . $id . ' telah diperbarui', 'Limit diperbarui', 'update');
+            // Ambil nama pengguna
+            $pengguna = parent::model('PenggunaModel')->get_user_by_id($id);
+            $nama_pengguna = $pengguna->username;
+
+            // Menampilkan total limit dengan penjelasan yang jelas
+            $this->addMessage('Limit diperbarui', 'Total limit untuk pengguna dengan nama ' . $nama_pengguna . ' telah berhasil diperbarui menjadi Rp ' . number_format($total_limit, 0, ',', '.'), 'save'); // Ganti icon dengan 'save'
             parent::alert('alert', 'sukses_ubah');
             redirect('limit');
         }
     }
 
-    public function reset_limit($id) {
+    public function reset_limit($id)
+    {
         parent::model('PenggunaModel')->reset_limit($id);
-        $this->addMessage('Limit untuk pengguna dengan ID ' . $id . ' telah direset', 'Limit direset', 'update');
+
+        // Ambil nama pengguna
+        $pengguna = parent::model('PenggunaModel')->get_user_by_id($id);
+        $nama_pengguna = $pengguna->username;
+
+        $this->addMessage('Limit direset', 'Limit untuk pengguna dengan nama ' . $nama_pengguna . ' telah direset', 'refresh'); // Ganti icon dengan 'refresh'
         parent::alert('alert', 'sukses_reset');
         redirect('limit');
     }
 
-    public function reduce_limit($id) {
-        if (isset($_POST['amount'])) { 
+    public function reduce_limit($id)
+    {
+        if (isset($_POST['amount'])) {
             $amount = parent::post('amount');
-            
+
             // Validasi jumlah yang dimasukkan
             if ($amount <= 0) {
                 parent::alert('alert', 'error-insert');
@@ -187,8 +203,12 @@ class PenggunaController extends GLOBAL_Controller {
             // Kurangi limit pengguna
             parent::model('PenggunaModel')->reduce_user_limit($id, $amount);
 
+            // Ambil nama pengguna
+            $pengguna = parent::model('PenggunaModel')->get_user_by_id($id);
+            $nama_pengguna = $pengguna->username;
+
             // Tambahkan pesan ke history
-            $this->addMessage('Limit untuk pengguna dengan ID ' . $id . ' telah dikurangi sebesar ' . $amount, 'Limit dikurangi', 'update');
+            $this->addMessage('Limit dibayar', 'Limit untuk pengguna dengan nama ' . $nama_pengguna . ' telah dibayar sebesar Rp ' . number_format($amount, 0, ',', '.'), 'payment'); 
             parent::alert('alert', 'success-insert');
             redirect('limit');
         } else {
@@ -196,18 +216,18 @@ class PenggunaController extends GLOBAL_Controller {
         }
     }
 
-    public function detail($id) {
+    public function detail($id)
+    {
         $data['title'] = 'Detail Pengguna';
         $query = array('pengguna_id' => $id);
         $data['Pengguna'] = parent::model('PenggunaModel')->Lihat_Pengguna($query);
-        
+
         // Ambil data transaksi pengguna
         $data['transaksi'] = $this->TransaksiModel->get_transaksi_by_user_id($id);
-        
+
         // Ambil data pinjaman pengguna
         $data['pinjaman'] = $this->PinjamanModel->get_pinjaman_for_user($id);
-        
+
         parent::template('pengguna/detail', $data);
     }
-
 }

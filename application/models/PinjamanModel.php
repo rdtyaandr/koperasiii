@@ -119,4 +119,11 @@ class PinjamanModel extends GLOBAL_Model
 		$query = $this->db->get();
 		return $query->result(); // Fetches results as objects
 	}
+
+	// Tambahkan metode untuk mendapatkan pinjaman berdasarkan ID
+	public function get_pinjaman_by_id($id)
+	{
+		$this->db->where('id', $id);
+		return $this->db->get('tb_pengajuan')->row();
+	}
 }

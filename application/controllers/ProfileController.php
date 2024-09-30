@@ -73,6 +73,8 @@ class ProfileController extends GLOBAL_Controller
             // Cek apakah update berhasil
             if ($update_status) {
                 $this->session->set_userdata('profile_picture', $file_name);
+                // Tambahkan pesan ke history
+                $this->addMessage('Foto profil diperbarui', 'Anda telah berhasil memperbarui foto profil Anda.', 'update');
                 // Tampilkan pesan sukses hanya jika request via AJAX
                 if ($this->input->is_ajax_request()) {
                     echo json_encode(['status' => 'success', 'message' => 'Foto profil berhasil diperbarui']);
@@ -103,64 +105,63 @@ class ProfileController extends GLOBAL_Controller
     }
 
     public function delete_picture()
-{
-    // Dapatkan ID pengguna dari session
-    $pengguna_id = $this->session->userdata('pengguna_id');
+    {
+        // Dapatkan ID pengguna dari session
+        $pengguna_id = $this->session->userdata('pengguna_id');
 
-    // Update nama file di database menjadi 'default.png'
-    $update_status = $this->ProfileModel->update_profile_picture($pengguna_id, 'default.png');
+        // Update nama file di database menjadi 'default.png'
+        $update_status = $this->ProfileModel->update_profile_picture($pengguna_id, 'default.png');
 
-    // Tampilkan respons JSON
-    if ($update_status) {
-        $this->session->set_userdata('profile_picture', 'default.png');
-        echo json_encode(['status' => 'success', 'message' => 'Foto profil berhasil dihapus']);
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'Gagal menghapus foto profil']);
-    }
-}
-
-
-public function update()
-{
-    // Ambil ID pengguna dari sesi
-    $penggunaID = $this->session->userdata('pengguna_id');
-
-    // Ambil data pengguna dari model untuk mendapatkan password lama
-    $current_user = $this->ProfileModel->get_profile_by_id($penggunaID);
-
-    // Data yang akan diperbarui
-    $data = array(
-        'nama_lengkap' => $this->input->post('nama_lengkap'),
-        'email' => $this->input->post('email'),
-    );
-
-    // Ambil input password baru
-    $new_password = $this->input->post('password');
-
-    // Jika password baru diisi, hash password baru, jika tidak, hapus dari array data
-    if (!empty($new_password)) {
-        $data['password'] = md5($new_password); // Hash password baru
+        // Tampilkan respons JSON
+        if ($update_status) {
+            $this->session->set_userdata('profile_picture', 'default.png');
+            // Tambahkan pesan ke history
+            $this->addMessage('Foto profil dihapus', 'Anda telah berhasil menghapus foto profil Anda.', 'delete');
+            echo json_encode(['status' => 'success', 'message' => 'Foto profil berhasil dihapus']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Gagal menghapus foto profil']);
+        }
     }
 
-    // Update data profil di database
-    if ($this->ProfileModel->update_profile($penggunaID, $data)) {
-        // Tambahkan pesan ke history
-        $this->addMessage('Profil diupdate', 'Pengguna dengan ID ' . $penggunaID . ' telah memperbarui profil.', 'update');
+    public function update()
+    {
+        // Ambil ID pengguna dari sesi
+        $penggunaID = $this->session->userdata('pengguna_id');
 
-        $this->session->set_userdata('name', $data['nama_lengkap']);
-        $this->session->set_userdata('email', $data['email']);
+        // Ambil data pengguna dari model untuk mendapatkan password lama
+        $current_user = $this->ProfileModel->get_profile_by_id($penggunaID);
 
-        // Tampilkan pesan sukses
-        parent::alert('alert', 'profile-updated');
-    } else {
-        // Tampilkan pesan error jika update gagal
-        parent::alert('alert', 'update-error');
+        // Data yang akan diperbarui
+        $data = array(
+            'nama_lengkap' => $this->input->post('nama_lengkap'),
+            'email' => $this->input->post('email'),
+        );
+
+        // Ambil input password baru
+        $new_password = $this->input->post('password');
+
+        // Jika password baru diisi, hash password baru, jika tidak, hapus dari array data
+        if (!empty($new_password)) {
+            $data['password'] = md5($new_password); // Hash password baru
+        }
+
+        // Update data profil di database
+        if ($this->ProfileModel->update_profile($penggunaID, $data)) {
+            // Tambahkan pesan ke history
+            $this->addMessage('Profil diperbarui', 'Anda telah berhasil memperbarui profil Anda.', 'update');
+
+            $this->session->set_userdata('name', $data['nama_lengkap']);
+            $this->session->set_userdata('email', $data['email']);
+
+            // Tampilkan pesan sukses
+            parent::alert('alert', 'profile-updated');
+        } else {
+            // Tampilkan pesan error jika update gagal
+            parent::alert('alert', 'update-error');
+        }
+
+        redirect('profile');
     }
-
-    redirect('profile');
-}
-
-
 
     // Fungsi untuk menambahkan pesan ke history
     private function addMessage($text, $summary, $icon)
