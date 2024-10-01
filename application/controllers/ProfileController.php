@@ -11,9 +11,9 @@ class ProfileController extends GLOBAL_Controller
         $this->load->helper('date');
 
         if (!parent::hasLogin()) {
-            redirect('login');
+            parent::alert('alert', 'belum_login');
+            redirect(base_url('login'));
         }
-        $this->HistoryModel->deleteOldMessages();
         $this->ProfileModel->cleanupUnusedProfilePictures();
     }
 
@@ -170,7 +170,8 @@ class ProfileController extends GLOBAL_Controller
             'message_text' => $text,
             'message_summary' => $summary,
             'message_icon' => $icon,
-            'role' => $this->session->userdata('level')
+            'role' => $this->session->userdata('level'),
+            'pengguna_id' => $this->session->userdata('pengguna_id')
         ];
         $this->HistoryModel->addMessage($data);
     }

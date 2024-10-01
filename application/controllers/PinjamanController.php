@@ -17,7 +17,6 @@ class PinjamanController extends GLOBAL_Controller
         if ($level != 'admin' && $level != 'user') {
             redirect(base_url());
         }
-        $this->HistoryModel->deleteOldMessages();
     }
 
     public function index()
@@ -192,7 +191,8 @@ class PinjamanController extends GLOBAL_Controller
             'message_text' => $text,
             'message_summary' => $summary,
             'message_icon' => $icon,
-            'role' => $this->session->userdata('level')
+            'role' => $this->session->userdata('level'),
+            'pengguna_id' => $this->session->userdata('pengguna_id')
         ];
         $this->HistoryModel->addMessage($data);
     }

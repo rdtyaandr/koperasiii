@@ -7,6 +7,10 @@ class FaqController extends GLOBAL_Controller
     {
         parent::__construct();
         $this->load->library('session');
+        if (!parent::hasLogin()) {
+            parent::alert('alert', 'belum_login');
+            redirect(base_url('login'));
+        }
         $level = $this->session->userdata('level');
         if ($level != 'operator') {
             redirect(base_url());

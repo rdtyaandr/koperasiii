@@ -192,8 +192,8 @@
                                     <li><strong style="color: #616161;">Menunggu <br>Persetujuan :</strong></li>
                                     <?php foreach ($pinjaman_menunggu as $pinjaman): ?>
                                         <li><a href="<?php echo base_url('pinjaman'); ?>" class="red-text"
-                                                style="text-decoration: none; color: #1976d2;"><?php echo $pinjaman->jenis_pinjaman; ?>
-                                                (Jumlah: <?php echo number_format($pinjaman->jumlah_pinjaman, 2); ?>)</a></li>
+                                                style="text-decoration: none; color: #1976d2;"><?php echo $pinjaman->username; ?>
+                                                (Jumlah: <?php echo 'Rp ' . number_format($pinjaman->jumlah_pinjaman, 0, ',', '.'); ?>)</a></li>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </ul>
@@ -208,40 +208,40 @@
                             <div class="user-profile-dropdown" style="position: relative; display: inline-block; margin-right: 20px; margin-bottom: <?= (empty($stok_rendah) && !empty($pinjaman_menunggu)) ? '65px' : (empty($stok_rendah) && empty($pinjaman_menunggu) ? '65px' : '0px'); ?>;">
                             <?php elseif ($this->session->userdata('level') == 'user'): ?>
                                 <div class="user-profile-dropdown" style="position: relative; display: inline-block; margin-right: 20px; margin-bottom: 0px">
-                            <?php endif; ?>
-                            <a class="user-profile-trigger" style="display: flex; align-items: center; cursor: pointer;">
-                                <img src="<?= base_url('assets/upload/profile_picture/' . ($this->session->userdata('profile_picture') ? $this->session->userdata('profile_picture') : 'default.png')); ?>" alt="Profile Picture" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
-                                <span style="color: white; display: inline;" class="name-span"><?= $this->session->userdata('name'); ?></span>
-                                <i class="material-icons" style="margin-left: 5px;">arrow_drop_down</i>
-                            </a>
-                            <div class="user-profile-content" style="display: none; position: absolute; right: 0; background-color: white; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); border-radius: 5px; padding: 10px; min-width: 200px; z-index: 1000; animation: fadeIn 0.3s;">
-                                <div style="display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #e0e0e0; background-color: #f9f9f9; border-radius: 5px; transition: background-color 0.3s;">
-                                    <?php $profile_picture = $this->session->userdata('profile_picture') ? $this->session->userdata('profile_picture') : 'default.png'; ?>
-                                    <img src="<?= base_url('assets/upload/profile_picture/' . $profile_picture); ?>" alt="Profile Picture" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
-                                    <div>
-                                        <p style="font-weight: bold; color: #343a40; font-size: 1.2rem; margin-bottom: 0px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);"><?= $this->session->userdata('username'); ?></p>
-                                        <p style="color: #6c757d; margin-bottom: 0px; font-style: italic;"><?= $this->session->userdata('satker'); ?></p>
-                                        <p style="color: #6c757d; margin-bottom: 0;"><?= $this->session->userdata('email'); ?></p>
+                                <?php endif; ?>
+                                <a class="user-profile-trigger" style="display: flex; align-items: center; cursor: pointer;">
+                                    <img src="<?= base_url('assets/upload/profile_picture/' . ($this->session->userdata('profile_picture') ? $this->session->userdata('profile_picture') : 'default.png')); ?>" alt="Profile Picture" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
+                                    <span style="color: white; display: inline;" class="name-span"><?= $this->session->userdata('name'); ?></span>
+                                    <i class="material-icons" style="margin-left: 5px;">arrow_drop_down</i>
+                                </a>
+                                <div class="user-profile-content" style="display: none; position: absolute; right: 0; background-color: white; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); border-radius: 5px; padding: 10px; min-width: 200px; z-index: 1000; animation: fadeIn 0.3s;">
+                                    <div style="display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #e0e0e0; background-color: #f9f9f9; border-radius: 5px; transition: background-color 0.3s;">
+                                        <?php $profile_picture = $this->session->userdata('profile_picture') ? $this->session->userdata('profile_picture') : 'default.png'; ?>
+                                        <img src="<?= base_url('assets/upload/profile_picture/' . $profile_picture); ?>" alt="Profile Picture" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
+                                        <div>
+                                            <p style="font-weight: bold; color: #343a40; font-size: 1.2rem; margin-bottom: 0px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);"><?= $this->session->userdata('username'); ?></p>
+                                            <p style="color: #6c757d; margin-bottom: 0px; font-style: italic;"><?= $this->session->userdata('satker'); ?></p>
+                                            <p style="color: #6c757d; margin-bottom: 0;"><?= $this->session->userdata('email'); ?></p>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column;">
+                                        <a href="<?= base_url('profile'); ?>" class="btn-flat" style="width: 100%; text-align: left; padding: 10px; display: flex; align-items: center; margin-top: 6px; text-transform: capitalize; transition: background-color 0.3s; border-radius: 5px; background-color: transparent;" onmouseover="this.style.backgroundColor='rgba(0, 0, 0, 0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+                                            <i class="material-icons" style="margin-right: 10px; font-size: 18px;">account_box</i> profil
+                                        </a>
+                                        <a href="#" id="logout-button" class="btn-flat" style="width: 100%; text-align: left; padding: 10px; display: flex; align-items: center; color: #dc3545; text-transform: capitalize; transition: background-color 0.3s; border-radius: 5px; background-color: transparent;" onmouseover="this.style.backgroundColor='rgba(220, 53, 69, 0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+                                            <i class="material-icons" style="margin-right: 10px; font-size: 18px;">exit_to_app</i> keluar
+                                        </a>
                                     </div>
                                 </div>
-                                <div style="display: flex; flex-direction: column;">
-                                    <a href="<?= base_url('profile'); ?>" class="btn-flat" style="width: 100%; text-align: left; padding: 10px; display: flex; align-items: center; margin-top: 6px; text-transform: capitalize; transition: background-color 0.3s; border-radius: 5px; background-color: transparent;" onmouseover="this.style.backgroundColor='rgba(0, 0, 0, 0.1)'" onmouseout="this.style.backgroundColor='transparent'">
-                                        <i class="material-icons" style="margin-right: 10px; font-size: 18px;">account_box</i> profil
-                                    </a>
-                                    <a href="#" id="logout-button" class="btn-flat" style="width: 100%; text-align: left; padding: 10px; display: flex; align-items: center; color: #dc3545; text-transform: capitalize; transition: background-color 0.3s; border-radius: 5px; background-color: transparent;" onmouseover="this.style.backgroundColor='rgba(220, 53, 69, 0.1)'" onmouseout="this.style.backgroundColor='transparent'">
-                                        <i class="material-icons" style="margin-right: 10px; font-size: 18px;">exit_to_app</i> keluar
-                                    </a>
                                 </div>
-                            </div>
-                            </div>
-                            <!-- Akhir dari tambahan -->
+                                <!-- Akhir dari tambahan -->
 
-                            <a data-activates="slide-out"
-                                class="sidebar-collapse btn-floating hide-on-large-only blue darken-2"
-                                style="position: absolute; left: 10px; top: 10px; box-shadow: 0px 0px 0px transparent !important;">
-                                <i class="mdi-navigation-menu"></i>
-                            </a>
-                        </div>
+                                <a data-activates="slide-out"
+                                    class="sidebar-collapse btn-floating hide-on-large-only blue darken-2"
+                                    style="position: absolute; left: 10px; top: 10px; box-shadow: 0px 0px 0px transparent !important;">
+                                    <i class="mdi-navigation-menu"></i>
+                                </a>
+                            </div>
             </nav>
         </div>
         <!-- end header nav-->

@@ -14,9 +14,6 @@ class HistoryController extends GLOBAL_Controller
             $this->session->set_flashdata('alert', 'belum_login');
             redirect(base_url('login'));
         }
-
-        // Hapus pesan yang lebih dari 30 hari
-        $this->HistoryModel->deleteOldMessages();
     }
 
     public function index()
@@ -25,17 +22,16 @@ class HistoryController extends GLOBAL_Controller
         
         // Ambil role pengguna dari session
         $role = $this->session->userdata('level');
+        $pengguna_id = $this->session->userdata('pengguna_id');
+        $username = $this->session->userdata('username');
 
         // Ambil pesan berdasarkan role
         if ($role === 'admin') {
-            // Admin bisa melihat semua histori
-            $data['messages'] = $this->HistoryModel->getRecentMessages();
+            $data['messages'] = $this->HistoryModel->getRecentMessagesFiltered($pengguna_id);
         } elseif ($role === 'operator') {
-            // Operator hanya bisa melihat histori operator
-            $data['messages'] = $this->HistoryModel->getRecentMessagesByRole('operator');
+            $data['messages'] = $this->HistoryModel->getRecentMessagesByRole('operator', $pengguna_id);
         } else {
-            // User tidak bisa melihat histori
-            $data['messages'] = []; // Kosongkan histori untuk user
+            $data['messages'] = $this->HistoryModel->getRecentMessagesByRoleAndSummary($pengguna_id, $username);
         }
         parent::template('history/index', $data);
     }

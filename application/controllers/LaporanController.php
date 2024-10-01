@@ -4,6 +4,14 @@ class LaporanController extends GLOBAL_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('LaporanModel');
+        if (!parent::hasLogin()) {
+            parent::alert('alert', 'belum_login');
+            redirect(base_url('login'));
+        }
+        $level = $this->session->userdata('level');
+        if ($level != 'admin' && $level != 'operator') {
+            redirect(base_url());
+        }
     }
 
     public function index() {

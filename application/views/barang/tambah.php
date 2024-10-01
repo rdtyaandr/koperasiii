@@ -4,7 +4,7 @@
             <div class="card hoverable" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 10px;">
                 <div class="card-content">
                     <h4 class="blue-text text-darken-2" style="font-size: 2em; text-align: center; font-weight: bold;">Tambah Barang</h4>
-                    <form action="<?= base_url('barang/tambah') ?>" method="post">
+                    <form action="<?= base_url('barang/tambah') ?>" method="post" onsubmit="return validateForm()">
                         <div class="row">
                             <div class="input-field col s12 m12 l12">
                                 <select id="kategori" name="kategori" required>
@@ -37,7 +37,7 @@
                             </div>
                             <div class="input-field col s12 m6 l4">
                                 <input id="stok" name="stok" type="number" class="validate" required min="0">
-                                <label for=" stok">Stok</label>
+                                <label for="stok">Stok</label>
                             </div>
                             <div class="input-field col s12 m6 l4">
                                 <input id="detail" name="detail_barang" type="text" class="validate">
@@ -63,7 +63,6 @@
 
 <!-- Native CSS for additional styling -->
 <style>
-
     .card-content {
         padding-bottom: 0;
     }
@@ -85,3 +84,22 @@
         border-radius: 4px;
     }
 </style>
+
+<script>
+    function validateForm() {
+        var hargaBeli = parseFloat(document.getElementById('harga_beli').value);
+        var hargaJual = parseFloat(document.getElementById('harga_jual').value);
+        
+        if (hargaJual <= hargaBeli) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Harga Jual tidak boleh kurang dari Harga Beli.', timer: 3000,
+                showConfirmButton: false,
+                timerProgressBar: true
+            });
+            return false; // Mencegah form untuk disubmit
+        }
+        return true; // Mengizinkan form untuk disubmit
+    }
+</script>

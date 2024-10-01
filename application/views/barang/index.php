@@ -87,7 +87,7 @@
                                             <a href="<?= base_url('barang/ubah/' . $item['id_barang']) ?>" class="btn yellow darken-2 waves-effect waves-light btn-floating">
                                                 <i class="material-icons">edit</i>
                                             </a>
-                                            <a href="<?= base_url('barang/hapus/' . $item['id_barang']) ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus barang ini?')" class="btn red darken-2 waves-effect waves-light btn-floating">
+                                            <a href="#" onclick="confirmDelete('<?= base_url('barang/hapus/' . $item['id_barang']) ?>')" class="btn red darken-2 waves-effect waves-light btn-floating">
                                                 <i class="material-icons">delete</i>
                                             </a>
                                         </td>
@@ -108,3 +108,21 @@
         </div>
     </div>
 </div>
+
+<script>
+    function confirmDelete(url) {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Anda tidak dapat mengembalikan data ini!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url;
+            }
+        });
+    }
+</script>

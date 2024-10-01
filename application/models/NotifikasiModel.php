@@ -23,7 +23,10 @@ class NotifikasiModel extends GLOBAL_Model {
 
     public function get_pinjaman_menunggu()
     {
-        $this->db->where('status', 'Menunggu Persetujuan');
-        return $this->db->get('tb_pengajuan')->result();
+        $this->db->select('tb_pengajuan.*, tb_pengguna.username');
+        $this->db->from('tb_pengajuan');
+        $this->db->join('tb_pengguna', 'tb_pengajuan.user_id = tb_pengguna.pengguna_id');
+        $this->db->where('tb_pengajuan.status', 'Menunggu Persetujuan');
+        return $this->db->get()->result();
     }
 }

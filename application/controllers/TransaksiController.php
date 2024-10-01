@@ -18,7 +18,6 @@ class TransaksiController extends GLOBAL_Controller
         if ($level != 'admin' && $level != 'operator') {
             redirect(base_url());
         }
-        $this->HistoryModel->deleteOldMessages();
     }
 
     public function index()
@@ -34,7 +33,8 @@ class TransaksiController extends GLOBAL_Controller
             'message_text' => $text,
             'message_summary' => $summary,
             'message_icon' => $icon,
-            'role' => $this->session->userdata('level')
+            'role' => $this->session->userdata('level'),
+            'pengguna_id' => $this->session->userdata('pengguna_id')
         ];
         $this->HistoryModel->addMessage($data);
     }
@@ -132,7 +132,7 @@ class TransaksiController extends GLOBAL_Controller
                 $this->TransaksiModel->insert_transaksi_detail($detail_data);
     
                 // Tambahkan pesan ke history
-                $this->addMessage('Transaksi ditambahkan', 'Transaksi baru telah berhasil ditambahkan yang dibeli oleh ' . $nama_pengguna . ' dengan total ' . number_format($total, 0, ',', '.') . ' Rupiah', 'add_circle_outline');
+                $this->addMessage('Transaksi ditambahkan', 'Transaksi baru telah berhasil ditambahkan yang dibeli oleh ' . $nama_pengguna . ' dengan total Rp ' . number_format($total, 0, ',', '.'), 'add_circle_outline');
     
                 $this->session->set_flashdata('alert', 'success-insert');
                 redirect('transaksi');
@@ -197,7 +197,7 @@ class TransaksiController extends GLOBAL_Controller
             }
 
             // Tambahkan pesan ke history
-            $this->addMessage('Transaksi diubah', 'Transaksi telah berhasil diubah yang dibeli oleh ' . $nama_pengguna . ' dengan total ' . number_format($total_baru, 0, ',', '.') . ' Rupiah', 'edit');
+            $this->addMessage('Transaksi diubah', 'Transaksi telah berhasil diubah yang dibeli oleh ' . $nama_pengguna . ' dengan total Rp ' . number_format($total_baru, 0, ',', '.'), 'edit'); 
 
             $id_barang = $this->input->post('id_barang');
             $harga = $this->input->post('harga');
