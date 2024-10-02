@@ -65,6 +65,15 @@ $route['barang/barcode']= 'BarangController/generate_Barcode';
 $route['barang/qrcode'] = 'BarangController/QRcode';
 
 /*
+* konsinyasi modul routes
+* */
+$route['konsinyasi'] = 'KonsinyasiController';
+$route['konsinyasi/tambah'] = 'KonsinyasiController/tambah';
+$route['konsinyasi/ubah/(:any)'] = 'KonsinyasiController/ubah/$1';
+$route['konsinyasi/hapus/(:any)'] = 'KonsinyasiController/hapus/$1';
+$route['konsinyasi/(:any)'] = 'KonsinyasiController/detail/$1';
+
+/*
 * kategori modul routes
 * */
 $route['kategori'] = 'KategoriController';

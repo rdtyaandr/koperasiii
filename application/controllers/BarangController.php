@@ -8,7 +8,7 @@ class BarangController extends GLOBAL_Controller
         $this->load->model('BarangModel');
         $this->load->model('KategoriModel');
         $this->load->model('SatuanModel');
-        $this->load->model('HistoryModel'); // Load model History
+        $this->load->model('HistoryModel');
         $this->load->library('Ciqrcode');
         $this->load->library('Zend');
         $this->load->helper('url');
@@ -61,9 +61,6 @@ class BarangController extends GLOBAL_Controller
        echo $barcode;
    }
     
-    
-    
-
     // Fungsi untuk menambahkan pesan ke history
     private function addMessage($text, $summary, $icon)
     {

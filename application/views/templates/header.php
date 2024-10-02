@@ -319,6 +319,7 @@
                                             </li>
                                             <li><a href="<?= base_url('satuan') ?>">Satuan</a>
                                             </li>
+                                            <li style="display: none;"><a href="<?= base_url('konsinyasi') ?>">Konsinyasi</a></li>
                                         </ul>
                                     </div>
                                 </li>

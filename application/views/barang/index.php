@@ -16,10 +16,13 @@
                             <a href="<?= base_url('barang/tambah') ?>" class="btn waves-effect waves-light green darken-1" style="border-radius: 25px; margin-bottom: 20px;">
                                 <i class="material-icons left">add</i>Tambah Barang
                             </a>
-                            <a href="<?= base_url('kategori') ?>" class="btn waves-effect waves-light blue darken-1" style="border-radius: 25px; margin-bottom: 20px;">
+                            <a href="<?= base_url('konsinyasi') ?>" class="btn waves-effect waves-light red darken-1" style="border-radius: 25px; margin-bottom: 20px;">
+                                <i class="material-icons left">arrow_forward</i>Konsinyasi
+                            </a>
+                            <a href="<?= base_url('kategori') ?>" class="btn waves-effect waves-light orange darken-1" style="border-radius: 25px; margin-bottom: 20px;">
                                 <i class="material-icons left">arrow_forward</i>Kategori
                             </a>
-                            <a href="<?= base_url('satuan') ?>" class="btn waves-effect waves-light orange darken-1" style="border-radius: 25px; margin-bottom: 20px;">
+                            <a href="<?= base_url('satuan') ?>" class="btn waves-effect waves-light blue darken-1" style="border-radius: 25px; margin-bottom: 20px;">
                                 <i class="material-icons left">arrow_forward</i>Satuan
                             </a>
                         </div>
