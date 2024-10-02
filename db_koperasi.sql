@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Waktu pembuatan: 19 Sep 2024 pada 01.09
--- Versi server: 8.0.30
--- Versi PHP: 8.1.10
+-- Generation Time: Oct 02, 2024 at 02:06 AM
+-- Server version: 8.0.30
+-- PHP Version: 8.3.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,20 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_angsuran`
---
-
-CREATE TABLE `tb_angsuran` (
-  `angsuran_id` int NOT NULL,
-  `angsuran_pinjaman_id` int NOT NULL,
-  `angsuran_jumlah` double NOT NULL,
-  `angsuran_date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `tb_barang`
+-- Table structure for table `tb_barang`
 --
 
 CREATE TABLE `tb_barang` (
@@ -51,24 +38,22 @@ CREATE TABLE `tb_barang` (
   `harga_jual` int NOT NULL,
   `stok` int NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data untuk tabel `tb_barang`
+-- Dumping data for table `tb_barang`
 --
 
 INSERT INTO `tb_barang` (`id_barang`, `kode_barang`, `nama_barang`, `detail_barang`, `id_satuan`, `id_kategori`, `harga_beli`, `harga_jual`, `stok`, `created_at`, `updated_at`) VALUES
-(358, '-', 'Susu', '-', 12, 35, 3000, 5000, 9968, '2024-08-06 01:13:58', '2024-08-20 02:36:58'),
-(359, '-', 'Gorengan', '-', 15, 36, 500, 2000, 99882, '2024-08-06 01:14:26', '2024-08-20 02:36:46'),
-(363, '', 'pc', '', 5, 35, 68568, 658865, 9999, '2024-08-13 01:55:49', '2024-08-20 02:36:50'),
-(364, '', '6565', '', 5, 39, 6765, 5000, 8, '2024-08-13 08:48:04', '2024-09-19 01:05:41'),
-(365, 'dasd', 'isoplus', '', 13, 38, 5000, 10000, 113, '2024-09-18 06:29:28', '2024-09-18 06:29:28');
+(370, '4578548745', 'Es Teh', '', 14, 35, 2500, 3000, 44, '2024-09-23 08:52:51', '2024-10-02 08:26:45'),
+(371, '6585678', 'Gorengan', '', 14, 36, 1000, 2000, 67097655, '2024-09-23 09:42:23', '2024-10-02 08:19:17'),
+(372, '8646845', 'Kopi', '', 13, 35, 1500, 3000, 4, '2024-09-23 09:43:12', '2024-10-01 16:28:04');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_detransaksi`
+-- Table structure for table `tb_detransaksi`
 --
 
 CREATE TABLE `tb_detransaksi` (
@@ -78,36 +63,15 @@ CREATE TABLE `tb_detransaksi` (
   `nama_barang` varchar(100) NOT NULL,
   `harga` int NOT NULL,
   `jumlah` int NOT NULL,
-  `total` int NOT NULL
+  `total` int NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data untuk tabel `tb_detransaksi`
---
-
-INSERT INTO `tb_detransaksi` (`id_detail`, `id_transaksi`, `id_barang`, `nama_barang`, `harga`, `jumlah`, `total`) VALUES
-(274, 151, 358, 'Susu', 50000, 2, 100000),
-(276, 152, 358, 'Susu', 50000, 1, 50000),
-(277, 153, 359, 'Gorengan', 2000, 7, 14000),
-(279, 154, 364, '6565', 6000, 1, 6000),
-(281, 155, 364, '6565', 6000, 1, 6000),
-(282, 156, 358, 'Susu', 5000, 1, 5000),
-(283, 157, 358, 'Susu', 5000, 1, 5000),
-(284, 158, 358, 'Susu', 6000, 2, 12000),
-(285, 159, 359, 'Gorengan', 2000, 99, 198000),
-(286, 160, 364, '6565', 5000, 2, 10000),
-(287, 161, 358, 'Susu', 5000, 1, 5000),
-(288, 162, 358, 'Susu', 5000, 2, 10000),
-(289, 163, 359, 'Gorengan', 1000, 3, 3000),
-(290, 164, 358, 'Susu', 5000, 21, 105000),
-(292, 165, 359, 'Gorengan', 2000, 8, 16000),
-(293, 166, 365, 'isoplus', 10000, 4, 40000),
-(294, 167, 365, 'isoplus', 10000, 6, 60000);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_histori`
+-- Table structure for table `tb_histori`
 --
 
 CREATE TABLE `tb_histori` (
@@ -115,190 +79,26 @@ CREATE TABLE `tb_histori` (
   `message_text` varchar(255) NOT NULL,
   `message_summary` varchar(255) NOT NULL,
   `role` enum('admin','operator','user') NOT NULL,
+  `pengguna_id` int NOT NULL,
   `message_icon` varchar(50) NOT NULL,
   `message_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data untuk tabel `tb_histori`
---
-
-INSERT INTO `tb_histori` (`id`, `message_text`, `message_summary`, `role`, `message_icon`, `message_date_time`) VALUES
-(275, 'Barang dihapus', 'Barang  telah dihapus', 'admin', 'delete', '2024-08-20 07:05:04'),
-(276, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 5.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-20 07:07:34'),
-(277, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 12.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-20 07:09:46'),
-(278, 'Limit untuk pengguna dengan ID 124 telah direset', 'Limit direset', 'admin', 'update', '2024-08-20 07:27:37'),
-(279, 'Limit untuk pengguna dengan ID 124 telah direset', 'Limit direset', 'admin', 'update', '2024-08-20 07:27:41'),
-(280, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:10:15'),
-(281, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:10:16'),
-(282, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:10:16'),
-(283, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:10:17'),
-(284, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:10:17'),
-(285, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:10:17'),
-(286, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:10:42'),
-(287, 'Limit untuk pengguna dengan ID 133 telah direset', 'Limit direset', 'admin', 'update', '2024-08-20 08:12:05'),
-(288, 'Total limit untuk pengguna dengan ID 125 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:27:34'),
-(289, 'Total limit untuk pengguna dengan ID 125 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:27:36'),
-(290, 'Total limit untuk pengguna dengan ID 125 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 08:27:42'),
-(291, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-20 11:52:07'),
-(292, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 08:19:23'),
-(293, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 198.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-21 08:19:38'),
-(294, 'Limit untuk pengguna dengan ID 125 telah direset', 'Limit direset', 'admin', 'update', '2024-08-21 08:19:47'),
-(295, 'Total limit untuk pengguna dengan ID 124 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:08:11'),
-(296, 'Limit untuk pengguna dengan ID 124 telah direset', 'Limit direset', 'admin', 'update', '2024-08-21 09:08:14'),
-(297, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:08:16'),
-(298, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:08:17'),
-(299, 'Total limit untuk pengguna dengan ID 125 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:08:18'),
-(300, 'Total limit untuk pengguna dengan ID 124 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:08:18'),
-(301, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:45:07'),
-(302, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:45:18'),
-(303, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:45:23'),
-(304, 'Total limit untuk pengguna dengan ID 125 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:45:41'),
-(305, 'Total limit untuk pengguna dengan ID 125 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:45:48'),
-(306, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:46:43'),
-(307, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:46:44'),
-(308, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:46:45'),
-(309, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:46:45'),
-(310, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:46:45'),
-(311, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:46:46'),
-(312, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:46:46'),
-(313, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 09:46:46'),
-(314, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 10.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-21 09:47:42'),
-(315, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 5.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-21 09:48:13'),
-(316, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 08:38:57'),
-(317, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 08:39:01'),
-(318, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 08:39:05'),
-(319, 'Total limit untuk pengguna dengan ID 124 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-21 08:39:08'),
-(320, 'Limit untuk pengguna dengan ID 125 telah direset', 'Limit direset', 'admin', 'update', '2024-08-21 08:39:12'),
-(321, 'Limit untuk pengguna dengan ID 133 telah direset', 'Limit direset', 'admin', 'update', '2024-08-21 08:39:16'),
-(322, 'Pinjaman dibatalkan', 'Pinjaman dengan ID 30 telah dibatalkan oleh Admin', 'admin', 'delete', '2024-08-21 08:39:36'),
-(323, 'Pinjaman disetujui', 'Pinjaman dengan ID 30 telah disetujui oleh Admin', 'admin', 'update', '2024-08-21 08:39:38'),
-(324, 'Pinjaman dibatalkan', 'Pinjaman dengan ID 30 telah dibatalkan oleh Admin', 'admin', 'delete', '2024-08-21 08:39:45'),
-(325, 'Pinjaman disetujui', 'Pinjaman dengan ID 30 telah disetujui oleh Admin', 'admin', 'update', '2024-08-21 08:39:53'),
-(326, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-26 01:04:46'),
-(327, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-26 01:04:48'),
-(328, 'Total limit untuk pengguna dengan ID 132 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-26 01:06:35'),
-(329, 'Pinjaman dibatalkan', 'Pinjaman dengan ID 30 telah dibatalkan oleh Admin', 'admin', 'delete', '2024-08-26 05:43:55'),
-(330, 'Pinjaman disetujui', 'Pinjaman dengan ID 30 telah disetujui oleh Admin', 'admin', 'update', '2024-08-26 05:44:08'),
-(331, 'Pengajuan pinjaman', 'Pengguna dengan ID bagas telah mengajukan pinjaman sebesar 500.000', 'admin', 'add_circle_outline', '2024-08-26 05:44:57'),
-(332, 'Pengajuan pinjaman', 'Pengguna dengan ID Yono telah mengajukan pinjaman sebesar 60.000', 'admin', 'add_circle_outline', '2024-08-26 05:45:27'),
-(333, 'Kategori ditambahkan', 'Kategori 89098- telah ditambahkan', 'admin', 'add_circle_outline', '2024-08-26 06:02:52'),
-(334, 'Kategori dihapus', 'Kategori  telah dihapus', 'admin', 'delete', '2024-08-26 06:02:59'),
-(335, 'Satuan ditambahkan', 'Satuan 68686 telah ditambahkan', 'admin', 'add_circle_outline', '2024-08-26 06:03:05'),
-(336, 'Satuan dihapus', 'Satuan  telah dihapus', 'admin', 'delete', '2024-08-26 06:03:11'),
-(337, 'Pengguna dengan nama 8558 telah ditambahkan', 'Pengguna ditambahkan', 'admin', 'add_circle_outline', '2024-08-26 06:03:37'),
-(338, 'Pengguna dengan nama  telah dihapus', 'Pengguna dihapus', 'admin', 'delete', '2024-08-26 06:03:44'),
-(339, 'Pengajuan pinjaman', 'Pengguna dengan ID 124 telah mengajukan pinjaman sebesar 7.000', 'admin', 'add_circle_outline', '2024-08-26 07:12:06'),
-(340, 'Pengajuan pinjaman', 'Pengguna dengan ID 124 telah mengajukan pinjaman sebesar 65.865.856.655.686.865.777.962.793.304.064', 'admin', 'add_circle_outline', '2024-08-26 07:23:39'),
-(341, 'Pinjaman disetujui', 'Pinjaman dengan ID 34 telah disetujui oleh Admin', 'admin', 'update', '2024-08-26 07:24:05'),
-(342, 'Pinjaman dibatalkan', 'Pinjaman dengan ID 34 telah dibatalkan oleh Admin', 'admin', 'delete', '2024-08-26 07:24:20'),
-(343, 'Pengajuan pinjaman', 'Pengguna dengan ID Sunandi telah mengajukan pinjaman sebesar 0', 'admin', 'add_circle_outline', '2024-08-26 07:56:41'),
-(344, 'Pengajuan pinjaman', 'Pengguna dengan ID 124 telah mengajukan pinjaman sebesar 6.745', 'admin', 'add_circle_outline', '2024-08-26 07:57:06'),
-(345, 'Pengajuan pinjaman', 'Pengguna dengan ID 124 telah mengajukan pinjaman sebesar 0', 'admin', 'add_circle_outline', '2024-08-26 07:57:20'),
-(346, 'Pinjaman disetujui', 'Pinjaman dengan ID 33 telah disetujui oleh Admin', 'admin', 'update', '2024-08-27 03:13:00'),
-(347, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 10.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-27 03:51:27'),
-(348, 'Total limit untuk pengguna dengan ID 124 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 03:51:50'),
-(349, 'Total limit untuk pengguna dengan ID 124 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 03:52:03'),
-(350, 'Total limit untuk pengguna dengan ID 124 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 03:52:10'),
-(351, 'Total limit untuk pengguna dengan ID 124 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 03:52:15'),
-(352, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 3.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-27 03:53:03'),
-(353, 'Kategori diubah', 'Kategori rtre799 telah diubah', 'admin', 'update', '2024-08-27 04:03:55'),
-(354, 'Kategori diubah', 'Kategori vcncghjfgu telah diubah', 'admin', 'update', '2024-08-27 04:04:04'),
-(355, 'Kategori diubah', 'Kategori vcncghjfgu telah diubah', 'admin', 'update', '2024-08-27 04:30:45'),
-(356, 'Kategori ditambahkan', 'Kategori jhkjghkg telah ditambahkan', 'admin', 'add_circle_outline', '2024-08-27 04:34:48'),
-(357, 'Kategori dihapus', 'Kategori  telah dihapus', 'admin', 'delete', '2024-08-27 04:34:52'),
-(358, 'Kategori dihapus', 'Kategori  telah dihapus', 'admin', 'delete', '2024-08-27 04:34:55'),
-(359, 'Kategori ditambahkan', 'Kategori jhgkhhkkkkkkkkkkkkkkk telah ditambahkan', 'admin', 'add_circle_outline', '2024-08-27 04:35:01'),
-(360, 'Kategori dihapus', 'Kategori  telah dihapus', 'admin', 'delete', '2024-08-27 04:35:11'),
-(361, 'Kategori diubah', 'Kategori oiiiiiiiiiiiiiiiiiiiiiiiiiii telah diubah', 'admin', 'update', '2024-08-27 04:35:26'),
-(362, 'Pengajuan pinjaman', 'Pengguna dengan ID 125 telah mengajukan pinjaman sebesar 656.666', 'admin', 'add_circle_outline', '2024-08-27 06:51:51'),
-(363, 'Pengajuan pinjaman', 'Pengguna dengan ID 125 telah mengajukan pinjaman sebesar 9.000', 'user', 'add_circle_outline', '2024-08-27 06:52:20'),
-(364, 'Pinjaman disetujui', 'Pinjaman dengan ID 39 telah disetujui oleh Admin', 'admin', 'update', '2024-08-27 06:53:13'),
-(365, 'Pinjaman disetujui', 'Pinjaman dengan ID 37 telah disetujui oleh Admin', 'admin', 'update', '2024-08-27 06:53:14'),
-(366, 'Pinjaman disetujui', 'Pinjaman dengan ID 36 telah disetujui oleh Admin', 'admin', 'update', '2024-08-27 06:53:14'),
-(367, 'Pinjaman disetujui', 'Pinjaman dengan ID 38 telah disetujui oleh Admin', 'admin', 'update', '2024-08-27 06:53:16'),
-(368, 'Kategori ditambahkan', 'Kategori 9867976 telah ditambahkan', 'admin', 'add_circle_outline', '2024-08-27 06:59:45'),
-(369, 'Kategori diubah', 'Kategori hgjfgjfg telah diubah', 'admin', 'update', '2024-08-27 06:59:49'),
-(370, 'Kategori dihapus', 'Kategori  telah dihapus', 'admin', 'delete', '2024-08-27 06:59:52'),
-(371, 'Satuan ditambahkan', 'Satuan hgikku telah ditambahkan', 'admin', 'add_circle_outline', '2024-08-27 07:22:13'),
-(372, 'Satuan diubah', 'Satuan uuuuuuuuuuu telah diubah', 'admin', 'update', '2024-08-27 07:22:18'),
-(373, 'Satuan dihapus', 'Satuan  telah dihapus', 'admin', 'delete', '2024-08-27 07:22:33'),
-(374, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 07:37:26'),
-(375, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 07:37:33'),
-(376, 'Limit untuk pengguna dengan ID 133 telah direset', 'Limit direset', 'admin', 'update', '2024-08-27 07:37:37'),
-(377, 'Limit untuk pengguna dengan ID 124 telah direset', 'Limit direset', 'admin', 'update', '2024-08-27 07:37:40'),
-(378, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 09:04:41'),
-(379, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 09:04:44'),
-(380, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 09:04:56'),
-(381, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 09:04:57'),
-(382, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 09:04:58'),
-(383, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 09:04:58'),
-(384, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-27 09:04:59'),
-(385, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-28 07:21:41'),
-(386, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-28 07:21:44'),
-(387, 'Total limit untuk pengguna dengan ID 125 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-28 07:29:02'),
-(388, 'Total limit untuk pengguna dengan ID 125 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-28 07:29:07'),
-(389, 'Total limit untuk pengguna dengan ID 125 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-28 07:29:13'),
-(390, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-28 07:29:20'),
-(391, 'Limit untuk pengguna dengan ID 133 telah dikurangi sebesar 4575474', 'Limit dikurangi', 'admin', 'update', '2024-08-28 07:32:14'),
-(392, 'Limit untuk pengguna dengan ID 133 telah direset', 'Limit direset', 'admin', 'update', '2024-08-28 07:32:19'),
-(393, 'Limit untuk pengguna dengan ID 133 telah dikurangi sebesar 500000', 'Limit dikurangi', 'admin', 'update', '2024-08-28 07:32:29'),
-(394, 'Limit untuk pengguna dengan ID 124 telah dikurangi sebesar 46443', 'Limit dikurangi', 'admin', 'update', '2024-08-28 07:33:19'),
-(395, 'Limit untuk pengguna dengan ID 124 telah direset', 'Limit direset', 'admin', 'update', '2024-08-28 07:33:27'),
-(396, 'Limit untuk pengguna dengan ID 133 telah direset', 'Limit direset', 'admin', 'update', '2024-08-28 07:42:27'),
-(397, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-28 07:42:57'),
-(398, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-08-28 07:43:01'),
-(399, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 105.000 Rupiah', 'admin', 'add_circle_outline', '2024-08-28 07:43:21'),
-(400, 'Limit untuk pengguna dengan ID 124 telah dikurangi sebesar 5000', 'Limit dikurangi', 'admin', 'update', '2024-08-28 07:43:37'),
-(401, 'Limit untuk pengguna dengan ID 124 telah dikurangi sebesar 99000', 'Limit dikurangi', 'admin', 'update', '2024-08-28 07:44:42'),
-(402, 'Limit untuk pengguna dengan ID 124 telah dikurangi sebesar 999', 'Limit dikurangi', 'admin', 'update', '2024-08-28 07:44:49'),
-(403, 'Limit untuk pengguna dengan ID 124 telah dikurangi sebesar 1', 'Limit dikurangi', 'admin', 'update', '2024-08-28 07:45:10'),
-(404, 'Pinjaman disetujui', 'Pinjaman dengan ID 34 telah disetujui oleh Admin', 'admin', 'update', '2024-08-28 07:59:57'),
-(405, 'Profil diupdate', 'Pengguna dengan ID 127 telah memperbarui profil.', 'admin', 'update', '2024-09-10 06:47:21'),
-(406, 'Profil diupdate', 'Pengguna dengan ID 127 telah memperbarui profil.', 'admin', 'update', '2024-09-10 06:48:01'),
-(407, 'Barang baru ditambahkan', 'Barang isoplus telah ditambahkan', 'admin', 'add_circle_outline', '2024-09-18 06:29:28'),
-(408, 'Kategori ditambahkan', 'Kategori AKP telah ditambahkan', 'admin', 'add_circle_outline', '2024-09-18 06:29:54'),
-(409, 'Satuan ditambahkan', 'Satuan Paket telah ditambahkan', 'admin', 'add_circle_outline', '2024-09-18 06:30:15'),
-(410, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 12.000 Rupiah', 'admin', 'add_circle_outline', '2024-09-18 06:33:08'),
-(411, 'Transaksi diubah', 'Transaksi dengan total 12.000 Rupiah telah diubah', 'admin', 'update', '2024-09-18 06:41:23'),
-(412, 'Pengguna dengan nama bambang telah ditambahkan', 'Pengguna ditambahkan', 'admin', 'add_circle_outline', '2024-09-18 06:42:06'),
-(413, 'Pengguna dengan nama  telah dihapus', 'Pengguna dihapus', 'admin', 'delete', '2024-09-18 07:28:54'),
-(414, 'Pengguna dengan nama banu telah ditambahkan', 'Pengguna ditambahkan', 'admin', 'add_circle_outline', '2024-09-18 07:29:50'),
-(415, 'Pengguna dengan nama uzumaki bayu telah ditambahkan', 'Pengguna ditambahkan', 'admin', 'add_circle_outline', '2024-09-18 07:48:50'),
-(416, 'Pengajuan pinjaman', 'Pengguna dengan ID 137 telah mengajukan pinjaman sebesar 2.000.000', 'admin', 'add_circle_outline', '2024-09-18 07:58:32'),
-(417, 'Pinjaman disetujui', 'Pinjaman dengan ID 40 telah disetujui oleh Admin', 'admin', 'update', '2024-09-18 07:58:50'),
-(418, 'Profil diupdate', 'Pengguna dengan ID 127 telah memperbarui profil.', 'admin', 'update', '2024-09-18 07:59:14'),
-(419, 'Pengajuan pinjaman', 'Pengguna dengan ID 137 telah mengajukan pinjaman sebesar 2.000.000', 'user', 'add_circle_outline', '2024-09-18 08:59:14'),
-(420, 'Pengguna dengan nama  telah dihapus', 'Pengguna dihapus', 'admin', 'delete', '2024-09-18 11:55:06'),
-(421, 'Pengguna dengan nama banu telah diubah', 'Pengguna diubah', 'admin', 'update', '2024-09-18 11:55:25'),
-(422, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'admin', 'update', '2024-09-19 00:34:55'),
-(423, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 40.000 Rupiah', 'operator', 'add_circle_outline', '2024-09-19 00:57:39'),
-(424, 'Transaksi ditambahkan', 'Transaksi baru telah ditambahkan dengan total 60.000 Rupiah', 'operator', 'add_circle_outline', '2024-09-19 00:58:05'),
-(425, 'Total limit untuk pengguna dengan ID 133 telah diperbarui', 'Limit diperbarui', 'operator', 'update', '2024-09-19 00:58:21'),
-(426, 'Limit untuk pengguna dengan ID 133 telah dikurangi sebesar 1', 'Limit dikurangi', 'operator', 'update', '2024-09-19 00:58:38'),
-(427, 'Limit untuk pengguna dengan ID 133 telah direset', 'Limit direset', 'operator', 'update', '2024-09-19 00:58:45'),
-(428, 'Pengguna dengan nama  telah dihapus', 'Pengguna dihapus', 'operator', 'delete', '2024-09-19 00:59:04'),
-(429, 'Pengguna dengan nama Sunandi telah diubah', 'Pengguna diubah', 'operator', 'update', '2024-09-19 00:59:26'),
-(430, 'Profil diupdate', 'Pengguna dengan ID 127 telah memperbarui profil.', 'admin', 'update', '2024-09-19 01:03:15'),
-(431, 'Pinjaman dibatalkan', 'Pinjaman dengan ID 39 telah dibatalkan oleh Admin', 'admin', 'delete', '2024-09-19 01:04:34'),
-(432, 'Barang diubah', 'Barang 6565 telah diubah', 'admin', 'update', '2024-09-19 01:05:31'),
-(433, 'Barang diubah', 'Barang 6565 telah diubah', 'admin', 'update', '2024-09-19 01:05:41');
-
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_kategori`
+-- Table structure for table `tb_kategori`
 --
 
 CREATE TABLE `tb_kategori` (
   `id_kategori` int NOT NULL,
   `nama_kategori` varchar(255) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data untuk tabel `tb_kategori`
+-- Dumping data for table `tb_kategori`
 --
 
 INSERT INTO `tb_kategori` (`id_kategori`, `nama_kategori`, `created_at`, `updated_at`) VALUES
@@ -306,32 +106,31 @@ INSERT INTO `tb_kategori` (`id_kategori`, `nama_kategori`, `created_at`, `update
 (36, 'Makanan', '2024-07-30 03:52:18', '2024-07-30 03:52:18'),
 (38, 'ATK', '2024-07-30 06:28:16', '2024-07-30 06:28:16'),
 (39, 'AKM (Alat kamar mandi)', '2024-07-30 06:30:25', '2024-07-30 06:30:25'),
-(48, 'oiiiiiiiiiiiiiiiiiiiiiiiiiii', '2024-08-07 03:35:10', '2024-08-27 04:35:26'),
-(54, 'AKP', '2024-09-18 06:29:54', '2024-09-18 06:29:54');
+(54, 'AKP', '2024-09-18 06:29:54', '2024-09-25 15:46:34');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_pengajuan`
+-- Table structure for table `tb_pengajuan`
 --
 
 CREATE TABLE `tb_pengajuan` (
   `id` int NOT NULL,
   `jenis_pinjaman` text NOT NULL,
-  `tanggal_pinjam` text NOT NULL,
+  `tanggal_pinjam` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `jumlah_pinjaman` text NOT NULL,
   `lama_pinjaman` text NOT NULL,
   `is_read` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` varchar(255) DEFAULT NULL,
-  `waktu_pengajuan` datetime DEFAULT NULL,
+  `waktu_pengajuan` datetime DEFAULT CURRENT_TIMESTAMP,
   `user_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_pengguna`
+-- Table structure for table `tb_pengguna`
 --
 
 CREATE TABLE `tb_pengguna` (
@@ -342,30 +141,135 @@ CREATE TABLE `tb_pengguna` (
   `satker` varchar(255) NOT NULL,
   `password` varchar(100) NOT NULL,
   `pengguna_hak_akses` enum('user','operator','admin') NOT NULL,
-  `limit` int DEFAULT NULL,
-  `limit_total` int DEFAULT NULL,
+  `limit` int DEFAULT '0',
+  `limit_total` int DEFAULT '0',
   `profile_picture` varchar(255) DEFAULT NULL,
-  `pengguna_date_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `pengguna_date_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `pengguna_date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tb_pengguna`
+-- Dumping data for table `tb_pengguna`
 --
 
 INSERT INTO `tb_pengguna` (`pengguna_id`, `nama_lengkap`, `username`, `email`, `satker`, `password`, `pengguna_hak_akses`, `limit`, `limit_total`, `profile_picture`, `pengguna_date_update`, `pengguna_date_created`) VALUES
-(124, 'pegawai keuangan', 'siwung', 'orang@gmail.com', 'Keuangan', 'aaaa', 'user', 0, 1500000, NULL, '2024-08-08 08:58:10', '2024-08-08 08:58:10'),
-(125, 'user', 'bagas', 'dgffdghdf@fdhfg.c', 'aa', 'aaaa', 'user', 0, 1500000, 'default.png', '2024-08-08 13:40:09', '2024-08-08 13:40:09'),
-(126, 'o', 'o', 'gfjgff@bhcv.g', 'ut', 'o', 'operator', NULL, 0, '66c2b1371f126.png', '2024-08-12 13:14:04', '2024-08-12 13:14:04'),
-(127, 'Bambang', 'a', 'Bambang@gmail.com', 'IPDS', 'a', 'admin', NULL, 0, 'default.png', '2024-08-13 09:04:05', '2024-08-13 09:04:05'),
-(128, 'y', 'ytu', 'ytityi@fghf.hl', 'dyd', 'dyfy', 'operator', NULL, NULL, NULL, '2024-08-13 14:07:40', '2024-08-13 14:07:40'),
-(132, 'hjkgh', 'Yono', 'tgfjgf@fgjgh.hjhf', 'ufgjugf', 'ftgufuj', 'user', 0, 1500000, NULL, '2024-08-19 12:01:54', '2024-08-19 12:01:54'),
-(133, 'okeee', 'Sunandi', 'sadlskn@kdsgsd.gsdg', 'ipds', 'khgkghk', 'user', 0, NULL, NULL, '2024-08-19 14:08:23', '2024-08-19 14:08:23');
+(1, 'Abdullah Hakim', 'abd.hakim', 'abd.hakim@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 09:04:59', '2024-10-02 07:41:09'),
+(2, 'Abdus Salam', 'abdussalam', 'abdussalam@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 09:04:51', '2024-10-02 07:41:09'),
+(3, 'Achmad Aziz Effendy', 'achmad.effendy', 'achmad.effendy@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(4, 'Adelia Alifiany Basory', 'adelia.alifiany', 'adelia.alifiany@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 09:05:38', '2024-10-02 07:41:09'),
+(5, 'Adenan', 'adenan', 'adenan@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(6, 'Adis Nalia', 'adisnalia', 'adisnalia@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(7, 'Afina Nur Firdaus', 'afina.nur', 'afina.nur@BPS.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(8, 'Agus Sutikno', 'asutikno', 'asutikno@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(9, 'Agusta Briliantono Yusuf', 'agusta', 'agusta@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(10, 'Ahcmad Sodik', 'ahcmad.sodik', 'ahcmad.sodik@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(11, 'Ahmad Ayis', 'ayis', 'ayis@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(12, 'Ahmad Rifan Ferdiyansyah', 'ahmad.rifan', 'ahmad.rifan@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(13, 'Ajiwasesa Harumeka', 'ajiwasesa', 'ajiwasesa@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(14, 'Akhmad Yuliadi', 'akhmad.yuliadi', 'akhmad.yuliadi@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(15, 'Aldizah Dajustia Hutami', 'aldizah', 'aldizah@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(16, 'Amin Fathullah', 'amin.fathullah', 'amin.fathullah@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(17, 'Amin Sani Kertiyasa', 'aminsanikertiyasa', 'aminsanikertiyasa@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(18, 'Anang Dwi Setyawan', 'anangdwi-pppk', 'anangdwi-pppk@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(19, 'Anggoro Sosiantiwi', 'awie', 'awie@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(20, 'Arga Parama Yufinanda', 'argaparama', 'argaparama@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(21, 'Arih Thoyyibatul Izdihar', 'arih.izdihar', 'arih.izdihar@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(22, 'Arum Widyastuti', 'arum.widyastuti', 'arum.widyastuti@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(23, 'Bahrul Ulum', 'bahrul.ulum', 'bahrul.ulum@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(24, 'Baiq Irfa Noer Hamidah', 'baiqirfa', 'baiqirfa@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(25, 'Bambang Febrianto', 'bamfebrian', 'bamfebrian@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(26, 'Bambang Yulianto', 'bams', 'bams@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(27, 'Boby Eko Heru Mulyadi', 'boby', 'boby@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(28, 'Chindy Saktias Pratiwi', 'chindy.pratiwi', 'chindy.pratiwi@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(29, 'Chusnul Chotimah', 'chus_chot', 'chus_chot@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(30, 'Daizy Pangeswari', 'daizy.pangeswari', 'daizy.pangeswari@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(31, 'Damas Iskandar Wahidayat', 'damas.wahidayat', 'damas.wahidayat@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(32, 'Debora Sulistya Rini', 'debora.sr', 'debora.sr@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(33, 'Desy Widya Indahyani Hartono', 'desy.widya', 'desy.widya@BPS.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(34, 'Dhani Eko Wahyu Nugroho', 'dhonieko', 'dhonieko@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(35, 'Dian Tri Kusuma Hardiyanto', 'dian_tkh', 'dian_tkh@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(36, 'Dwi Agustin Rahayu Susanti', 'dwi.agustin', 'dwi.agustin@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(37, 'Dyah Pembayun Indrijatmiko', 'pembayun', 'pembayun@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(38, 'Dyah Reni Irmawati', 'dyahreni', 'dyahreni@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(39, 'Dyah Sujiati', 'dyah.sujiati', 'dyah.sujiati@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(40, 'Eko Hardiyanto', 'eko.hardi', 'eko.hardi@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(41, 'Eko Susanto', 'ekosusanto', 'ekosusanto@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(42, 'Elita Susilawati', 'elitasusilawati', 'elitasusilawati@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(43, 'Faridah', 'farid.ah', 'farid.ah@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(44, 'Fitriana Kusmarini', 'kusmarini', 'kusmarini@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(45, 'Fitriana Zahroh', 'azza', 'azza@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(46, 'Gusti Ayu Ratna Dewi', 'gustiard', 'gustiard@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(47, 'Hadi Suroso', 'hadisbaya', 'hadisbaya@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(48, 'Heri Soesanto', 'herisoesanto', 'herisoesanto@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(49, 'Herlina Sri Martanti', 'hsmartanti', 'hsmartanti@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(50, 'Icha Merisa Anie Prananita', 'icha.merisa', 'icha.merisa@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(51, 'Ika Widiati Nugraheny', 'ikanugraheny', 'ikanugraheny@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(52, 'Ike Rahayu Sri', 'ike', 'ike@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(53, 'Irien Kamaratih Arsiani', 'irien.ka', 'irien.ka@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(54, 'Joko Ade Nursiyono', 'joko.ade', 'joko.ade@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(55, 'Kartika Yunitaningtyas', 'kartika.yn', 'kartika.yn@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(56, 'La Ode Ahmad Arafat', 'ahmad.arafat', 'ahmad.arafat@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(57, 'Luxy Lutfiana Rachmawati', 'luxy.lutfiana', 'luxy.lutfiana@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(58, 'Megasari Mamita', 'mamita', 'mamita@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(59, 'Merina Andriati', 'merina.andriati', 'merina.andriati@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(60, 'Meyrina', 'meyrina', 'meyrina@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(61, 'Muhamad Suharsa', 'msuharsa', 'msuharsa@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(62, 'Muhammad Basorudin', 'muh_basorudin', 'muh_basorudin@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(63, 'Muhammad Dwi Prasetiyo', 'md.prasetiyo', 'md.prasetiyo@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(64, 'Muslikin', 'muslikh', 'muslikh@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(65, 'Nanik Hidayati', 'hidayati', 'hidayati@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(66, 'Natria Nur Wulan', 'natria', 'natria@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(67, 'Nik Imatun', 'nikmah', 'nikmah@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(68, 'Nizar Irsyad', 'nizar.irsyad', 'nizar.irsyad@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(69, 'Norman Try Prastomo', 'normantry', 'normantry@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(70, 'Novi Rosiana', 'novi.rosiana', 'novi.rosiana@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(71, 'Nur Jannati Rokimah', 'nur.jannati', 'nur.jannati@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(72, 'Nurhayati', 'nurhayat', 'nurhayat@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(73, 'Nurul Andriana', 'andriananurul', 'andriananurul@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(74, 'Peni Meivita', 'meivita', 'meivita@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(75, 'Pramana Yhoga Chandra Kusuma', 'yhoga', 'yhoga@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(76, 'Pramu Mai Sandi', 'pramu.sandi', 'pramu.sandi@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(77, 'Putri Rachma Sari', 'putri.rachma', 'putri.rachma@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(78, 'Putri Sheilah Wardani', 'putrisheilah-pppk', 'putrisheilah-pppk@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(79, 'R. Arief Budi Setyono', 'arifbudi', 'arifbudi@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(80, 'R. Rino Yunarno', 'rino', 'rino@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(81, 'Rahma Nuryanti', 'rahma.nuryanti', 'rahma.nuryanti@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(82, 'Rendy Karuniawan', 'rendy', 'rendy@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(83, 'Riena Widianingtyas', 'rwidianing', 'rwidianing@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(84, 'Rika Muji Astuti', 'rikamujiastuti', 'rikamujiastuti@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(85, 'Rofikotul Arfati', 'fiko', 'fiko@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(86, 'Ryan Willmanda Januardi', 'ryan.januardi', 'ryan.januardi@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(87, 'Sandra Logaritma', 'sandra.logaritma', 'sandra.logaritma@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(88, 'Satriyo Wibowo', 'satriyo', 'satriyo@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(89, 'Sevtie Marthalena', 'smarthalena', 'smarthalena@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(90, 'Soleh', 'soleh5', 'soleh5@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(91, 'Sumaidi', 'maidi', 'maidi@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(92, 'Sunu Fakhriadi', 'sunufahri', 'sunufahri@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(93, 'Tatis Yuliarisaningtyas', 'tatis', 'tatis@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(94, 'Teguh Trilaksono', 'trilaksono', 'trilaksono@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(95, 'Tri Dewi Wahyuningsih', 'veronicadewi', 'veronicadewi@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(96, 'Ulia Ulfah', 'uli.ulia', 'uli.ulia@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(97, 'Ummatin Yulinda Sangaji', 'linda', 'linda@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(98, 'Uswatun Nurul Afifah', 'uswatunnurula', 'uswatunnurula@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(99, 'Vidya Nurina Paramita', 'vidya.paramita', 'vidya.paramita@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(100, 'Vina Suci Romadhona', 'vina.romadhona', 'vina.romadhona@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(101, 'Wahyu Pujiati', 'wpuji', 'wpuji@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(102, 'Wahyu Razi Indrawan', 'wahyu.razi', 'wahyu.razi@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(103, 'Wahyu Wibowo', 'wahyu.wibowo', 'wahyu.wibowo@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(104, 'Warisna Endah Fitrianti', 'warisna.fitrianti', 'warisna.fitrianti@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(105, 'Widia Puspitasari', 'widia', 'widia@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(106, 'Wikan Nastiti', 'wikan.nastiti', 'wikan.nastiti@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(107, 'Yeni Rahmawati', 'yenirahma', 'yenirahma@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(108, 'Yogi Chandra Sasmita', 'yogi.chandra', 'yogi.chandra@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(109, 'Yulifah Suryana', 'yulifah', 'yulifah@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(110, 'Zulkipli', 'zulki', 'zulki@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(111, 'Admin User', 'a', 'admin.user@bps.go.id', '3500', '0cc175b9c0f1b6a831c399e269772661', 'admin', 0, 1500000, 'default.png', '2024-10-02 08:10:58', '2024-10-02 07:44:55'),
+(112, 'Operator User', 'o', 'operator.user@bps.go.id', '3500', 'd95679752134a2d9eb61dbd7b91c4bcc', 'operator', 0, 1500000, 'default.png', '2024-10-02 08:10:37', '2024-10-02 07:44:55');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_riwayat_harga`
+-- Table structure for table `tb_riwayat_harga`
 --
 
 CREATE TABLE `tb_riwayat_harga` (
@@ -376,28 +280,21 @@ CREATE TABLE `tb_riwayat_harga` (
   `tanggal_berlaku` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data untuk tabel `tb_riwayat_harga`
---
-
-INSERT INTO `tb_riwayat_harga` (`id_riwayat`, `id_barang`, `harga_beli`, `harga_jual`, `tanggal_berlaku`) VALUES
-(7, 359, 500, 1000, '2024-08-27');
-
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_satuan`
+-- Table structure for table `tb_satuan`
 --
 
 CREATE TABLE `tb_satuan` (
   `id_satuan` int NOT NULL,
   `nama_satuan` varchar(255) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data untuk tabel `tb_satuan`
+-- Dumping data for table `tb_satuan`
 --
 
 INSERT INTO `tb_satuan` (`id_satuan`, `nama_satuan`, `created_at`, `updated_at`) VALUES
@@ -412,31 +309,12 @@ INSERT INTO `tb_satuan` (`id_satuan`, `nama_satuan`, `created_at`, `updated_at`)
 (12, 'Kemasan', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
 (13, 'PCS', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
 (14, 'Buah', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
-(15, 'Biji', '2024-07-30 08:32:12', '2024-07-30 08:32:12'),
-(20, 'uuuuuuuuuuu', '2024-08-13 08:49:46', '2024-08-13 08:49:46'),
-(21, 'uuuuuuuuuuu', '2024-08-13 08:49:47', '2024-08-13 08:49:47'),
-(22, 'oooooooo', '2024-08-13 08:49:53', '2024-08-13 08:49:53'),
-(25, 'Paket', '2024-09-18 06:30:15', '2024-09-18 06:30:15');
+(15, 'Biji', '2024-07-30 08:32:12', '2024-09-25 15:47:00');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_simpanan`
---
-
-CREATE TABLE `tb_simpanan` (
-  `simpanan_id` int NOT NULL,
-  `simpanan_anggota_id` int NOT NULL,
-  `simpanan_jenis` enum('amanah','kurban','pendidikan','umroh','idul_fitri','wadiah') NOT NULL,
-  `simpanan_total` double NOT NULL,
-  `simpanan_keterangan` text NOT NULL,
-  `simpanan_date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `tb_transaksi`
+-- Table structure for table `tb_transaksi`
 --
 
 CREATE TABLE `tb_transaksi` (
@@ -450,46 +328,17 @@ CREATE TABLE `tb_transaksi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data untuk tabel `tb_transaksi`
---
-
-INSERT INTO `tb_transaksi` (`id_transaksi`, `pengguna_id`, `cara_bayar`, `total`, `detail`, `created_at`, `updated_at`) VALUES
-(151, 125, 'Cash', 100000, '', '2024-08-20 02:54:48', '2024-08-20 02:54:48'),
-(152, 125, 'Kredit', 50000, '', '2024-08-20 02:55:34', '2024-08-20 02:55:57'),
-(153, 125, 'Kredit', 14000, '', '2024-08-20 04:03:12', '2024-08-20 04:03:12'),
-(154, 133, 'Kredit', 6000, '', '2024-08-20 05:09:02', '2024-08-20 05:09:37'),
-(155, 132, 'Kredit', 6000, '', '2024-08-20 06:58:32', '2024-08-20 06:59:40'),
-(156, 124, 'Cash', 5000, '', '2024-08-20 07:01:51', '2024-08-20 07:01:51'),
-(157, 133, 'Kredit', 5000, '', '2024-08-20 07:07:34', '2024-08-20 07:07:34'),
-(158, 124, 'Kredit', 12000, '', '2024-08-20 07:09:46', '2024-08-20 07:09:46'),
-(159, 125, 'Kredit', 198000, '', '2024-08-21 06:19:38', '2024-08-21 06:19:38'),
-(160, 125, 'Kredit', 10000, '', '2024-08-21 07:47:42', '2024-08-21 07:47:42'),
-(161, 133, 'Kredit', 5000, '', '2024-08-21 07:48:12', '2024-08-21 07:48:12'),
-(162, 124, 'Kredit', 10000, '', '2024-08-27 03:51:27', '2024-08-27 03:51:27'),
-(163, 124, 'Kredit', 3000, '', '2024-08-27 03:53:03', '2024-08-27 03:53:03'),
-(164, 124, 'Kredit', 105000, '', '2024-08-28 07:43:20', '2024-08-28 07:43:20'),
-(165, 125, 'Cash', 16000, '', '2024-09-18 06:33:08', '2024-09-18 06:41:23'),
-(166, 133, 'Kredit', 40000, '', '2024-09-19 00:57:39', '2024-09-19 00:57:39'),
-(167, 133, 'Cash', 60000, '', '2024-09-19 00:58:05', '2024-09-19 00:58:05');
-
---
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `tb_angsuran`
---
-ALTER TABLE `tb_angsuran`
-  ADD PRIMARY KEY (`angsuran_id`);
-
---
--- Indeks untuk tabel `tb_barang`
+-- Indexes for table `tb_barang`
 --
 ALTER TABLE `tb_barang`
   ADD PRIMARY KEY (`id_barang`);
 
 --
--- Indeks untuk tabel `tb_detransaksi`
+-- Indexes for table `tb_detransaksi`
 --
 ALTER TABLE `tb_detransaksi`
   ADD PRIMARY KEY (`id_detail`),
@@ -497,144 +346,126 @@ ALTER TABLE `tb_detransaksi`
   ADD KEY `id_barang` (`id_barang`);
 
 --
--- Indeks untuk tabel `tb_histori`
+-- Indexes for table `tb_histori`
 --
 ALTER TABLE `tb_histori`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `tb_kategori`
+-- Indexes for table `tb_kategori`
 --
 ALTER TABLE `tb_kategori`
   ADD PRIMARY KEY (`id_kategori`);
 
 --
--- Indeks untuk tabel `tb_pengajuan`
+-- Indexes for table `tb_pengajuan`
 --
 ALTER TABLE `tb_pengajuan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `tb_pengguna`
+-- Indexes for table `tb_pengguna`
 --
 ALTER TABLE `tb_pengguna`
   ADD PRIMARY KEY (`pengguna_id`);
 
 --
--- Indeks untuk tabel `tb_riwayat_harga`
+-- Indexes for table `tb_riwayat_harga`
 --
 ALTER TABLE `tb_riwayat_harga`
   ADD PRIMARY KEY (`id_riwayat`),
   ADD KEY `id_barang` (`id_barang`);
 
 --
--- Indeks untuk tabel `tb_satuan`
+-- Indexes for table `tb_satuan`
 --
 ALTER TABLE `tb_satuan`
   ADD PRIMARY KEY (`id_satuan`);
 
 --
--- Indeks untuk tabel `tb_simpanan`
---
-ALTER TABLE `tb_simpanan`
-  ADD PRIMARY KEY (`simpanan_id`);
-
---
--- Indeks untuk tabel `tb_transaksi`
+-- Indexes for table `tb_transaksi`
 --
 ALTER TABLE `tb_transaksi`
   ADD PRIMARY KEY (`id_transaksi`),
   ADD KEY `pengguna_id` (`pengguna_id`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `tb_angsuran`
---
-ALTER TABLE `tb_angsuran`
-  MODIFY `angsuran_id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT untuk tabel `tb_barang`
+-- AUTO_INCREMENT for table `tb_barang`
 --
 ALTER TABLE `tb_barang`
-  MODIFY `id_barang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=366;
+  MODIFY `id_barang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=387;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_detransaksi`
+-- AUTO_INCREMENT for table `tb_detransaksi`
 --
 ALTER TABLE `tb_detransaksi`
-  MODIFY `id_detail` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=295;
+  MODIFY `id_detail` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=334;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_histori`
+-- AUTO_INCREMENT for table `tb_histori`
 --
 ALTER TABLE `tb_histori`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=434;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=859;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_kategori`
+-- AUTO_INCREMENT for table `tb_kategori`
 --
 ALTER TABLE `tb_kategori`
-  MODIFY `id_kategori` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id_kategori` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_pengajuan`
+-- AUTO_INCREMENT for table `tb_pengajuan`
 --
 ALTER TABLE `tb_pengajuan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_pengguna`
+-- AUTO_INCREMENT for table `tb_pengguna`
 --
 ALTER TABLE `tb_pengguna`
-  MODIFY `pengguna_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
+  MODIFY `pengguna_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_riwayat_harga`
+-- AUTO_INCREMENT for table `tb_riwayat_harga`
 --
 ALTER TABLE `tb_riwayat_harga`
-  MODIFY `id_riwayat` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_riwayat` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_satuan`
+-- AUTO_INCREMENT for table `tb_satuan`
 --
 ALTER TABLE `tb_satuan`
-  MODIFY `id_satuan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_satuan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_simpanan`
---
-ALTER TABLE `tb_simpanan`
-  MODIFY `simpanan_id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT untuk tabel `tb_transaksi`
+-- AUTO_INCREMENT for table `tb_transaksi`
 --
 ALTER TABLE `tb_transaksi`
-  MODIFY `id_transaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
+  MODIFY `id_transaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=194;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `tb_detransaksi`
+-- Constraints for table `tb_detransaksi`
 --
 ALTER TABLE `tb_detransaksi`
   ADD CONSTRAINT `tb_detransaksi_ibfk_1` FOREIGN KEY (`id_transaksi`) REFERENCES `tb_transaksi` (`id_transaksi`),
   ADD CONSTRAINT `tb_detransaksi_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `tb_barang` (`id_barang`);
 
 --
--- Ketidakleluasaan untuk tabel `tb_riwayat_harga`
+-- Constraints for table `tb_riwayat_harga`
 --
 ALTER TABLE `tb_riwayat_harga`
   ADD CONSTRAINT `tb_riwayat_harga_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `tb_barang` (`id_barang`);
 
 --
--- Ketidakleluasaan untuk tabel `tb_transaksi`
+-- Constraints for table `tb_transaksi`
 --
 ALTER TABLE `tb_transaksi`
   ADD CONSTRAINT `tb_transaksi_ibfk_1` FOREIGN KEY (`pengguna_id`) REFERENCES `tb_pengguna` (`pengguna_id`);

@@ -99,6 +99,7 @@
                                 <tr>
                                     <th class="center-align">No</th>
                                     <th class="center-align">Nama Barang</th>
+                                    <th class="center-align">Cara Bayar</th>
                                     <th class="center-align">Harga Beli</th>
                                     <th class="center-align">Harga Jual</th>
                                     <th class="center-align">Jumlah</th>
@@ -115,6 +116,7 @@
                                         <tr>
                                             <td class="center-align"><?= $key + 1 ?></td>
                                             <td class="center-align"><?= htmlspecialchars($laporanItem['nama_barang'], ENT_QUOTES, 'UTF-8') ?></td>
+                                            <td class="center-align"><?= htmlspecialchars($laporanItem['cara_bayar'], ENT_QUOTES, 'UTF-8') ?></td> <!-- Tambahkan kolom ini -->
                                             <td class="center-align"><?= number_format($laporanItem['harga_beli'], 0, ',', '.') ?></td>
                                             <td class="center-align"><?= number_format($laporanItem['harga_jual'], 0, ',', '.') ?></td>
                                             <td class="center-align"><?= number_format($laporanItem['jumlah'], 0, ',', '.') ?></td>
@@ -126,7 +128,7 @@
                                     </script>
                                 <?php else: ?>
                                     <tr>
-                                        <td colspan="6" class="center-align">Tidak ada data laporan yang dibuat.</td>
+                                        <td colspan="7" class="center-align">Tidak ada data laporan yang dibuat.</td> <!-- Ubah colspan menjadi 7 -->
                                     </tr>
                                     <script>
                                         document.getElementById('download-buttons').style.display = 'none';
@@ -134,14 +136,13 @@
                                 <?php endif; ?>
                             </tbody>
                         </table>
-                        <p class="blue-text text-darken-2 right-align" style="font-size: 1.11em; font-weight: bold; margin-top: 15px; margin-right: 10px;">Total Pendapatan: <strong><?= number_format($totalPendapatan, 0, ',', '.') ?></strong></p>
+                        <p class="blue-text text-darken-2 right-align" style="font-size: 1.11em; font-weight: bold; margin-top: 15px; margin-right: 10px;">Total Pendapatan: <strong><?= 'Rp ' . number_format($totalPendapatan, 0, ',', '.') ?></strong></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <!-- Native CSS for additional styling -->
 <style>
     .card-content {
@@ -343,12 +344,9 @@
                     }
                 }
 
-                const paymentMethod = document.getElementById('cara_bayar').value || 'Semua';
-
                 header.innerHTML = `
                     <h2 style="color: #1565c0; font-weight: bold; margin-bottom: 5px;">Laporan Penjualan</h2>
-                    <p style="color: #1565c0;">${dateText}</p>
-                    <p style="color: #1565c0;">Cara Bayar : ${paymentMethod}</p>
+                    <p style="color: #1565c0; font-weight: bold;">${dateText}</p>
                 `;
                 clonedDoc.getElementById('area-download').insertBefore(header, clonedDoc.getElementById('area-download').firstChild);
             }
@@ -375,7 +373,7 @@
 
         // Add header information
         const header = [];
-        header.push(['Laporan Penjualan']);
+        header.push(['', '', '          Laporan Penjualan']);
         const year = document.getElementById('tahun').value;
         const month = document.getElementById('bulan').value ? document.getElementById('bulan').options[document.getElementById('bulan').selectedIndex].text : '';
         const day = document.getElementById('tanggal').value ? document.getElementById('tanggal').value : '';
@@ -395,10 +393,9 @@
             }
         }
 
-        const paymentMethod = document.getElementById('cara_bayar').value || 'Semua';
-        header.push([dateText]);
-        header.push([`Cara Bayar : ${paymentMethod}`]);
-        header.push(['']); // Empty row for spacing
+        dateText = '               ' + dateText; // Menambahkan 15 spasi sebelum dateText
+        header.push(['', '', dateText]);
+        header.push(['']);
 
         data.push(...header);
 
@@ -408,15 +405,15 @@
             cols.forEach(function(col, colIndex) {
                 const cellValue = col.innerText.replace(/\./g, '');
                 rowData.push(cellValue);
-                if (rowIndex > 0 && colIndex === 5) { // Assuming the 6th column is the total pendapatan
-                    totalPendapatan += parseFloat(cellValue);
+                if (rowIndex > 0 && colIndex === 6) { // Assuming the 7th column is the total pendapatan
+                    totalPendapatan += parseFloat(cellValue); // Ubah ini untuk menjumlahkan total pendapatan
                 }
             });
             data.push(rowData);
         });
 
         // Add total pendapatan to the data
-        data.push(['', '', '', '', 'Total Pendapatan', totalPendapatan.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')]);
+        data.push(['', '', '', '', '', 'Total Pendapatan', 'Rp ' + totalPendapatan.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')]);
 
         const wb = XLSX.utils.book_new();
         const ws = XLSX.utils.aoa_to_sheet(data);
@@ -461,16 +458,13 @@
             }
         }
 
-        const paymentMethod = document.getElementById('cara_bayar').value || 'Semua';
-
         doc.setFontSize(12);
         doc.setTextColor(100, 100, 100);
         doc.text(dateText, 105, 20, null, null, 'center');
-        doc.text(`Cara Bayar : ${paymentMethod}`, 105, 30, null, null, 'center');
 
         doc.autoTable({
             html: '#laporanTable',
-            startY: 40,
+            startY: 28,
             styles: {
                 fontSize: 10,
                 cellPadding: 3,
@@ -492,14 +486,14 @@
         const rows = document.querySelectorAll('#laporanTable tbody tr');
         rows.forEach(function(row) {
             const cols = row.querySelectorAll('td');
-            const pendapatan = parseFloat(cols[5].innerText.replace(/\./g, ''));
+            const pendapatan = parseFloat(cols[6].innerText.replace(/\./g, '')); // Ubah ini untuk menjumlahkan total pendapatan
             totalPendapatan += pendapatan;
         });
 
         // Add total pendapatan to the PDF
         doc.setFontSize(12);
         doc.setTextColor(100, 100, 100); // Ubah warna teks menjadi abu-abu pudar
-        doc.text(`Total Pendapatan: ${totalPendapatan.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`, 200, doc.autoTable.previous.finalY + 10, null, null, 'right');
+        doc.text(`Total Pendapatan: Rp ${totalPendapatan.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`, 200, doc.autoTable.previous.finalY + 10, null, null, 'right');
 
         const now = new Date();
         const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;

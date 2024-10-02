@@ -2,7 +2,7 @@
 class LaporanModel extends GLOBAL_Model
 {
     public function get_filtered_data($year, $month = null, $day = null, $end_day = null, $payment_method = null) {
-        $this->db->select('b.nama_barang, b.harga_beli, dt.harga as harga_jual, SUM(dt.jumlah) as jumlah, SUM((dt.harga * dt.jumlah) - (b.harga_beli * dt.jumlah)) as total_pendapatan');
+        $this->db->select('b.nama_barang, b.harga_beli, dt.harga as harga_jual, SUM(dt.jumlah) as jumlah, SUM((dt.harga * dt.jumlah) - (b.harga_beli * dt.jumlah)) as total_pendapatan, t.cara_bayar');
         $this->db->from('tb_detransaksi dt');
         $this->db->join('tb_barang b', 'dt.id_barang = b.id_barang');
         $this->db->join('tb_transaksi t', 'dt.id_transaksi = t.id_transaksi');
@@ -23,7 +23,7 @@ class LaporanModel extends GLOBAL_Model
             $this->db->where('t.cara_bayar', $payment_method);
         }
 
-        $this->db->group_by('b.nama_barang, b.harga_beli, dt.harga');
+        $this->db->group_by('b.nama_barang, b.harga_beli, dt.harga, t.cara_bayar');
         $query = $this->db->get();
         return $query->result_array();
     }

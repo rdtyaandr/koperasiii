@@ -30,6 +30,7 @@
                             <label for="satker">Satker</label><br><br>
                             <select name="satker" id="satker" class="browser-default">
                                 <option value="" disabled>Pilih Satker</option>
+                                <option value="3500" <?= $Pengguna['satker'] === '3500' ? 'selected' : '' ?>>3500</option>
                                 <option value="ipds" <?= $Pengguna['satker'] === 'ipds' ? 'selected' : '' ?>>IPDS</option>
                                 <option value="umum" <?= $Pengguna['satker'] === 'umum' ? 'selected' : '' ?>>Umum</option>
                                 <option value="neraca" <?= $Pengguna['satker'] === 'neraca' ? 'selected' : '' ?>>Neraca</option>
