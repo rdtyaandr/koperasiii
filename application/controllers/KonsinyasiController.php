@@ -124,7 +124,7 @@ class KonsinyasiController extends GLOBAL_Controller
         if ($konsinyasi) { // Pastikan $konsinyasi adalah objek yang valid
             $hapus = parent::model('KonsinyasiModel')->hapus($query);
             if ($hapus > 0) {
-                $this->addMessage('Barang Konsinyasi dihapus', 'Barang Konsinyasi dengan nama ' . $konsinyasi['nama_barang'] . ' telah dihapus', 'delete');
+                $this->addMessage('Barang Konsinyasi dihapus', 'Barang Konsinyasi dengan nama ' . htmlspecialchars($konsinyasi->nama_barang) . ' telah dihapus', 'delete');
                 parent::alert('alert', 'success-delete');
                 redirect('konsinyasi');
             } else {
@@ -135,5 +135,11 @@ class KonsinyasiController extends GLOBAL_Controller
             parent::alert('alert', 'error-not-found');
             redirect('konsinyasi');
         }
+    }
+
+    public function get_barang_konsinyasi()
+    {
+        $barang_konsinyasi = $this->KonsinyasiModel->lihat_semua(); // Ambil data barang konsinyasi
+        echo json_encode($barang_konsinyasi); // Kembalikan data dalam format JSON
     }
 }

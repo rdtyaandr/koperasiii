@@ -14,6 +14,12 @@ class KonsinyasiModel extends GLOBAL_Model
         return parent::get_array_of_table('tb_konsinyasi');
     }
 
+    public function get_konsinyasi_by_id($id)
+    {
+        $this->db->where('id_konsinyasi', $id);
+        return $this->db->get('tb_konsinyasi')->row();
+    }
+
     public function tambah($data)
     {
         return parent::insert_with_status('tb_konsinyasi', $data);
@@ -21,7 +27,17 @@ class KonsinyasiModel extends GLOBAL_Model
 
     public function lihat_konsinyasi($id)
     {
-        return parent::get_array_of_row('tb_konsinyasi', array('id_barang' => $id));
+        $today = date('Y-m-d');
+        $this->db->where('id_barang', $id);
+        $this->db->where('DATE(created_at)', $today);
+        return $this->db->get('tb_konsinyasi')->row();
+    }
+
+    public function update_stok_konsinyasi($id_barang, $jumlah)
+    {
+        $this->db->set('stok', 'stok + ' . intval($jumlah), FALSE);
+        $this->db->where('id_barang', $id_barang);
+        $this->db->update('tb_konsinyasi');
     }
 
     public function ubah($id, $data)

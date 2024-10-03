@@ -68,7 +68,7 @@
                                 <?php endforeach; ?>
                             <?php else : ?>
                                 <tr>
-                                    <td colspan="8" class="center-align">Tidak ada data barang konsinyasi yang tersedia.</td>
+                                    <td colspan="9" class="center-align">Tidak ada data barang konsinyasi yang tersedia untuk hari ini.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>

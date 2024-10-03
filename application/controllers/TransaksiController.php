@@ -9,6 +9,7 @@ class TransaksiController extends GLOBAL_Controller
         $this->load->model('PenggunaModel');
         $this->load->model('BarangModel');
         $this->load->model('HistoryModel');
+        $this->load->model('KonsinyasiModel');
         $this->load->helper('date'); 
         if (!parent::hasLogin()) {
             $this->session->set_flashdata('alert', 'belum_login');
@@ -51,42 +52,69 @@ class TransaksiController extends GLOBAL_Controller
                 redirect('transaksi/tambah');
             }
     
-            $total = array_sum(array_map('floatval', $this->input->post('total')));
-            $id_barang = $this->input->post('id_barang');
-            $jumlah = $this->input->post('jumlah');
+            $jenis_barang = $this->input->post('jenis_barang');
+            $nama_barang = $this->input->post('nama_barang');
             $harga_input = $this->input->post('harga');
+            $harga_waktu = $this->input->post('harga_jual');
+            $jumlah = $this->input->post('jumlah');
+            $total = array_sum(array_map('floatval', $this->input->post('total')));
             $pengguna = $this->PenggunaModel->get_user_by_id($pengguna_id);
             $nama_pengguna = $pengguna->username;
     
-            foreach ($id_barang as $key => $barang_id) {
-                $barang = $this->BarangModel->get_barang_by_id($barang_id);
-                if (!$barang) {
-                    $this->session->set_flashdata('alert', 'error-invalid-barang');
-                    redirect('transaksi/tambah');
-                }
-    
+            foreach ($nama_barang as $key => $barang_id) {
+                // Validasi barang
                 if ($jumlah[$key] <= 0) {
                     $this->session->set_flashdata('alert', 'error-update-detail');
                     redirect('transaksi/tambah');
                 }
     
-                if ($barang->stok < $jumlah[$key]) {
-                    $this->session->set_flashdata('alert', 'error-stock');
-                    redirect('transaksi/tambah');
+                // Cek stok barang jika jenisnya adalah toko
+                if ($jenis_barang[$key] == 'toko') {
+                    $barang = $this->BarangModel->get_barang_by_id($barang_id);
+                    if (!$barang || $barang->stok < $jumlah[$key]) {
+                        $this->session->set_flashdata('alert', 'error-stock');
+                        redirect('transaksi/tambah');
+                    }
+                } elseif ($jenis_barang[$key] == 'konsinyasi') {
+                    $konsinyasi = $this->KonsinyasiModel->lihat_konsinyasi($barang_id);
+                    if (!$konsinyasi || $konsinyasi->stok < $jumlah[$key]) {
+                        $this->session->set_flashdata('alert', 'error-stock');
+                        redirect('transaksi/tambah');
+                    }
                 }
     
-                // Cek apakah harga berubah
-                if ($barang->harga_jual != floatval($harga_input[$key])) {
-                    // Simpan harga baru ke tabel tb_riwayat_harga
-                    $riwayat_data = array(
-                        'id_barang' => $barang_id,
-                        'harga_beli' => $barang->harga_beli,
-                        'harga_jual' => floatval($harga_input[$key]), // Simpan harga baru
-                        'tanggal_berlaku' => date('Y-m-d') // Simpan tanggal hari ini
-                    );
-                    $this->BarangModel->insert_riwayat_harga($riwayat_data);
-
-                    // Jangan update harga di tb_barang
+                // Simpan riwayat harga jika harga berubah
+                if ($harga_input[$key] != '') {
+                    if ($jenis_barang[$key] == 'toko' && $barang->harga_jual != floatval($harga_input[$key])) {
+                        $riwayat_data = array(
+                            'id_barang' => $barang_id,
+                            'harga_beli' => $barang->harga_beli,
+                            'harga_jual' => floatval($harga_input[$key]),
+                            'tanggal_berlaku' => date('Y-m-d')
+                        );
+                        $this->BarangModel->insert_riwayat_harga($riwayat_data);
+                    } elseif ($jenis_barang[$key] == 'konsinyasi') {
+                        $konsinyasi = $this->KonsinyasiModel->lihat_konsinyasi($barang_id);
+                        if ($konsinyasi) {
+                            if ($harga_waktu[$key] == 'pagi' && $konsinyasi->harga_jual_pagi != floatval($harga_input[$key])) {
+                                $riwayat_data = array(
+                                    'id_konsinyasi' => $barang_id,
+                                    'harga_beli' => $konsinyasi->harga_beli,
+                                    'harga_jual' => floatval($harga_input[$key]),
+                                    'tanggal_berlaku' => date('Y-m-d')
+                                );
+                                $this->BarangModel->insert_riwayat_harga($riwayat_data);
+                            } elseif ($harga_waktu[$key] == 'sore' && $konsinyasi->harga_jual_sore != floatval($harga_input[$key])) {
+                                $riwayat_data = array(
+                                    'id_konsinyasi' => $barang_id,
+                                    'harga_beli' => $konsinyasi->harga_beli,
+                                    'harga_jual' => floatval($harga_input[$key]),
+                                    'tanggal_berlaku' => date('Y-m-d')
+                                );
+                                $this->BarangModel->insert_riwayat_harga($riwayat_data);
+                            }
+                        }
+                    }
                 }
             }
     
@@ -115,18 +143,25 @@ class TransaksiController extends GLOBAL_Controller
     
             if ($id_transaksi) {
                 $detail_data = array();
-                foreach ($id_barang as $key => $barang_id) {
+                foreach ($nama_barang as $key => $barang_id) {
                     $detail_data[] = array(
                         'id_transaksi' => $id_transaksi,
-                        'id_barang' => $barang_id,
-                        'nama_barang' => trim($this->input->post('nama_barang')[$key]),
+                        'id_barang' => $jenis_barang[$key] == 'toko' ? $barang_id : null,
+                        'id_konsinyasi' => $jenis_barang[$key] == 'konsinyasi' ? $barang_id : null,
+                        'jenis_barang' => $jenis_barang[$key], 
+                        'nama_barang' => trim($barang_id),
+                        'harga_waktu' => !empty($harga_waktu[$key]) ? $harga_waktu[$key] : null,
                         'harga' => floatval($harga_input[$key]),
                         'jumlah' => intval($jumlah[$key]),
                         'total' => floatval($this->input->post('total')[$key]),
                     );
     
-                    // Update stok barang
-                    $this->BarangModel->update_stok_barang($barang_id, -intval($jumlah[$key]));
+                    // Update stok barang jika jenisnya adalah toko atau konsinyasi
+                    if ($jenis_barang[$key] == 'toko') {
+                        $this->BarangModel->update_stok_barang($barang_id, -intval($jumlah[$key]));
+                    } elseif ($jenis_barang[$key] == 'konsinyasi') {
+                        $this->KonsinyasiModel->update_stok_konsinyasi($barang_id, -intval($jumlah[$key]));
+                    }
                 }
     
                 $this->TransaksiModel->insert_transaksi_detail($detail_data);
@@ -144,6 +179,7 @@ class TransaksiController extends GLOBAL_Controller
             $data['title'] = 'Tambah Transaksi';
             $data['pengguna'] = $this->PenggunaModel->get_users_filtered();
             $data['barang'] = $this->BarangModel->lihat_semua();
+            $data['konsinyasi'] = $this->KonsinyasiModel->lihat_semua();
             parent::template('transaksi/tambah', $data);
         }
     }

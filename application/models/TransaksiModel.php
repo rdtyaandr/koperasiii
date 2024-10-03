@@ -55,10 +55,10 @@ class TransaksiModel extends GLOBAL_Model
 
     public function update_detail_barang($id_transaksi, $data)
     {
-        // Delete old details
+        // Hapus detail lama
         $this->db->delete('tb_detransaksi', ['id_transaksi' => $id_transaksi]);
 
-        // Insert new details
+        // Masukkan detail baru
         return $this->db->insert_batch('tb_detransaksi', $data);
     }
     

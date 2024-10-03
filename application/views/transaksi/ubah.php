@@ -84,24 +84,22 @@
                     <form action="<?= base_url('transaksi/ubah/' . $transaksi->id_transaksi) ?>" method="post">
                         <input type="hidden" name="id_transaksi" value="<?= $transaksi->id_transaksi; ?>">
                         <div class="row">
-                            <div class="input-field col s12 m6 l4">
-                                <select id="nama" name="nama">
-                                    <option value="" disabled>Pilih Nama</option>
+                            <div class="input-field col s12 m4 l4">
+                                <select id="nama" name="nama" class="browser-default" required>
+                                    <option value="" disabled selected>Pilih Nama</option>
                                     <?php foreach ($pengguna as $p) : ?>
-                                        <option value="<?= $p['pengguna_id']; ?>" <?= $transaksi->pengguna_id == $p['pengguna_id'] ? 'selected' : 'disabled'; ?>><?= $p['username']; ?></option>
+                                        <option value="<?= $p['pengguna_id']; ?>" <?= $transaksi->pengguna_id == $p['pengguna_id'] ? 'selected' : ''; ?>><?= htmlspecialchars($p['username']); ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                                <label for="nama">Nama</label>
                             </div>
-                            <div class="input-field col s12 m6 l4">
-                                <select id="cara_bayar" name="cara_bayar">
-                                    <option value="" disabled>Pilih Cara Bayar</option>
-                                    <option value="Cash" <?= $transaksi->cara_bayar == 'Cash' ? 'selected' : 'disabled'; ?>>Cash</option>
-                                    <option value="Kredit" <?= $transaksi->cara_bayar == 'Kredit' ? 'selected' : 'disabled'; ?>>Kredit</option>
+                            <div class="input-field col s12 m4 l4">
+                                <select id="cara_bayar" name="cara_bayar" class="browser-default">
+                                    <option value="" disabled selected>Pilih Cara Bayar</option>
+                                    <option value="Cash" <?= $transaksi->cara_bayar == 'Cash' ? 'selected' : ''; ?>>Cash</option>
+                                    <option value="Kredit" <?= $transaksi->cara_bayar == 'Kredit' ? 'selected' : ''; ?>>Kredit</option>
                                 </select>
-                                <label>Cara Bayar</label>
                             </div>
-                            <div class="input-field col s12 m6 l4">
+                            <div class="input-field col s12 m4 l4">
                                 <input type="text" id="detail" name="detail" value="<?= isset($transaksi->detail) ? $transaksi->detail : ''; ?>">
                                 <label for="detail">Detail (Opsional)</label>
                             </div>
@@ -109,7 +107,7 @@
                         <div class="row">
                             <div class="col s12">
                                 <h5 class="blue-text text-darken-2" style="font-size: 1.5em; margin-bottom: 20px;">Detail Barang</h5>
-                                <table class="striped highlight responsive-table">
+                                <table class="striped highlight responsive-table" style="border-radius: 8px; overflow: hidden;">
                                     <thead class="blue darken-2 white-text">
                                         <tr>
                                             <th class="center-align">No</th>

@@ -1,6 +1,5 @@
 <!-- Native CSS for additional styling -->
 <style>
-
     .card-content {
         padding-bottom: 0;
     }
@@ -85,21 +84,19 @@
                     <form action="<?= base_url('transaksi/tambah') ?>" method="post">
                         <div class="row">
                             <div class="input-field col s12 m4 l4">
-                                <select id="nama" name="nama">
+                                <select id="nama" name="nama" class="browser-default" required>
                                     <option value="" disabled selected>Pilih Nama</option>
                                     <?php foreach ($pengguna as $p) : ?>
-                                        <option value="<?= $p['pengguna_id']; ?>"><?= $p['username']; ?></option>
+                                        <option value="<?= $p['pengguna_id']; ?>"><?= htmlspecialchars($p['username']); ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                                <label for="nama">Nama</label>
                             </div>
                             <div class="input-field col s12 m4 l4">
-                                <select id="cara_bayar" name="cara_bayar">
+                                <select id="cara_bayar" name="cara_bayar" class="browser-default">
                                     <option value="" disabled selected>Pilih Cara Bayar</option>
                                     <option value="Cash">Cash</option>
                                     <option value="Kredit">Kredit</option>
                                 </select>
-                                <label>Cara Bayar</label>
                             </div>
                             <div class="input-field col s12 m4 l4">
                                 <input type="text" id="detail" name="detail">
@@ -109,11 +106,13 @@
                         <div class="row">
                             <div class="col s12">
                                 <h5 class="blue-text text-darken-2" style="font-size: 1.5em; margin-bottom: 20px;">Detail Barang</h5>
-                                <table class="striped highlight responsive-table">
+                                <table class="striped highlight responsive-table" style="border-radius: 8px; overflow: hidden;">
                                     <thead class="blue darken-2 white-text">
                                         <tr>
                                             <th class="center-align">No</th>
+                                            <th>Jenis Barang</th>
                                             <th>Nama Barang</th>
+                                            <th>Harga Jual (Pagi/Sore)</th>
                                             <th>Harga</th>
                                             <th>Jumlah</th>
                                             <th>Total</th>
@@ -136,7 +135,7 @@
                         <div class="row">
                             <div class="col s12 right-align">
                                 <button type="submit" name="tambah" class="btn waves-effect waves-light blue darken-2" style="border-radius: 25px; width: auto;">Tambah</button>
-                                <a href="<?= base_url('transaksi')?>" class="btn waves-effect waves-light grey" style="border-radius: 25px; width: auto;">Batalkan</a>
+                                <a href="<?= base_url('transaksi') ?>" class="btn waves-effect waves-light grey" style="border-radius: 25px; width: auto;">Batalkan</a>
                             </div>
                         </div>
                     </form>
@@ -147,186 +146,192 @@
 </div>
 
 <script>
-function initializeDropdowns() {
-    var dropdowns = document.querySelectorAll(".dropdown");
+    function addMultipleRows() {
+        var rowCount = parseInt(document.getElementById('jumlah-rows').value) || 1;
+        var tableBody = document.getElementById('item-table-body');
 
-    dropdowns.forEach(function(dropdown) {
-        var dropdownTrigger = dropdown.querySelector(".dropdown-trigger");
-        var dropdownText = dropdown.querySelector(".dropdown-text");
-        var dropdownMenu = dropdown.querySelector(".dropdown-menu");
-        var dropdownItems = dropdown.querySelectorAll(".dropdown-item");
-
-        dropdownTrigger.addEventListener("click", function(event) {
-            event.stopPropagation();
-            closeAllDropdowns();
-            dropdown.classList.toggle("open");
-        });
-
-        dropdownItems.forEach(function(item) {
-            item.addEventListener("click", function(event) {
-                event.stopPropagation();
-                var selectedText = this.textContent;
-                var selectedId = this.getAttribute('data-id');
-                var selectedHarga = parseFloat(this.getAttribute('data-harga'));
-
-                if (isNaN(selectedHarga)) {
-                    console.error("Harga tidak valid:", this.getAttribute('data-harga'));
-                }
-
-                dropdownText.textContent = selectedText;
-                dropdown.classList.add("selected");
-                dropdown.classList.remove("open");
-
-                var row = this.closest('tr');
-                if (row) {
-                    row.querySelector('input[name="id_barang[]"]').value = selectedId;
-                    row.querySelector('input[name="harga[]"]').value = selectedHarga || 0;
-                    row.querySelector('input[name="nama_barang[]"]').value = selectedText;
-
-                    row.querySelector('input[name="jumlah[]"]').focus();
-
-                    updateRowTotal(row.querySelector('input[name="jumlah[]"]'));
-                } else {
-                    console.error("Baris tidak ditemukan.");
-                }
-
-                updateDropdownItems();
-            });
-        });
-    });
-
-    window.addEventListener("click", function() {
-        closeAllDropdowns();
-    });
-}
-
-function closeAllDropdowns() {
-    var dropdowns = document.querySelectorAll(".dropdown");
-    dropdowns.forEach(function(dropdown) {
-        dropdown.classList.remove("open");
-    });
-}
-
-function updateDropdownItems() {
-    var selectedItems = new Set();
-    var dropdownTexts = document.querySelectorAll('.dropdown-text');
-
-    dropdownTexts.forEach(function(dropdownText) {
-        if (dropdownText.textContent !== 'Pilih Nama Barang') {
-            selectedItems.add(dropdownText.textContent);
-        }
-    });
-
-    var dropdowns = document.querySelectorAll(".dropdown");
-    dropdowns.forEach(function(dropdown) {
-        var dropdownMenu = dropdown.querySelector(".dropdown-menu");
-        var dropdownItems = dropdown.querySelectorAll(".dropdown-item");
-
-        dropdownItems.forEach(function(item) {
-            if (selectedItems.has(item.textContent) && dropdown.querySelector('.dropdown-text').textContent !== item.textContent) {
-                item.style.display = 'none';
-            } else {
-                item.style.display = '';
-            }
-        });
-    });
-}
-
-function addMultipleRows() {
-    var rowCount = parseInt(document.getElementById('jumlah-rows').value) || 1;
-    var tableBody = document.getElementById('item-table-body');
-
-    for (var i = 0; i < rowCount; i++) {
-        var rowNumber = tableBody.getElementsByTagName('tr').length + 1;
-        var newRow = `
+        for (var i = 0; i < rowCount; i++) {
+            var rowNumber = tableBody.getElementsByTagName('tr').length + 1;
+            var newRow = `
             <tr>
                 <td class="center-align">${rowNumber}</td>
                 <td>
-                    <div class="dropdown" name="nama_barang">
-                        <div class="dropdown-trigger">
-                            <span class="dropdown-text">Pilih Nama Barang</span>
-                            <span class="arrow-down">&#9660;</span>
-                        </div>
-                        <ul class="dropdown-menu">
-                            <?php foreach ($barang as $b) : ?>
-                                <li class="dropdown-item" data-id="<?= $b['id_barang']; ?>" data-harga="<?= $b['harga_jual']; ?>">
-                                    <?= htmlspecialchars($b['nama_barang']); ?>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
+                    <div class="input-field" style="margin-bottom: 27px;">
+                        <select name="jenis_barang[]" class="browser-default" onchange="toggleDropdowns(this)">
+                            <option value="" disabled selected>Pilih Jenis Barang</option>
+                            <option value="toko">Barang Toko</option>
+                            <option value="konsinyasi">Barang Konsinyasi</option>
+                        </select>
                     </div>
                 </td>
-                <td><input type="text" name="harga[]" class="validate" oninput="updateRowTotal(this)"></td>
+                <td>
+                    <div class="input-field" style="margin-bottom: 27px;">
+                        <select name="nama_barang[]" class="browser-default" id="nama_barang" onchange="updateHarga(this)" disabled>
+                            <option value="" disabled selected>Pilih Nama Barang</option>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-field" style="margin-bottom: 27px;">
+                        <select name="harga_jual[]" class="browser-default" onchange="updateHargaInput(this)" disabled>
+                            <option value="" disabled selected>Pilih Harga Jual</option>
+                            <option value="pagi">Pagi</option>
+                            <option value="sore">Sore</option>
+                        </select>
+                    </div>
+                </td>
+                <td><input type="number" name="harga[]" class="validate" oninput="updateRowTotal(this)"></td>
                 <td><input type="number" name="jumlah[]" min="1" class="validate" oninput="updateRowTotal(this)"></td>
                 <td><input type="text" name="total[]" readonly class="validate"></td>
                 <td>
                 <a href="#" class="btn-floating white-text waves-effect waves-light red" onclick="removeRow(this)"><i class="material-icons icon-transaksi">delete</i></a>
                 </td>
-                <input type="hidden" name="id_barang[]" class="id-barang" value="">
-                <input type="hidden" name="nama_barang[]" class="nama-barang" value="">                
             </tr>
         `;
-        tableBody.insertAdjacentHTML('beforeend', newRow);
-    }
-
-    initializeDropdowns();
-    updateDropdownItems();
-}
-
-// Fungsi untuk menghitung total per baris
-function updateRowTotal(input) {
-    var row = input.closest('tr');
-    if (!row) {
-        console.error("Baris tidak ditemukan.");
-        return;
-    }
-
-    var harga = parseFloat(row.querySelector('input[name="harga[]"]').value.replace(/\./g, ''));
-    var jumlah = parseFloat(row.querySelector('input[name="jumlah[]"]').value);
-    var total = harga * jumlah;
-
-    // Pastikan total bukan NaN
-    if (isNaN(total)) {
-        total = 0;
-    }
-
-    row.querySelector('input[name="total[]"]').value = total;
-
-    // Update total keseluruhan
-    updateTotalHarga();
-}
-
-function updateTotalHarga() {
-    var totalHarga = 0;
-    var totals = document.querySelectorAll('input[name="total[]"]');
-    totals.forEach(function(input) {
-        var value = parseFloat(input.value);
-        if (!isNaN(value)) {
-            totalHarga += value;
+            tableBody.insertAdjacentHTML('beforeend', newRow);
         }
+
+        updateDropdownItems();
+    }
+
+    function toggleDropdowns(select) {
+        var row = select.closest('tr');
+        var namaBarangSelect = row.querySelector('select[name="nama_barang[]"]');
+        var hargaJualSelect = row.querySelector('select[name="harga_jual[]"]');
+        var allNamaBarang = document.querySelectorAll('select[name="nama_barang[]"]');
+        var selectedBarangToko = [];
+        var selectedBarangKonsinyasi = [];
+
+        // Ambil nama barang yang sudah dipilih
+        allNamaBarang.forEach(function(item) {
+            if (item.value) {
+                if (item.closest('tr').querySelector('select[name="jenis_barang[]"]').value == "toko") {
+                    selectedBarangToko.push(item.value);
+                } else {
+                    selectedBarangKonsinyasi.push(item.value);
+                }
+            }
+        });
+
+        if (select.value) {
+            namaBarangSelect.disabled = false;
+
+            if (select.value == "toko") { // Jika Barang Toko dipilih
+                hargaJualSelect.disabled = true;
+                hargaJualSelect.value = ""; // Reset harga jual
+                namaBarangSelect.innerHTML = '<option value="" disabled selected>Pilih Nama Barang</option>';
+                <?php if (isset($barang)): ?>
+                    <?php foreach ($barang as $item): ?>
+                        if (!selectedBarangToko.includes("<?= $item['id_barang']; ?>")) {
+                            namaBarangSelect.innerHTML += '<option value="<?= $item['id_barang']; ?>" data-harga="<?= $item['harga_jual']; ?>"><?= htmlspecialchars($item['nama_barang']); ?></option>';
+                        }
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            } else {
+                hargaJualSelect.disabled = false;
+                namaBarangSelect.innerHTML = '<option value="" disabled selected>Pilih Nama Barang</option>';
+                <?php if (isset($konsinyasi)): ?>
+                    <?php foreach ($konsinyasi as $konsi): ?>
+                        if (!selectedBarangKonsinyasi.includes("<?= $konsi['id_barang']; ?>")) {
+                            namaBarangSelect.innerHTML += '<option value="<?= $konsi['id_barang']; ?>" data-harga-pagi="<?= $konsi['harga_jual_pagi']; ?>" data-harga-sore="<?= $konsi['harga_jual_sore'] ?>"><?= htmlspecialchars($konsi['nama_barang']); ?></option>';
+                        }
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            }
+        } else {
+            namaBarangSelect.disabled = true;
+            hargaJualSelect.disabled = true;
+        }
+    }
+
+    function updateHarga(select) {
+        var row = select.closest('tr');
+        var hargaInput = row.querySelector('input[name="harga[]"]');
+        var hargaJualSelect = row.querySelector('select[name="harga_jual[]"]');
+        var selectedOption = select.options[select.selectedIndex];
+
+        if (selectedOption) {
+            if (row.querySelector('select[name="jenis_barang[]"]').value == "toko") {
+                // Jika jenis barang adalah Toko, langsung tampilkan harga
+                hargaInput.value = selectedOption.getAttribute('data-harga') || '';
+                row.querySelector('input[name="jumlah[]"]').focus(); // Fokus ke input jumlah
+            } else {
+                // Jika jenis barang adalah Konsinyasi, tunggu pemilihan harga jual
+                hargaInput.value = '';
+            }
+        } else {
+            hargaInput.value = '';
+        }
+    }
+
+    function updateHargaInput(select) {
+        var row = select.closest('tr');
+        var namaBarangSelect = row.querySelector('select[name="nama_barang[]"]');
+        var selectedOption = namaBarangSelect.options[namaBarangSelect.selectedIndex];
+
+        if (select.value && selectedOption) {
+            var hargaInput = row.querySelector('input[name="harga[]"]');
+            if (select.value == "pagi") { // Pagi
+                hargaInput.value = selectedOption.getAttribute('data-harga-pagi') || '';
+            } else if (select.value == "sore") { // Sore
+                hargaInput.value = selectedOption.getAttribute('data-harga-sore') || '';
+            }
+            row.querySelector('input[name="jumlah[]"]').focus(); // Fokus ke input jumlah
+        }
+    }
+
+    // Fungsi untuk menghitung total per baris
+    function updateRowTotal(input) {
+        var row = input.closest('tr');
+        if (!row) {
+            console.error("Baris tidak ditemukan.");
+            return;
+        }
+
+        var harga = parseFloat(row.querySelector('input[name="harga[]"]').value.replace(/\./g, ''));
+        var jumlah = parseFloat(row.querySelector('input[name="jumlah[]"]').value);
+        var total = harga * jumlah;
+
+        // Pastikan total bukan NaN
+        if (isNaN(total)) {
+            total = 0;
+        }
+
+        row.querySelector('input[name="total[]"]').value = total;
+
+        // Update total keseluruhan
+        updateTotalHarga();
+    }
+
+    function updateTotalHarga() {
+        var totalHarga = 0;
+        var totals = document.querySelectorAll('input[name="total[]"]');
+        totals.forEach(function(input) {
+            var value = parseFloat(input.value);
+            if (!isNaN(value)) {
+                totalHarga += value;
+            }
+        });
+        document.getElementById('total-harga').textContent = formatNumber(totalHarga);
+    }
+
+    function removeRow(button) {
+        var row = button.closest('tr');
+        row.remove();
+
+        var rows = document.querySelectorAll('#item-table-body tr');
+        rows.forEach(function(row, index) {
+            row.querySelector('td:first-child').textContent = index + 1;
+        });
+
+        updateTotalHarga();
+    }
+
+    function formatNumber(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        addMultipleRows();
     });
-    document.getElementById('total-harga').textContent = formatNumber(totalHarga);
-}
-
-function removeRow(button) {
-    var row = button.closest('tr');
-    row.remove();
-
-    var rows = document.querySelectorAll('#item-table-body tr');
-    rows.forEach(function(row, index) {
-        row.querySelector('td:first-child').textContent = index + 1;
-    });
-
-    updateTotalHarga();
-    updateDropdownItems();
-}
-
-function formatNumber(num) {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-    addMultipleRows();
-});
-
 </script>
