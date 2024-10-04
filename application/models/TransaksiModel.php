@@ -46,9 +46,10 @@ class TransaksiModel extends GLOBAL_Model
     // Fungsi untuk mendapatkan detail barang berdasarkan ID transaksi
     public function get_detail_barang_by_transaksi_id($id_transaksi)
     {
-        $this->db->select('db.*, b.nama_barang');
+        $this->db->select('db.*, b.nama_barang, k.nama_barang as nama_konsinyasi'); // Menambahkan nama_konsinyasi
         $this->db->from('tb_detransaksi db');
-        $this->db->join('tb_barang b', 'db.id_barang = b.id_barang');
+        $this->db->join('tb_barang b', 'db.id_barang = b.id_barang', 'left');
+        $this->db->join('tb_konsinyasi k', 'db.id_konsinyasi = k.id_barang', 'left'); // Menambahkan join dengan tb_konsinyasi
         $this->db->where('db.id_transaksi', $id_transaksi);
         return $this->db->get()->result();
     }

@@ -186,7 +186,7 @@ class TransaksiController extends GLOBAL_Controller
     
     public function ubah($id = null)
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($this->input->server('REQUEST_METHOD') == 'POST') {
             $id_transaksi = $this->input->post('id_transaksi');
             $pengguna_id = $this->input->post('nama');
             $cara_bayar = $this->input->post('cara_bayar');
@@ -304,6 +304,7 @@ class TransaksiController extends GLOBAL_Controller
             $data['barang'] = $this->BarangModel->lihat_semua();
             $data['transaksi'] = $this->TransaksiModel->get_transaksi_by_id($id);
             $data['detail_barang'] = $this->TransaksiModel->get_detail_barang_by_transaksi_id($id);
+            $data['konsinyasi'] = $this->KonsinyasiModel->lihat_semua();
             $data['title'] = 'Ubah Transaksi';
             parent::template('transaksi/ubah', $data);
         }

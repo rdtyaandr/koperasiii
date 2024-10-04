@@ -84,15 +84,23 @@
                     <form action="<?= base_url('transaksi/tambah') ?>" method="post">
                         <div class="row">
                             <div class="input-field col s12 m4 l4">
-                                <select id="nama" name="nama" class="browser-default" required>
-                                    <option value="" disabled selected>Pilih Nama</option>
-                                    <?php foreach ($pengguna as $p) : ?>
-                                        <option value="<?= $p['pengguna_id']; ?>"><?= htmlspecialchars($p['username']); ?></option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <div id="additional-input" style="display: none; margin-bottom: 10px;">
+                                    <input type="text" id="new-nama" name="new_nama" placeholder="Ketik nama yang ingin dicari" autofocus oninput="filterDropdown()">
+                                </div>
+                                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                    <div id="search-button" class="btn-floating blue darken-2" style="margin-right: 10px;" onclick="showInput()">
+                                        <i class="material-icons">search</i>
+                                    </div>
+                                    <select id="nama" name="nama" class="browser-default" required onchange="handleSelect()">
+                                        <option value="" disabled selected>Pilih Nama</option>
+                                        <?php foreach ($pengguna as $p) : ?>
+                                            <option value="<?= $p['pengguna_id']; ?>" class="dropdown-item"><?= htmlspecialchars($p['username']); ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
                             </div>
                             <div class="input-field col s12 m4 l4">
-                                <select id="cara_bayar" name="cara_bayar" class="browser-default">
+                                <select id="cara_bayar" name="cara_bayar" class="browser-default" required>
                                     <option value="" disabled selected>Pilih Cara Bayar</option>
                                     <option value="Cash">Cash</option>
                                     <option value="Kredit">Kredit</option>
@@ -103,6 +111,32 @@
                                 <label for="detail">Detail (Opsional)</label>
                             </div>
                         </div>
+                        <script>
+                            function showInput() {
+                                document.getElementById('additional-input').style.display = 'block';
+                                document.getElementById('search-button').style.display = 'none';
+                                document.getElementById('new-nama').focus(); // Fokus pada input teks
+                            }
+
+                            function filterDropdown() {
+                                var input = document.getElementById('new-nama').value.toLowerCase();
+                                var dropdownItems = document.querySelectorAll('.dropdown-item');
+                                dropdownItems.forEach(function(item) {
+                                    if (item.textContent.toLowerCase().includes(input)) {
+                                        item.style.display = 'block';
+                                    } else {
+                                        item.style.display = 'none';
+                                    }
+                                });
+                            }
+
+                            function handleSelect() {
+                                // Menghapus input teks dan menampilkan kembali tombol search
+                                document.getElementById('additional-input').style.display = 'none';
+                                document.getElementById('search-button').style.display = 'block';
+                                document.getElementById('new-nama').value = ''; // Mengosongkan input teks
+                            }
+                        </script>
                         <div class="row">
                             <div class="col s12">
                                 <h5 class="blue-text text-darken-2" style="font-size: 1.5em; margin-bottom: 20px;">Detail Barang</h5>
@@ -157,7 +191,7 @@
                 <td class="center-align">${rowNumber}</td>
                 <td>
                     <div class="input-field" style="margin-bottom: 27px;">
-                        <select name="jenis_barang[]" class="browser-default" onchange="toggleDropdowns(this)">
+                        <select name="jenis_barang[]" class="browser-default" onchange="toggleDropdowns(this)" required>
                             <option value="" disabled selected>Pilih Jenis Barang</option>
                             <option value="toko">Barang Toko</option>
                             <option value="konsinyasi">Barang Konsinyasi</option>
@@ -166,22 +200,22 @@
                 </td>
                 <td>
                     <div class="input-field" style="margin-bottom: 27px;">
-                        <select name="nama_barang[]" class="browser-default" id="nama_barang" onchange="updateHarga(this)" disabled>
+                        <select name="nama_barang[]" class="browser-default" id="nama_barang" onchange="updateHarga(this)" disabled required>
                             <option value="" disabled selected>Pilih Nama Barang</option>
                         </select>
                     </div>
                 </td>
                 <td>
                     <div class="input-field" style="margin-bottom: 27px;">
-                        <select name="harga_jual[]" class="browser-default" onchange="updateHargaInput(this)" disabled>
+                        <select name="harga_jual[]" class="browser-default" onchange="updateHargaInput(this)" disabled required>
                             <option value="" disabled selected>Pilih Harga Jual</option>
                             <option value="pagi">Pagi</option>
                             <option value="sore">Sore</option>
                         </select>
                     </div>
                 </td>
-                <td><input type="number" name="harga[]" class="validate" oninput="updateRowTotal(this)"></td>
-                <td><input type="number" name="jumlah[]" min="1" class="validate" oninput="updateRowTotal(this)"></td>
+                <td><input type="number" name="harga[]" class="validate" oninput="updateRowTotal(this)" required></td>
+                <td><input type="number" name="jumlah[]" min="1" class="validate" oninput="updateRowTotal(this)" required></td>
                 <td><input type="text" name="total[]" readonly class="validate"></td>
                 <td>
                 <a href="#" class="btn-floating white-text waves-effect waves-light red" onclick="removeRow(this)"><i class="material-icons icon-transaksi">delete</i></a>
@@ -229,6 +263,7 @@
                 <?php endif; ?>
             } else {
                 hargaJualSelect.disabled = false;
+                hargaJualSelect.required = true; // Tambahkan required jika konsinyasi dipilih
                 namaBarangSelect.innerHTML = '<option value="" disabled selected>Pilih Nama Barang</option>';
                 <?php if (isset($konsinyasi)): ?>
                     <?php foreach ($konsinyasi as $konsi): ?>
@@ -241,6 +276,7 @@
         } else {
             namaBarangSelect.disabled = true;
             hargaJualSelect.disabled = true;
+            hargaJualSelect.required = false; // Hapus required jika tidak ada jenis barang yang dipilih
         }
     }
 
