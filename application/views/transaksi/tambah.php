@@ -207,8 +207,8 @@
                 </td>
                 <td>
                     <div class="input-field" style="margin-bottom: 27px;">
-                        <select name="harga_jual[]" class="browser-default" onchange="updateHargaInput(this)" disabled required>
-                            <option value="" disabled selected>Pilih Harga Jual</option>
+                        <select name="harga_jual[]" class="browser-default" onchange="updateHargaInput(this)" required style="pointer-events: none; color: lightgrey;">
+                            <option value="default" selected>Pilih Harga Jual</option>
                             <option value="pagi">Pagi</option>
                             <option value="sore">Sore</option>
                         </select>
@@ -251,8 +251,9 @@
             namaBarangSelect.disabled = false;
 
             if (select.value == "toko") { // Jika Barang Toko dipilih
-                hargaJualSelect.disabled = true;
-                hargaJualSelect.value = ""; // Reset harga jual
+                hargaJualSelect.style.pointerEvents = 'none';
+                hargaJualSelect.style.color = 'lightgrey';
+                hargaJualSelect.value = "default"; // Set value to "default" when disabled
                 namaBarangSelect.innerHTML = '<option value="" disabled selected>Pilih Nama Barang</option>';
                 <?php if (isset($barang)): ?>
                     <?php foreach ($barang as $item): ?>
@@ -262,7 +263,8 @@
                     <?php endforeach; ?>
                 <?php endif; ?>
             } else {
-                hargaJualSelect.disabled = false;
+                hargaJualSelect.style.pointerEvents = 'auto';
+                hargaJualSelect.style.color = 'black';
                 hargaJualSelect.required = true; // Tambahkan required jika konsinyasi dipilih
                 namaBarangSelect.innerHTML = '<option value="" disabled selected>Pilih Nama Barang</option>';
                 <?php if (isset($konsinyasi)): ?>
@@ -275,8 +277,10 @@
             }
         } else {
             namaBarangSelect.disabled = true;
-            hargaJualSelect.disabled = true;
+            hargaJualSelect.style.pointerEvents = 'none';
+            hargaJualSelect.style.color = 'lightgrey';
             hargaJualSelect.required = false; // Hapus required jika tidak ada jenis barang yang dipilih
+            hargaJualSelect.value = "default"; // Set value to "default" when disabled
         }
     }
 

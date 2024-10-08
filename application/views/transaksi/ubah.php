@@ -160,27 +160,30 @@
                                                 <td>
                                                     <div class="input-field" style="margin-bottom: 27px;">
                                                         <select name="jenis_barang[]" class="browser-default" required onchange="toggleDropdowns(this)">
-                                                            <option value="toko" <?= $item->id_konsinyasi ? '' : 'selected' ?>>Barang Toko</option>
-                                                            <option value="konsinyasi" <?= $item->id_konsinyasi ? 'selected' : '' ?>>Barang Konsinyasi</option>
+                                                        <option value="" disabled selected>Pilih Jenis Barang</option>
+                                                            <option value="toko" <?= $item->id_konsinyasi ? '' : 'selected' ?> <?= $item->id_konsinyasi ? 'disabled' : '' ?>>Barang Toko</option>
+                                                            <option value="konsinyasi" <?= $item->id_konsinyasi ? 'selected' : '' ?> <?= $item->id_konsinyasi ? '' : 'disabled' ?>>Barang Konsinyasi</option>
                                                         </select>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="input-field" style="margin-bottom: 27px;">
                                                         <select name="nama_barang[]" class="browser-default" required>
-                                                            <option value="<?= $item->id_barang ?>" selected><?= htmlspecialchars($item->nama_barang) ?></option>
+                                                        <option value="" disabled selected>Pilih Nama Barang</option>
+                                                            <option value="<?= $item->id_barang ? $item->id_barang : $item->id_konsinyasi ?>" selected><?= htmlspecialchars($item->id_barang ? $item->nama_barang : $item->nama_konsinyasi) ?></option>
                                                         </select>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="input-field" style="margin-bottom: 27px;">
-                                                        <select name="harga_jual[]" class="browser-default" required>
-                                                            <option value="pagi" <?= $item->harga_waktu == 'pagi' ? 'selected' : '' ?>>Pagi</option>
-                                                            <option value="sore" <?= $item->harga_waktu == 'sore' ? 'selected' : '' ?>>Sore</option>
+                                                        <select name="harga_jual[]" class="browser-default" required <?= $item->harga_waktu === "default" ? 'disabled' : '' ?> onchange="disableSelectedOptions(this)">
+                                                            <option value="default" disabled selected>Pilih Harga Jual</option>
+                                                            <option value="pagi" <?= $item->harga_waktu === 'pagi' ? 'selected' : '' ?> <?= $item->harga_waktu === 'sore' ? 'disabled' : '' ?>>Pagi</option>
+                                                            <option value="sore" <?= $item->harga_waktu === 'sore' ? 'selected' : '' ?> <?= $item->harga_waktu === 'pagi' ? 'disabled' : '' ?>>Sore</option>
                                                         </select>
                                                     </div>
                                                 </td>
-                                                <td><input type="number" name="harga[]" class="validate" value="<?= $item->harga ?>" oninput="updateRowTotal(this)" required></td>
+                                                <td><input type="number" name="harga[]" class="validate" value="<?= $item->harga ?>" oninput="updateRowTotal(this)" required style="pointer-events: none;"></td>
                                                 <td><input type="number" name="jumlah[]" min="1" class="validate" value="<?= $item->jumlah ?>" oninput="updateRowTotal(this)" required></td>
                                                 <td><input type="text" name="total[]" readonly class="validate" value="<?= $item->total ?>"></td>
                                                 <td>

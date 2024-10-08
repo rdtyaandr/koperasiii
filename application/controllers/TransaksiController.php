@@ -150,7 +150,7 @@ class TransaksiController extends GLOBAL_Controller
                         'id_konsinyasi' => $jenis_barang[$key] == 'konsinyasi' ? $barang_id : null,
                         'jenis_barang' => $jenis_barang[$key], 
                         'nama_barang' => trim($barang_id),
-                        'harga_waktu' => !empty($harga_waktu[$key]) ? $harga_waktu[$key] : null,
+                        'harga_waktu' => $harga_waktu[$key],
                         'harga' => floatval($harga_input[$key]),
                         'jumlah' => intval($jumlah[$key]),
                         'total' => floatval($this->input->post('total')[$key]),
