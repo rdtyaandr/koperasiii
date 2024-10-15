@@ -10,6 +10,7 @@ class BarangModel extends GLOBAL_Model
 
     public function lihat_semua()
     {
+        $this->db->where('jenis_barang', 'toko');
         return parent::get_array_of_table('tb_barang');
     }
 

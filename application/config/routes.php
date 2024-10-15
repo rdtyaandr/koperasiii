@@ -72,6 +72,7 @@ $route['konsinyasi/tambah'] = 'KonsinyasiController/tambah';
 $route['konsinyasi/ubah/(:any)'] = 'KonsinyasiController/ubah/$1';
 $route['konsinyasi/hapus/(:any)'] = 'KonsinyasiController/hapus/$1';
 $route['konsinyasi/(:any)'] = 'KonsinyasiController/detail/$1';
+$route['konsinyasi/retur/(:any)'] = 'KonsinyasiController/retur/$1';
 
 /*
 * kategori modul routes

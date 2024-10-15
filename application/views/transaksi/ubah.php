@@ -1,4 +1,4 @@
-<!-- Native CSS for additional styling -->
+ <!-- Native CSS for additional styling -->
 <style>
 
     .card-content {
@@ -176,10 +176,10 @@
                                                 </td>
                                                 <td>
                                                     <div class="input-field" style="margin-bottom: 27px;">
-                                                        <select name="harga_jual[]" class="browser-default" required <?= $item->harga_waktu === "default" ? 'disabled' : '' ?> onchange="disableSelectedOptions(this)">
-                                                            <option value="default" disabled selected>Pilih Harga Jual</option>
-                                                            <option value="pagi" <?= $item->harga_waktu === 'pagi' ? 'selected' : '' ?> <?= $item->harga_waktu === 'sore' ? 'disabled' : '' ?>>Pagi</option>
-                                                            <option value="sore" <?= $item->harga_waktu === 'sore' ? 'selected' : '' ?> <?= $item->harga_waktu === 'pagi' ? 'disabled' : '' ?>>Sore</option>
+                                                        <select name="harga_jual[]" class="browser-default" required <?= $item->harga_waktu === "default" ? 'style="pointer-events: none; color: #bdbdbd; border-bottom: 1.5px solid #bdbdbd;"' : '' ?> onchange="disableSelectedOptions(this)">
+                                                        <option value="default" <?= $item->harga_waktu === "default" ? 'style="display: block;" selected' : 'style="display: none;"' ?>>Pilih Harga Jual</option>
+                                                        <option value="pagi" <?= $item->harga_waktu === 'pagi' ? 'style="display: block;" selected' : 'style="display: none;"' ?>>Pagi</option>
+                                                        <option value="sore" <?= $item->harga_waktu === 'sore' ? 'style="display: block;" selected' : 'style="display: none;"' ?>>Sore</option>
                                                         </select>
                                                     </div>
                                                 </td>
@@ -249,14 +249,14 @@
                 </td>
                 <td>
                     <div class="input-field" style="margin-bottom: 27px;">
-                        <select name="harga_jual[]" class="browser-default" onchange="updateHargaInput(this)" disabled required>
-                            <option value="" disabled selected>Pilih Harga Jual</option>
+                        <select name="harga_jual[]" class="browser-default" required style="pointer-events: none; color: #bdbdbd; border-bottom: 1.5px solid #bdbdbd;" onchange="updateHargaInput(this)">
+                            <option value="default" selected>Pilih Harga Jual</option>
                             <option value="pagi">Pagi</option>
                             <option value="sore">Sore</option>
                         </select>
                     </div>
                 </td>
-                <td><input type="number" name="harga[]" class="validate" oninput="updateRowTotal(this)" required></td>
+                <td><input type="number" name="harga[]" class="validate" oninput="updateRowTotal(this)" required style="pointer-events: none;"></td>
                 <td><input type="number" name="jumlah[]" min="1" class="validate" oninput="updateRowTotal(this)" required></td>
                 <td><input type="text" name="total[]" readonly class="validate"></td>
                 <td>
@@ -293,8 +293,10 @@
             namaBarangSelect.disabled = false;
 
             if (select.value == "toko") { // Jika Barang Toko dipilih
-                hargaJualSelect.disabled = true;
-                hargaJualSelect.value = ""; // Reset harga jual
+                hargaJualSelect.required = false; // Tambahkan required jika konsinyasi dipilih
+                hargaJualSelect.value = "default"; // Reset harga jual
+                hargaJualSelect.style.color = "#bdbdbd"; // Mengubah warna teks menjadi abu-abu
+                hargaJualSelect.style.borderBottom = "1.5px solid #bdbdbd"; // Mengubah garis bawah menjadi abu-abu
                 namaBarangSelect.innerHTML = '<option value="" disabled selected>Pilih Nama Barang</option>';
                 <?php if (isset($barang)): ?>
                     <?php foreach ($barang as $item): ?>
@@ -304,8 +306,10 @@
                     <?php endforeach; ?>
                 <?php endif; ?>
             } else {
-                hargaJualSelect.disabled = false;
                 hargaJualSelect.required = true; // Tambahkan required jika konsinyasi dipilih
+                hargaJualSelect.style.color = ""; // Mengembalikan warna teks
+                hargaJualSelect.style.borderBottom = "1.5px solid #a6a6a6"; // Mengembalikan garis bawah
+                hargaJualSelect.style.pointerEvents = "auto"; // Mengubah pointer menjadi auto
                 namaBarangSelect.innerHTML = '<option value="" disabled selected>Pilih Nama Barang</option>';
                 <?php if (isset($konsinyasi)): ?>
                     <?php foreach ($konsinyasi as $konsi): ?>
@@ -317,7 +321,6 @@
             }
         } else {
             namaBarangSelect.disabled = true;
-            hargaJualSelect.disabled = true;
             hargaJualSelect.required = false; // Hapus required jika tidak ada jenis barang yang dipilih
         }
     }
@@ -410,7 +413,6 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-        // Tidak perlu menambahkan baris baru, cukup menampilkan detail yang ada
-        // Detail barang sudah ditampilkan dari database
+        updateTotalHarga(); // Panggil fungsi updateTotalHarga saat halaman dimuat pertama kali
     });
 </script>

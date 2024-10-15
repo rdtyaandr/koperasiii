@@ -62,6 +62,7 @@ class KonsinyasiController extends GLOBAL_Controller
     {
         if (isset($_POST['tambah'])) {
             $data = array(
+                'jenis_barang' => 'konsinyasi',
                 'nama_barang' => parent::post('nama_konsinyasi'),
                 'kode_barang' => parent::post('kode_barang'),
                 'detail_barang' => parent::post('detail_konsinyasi'),
@@ -141,5 +142,16 @@ class KonsinyasiController extends GLOBAL_Controller
     {
         $barang_konsinyasi = $this->KonsinyasiModel->lihat_semua(); // Ambil data barang konsinyasi
         echo json_encode($barang_konsinyasi); // Kembalikan data dalam format JSON
+    }
+
+    public function retur($id_barang)
+    {
+        $jumlah = $this->input->post('jumlahRetur'); // Ambil jumlah dari form
+
+        // Panggil model untuk mengupdate stok
+        $this->KonsinyasiModel->update_stok_konsinyasi($id_barang, -$jumlah); // Kurangi stok
+
+        // Redirect kembali ke halaman konsinyasi
+        redirect('konsinyasi');
     }
 }

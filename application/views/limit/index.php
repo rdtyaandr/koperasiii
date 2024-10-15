@@ -125,7 +125,7 @@
     </div>
     <div class="modal-footer">
         <button type="submit" id="bayarKreditSaveButton" class="btn green darken-1">Bayar</button>
-        <a href="#!" class="modal-close btn-flat">Cancel</a>
+        <a href="#!" class="modal-close btn-flat">Batal</a>
     </div>
     </form>
 </div>

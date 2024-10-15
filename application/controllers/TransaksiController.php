@@ -179,7 +179,7 @@ class TransaksiController extends GLOBAL_Controller
             $data['title'] = 'Tambah Transaksi';
             $data['pengguna'] = $this->PenggunaModel->get_users_filtered();
             $data['barang'] = $this->BarangModel->lihat_semua();
-            $data['konsinyasi'] = $this->KonsinyasiModel->lihat_semua();
+            $data['konsinyasi'] = $this->KonsinyasiModel->lihat_semuanya();
             parent::template('transaksi/tambah', $data);
         }
     }
@@ -191,6 +191,7 @@ class TransaksiController extends GLOBAL_Controller
             $pengguna_id = $this->input->post('nama');
             $cara_bayar = $this->input->post('cara_bayar');
             $detail = $this->input->post('detail');
+            $harga_waktu = $this->input->post('harga_jual');
             $total_baru = array_sum(array_map('floatval', $this->input->post('total')));
 
             // Ambil data transaksi lama
@@ -235,12 +236,12 @@ class TransaksiController extends GLOBAL_Controller
             // Tambahkan pesan ke history
             $this->addMessage('Transaksi diubah', 'Transaksi telah berhasil diubah yang dibeli oleh ' . $nama_pengguna . ' dengan total Rp ' . number_format($total_baru, 0, ',', '.'), 'edit'); 
 
-            $id_barang = $this->input->post('id_barang');
             $harga = $this->input->post('harga');
             $jumlah = $this->input->post('jumlah');
             $nama_barang = $this->input->post('nama_barang');
+            $jenis_barang = $this->input->post('jenis_barang');
 
-            if (empty($id_barang) || empty($jumlah) || empty($nama_barang) || empty($harga) || empty($total_baru)) {
+            if (empty($jumlah) || empty($nama_barang) || empty($harga) || empty($total_baru)) {
                 $this->session->set_flashdata('alert', 'error-update-detail');
                 redirect('transaksi/ubah/' . $id_transaksi);
             }
@@ -250,12 +251,24 @@ class TransaksiController extends GLOBAL_Controller
 
             // Simpan detail barang baru
             $detail_data = array();
-            foreach ($id_barang as $key => $barang_id) {
+            foreach ($nama_barang as $key => $barang_id) {
                 $new_jumlah = intval($jumlah[$key]);
-                $barang = $this->BarangModel->get_barang_by_id($barang_id);
-                if (!$barang) {
-                    $this->session->set_flashdata('alert', 'error-invalid-barang');
-                    redirect('transaksi/ubah/' . $id_transaksi);
+                if ($jenis_barang[$key] == 'toko') {
+                    $barang = $this->BarangModel->get_barang_by_id($barang_id);
+                    if (!$barang) {
+                        $this->session->set_flashdata('alert', 'error-invalid-barang');
+                        redirect('transaksi/ubah/' . $id_transaksi);
+                    }
+                    $id_barang_final = $barang_id; // Menggunakan id_barang
+                    $id_konsinyasi_final = null; // Kosongkan id_konsinyasi
+                } elseif ($jenis_barang[$key] == 'konsinyasi') {
+                    $barang = $this->KonsinyasiModel->lihat_konsinyasi($barang_id);
+                    if (!$barang) {
+                        $this->session->set_flashdata('alert', 'error-invalid-barang');
+                        redirect('transaksi/ubah/' . $id_transaksi);
+                    }
+                    $id_barang_final = null; // Kosongkan id_barang
+                    $id_konsinyasi_final = $barang_id; // Menggunakan id_konsinyasi
                 }
 
                 if ($new_jumlah <= 0) {
@@ -265,7 +278,7 @@ class TransaksiController extends GLOBAL_Controller
 
                 $old_jumlah = 0;
                 foreach ($detail_lama as $old_detail) {
-                    if ($old_detail->id_barang == $barang_id) {
+                    if ($old_detail->id_barang == $barang_id || $old_detail->id_konsinyasi == $barang_id) {
                         $old_jumlah = $old_detail->jumlah;
                         break;
                     }
@@ -274,20 +287,31 @@ class TransaksiController extends GLOBAL_Controller
                 // Update stok barang berdasarkan perubahan jumlah
                 if ($new_jumlah > $old_jumlah) {
                     $stok_berubah = $new_jumlah - $old_jumlah;
-                    if ($barang->stok < $stok_berubah) {
-                        $this->session->set_flashdata('alert', 'error-stock');
-                        redirect('transaksi/ubah/' . $id_transaksi);
+                    if ($jenis_barang[$key] == 'toko') {
+                        if ($barang->stok < $stok_berubah) {
+                            $this->session->set_flashdata('alert', 'error-stock');
+                            redirect('transaksi/ubah/' . $id_transaksi);
+                        }
+                        $this->BarangModel->update_stok_barang($barang_id, -$stok_berubah);
+                    } elseif ($jenis_barang[$key] == 'konsinyasi') {
+                        $this->KonsinyasiModel->update_stok_konsinyasi($barang_id, -$stok_berubah);
                     }
-                    $this->BarangModel->update_stok_barang($barang_id, -$stok_berubah);
                 } elseif ($new_jumlah < $old_jumlah) {
                     $stok_berubah = $old_jumlah - $new_jumlah;
-                    $this->BarangModel->update_stok_barang($barang_id, $stok_berubah);
+                    if ($jenis_barang[$key] == 'toko') {
+                        $this->BarangModel->update_stok_barang($barang_id, $stok_berubah);
+                    } elseif ($jenis_barang[$key] == 'konsinyasi') {
+                        $this->KonsinyasiModel->update_stok_konsinyasi($barang_id, $stok_berubah);
+                    }
                 }
 
                 $detail_data[] = array(
                     'id_transaksi' => $id_transaksi,
-                    'id_barang' => $barang_id,
+                    'id_barang' => $id_barang_final,
+                    'id_konsinyasi' => $id_konsinyasi_final,
+                    'jenis_barang' => $jenis_barang[$key],
                     'nama_barang' => trim($nama_barang[$key]),
+                    'harga_waktu' => $harga_waktu[$key],
                     'harga' => floatval($harga[$key]),
                     'jumlah' => $new_jumlah,
                     'total' => floatval($harga[$key]) * $new_jumlah,

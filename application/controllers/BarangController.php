@@ -87,6 +87,7 @@ class BarangController extends GLOBAL_Controller
 
             $data = array(
                 'kode_barang' => parent::post('kode_barang'),
+                'jenis_barang' => 'toko',
                 'nama_barang' => $nama_barang,
                 'detail_barang' => parent::post('detail_barang'),
                 'id_satuan' => parent::post('satuan'),

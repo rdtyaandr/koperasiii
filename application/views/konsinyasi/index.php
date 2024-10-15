@@ -1,4 +1,12 @@
 <style>
+    .modal {
+        border-radius: 8px;
+        max-width: 35%;
+    }
+
+    .modal-footer {
+        padding: 0 24px 20px;
+    }
     table tbody tr {
         border-bottom: 1px solid #ddd;
     }
@@ -36,10 +44,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (!empty($konsinyasi)) : ?>
-                                <?php foreach (array_reverse($konsinyasi) as $key => $item) : ?>
-                                    <tr>
-                                        <td class="center-align"><?= $key + 1 ?></td>
+                            <?php if (!empty($konsinyasi['hari_ini']) || !empty($konsinyasi['sebelumnya'])) : ?>
+                                <?php foreach ($konsinyasi['sebelumnya'] as $item) : ?>
+                                    <tr class="red lighten-4"> <!-- Warna latar belakang merah muda untuk barang bukan hari ini -->
+                                        <td class="center-align">
+                                            <i class="material-icons" aria-hidden="true">warning</i> <!-- Ikon untuk konsinyasi sebelumnya -->
+                                        </td>
                                         <td class="center-align">
                                             <?php if (!empty($item['kode_barang'])) : ?>
                                                 <img src="<?= site_url('BarangController/generate_barcode/' . $item['kode_barang']); ?>" alt="Barcode" style="display: block; margin: 0 auto;" />
@@ -57,6 +67,43 @@
                                         <td class="center-align">Rp <?= number_format(htmlspecialchars($item['harga_jual_sore']), 0, ',', '.'); ?></td>
                                         <td class="center-align" style="color: grey;"><?= !empty($item['detail_barang']) ? htmlspecialchars($item['detail_barang']) : '-' ; ?></td>
                                         <td class="center-align">
+                                            <a href="#modalKonsinyasi" class="btn blue darken-2 waves-effect waves-light btn-floating modal-trigger" 
+                                               onclick="setModalData('<?= $item['id_barang'] ?>', '<?= htmlspecialchars($item['stok']) ?>')">
+                                                <i class="material-icons">replay</i>
+                                            </a>
+                                            <a href="<?= base_url('konsinyasi/ubah/' . $item['id_barang']) ?>" class="btn yellow darken-2 waves-effect waves-light btn-floating">
+                                                <i class="material-icons">edit</i>
+                                            </a>
+                                            <a href="#" onclick="confirmDelete('<?= base_url('konsinyasi/hapus/' . $item['id_barang']) ?>')" class="btn red darken-2 waves-effect waves-light btn-floating">
+                                                <i class="material-icons">delete</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                <?php foreach ($konsinyasi['hari_ini'] as $key => $item) : ?>
+                                    <tr>
+                                        <td class="center-align"><?= $key + 1 ?></td> <!-- Angka untuk konsinyasi hari ini -->
+                                        <td class="center-align">
+                                            <?php if (!empty($item['kode_barang'])) : ?>
+                                                <img src="<?= site_url('BarangController/generate_barcode/' . $item['kode_barang']); ?>" alt="Barcode" style="display: block; margin: 0 auto;" />
+                                                <span style="display: block; font-size: 15px; color: #555; margin-top: 5px;">
+                                                    <?= htmlspecialchars($item['kode_barang']); ?>
+                                                </span>
+                                            <?php else : ?>
+                                                <span style="color: rgba(128, 128, 128, 0.7); font-style: italic; opacity: 0.7;">Tidak memiliki kode barang</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="center-align"><?= htmlspecialchars($item['nama_barang']); ?></td>
+                                        <td class="center-align"><?= htmlspecialchars($item['stok']); ?></td>
+                                        <td class="center-align">Rp <?= number_format(htmlspecialchars($item['harga_beli']), 0, ',', '.'); ?></td>
+                                        <td class="center-align">Rp <?= number_format(htmlspecialchars($item['harga_jual_pagi']), 0, ',', '.'); ?></td>
+                                        <td class="center-align">Rp <?= number_format(htmlspecialchars($item['harga_jual_sore']), 0, ',', '.'); ?></td>
+                                        <td class="center-align" style="color: grey;"><?= !empty($item['detail_barang']) ? htmlspecialchars($item['detail_barang']) : '-' ; ?></td>
+                                        <td class="center-align">
+                                            <a href="#modalKonsinyasi" class="btn blue darken-2 waves-effect waves-light btn-floating modal-trigger" 
+                                               onclick="setModalData('<?= $item['id_barang'] ?>', '<?= htmlspecialchars($item['stok']) ?>')">
+                                                <i class="material-icons">replay</i>
+                                            </a>
                                             <a href="<?= base_url('konsinyasi/ubah/' . $item['id_barang']) ?>" class="btn yellow darken-2 waves-effect waves-light btn-floating">
                                                 <i class="material-icons">edit</i>
                                             </a>
@@ -75,12 +122,60 @@
                     </table>
                 </div>
                 <div class="card-action right-align">
-                    <p class="grey-text text-darken-1">Total Barang Konsinyasi: <strong><?= count($konsinyasi) ?></strong></p>
+                    <p class="grey-text text-darken-1">Total Barang Konsinyasi: <strong><?= count($konsinyasi['hari_ini']) + count($konsinyasi['sebelumnya']) ?></strong></p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal Konfirmasi Retur Barang -->
+<div id="modalKonsinyasi" class="modal">
+    <div class="modal-content">
+        <h4>Reture Barang</h4>
+        <form action="<?= base_url('konsinyasi/retur') ?>" method="POST" id="returForm">
+            <input type="hidden" id="id_barang" name="id_barang"> <!-- Menyimpan ID barang -->
+            <div class="input-field">
+                <input type="number" id="jumlahRetur" name="jumlahRetur" class="validate" required min="1" oninput="validateInput()">
+                <label for="jumlahRetur" id="jumlahReturLabel">Jumlah</label>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn green darken-1" style="border-radius: 8px;">Reture</button>
+                <a href="#!" class="modal-close btn-flat">Batal</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function setModalData(id_barang, stok) {
+        document.getElementById('id_barang').value = id_barang; // Set ID barang ke input tersembunyi
+        const jumlahReturInput = document.getElementById('jumlahRetur');
+        jumlahReturInput.value = stok; // Set nilai stok ke input jumlahRetur
+        jumlahReturInput.setAttribute('max', stok); // Set maksimum sesuai stok
+        toggleLabel(); // Panggil fungsi untuk mengatur label
+        document.getElementById('returForm').action = "<?= base_url('konsinyasi/retur/') ?>" + id_barang; // Update action form dengan ID barang
+    }
+
+    function toggleLabel() {
+        const input = document.getElementById('jumlahRetur');
+        const label = document.getElementById('jumlahReturLabel');
+        if (input.value) {
+            label.classList.add('active'); // Tambahkan kelas active jika ada nilai
+        } else {
+            label.classList.remove('active'); // Hapus kelas active jika tidak ada nilai
+        }
+    }
+
+    function validateInput() {
+        const input = document.getElementById('jumlahRetur');
+        const max = parseInt(input.getAttribute('max'));
+        if (parseInt(input.value) > max) {
+            input.value = max; // Set nilai input ke maksimum jika lebih
+        }
+        toggleLabel(); // Panggil fungsi untuk mengatur label
+    }
+</script>
 
 <script>
     function confirmDelete(url) {
@@ -98,4 +193,10 @@
             }
         });
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inisialisasi modal
+        const modal = document.getElementById('modalKonsinyasi');
+        const instance = M.Modal.init(modal);
+    });
 </script>
