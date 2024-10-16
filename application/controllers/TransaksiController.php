@@ -68,51 +68,44 @@ class TransaksiController extends GLOBAL_Controller
                     redirect('transaksi/tambah');
                 }
     
-                // Cek stok barang jika jenisnya adalah toko
-                if ($jenis_barang[$key] == 'toko') {
-                    $barang = $this->BarangModel->get_barang_by_id($barang_id);
-                    if (!$barang || $barang->stok < $jumlah[$key]) {
-                        $this->session->set_flashdata('alert', 'error-stock');
-                        redirect('transaksi/tambah');
-                    }
-                } elseif ($jenis_barang[$key] == 'konsinyasi') {
-                    $konsinyasi = $this->KonsinyasiModel->lihat_konsinyasi($barang_id);
-                    if (!$konsinyasi || $konsinyasi->stok < $jumlah[$key]) {
-                        $this->session->set_flashdata('alert', 'error-stock');
-                        redirect('transaksi/tambah');
-                    }
+                $barang = $this->BarangModel->get_barang_by_id($barang_id);
+                if (!$barang || $barang->stok < $jumlah[$key]) {
+                    $this->session->set_flashdata('alert', 'error-stock');
+                    redirect('transaksi/tambah');
                 }
     
                 // Simpan riwayat harga jika harga berubah
                 if ($harga_input[$key] != '') {
-                    if ($jenis_barang[$key] == 'toko' && $barang->harga_jual != floatval($harga_input[$key])) {
-                        $riwayat_data = array(
-                            'id_barang' => $barang_id,
-                            'harga_beli' => $barang->harga_beli,
-                            'harga_jual' => floatval($harga_input[$key]),
-                            'tanggal_berlaku' => date('Y-m-d')
-                        );
-                        $this->BarangModel->insert_riwayat_harga($riwayat_data);
-                    } elseif ($jenis_barang[$key] == 'konsinyasi') {
-                        $konsinyasi = $this->KonsinyasiModel->lihat_konsinyasi($barang_id);
-                        if ($konsinyasi) {
-                            if ($harga_waktu[$key] == 'pagi' && $konsinyasi->harga_jual_pagi != floatval($harga_input[$key])) {
-                                $riwayat_data = array(
-                                    'id_konsinyasi' => $barang_id,
-                                    'harga_beli' => $konsinyasi->harga_beli,
-                                    'harga_jual' => floatval($harga_input[$key]),
-                                    'tanggal_berlaku' => date('Y-m-d')
-                                );
-                                $this->BarangModel->insert_riwayat_harga($riwayat_data);
-                            } elseif ($harga_waktu[$key] == 'sore' && $konsinyasi->harga_jual_sore != floatval($harga_input[$key])) {
-                                $riwayat_data = array(
-                                    'id_konsinyasi' => $barang_id,
-                                    'harga_beli' => $konsinyasi->harga_beli,
-                                    'harga_jual' => floatval($harga_input[$key]),
-                                    'tanggal_berlaku' => date('Y-m-d')
-                                );
-                                $this->BarangModel->insert_riwayat_harga($riwayat_data);
-                            }
+                    // Cek jenis barang
+                    if ($jenis_barang[$key] == 'konsinyasi') {
+                        // Logika konsinyasi untuk pagi dan sore
+                        if ($harga_waktu[$key] == 'pagi' && $barang->harga_jual_pagi != floatval($harga_input[$key])) {
+                            $riwayat_data = array(
+                                'id_barang' => $barang_id,
+                                'harga_beli' => $barang->harga_beli,
+                                'harga_jual' => floatval($harga_input[$key]),
+                                'tanggal_berlaku' => date('Y-m-d')
+                            );
+                            $this->BarangModel->insert_riwayat_harga($riwayat_data);
+                        } elseif ($harga_waktu[$key] == 'sore' && $barang->harga_jual_sore != floatval($harga_input[$key])) {
+                            $riwayat_data = array(
+                                'id_barang' => $barang_id,
+                                'harga_beli' => $barang->harga_beli,
+                                'harga_jual' => floatval($harga_input[$key]),
+                                'tanggal_berlaku' => date('Y-m-d')
+                            );
+                            $this->BarangModel->insert_riwayat_harga($riwayat_data);
+                        }
+                    } elseif ($jenis_barang[$key] == 'toko') {
+                        // Cek harga_jual untuk barang toko
+                        if ($barang->harga_jual != floatval($harga_input[$key])) {
+                            $riwayat_data = array(
+                                'id_barang' => $barang_id,
+                                'harga_beli' => $barang->harga_beli,
+                                'harga_jual' => floatval($harga_input[$key]),
+                                'tanggal_berlaku' => date('Y-m-d')
+                            );
+                            $this->BarangModel->insert_riwayat_harga($riwayat_data);
                         }
                     }
                 }
@@ -146,8 +139,7 @@ class TransaksiController extends GLOBAL_Controller
                 foreach ($nama_barang as $key => $barang_id) {
                     $detail_data[] = array(
                         'id_transaksi' => $id_transaksi,
-                        'id_barang' => $jenis_barang[$key] == 'toko' ? $barang_id : null,
-                        'id_konsinyasi' => $jenis_barang[$key] == 'konsinyasi' ? $barang_id : null,
+                        'id_barang' => $barang_id,
                         'jenis_barang' => $jenis_barang[$key], 
                         'nama_barang' => trim($barang_id),
                         'harga_waktu' => $harga_waktu[$key],
@@ -253,22 +245,10 @@ class TransaksiController extends GLOBAL_Controller
             $detail_data = array();
             foreach ($nama_barang as $key => $barang_id) {
                 $new_jumlah = intval($jumlah[$key]);
-                if ($jenis_barang[$key] == 'toko') {
-                    $barang = $this->BarangModel->get_barang_by_id($barang_id);
-                    if (!$barang) {
-                        $this->session->set_flashdata('alert', 'error-invalid-barang');
-                        redirect('transaksi/ubah/' . $id_transaksi);
-                    }
-                    $id_barang_final = $barang_id; // Menggunakan id_barang
-                    $id_konsinyasi_final = null; // Kosongkan id_konsinyasi
-                } elseif ($jenis_barang[$key] == 'konsinyasi') {
-                    $barang = $this->KonsinyasiModel->lihat_konsinyasi($barang_id);
-                    if (!$barang) {
-                        $this->session->set_flashdata('alert', 'error-invalid-barang');
-                        redirect('transaksi/ubah/' . $id_transaksi);
-                    }
-                    $id_barang_final = null; // Kosongkan id_barang
-                    $id_konsinyasi_final = $barang_id; // Menggunakan id_konsinyasi
+                $barang = $this->BarangModel->get_barang_by_id($barang_id);
+                if (!$barang) {
+                    $this->session->set_flashdata('alert', 'error-invalid-barang');
+                    redirect('transaksi/ubah/' . $id_transaksi);
                 }
 
                 if ($new_jumlah <= 0) {
@@ -278,7 +258,7 @@ class TransaksiController extends GLOBAL_Controller
 
                 $old_jumlah = 0;
                 foreach ($detail_lama as $old_detail) {
-                    if ($old_detail->id_barang == $barang_id || $old_detail->id_konsinyasi == $barang_id) {
+                    if ($old_detail->id_barang == $barang_id) {
                         $old_jumlah = $old_detail->jumlah;
                         break;
                     }
@@ -287,28 +267,19 @@ class TransaksiController extends GLOBAL_Controller
                 // Update stok barang berdasarkan perubahan jumlah
                 if ($new_jumlah > $old_jumlah) {
                     $stok_berubah = $new_jumlah - $old_jumlah;
-                    if ($jenis_barang[$key] == 'toko') {
-                        if ($barang->stok < $stok_berubah) {
-                            $this->session->set_flashdata('alert', 'error-stock');
-                            redirect('transaksi/ubah/' . $id_transaksi);
-                        }
-                        $this->BarangModel->update_stok_barang($barang_id, -$stok_berubah);
-                    } elseif ($jenis_barang[$key] == 'konsinyasi') {
-                        $this->KonsinyasiModel->update_stok_konsinyasi($barang_id, -$stok_berubah);
+                    if ($barang->stok < $stok_berubah) {
+                        $this->session->set_flashdata('alert', 'error-stock');
+                        redirect('transaksi/ubah/' . $id_transaksi);
                     }
+                    $this->BarangModel->update_stok_barang($barang_id, -$stok_berubah);
                 } elseif ($new_jumlah < $old_jumlah) {
                     $stok_berubah = $old_jumlah - $new_jumlah;
-                    if ($jenis_barang[$key] == 'toko') {
-                        $this->BarangModel->update_stok_barang($barang_id, $stok_berubah);
-                    } elseif ($jenis_barang[$key] == 'konsinyasi') {
-                        $this->KonsinyasiModel->update_stok_konsinyasi($barang_id, $stok_berubah);
-                    }
+                    $this->BarangModel->update_stok_barang($barang_id, $stok_berubah);
                 }
 
                 $detail_data[] = array(
                     'id_transaksi' => $id_transaksi,
-                    'id_barang' => $id_barang_final,
-                    'id_konsinyasi' => $id_konsinyasi_final,
+                    'id_barang' => $barang_id,
                     'jenis_barang' => $jenis_barang[$key],
                     'nama_barang' => trim($nama_barang[$key]),
                     'harga_waktu' => $harga_waktu[$key],
