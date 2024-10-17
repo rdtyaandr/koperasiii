@@ -299,7 +299,7 @@ class TransaksiController extends GLOBAL_Controller
             $data['barang'] = $this->BarangModel->lihat_semua();
             $data['transaksi'] = $this->TransaksiModel->get_transaksi_by_id($id);
             $data['detail_barang'] = $this->TransaksiModel->get_detail_barang_by_transaksi_id($id);
-            $data['konsinyasi'] = $this->KonsinyasiModel->lihat_semua();
+            $data['konsinyasi'] = $this->KonsinyasiModel->lihat_semuanya();
             $data['title'] = 'Ubah Transaksi';
             parent::template('transaksi/ubah', $data);
         }

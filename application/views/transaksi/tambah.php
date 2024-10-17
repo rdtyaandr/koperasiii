@@ -168,7 +168,7 @@
                         </div>
                         <div class="row">
                             <div class="col s12 right-align">
-                                <button type="submit" name="tambah" class="btn waves-effect waves-light blue darken-2" style="border-radius: 25px; width: auto;">Tambah</button>
+                                <button type="submit" name="tambah" class="btn waves-effect waves-light blue darken-2" style="border-radius: 25px; width: auto;" id="submit-button" onclick="checkRequiredFields(event)">Tambah</button>
                                 <a href="<?= base_url('transaksi') ?>" class="btn waves-effect waves-light grey" style="border-radius: 25px; width: auto;">Batalkan</a>
                             </div>
                         </div>
@@ -179,6 +179,21 @@
     </div>
 </div>
 
+<script>
+    let submitButton = document.getElementById('submit-button');
+    let form = document.querySelector('form');
+
+    function checkRequiredFields(event) {
+        if (!form.checkValidity()) {
+            // Trigger the default HTML validation
+            form.reportValidity();
+            event.preventDefault(); // Prevent form submission
+        } else {
+            submitButton.disabled = true; // Disable button after successful validation
+            form.submit(); // Submit the form programmatically
+        }
+    }
+</script>
 <script>
     function addMultipleRows() {
         var rowCount = parseInt(document.getElementById('jumlah-rows').value) || 1;

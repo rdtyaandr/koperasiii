@@ -161,8 +161,8 @@
                                                     <div class="input-field" style="margin-bottom: 27px;">
                                                         <select name="jenis_barang[]" class="browser-default" required onchange="toggleDropdowns(this)">
                                                         <option value="" disabled selected>Pilih Jenis Barang</option>
-                                                            <option value="toko" <?= $item->id_konsinyasi ? '' : 'selected' ?> <?= $item->id_konsinyasi ? 'disabled' : '' ?>>Barang Toko</option>
-                                                            <option value="konsinyasi" <?= $item->id_konsinyasi ? 'selected' : '' ?> <?= $item->id_konsinyasi ? '' : 'disabled' ?>>Barang Konsinyasi</option>
+                                                            <option value="<?= $item->id_barang ?>" <?= $item->id_barang ? '' : 'selected' ?> <?= $item->id_barang ? 'disabled' : '' ?>>Barang Toko</option>
+                                                            <option value="<?= $item->id_barang ?>" <?= $item->id_barang ? 'selected' : '' ?> <?= $item->id_barang ? '' : 'disabled' ?>>Barang Konsinyasi</option>
                                                         </select>
                                                     </div>
                                                 </td>
@@ -170,7 +170,7 @@
                                                     <div class="input-field" style="margin-bottom: 27px;">
                                                         <select name="nama_barang[]" class="browser-default" required>
                                                         <option value="" disabled selected>Pilih Nama Barang</option>
-                                                            <option value="<?= $item->id_barang ? $item->id_barang : $item->id_konsinyasi ?>" selected><?= htmlspecialchars($item->id_barang ? $item->nama_barang : $item->nama_konsinyasi) ?></option>
+                                                            <option value="<?= $item->id_barang ?>" selected><?= htmlspecialchars($item->nama_barang) ?></option>
                                                         </select>
                                                     </div>
                                                 </td>
@@ -210,7 +210,7 @@
                         </div>
                         <div class="row">
                             <div class="col s12 right-align">
-                                <button type="submit" name="ubah" class="btn waves-effect waves-light blue darken-2" style="border-radius: 25px; width: auto;">Ubah</button>
+                                <button type="submit" name="ubah" class="btn waves-effect waves-light blue darken-2" style="border-radius: 25px; width: auto;" id="edit-button" onclick="checkRequiredFields(event)">Ubah</button>
                                 <a href="<?= base_url('transaksi') ?>" class="btn waves-effect waves-light grey" style="border-radius: 25px; width: auto;">Batalkan</a>
                             </div>
                         </div>
@@ -221,6 +221,21 @@
     </div>
 </div>
 
+<script>
+    let submitButton = document.getElementById('edit-button');
+    let form = document.querySelector('form');
+
+    function checkRequiredFields(event) {
+        if (!form.checkValidity()) {
+            // Trigger the default HTML validation
+            form.reportValidity();
+            event.preventDefault(); // Prevent form submission
+        } else {
+            submitButton.disabled = true; // Disable button after successful validation
+            form.submit(); // Submit the form programmatically
+        }
+    }
+</script>
 <script>
     function addMultipleRows() {
         var rowCount = parseInt(document.getElementById('jumlah-rows').value) || 1;
