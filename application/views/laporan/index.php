@@ -99,6 +99,7 @@
                                 <tr>
                                     <th class="center-align">No</th>
                                     <th class="center-align">Nama Barang</th>
+                                    <th class="center-align">Jenis Barang</th>
                                     <th class="center-align">Cara Bayar</th>
                                     <th class="center-align">Harga Beli</th>
                                     <th class="center-align">Harga Jual</th>
@@ -116,6 +117,7 @@
                                         <tr>
                                             <td class="center-align"><?= $key + 1 ?></td>
                                             <td class="center-align"><?= htmlspecialchars($laporanItem['nama_barang'], ENT_QUOTES, 'UTF-8') ?></td>
+                                            <td class="center-align"><?= htmlspecialchars($laporanItem['jenis_barang'] == 'toko' ? 'Toko' : 'Konsinyasi', ENT_QUOTES, 'UTF-8') ?></td>
                                             <td class="center-align"><?= htmlspecialchars($laporanItem['cara_bayar'], ENT_QUOTES, 'UTF-8') ?></td> <!-- Tambahkan kolom ini -->
                                             <td class="center-align"><?= number_format($laporanItem['harga_beli'], 0, ',', '.') ?></td>
                                             <td class="center-align"><?= number_format($laporanItem['harga_jual'], 0, ',', '.') ?></td>
@@ -128,7 +130,7 @@
                                     </script>
                                 <?php else: ?>
                                     <tr>
-                                        <td colspan="7" class="center-align">Tidak ada data laporan yang dibuat.</td> <!-- Ubah colspan menjadi 7 -->
+                                        <td colspan="8" class="center-align">Tidak ada data laporan yang dibuat.</td> <!-- Ubah colspan menjadi 7 -->
                                     </tr>
                                     <script>
                                         document.getElementById('download-buttons').style.display = 'none';
@@ -373,7 +375,7 @@
 
         // Add header information
         const header = [];
-        header.push(['', '', '          Laporan Penjualan']);
+        header.push(['Laporan Penjualan']);
         const year = document.getElementById('tahun').value;
         const month = document.getElementById('bulan').value ? document.getElementById('bulan').options[document.getElementById('bulan').selectedIndex].text : '';
         const day = document.getElementById('tanggal').value ? document.getElementById('tanggal').value : '';
@@ -393,8 +395,7 @@
             }
         }
 
-        dateText = '               ' + dateText; // Menambahkan 15 spasi sebelum dateText
-        header.push(['', '', dateText]);
+        header.push([dateText]);
         header.push(['']);
 
         data.push(...header);
@@ -405,7 +406,7 @@
             cols.forEach(function(col, colIndex) {
                 const cellValue = col.innerText.replace(/\./g, '');
                 rowData.push(cellValue);
-                if (rowIndex > 0 && colIndex === 6) { // Assuming the 7th column is the total pendapatan
+                if (rowIndex > 0 && colIndex === 7) { // Assuming the 7th column is the total pendapatan
                     totalPendapatan += parseFloat(cellValue); // Ubah ini untuk menjumlahkan total pendapatan
                 }
             });
@@ -413,7 +414,7 @@
         });
 
         // Add total pendapatan to the data
-        data.push(['', '', '', '', '', 'Total Pendapatan', 'Rp ' + totalPendapatan.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')]);
+        data.push(['', '', '', '', '', '', 'Total Pendapatan', 'Rp ' + totalPendapatan.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')]);
 
         const wb = XLSX.utils.book_new();
         const ws = XLSX.utils.aoa_to_sheet(data);
@@ -486,7 +487,7 @@
         const rows = document.querySelectorAll('#laporanTable tbody tr');
         rows.forEach(function(row) {
             const cols = row.querySelectorAll('td');
-            const pendapatan = parseFloat(cols[6].innerText.replace(/\./g, '')); // Ubah ini untuk menjumlahkan total pendapatan
+            const pendapatan = parseFloat(cols[7].innerText.replace(/\./g, '')); // Ubah ini untuk menjumlahkan total pendapatan
             totalPendapatan += pendapatan;
         });
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 02, 2024 at 02:06 AM
+-- Generation Time: Oct 18, 2024 at 03:24 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.11
 
@@ -30,12 +30,15 @@ SET time_zone = "+00:00";
 CREATE TABLE `tb_barang` (
   `id_barang` int NOT NULL,
   `kode_barang` varchar(100) DEFAULT NULL,
+  `jenis_barang` varchar(100) NOT NULL,
   `nama_barang` varchar(100) NOT NULL,
   `detail_barang` varchar(100) DEFAULT NULL,
-  `id_satuan` int NOT NULL,
-  `id_kategori` int NOT NULL,
+  `id_satuan` int DEFAULT NULL,
+  `id_kategori` int DEFAULT NULL,
   `harga_beli` int NOT NULL,
-  `harga_jual` int NOT NULL,
+  `harga_jual` int DEFAULT NULL,
+  `harga_jual_pagi` int DEFAULT NULL,
+  `harga_jual_sore` int DEFAULT NULL,
   `stok` int NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -45,10 +48,12 @@ CREATE TABLE `tb_barang` (
 -- Dumping data for table `tb_barang`
 --
 
-INSERT INTO `tb_barang` (`id_barang`, `kode_barang`, `nama_barang`, `detail_barang`, `id_satuan`, `id_kategori`, `harga_beli`, `harga_jual`, `stok`, `created_at`, `updated_at`) VALUES
-(370, '4578548745', 'Es Teh', '', 14, 35, 2500, 3000, 44, '2024-09-23 08:52:51', '2024-10-02 08:26:45'),
-(371, '6585678', 'Gorengan', '', 14, 36, 1000, 2000, 67097655, '2024-09-23 09:42:23', '2024-10-02 08:19:17'),
-(372, '8646845', 'Kopi', '', 13, 35, 1500, 3000, 4, '2024-09-23 09:43:12', '2024-10-01 16:28:04');
+INSERT INTO `tb_barang` (`id_barang`, `kode_barang`, `jenis_barang`, `nama_barang`, `detail_barang`, `id_satuan`, `id_kategori`, `harga_beli`, `harga_jual`, `harga_jual_pagi`, `harga_jual_sore`, `stok`, `created_at`, `updated_at`) VALUES
+(398, '', 'toko', 'Isoplus', '', 13, 35, 2000, 3000, NULL, NULL, 62, '2024-10-18 10:06:41', '2024-10-18 10:09:52'),
+(399, '', 'toko', 'Better', '', 4, 36, 1000, 2000, NULL, NULL, 462, '2024-10-18 10:07:14', '2024-10-18 10:09:52'),
+(400, '', 'konsinyasi', 'Gorengan', '', NULL, NULL, 500, NULL, 1500, 1000, 133, '2024-10-18 10:07:40', '2024-10-18 10:13:17'),
+(401, '', 'konsinyasi', 'Ote Ote', '', NULL, NULL, 500, NULL, 1500, 1000, 41, '2024-10-18 10:08:01', '2024-10-18 10:13:17'),
+(402, '', 'konsinyasi', 'Better', '', NULL, NULL, 1000, NULL, 2000, 1500, 342, '2024-10-18 10:11:11', '2024-10-18 10:11:32');
 
 -- --------------------------------------------------------
 
@@ -59,14 +64,28 @@ INSERT INTO `tb_barang` (`id_barang`, `kode_barang`, `nama_barang`, `detail_bara
 CREATE TABLE `tb_detransaksi` (
   `id_detail` int NOT NULL,
   `id_transaksi` int NOT NULL,
-  `id_barang` int NOT NULL,
+  `id_barang` int DEFAULT NULL,
+  `jenis_barang` varchar(100) NOT NULL,
   `nama_barang` varchar(100) NOT NULL,
   `harga` int NOT NULL,
+  `harga_waktu` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'default',
   `jumlah` int NOT NULL,
   `total` int NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `tb_detransaksi`
+--
+
+INSERT INTO `tb_detransaksi` (`id_detail`, `id_transaksi`, `id_barang`, `jenis_barang`, `nama_barang`, `harga`, `harga_waktu`, `jumlah`, `total`, `created_at`, `updated_at`) VALUES
+(796, 299, 398, 'toko', '398', 3000, 'default', 1, 3000, '2024-10-18 10:08:31', '2024-10-18 10:08:31'),
+(797, 300, 398, 'toko', '398', 3000, 'default', 1, 3000, '2024-10-18 10:09:52', '2024-10-18 10:09:52'),
+(798, 300, 399, 'toko', '399', 2000, 'default', 2, 4000, '2024-10-18 10:09:52', '2024-10-18 10:09:52'),
+(799, 301, 402, 'konsinyasi', '402', 2000, 'pagi', 1, 2000, '2024-10-18 10:11:32', '2024-10-18 10:11:32'),
+(800, 302, 401, 'konsinyasi', '401', 1000, 'sore', 1, 1000, '2024-10-18 10:13:17', '2024-10-18 10:13:17'),
+(801, 302, 400, 'konsinyasi', '400', 1500, 'pagi', 1, 1500, '2024-10-18 10:13:17', '2024-10-18 10:13:17');
 
 -- --------------------------------------------------------
 
@@ -83,6 +102,21 @@ CREATE TABLE `tb_histori` (
   `message_icon` varchar(50) NOT NULL,
   `message_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `tb_histori`
+--
+
+INSERT INTO `tb_histori` (`id`, `message_text`, `message_summary`, `role`, `pengguna_id`, `message_icon`, `message_date_time`) VALUES
+(1173, 'Barang baru ditambahkan', 'Barang dengan nama Isoplus telah ditambahkan', 'admin', 111, 'add_circle_outline', '2024-10-18 10:06:41'),
+(1174, 'Barang baru ditambahkan', 'Barang dengan nama Better telah ditambahkan', 'admin', 111, 'add_circle_outline', '2024-10-18 10:07:14'),
+(1175, 'Barang Konsinyasi baru ditambahkan', 'Barang Konsinyasi dengan nama Gorengan telah ditambahkan', 'admin', 111, 'add_circle_outline', '2024-10-18 10:07:40'),
+(1176, 'Barang Konsinyasi baru ditambahkan', 'Barang Konsinyasi dengan nama Ote Ote telah ditambahkan', 'admin', 111, 'add_circle_outline', '2024-10-18 10:08:02'),
+(1177, 'Transaksi ditambahkan', 'Transaksi baru telah berhasil ditambahkan yang dibeli oleh eko.hardi dengan total Rp 3.000', 'admin', 111, 'add_circle_outline', '2024-10-18 10:08:31'),
+(1178, 'Transaksi ditambahkan', 'Transaksi baru telah berhasil ditambahkan yang dibeli oleh abd.hakim dengan total Rp 7.000', 'admin', 111, 'add_circle_outline', '2024-10-18 10:09:52'),
+(1179, 'Barang Konsinyasi baru ditambahkan', 'Barang Konsinyasi dengan nama Better telah ditambahkan', 'admin', 111, 'add_circle_outline', '2024-10-18 10:11:11'),
+(1180, 'Transaksi ditambahkan', 'Transaksi baru telah berhasil ditambahkan yang dibeli oleh abdussalam dengan total Rp 2.000', 'admin', 111, 'add_circle_outline', '2024-10-18 10:11:32'),
+(1181, 'Transaksi ditambahkan', 'Transaksi baru telah berhasil ditambahkan yang dibeli oleh abd.hakim dengan total Rp 2.500', 'admin', 111, 'add_circle_outline', '2024-10-18 10:13:17');
 
 -- --------------------------------------------------------
 
@@ -127,6 +161,13 @@ CREATE TABLE `tb_pengajuan` (
   `user_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `tb_pengajuan`
+--
+
+INSERT INTO `tb_pengajuan` (`id`, `jenis_pinjaman`, `tanggal_pinjam`, `jumlah_pinjaman`, `lama_pinjaman`, `is_read`, `created_at`, `status`, `waktu_pengajuan`, `user_id`) VALUES
+(79, 'Konsumtif', '2024-10-18', '12000', '4', 0, '2024-10-18 02:24:58', 'Menunggu Persetujuan', '2024-10-18 09:24:58', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -154,7 +195,7 @@ CREATE TABLE `tb_pengguna` (
 
 INSERT INTO `tb_pengguna` (`pengguna_id`, `nama_lengkap`, `username`, `email`, `satker`, `password`, `pengguna_hak_akses`, `limit`, `limit_total`, `profile_picture`, `pengguna_date_update`, `pengguna_date_created`) VALUES
 (1, 'Abdullah Hakim', 'abd.hakim', 'abd.hakim@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 09:04:59', '2024-10-02 07:41:09'),
-(2, 'Abdus Salam', 'abdussalam', 'abdussalam@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 09:04:51', '2024-10-02 07:41:09'),
+(2, 'Abdus Salam', 'abdussalam', 'abdussalam@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-14 08:09:56', '2024-10-02 07:41:09'),
 (3, 'Achmad Aziz Effendy', 'achmad.effendy', 'achmad.effendy@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
 (4, 'Adelia Alifiany Basory', 'adelia.alifiany', 'adelia.alifiany@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 09:05:38', '2024-10-02 07:41:09'),
 (5, 'Adenan', 'adenan', 'adenan@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
@@ -262,7 +303,7 @@ INSERT INTO `tb_pengguna` (`pengguna_id`, `nama_lengkap`, `username`, `email`, `
 (107, 'Yeni Rahmawati', 'yenirahma', 'yenirahma@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
 (108, 'Yogi Chandra Sasmita', 'yogi.chandra', 'yogi.chandra@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
 (109, 'Yulifah Suryana', 'yulifah', 'yulifah@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
-(110, 'Zulkipli', 'zulki', 'zulki@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-02 08:10:24', '2024-10-02 07:41:09'),
+(110, 'Zulkipli', 'zulki', 'zulki@bps.go.id', '3500', '25d55ad283aa400af464c76d713c07ad', 'user', 0, 1500000, 'default.png', '2024-10-17 14:55:11', '2024-10-02 07:41:09'),
 (111, 'Admin User', 'a', 'admin.user@bps.go.id', '3500', '0cc175b9c0f1b6a831c399e269772661', 'admin', 0, 1500000, 'default.png', '2024-10-02 08:10:58', '2024-10-02 07:44:55'),
 (112, 'Operator User', 'o', 'operator.user@bps.go.id', '3500', 'd95679752134a2d9eb61dbd7b91c4bcc', 'operator', 0, 1500000, 'default.png', '2024-10-02 08:10:37', '2024-10-02 07:44:55');
 
@@ -274,7 +315,7 @@ INSERT INTO `tb_pengguna` (`pengguna_id`, `nama_lengkap`, `username`, `email`, `
 
 CREATE TABLE `tb_riwayat_harga` (
   `id_riwayat` int NOT NULL,
-  `id_barang` int NOT NULL,
+  `id_barang` int DEFAULT NULL,
   `harga_beli` int NOT NULL,
   `harga_jual` int NOT NULL,
   `tanggal_berlaku` date NOT NULL
@@ -326,6 +367,16 @@ CREATE TABLE `tb_transaksi` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `tb_transaksi`
+--
+
+INSERT INTO `tb_transaksi` (`id_transaksi`, `pengguna_id`, `cara_bayar`, `total`, `detail`, `created_at`, `updated_at`) VALUES
+(299, 40, 'Cash', 3000, '', '2024-10-18 03:08:31', '2024-10-18 03:08:31'),
+(300, 1, 'Cash', 7000, '', '2024-10-18 03:09:52', '2024-10-18 03:09:52'),
+(301, 2, 'Cash', 2000, '', '2024-10-18 03:11:32', '2024-10-18 03:11:32'),
+(302, 1, 'Cash', 2500, '', '2024-10-18 03:13:17', '2024-10-18 03:13:17');
 
 --
 -- Indexes for dumped tables
@@ -397,31 +448,31 @@ ALTER TABLE `tb_transaksi`
 -- AUTO_INCREMENT for table `tb_barang`
 --
 ALTER TABLE `tb_barang`
-  MODIFY `id_barang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=387;
+  MODIFY `id_barang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=403;
 
 --
 -- AUTO_INCREMENT for table `tb_detransaksi`
 --
 ALTER TABLE `tb_detransaksi`
-  MODIFY `id_detail` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=334;
+  MODIFY `id_detail` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=802;
 
 --
 -- AUTO_INCREMENT for table `tb_histori`
 --
 ALTER TABLE `tb_histori`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=859;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1182;
 
 --
 -- AUTO_INCREMENT for table `tb_kategori`
 --
 ALTER TABLE `tb_kategori`
-  MODIFY `id_kategori` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id_kategori` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `tb_pengajuan`
 --
 ALTER TABLE `tb_pengajuan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `tb_pengguna`
@@ -433,19 +484,19 @@ ALTER TABLE `tb_pengguna`
 -- AUTO_INCREMENT for table `tb_riwayat_harga`
 --
 ALTER TABLE `tb_riwayat_harga`
-  MODIFY `id_riwayat` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_riwayat` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `tb_satuan`
 --
 ALTER TABLE `tb_satuan`
-  MODIFY `id_satuan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id_satuan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `tb_transaksi`
 --
 ALTER TABLE `tb_transaksi`
-  MODIFY `id_transaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=194;
+  MODIFY `id_transaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=303;
 
 --
 -- Constraints for dumped tables

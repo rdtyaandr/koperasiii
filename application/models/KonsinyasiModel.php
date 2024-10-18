@@ -75,6 +75,14 @@ class KonsinyasiModel extends GLOBAL_Model
     {
         return parent::delete_row_with_status('tb_barang', $query);
     }
+
+    public function lihat_nama_barang($id_barang)
+    {
+        $this->db->where('id_barang', $id_barang);
+        $barang = $this->db->get('tb_barang')->row();
+        return $barang ? $barang->nama_barang : null; // Kembalikan nama barang atau null jika tidak ditemukan
+    }
 }
 
 // Start Generation Here
+

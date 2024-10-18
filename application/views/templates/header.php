@@ -183,7 +183,7 @@
                                 <?php if (in_array($this->session->userdata('level'), ['admin', 'operator']) && !empty($stok_rendah)): ?>
                                     <li><strong style="color: #616161;">Stok <br>Rendah :</strong></li>
                                     <?php foreach ($stok_rendah as $barang): ?>
-                                        <li><a href="<?php echo base_url('barang/ubah/' . $barang->id_barang); ?>" class="red-text"
+                                        <li><a href="<?php echo base_url(($barang->jenis_barang == 'toko' ? 'barang' : 'konsinyasi')); ?>" class="red-text"
                                                 style="text-decoration: none; color: #d32f2f;"><?php echo $barang->nama_barang; ?>
                                                 (Sisa: <?php echo $barang->stok; ?>)</a></li>
                                     <?php endforeach; ?>

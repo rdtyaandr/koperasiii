@@ -148,10 +148,21 @@ class KonsinyasiController extends GLOBAL_Controller
     {
         $jumlah = $this->input->post('jumlahRetur'); // Ambil jumlah dari form
 
-        // Panggil model untuk mengupdate stok
-        $this->KonsinyasiModel->update_stok_konsinyasi($id_barang, -$jumlah); // Kurangi stok
+        // Ambil nama barang berdasarkan ID
+        $nama_barang = $this->KonsinyasiModel->lihat_nama_barang($id_barang);
+        if ($nama_barang) {
+            // Panggil model untuk mengupdate stok
+            $this->KonsinyasiModel->update_stok_konsinyasi($id_barang, -$jumlah); // Kurangi stok
 
-        // Redirect kembali ke halaman konsinyasi
-        redirect('konsinyasi');
+            // Tambahkan pesan setelah mengupdate stok
+            $this->addMessage('Barang Konsinyasi telah diretur', 'Barang konsinyasi dengan nama ' . $nama_barang . ' telah diretur dengan jumlah ' . $jumlah, 'remove_circle_outline');
+
+            // Redirect kembali ke halaman konsinyasi
+            redirect('konsinyasi');
+        } else {
+            // Tangani jika barang tidak ditemukan
+            parent::alert('alert', 'error-not-found');
+            redirect('konsinyasi');
+        }
     }
 }
