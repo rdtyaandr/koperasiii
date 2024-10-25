@@ -77,6 +77,7 @@ class BarangModel extends GLOBAL_Model
     public function cek_nama_barang($nama_barang, $id_barang = null)
     {
         $this->db->where('nama_barang', $nama_barang);
+        $this->db->where('jenis_barang', 'toko'); // Menambahkan filter untuk jenis_barang dengan nilai 'toko'
         if ($id_barang) {
             $this->db->where('id_barang !=', $id_barang);
         }

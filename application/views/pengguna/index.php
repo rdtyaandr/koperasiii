@@ -10,7 +10,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col s12 left-align">
+                        <div class="col s12 left-align" style="position: relative;">
                             <a href="<?= base_url('pengguna/tambah') ?>"
                                 class="btn waves-effect waves-light green darken-1" style="border-radius: 25px;">
                                 <i class="material-icons left">add</i>Pengguna
@@ -19,25 +19,44 @@
                                 class="btn waves-effect waves-light blue darken-1" style="border-radius: 25px;">
                                 <i class="material-icons left">edit</i>Limit
                             </a>
+                            <input type="text" id="search" placeholder="Cari" onkeyup="searchTable()" style="border-radius: 25px; padding: 2px 20px; width: 200px; position: absolute; top: -6px; right: 130px; background-color: transparent; border: none; border-bottom: 1px solid #9e9e9e;">
+                            <select id="dropdownEntries" onchange="changeEntries()" style="border-radius: 25px; padding: 2px; width: 100px; position: absolute; top: 0px; right: 20px;" class="browser-default">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="">All</option>
+                            </select>
                         </div>
                     </div>
                     <table class="highlight striped responsive-table" style="border-radius: 8px; overflow: hidden;">
                         <thead class="blue darken-2 white-text">
                             <tr>
                                 <th class="center-align">No</th>
-                                <th class="center-align">Nama Pengguna</th>
-                                <th class="center-align">Email</th>
-                                <th class="center-align">Satker</th>
+                                <th class="center-align">Nama Pengguna <span style="vertical-align: middle; display: inline-block; line-height: 1;">
+                                    <i class="material-icons arrow" style="font-size: 16px; color: rgba(200, 200, 200, 0.5);" onclick="sortTable(1, 'up')">arrow_upward</i>
+                                    <i class="material-icons arrow" style="font-size: 16px; color: rgba(200, 200, 200, 0.5);" onclick="sortTable(1, 'down')">arrow_downward</i>
+                                </span></th>
+                                <th class="center-align">Email <span style="vertical-align: middle; display: inline-block; line-height: 1;">
+                                    <i class="material-icons arrow" style="font-size: 16px; color: rgba(200, 200, 200, 0.5);" onclick="sortTable(2, 'up')">arrow_upward</i>
+                                    <i class="material-icons arrow" style="font-size: 16px; color: rgba(200, 200, 200, 0.5);" onclick="sortTable(2, 'down')">arrow_downward</i>
+                                </span></th>
+                                <th class="center-align">Satker <span style="vertical-align: middle; display: inline-block; line-height: 1;">
+                                    <i class="material-icons arrow" style="font-size: 16px; color: rgba(200, 200, 200, 0.5);" onclick="sortTable(3, 'up')">arrow_upward</i>
+                                    <i class="material-icons arrow" style="font-size: 16px; color: rgba(200, 200, 200, 0.5);" onclick="sortTable(3, 'down')">arrow_downward</i>
+                                </span></th>
                                 <?php if ($this->session->userdata('level') != 'operator'): ?>
-                                    <th class="center-align">Role</th>
+                                    <th class="center-align">Role <span style="vertical-align: middle; display: inline-block; line-height: 1;">
+                                        <i class="material-icons arrow" style="font-size: 16px; color: rgba(200, 200, 200, 0.5);" onclick="sortTable(4, 'up')">arrow_upward</i>
+                                        <i class="material-icons arrow" style="font-size: 16px; color: rgba(200, 200, 200, 0.5);" onclick="sortTable(4, 'down')">arrow_downward</i>
+                                    </span></th>
                                 <?php endif; ?>
                                 <th class="center-align">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="penggunaTable">
                             <?php if (!empty($Pengguna)): ?>
                                 <?php  $no = 1; foreach (array_reverse($Pengguna) as $key => $hitam): ?>
-                                    <!-- if ($this->session->userdata('level') == 'operator' && $hitam['pengguna_hak_akses'] != 'user' && $hitam['pengguna_hak_akses'] != 'operator') continue;  -->
                                     <?php if ($this->session->userdata('level') == 'operator' && $hitam['pengguna_hak_akses'] != 'user') continue; ?>
                                     <tr>
                                         <td class="center-align"><?= $no++ ?></td>
@@ -61,7 +80,7 @@
                                                         $roleClass = 'green lighten-1 white-text'; // Hijau
                                                         break;
                                                     default:
-                                                        $roleClass = 'grey lighten-3 black-text'; // Default (misalnya putih dengan teks hitam)
+                                                        $roleClass = 'grey lighten-3 black-text'; // Default
                                                 }
                                                 ?>
                                                 <span class="role-badge <?= $roleClass ?>"><?= $role ?></span>
@@ -106,6 +125,9 @@
                             <?php endif; ?>
                         </tbody>
                     </table>
+                    <div id="noResults" class="center-align" style="display: none; padding: 10px; background-color: #f2f2f2; color: black; font-size: 1em; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
+                        Tidak ada pengguna yang ditemukan.
+                    </div>
                 </div>
                 <div class="card-action right-align">
                     <p class="grey-text text-darken-1">Total Pengguna: <strong><?= count($Pengguna) ?></strong></p>
@@ -166,33 +188,25 @@
     /* Warna untuk role 'user' (abu-abu terang) */
     .grey.lighten-2 {
         background-color: #d6d6d6 !important;
-        /* Abu-abu terang */
         color: #ffffff !important;
-        /* Teks putih */
     }
 
     /* Warna untuk role 'operator' (biru terang) */
     .blue.lighten-2 {
         background-color: #64b5f6 !important;
-        /* Biru terang */
         color: #ffffff !important;
-        /* Teks putih */
     }
 
     /* Warna untuk role 'admin' (hijau terang) */
     .green.lighten-2 {
         background-color: #81c784 !important;
-        /* Hijau terang */
         color: #ffffff !important;
-        /* Teks putih */
     }
 
     /* Warna default untuk role yang tidak dikenali */
     .grey.lighten-4 {
         background-color: #f5f5f5 !important;
-        /* Abu-abu sangat terang */
         color: #000000 !important;
-        /* Teks hitam */
     }
 
     /* Style umum untuk badge role */
@@ -206,18 +220,119 @@
 
     .limit-not-user {
         color: #b0bec5;
-        /* Warna teks abu-abu pudar */
         display: inline-block;
         padding: 4px 8px;
         border-radius: 4px;
         transform: skew(-6deg);
-        /* Miringkan teks ke kanan */
         font-style: italic;
-        /* Miringkan teks */
     }
 
     table tbody tr {
         border-bottom: 1px solid #ddd;
     }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script>
+    function sortTable(columnIndex, order) {
+        const table = document.querySelector('table tbody');
+        const rows = Array.from(table.rows);
+        const sortedRows = rows.sort((a, b) => {
+            const aValue = getValue(a, columnIndex);
+            const bValue = getValue(b, columnIndex);
+            if (typeof aValue === 'string') {
+                return order === 'down' ? aValue.length - bValue.length : bValue.length - aValue.length;
+            } else {
+                return order === 'down' ? aValue - bValue : bValue - aValue;
+            }
+        });
+
+        // Clear the table and append sorted rows
+        table.innerHTML = '';
+        sortedRows.forEach(row => table.appendChild(row));
+
+        // Reset arrow colors
+        document.querySelectorAll('.arrow').forEach(arrow => {
+            arrow.style.color = 'rgba(200, 200, 200, 0.5)';
+        });
+
+        // Change color of the clicked arrow
+        let clickedArrow = event.target;
+        clickedArrow.style.color = 'white';
+    }
+
+    function getValue(row, columnIndex) {
+        switch (columnIndex) {
+            case 1:
+                return row.cells[1].innerText; // Nama Pengguna
+            case 2:
+                return row.cells[2].innerText; // Email
+            case 3:
+                return row.cells[3].innerText; // Satker
+            case 4:
+                return row.cells[4].innerText.length; // Role length
+            default:
+                return '';
+        }
+    }
+
+    function searchTable() {
+        const searchInput = document.getElementById("search").value.toLowerCase();
+        const table = document.getElementById("penggunaTable");
+        const rows = table.getElementsByTagName("tr");
+        const entries = document.getElementById("dropdownEntries").value;
+        let foundCount = 0;
+        let visibleCount = 0;
+
+        for (let i = 0; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName("td");
+            let rowVisible = false;
+
+            for (let j = 0; j < cells.length; j++) {
+                if (cells[j]) {
+                    const cellValue = cells[j].innerText.toLowerCase();
+                    if (cellValue.indexOf(searchInput) > -1) {
+                        rowVisible = true;
+                        foundCount++;
+                        break;
+                    }
+                }
+            }
+
+            // Show or hide row based on search and entries
+            if (entries === "" || visibleCount < entries) {
+                rows[i].style.display = rowVisible ? "" : "none";
+                if (rowVisible) visibleCount++;
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+
+        // Tampilkan pesan jika tidak ada pengguna yang ditemukan
+        document.getElementById("noResults").style.display = foundCount === 0 ? "" : "none";
+    }
+
+    function changeEntries() {
+        const entries = document.getElementById("dropdownEntries").value;
+        const table = document.getElementById("penggunaTable");
+        const rows = table.getElementsByTagName("tr");
+        const totalRows = rows.length;
+
+        for (let i = 1; i < totalRows; i++) {
+            rows[i].style.display = (entries === "" || i <= entries) ? "" : "none";
+        }
+
+        // Reset search when changing entries
+        document.getElementById("search").value = '';
+        searchTable();
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+        changeEntries();
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.performance.navigation.type === 1) {
+            // Browser was reloaded (POST data may be present)
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+        }
+    });
+</script>
