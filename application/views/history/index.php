@@ -14,6 +14,13 @@
                                 <input type="text" id="search" placeholder="Search history..." class="search-input">
                                 <button class="search-button"><i class="material-icons grey-text">search</i></button>
                             </div>
+                            <select id="dropdownEntries" onchange="changeEntries()" style="border-radius: 25px; padding: 2px; width: 100px; margin-left: 20px;" class="browser-default">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="">All</option>
+                            </select>
                         </div>
                     </div>
                     <div class="row">
@@ -33,6 +40,9 @@
                                 <?php endforeach; ?>
                             </div>
                         </div>
+                    </div>
+                    <div id="noResults" class="center-align" style="display: none; padding: 10px; background-color: #f2f2f2; color: black; font-size: 1em; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
+                        Tidak ada history yang ditemukan.
                     </div>
                 </div>
             </div>
@@ -188,5 +198,30 @@
                 message.style.display = 'none';
             }
         });
+    });
+
+    function changeEntries() {
+        const entries = parseInt(document.getElementById("dropdownEntries").value) || 10;
+        const messages = document.querySelectorAll(".message-item");
+        const totalMessages = messages.length;
+
+        let visibleCount = 0;
+
+        for (let i = 0; i < totalMessages; i++) {
+            if (entries === "" || visibleCount < entries) {
+                messages[i].style.display = "";
+                visibleCount++;
+            } else {
+                messages[i].style.display = "none";
+            }
+        }
+
+        // Reset search when changing entries
+        document.getElementById("search").value = '';
+        searchTable();
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        changeEntries();
     });
 </script>

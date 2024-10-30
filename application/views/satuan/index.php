@@ -80,6 +80,7 @@
                 <div class="card-action right-align">
                     <p class="grey-text text-darken-1">Total Satuan: <strong><?= count($satuan) ?></strong></p>
                 </div>
+                <ul id="pagination" class="pagination center-align" data-current-page="1"></ul>
             </div>
         </div>
     </div>
@@ -126,8 +127,41 @@
 
 <!-- Native CSS for additional styling -->
 <style>
+    .custom-hover {
+        position: relative;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+
+    .custom-hover::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -5px;
+        width: 100%;
+        height: 2px;
+        background-color: #1975d1;
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.3s ease;
+    }
+
+    .custom-hover:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+
+    .custom-hover:hover {
+        color: #1975d1;
+    }
+
+    .active-modern {
+        background-color: #e0e0e0;
+        border-radius: 50%;
+    }
+
     .card-content {
-        padding-bottom: 0;
+        padding-bottom: 0 !important;
     }
 
     .input-field {
@@ -135,7 +169,8 @@
     }
 
     .card-action {
-        padding: 10px 24px;
+        padding-top: 5px !important;
+        padding-bottom: 0px !important;
     }
 
     .btn {
@@ -159,6 +194,7 @@
     .modal-footer {
         padding: 0 24px 20px;
     }
+
     table tbody tr {
         border-bottom: 1px solid #ddd;
     }
@@ -291,6 +327,7 @@
 
         // Tampilkan pesan jika tidak ada satuan yang ditemukan
         document.getElementById("noResults").style.display = foundCount === 0 ? "" : "none";
+        updatePagination();
     }
 
     function changeEntries() {
@@ -299,20 +336,83 @@
         const rows = table.getElementsByTagName("tr");
         const totalRows = rows.length;
 
-        for (let i = 1; i < totalRows; i++) {
-            rows[i].style.display = (entries === "" || i <= entries) ? "" : "none";
+        for (let i = 0; i < totalRows; i++) {
+            rows[i].style.display = (i < entries) ? "" : "none";
         }
 
         // Reset search when changing entries
         document.getElementById("search").value = '';
         searchTable();
+        updatePagination();
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
+    function updatePagination() {
+        const entries = parseInt(document.getElementById("dropdownEntries").value) || 10;
+        const table = document.getElementById("satuanTable");
+        const rows = table.getElementsByTagName("tr");
+        const totalRows = rows.length;
+        const totalPages = Math.ceil(totalRows / entries);
+        const pagination = document.getElementById("pagination");
+        pagination.innerHTML = '';
+
+        if (totalPages <= 1) {
+            return;
+        }
+
+        const currentPage = parseInt(pagination.getAttribute('data-current-page')) || 1;
+
+        if (currentPage > 1) {
+            const prevLi = document.createElement('li');
+            prevLi.classList.add('waves-effect');
+            prevLi.innerHTML = `<a href="#!" class="custom-hover" onclick="changePage(${currentPage - 1})"><i class="material-icons">chevron_left</i></a>`;
+            pagination.appendChild(prevLi);
+        }
+
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                const li = document.createElement('li');
+                li.classList.add('waves-effect');
+                if (i === currentPage) {
+                    li.classList.add('active-modern');
+                }
+                li.innerHTML = `<a href="#!" class="custom-hover" onclick="changePage(${i})">${i}</a>`;
+                pagination.appendChild(li);
+            } else if (i === currentPage - 2 || i === currentPage + 2) {
+                const li = document.createElement('li');
+                li.classList.add('waves-effect');
+                li.innerHTML = `<a href="#!" class="custom-hover">...</a>`;
+                pagination.appendChild(li);
+            }
+        }
+
+        if (currentPage < totalPages) {
+            const nextLi = document.createElement('li');
+            nextLi.classList.add('waves-effect');
+            nextLi.innerHTML = `<a href="#!" class="custom-hover" onclick="changePage(${currentPage + 1})"><i class="material-icons">chevron_right</i></a>`;
+            pagination.appendChild(nextLi);
+        }
+    }
+
+    function changePage(page) {
+        const entries = parseInt(document.getElementById("dropdownEntries").value) || 10;
+        const table = document.getElementById("satuanTable");
+        const rows = table.getElementsByTagName("tr");
+        const totalRows = rows.length;
+
+        for (let i = 0; i < totalRows; i++) {
+            rows[i].style.display = (i >= (page - 1) * entries && i < page * entries) ? "" : "none";
+        }
+
+        const pagination = document.getElementById("pagination");
+        pagination.setAttribute('data-current-page', page);
+        updatePagination();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
         changeEntries();
     });
 
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         if (window.performance.navigation.type === 1) {
             // Browser was reloaded (POST data may be present)
             if (window.history.replaceState) {
@@ -333,4 +433,3 @@
         });
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
