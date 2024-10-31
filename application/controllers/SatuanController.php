@@ -43,7 +43,7 @@ class SatuanController extends GLOBAL_Controller
             $this->form_validation->set_rules('nama_satuan', 'Nama Satuan', 'required|trim');
 
             if ($this->form_validation->run() === FALSE) {
-                parent::alert('alert', 'gagal_validasi');
+                parent::alert('alert', 'validation_failed');
                 redirect('satuan');
             } else {
                 $nama_satuan = $this->input->post('nama_satuan');
@@ -75,7 +75,7 @@ class SatuanController extends GLOBAL_Controller
             $this->form_validation->set_rules('nama_satuan', 'Nama Satuan', 'required|trim');
 
             if ($this->form_validation->run() === FALSE) {
-                parent::alert('alert', 'gagal_validasi');
+                parent::alert('alert', 'validation_failed');
                 redirect('satuan');
             } else {
                 $nama_satuan = $this->input->post('nama_satuan');

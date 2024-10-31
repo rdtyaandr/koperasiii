@@ -191,8 +191,8 @@
 </div>
 
 <!-- Modal Konfirmasi Retur Barang -->
-<div id="modalKonsinyasi" class="modal">
-    <div class="modal-content">
+<div id="modalKonsinyasi" class="modal" style="border-radius: 8px;">
+    <div class="modal-content" style="border-radius: 8px;">
         <h4>Reture Barang</h4>
         <form action="<?= base_url('konsinyasi/retur') ?>" method="POST" id="returForm">
             <input type="hidden" id="id_barang" name="id_barang"> <!-- Menyimpan ID barang -->
@@ -200,8 +200,8 @@
                 <input type="number" id="jumlahRetur" name="jumlahRetur" class="validate" required min="1" oninput="validateInput()">
                 <label for="jumlahRetur" id="jumlahReturLabel">Jumlah</label>
             </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn green darken-1" style="border-radius: 8px;">Reture</button>
+            <div class="modal-footer" style="border-radius: 8px;">
+                <button type="submit" class="btn green darken-1" style="border-radius: 16px;">Reture</button>
                 <a href="#!" class="modal-close btn-flat">Batal</a>
             </div>
         </form>

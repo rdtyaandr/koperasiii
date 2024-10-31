@@ -43,7 +43,7 @@ class KategoriController extends GLOBAL_Controller
             $this->form_validation->set_rules('nama_kategori', 'Nama Kategori', 'required|trim');
 
             if ($this->form_validation->run() === FALSE) {
-                parent::alert('alert', 'gagal_validasi');
+                parent::alert('alert', 'validation_failed');
                 redirect('kategori');
             } else {
                 $nama_kategori = $this->input->post('nama_kategori');
@@ -75,7 +75,7 @@ class KategoriController extends GLOBAL_Controller
             $this->form_validation->set_rules('nama_kategori', 'Nama Kategori', 'required|trim');
 
             if ($this->form_validation->run() === FALSE) {
-                parent::alert('alert', 'gagal_validasi');
+                parent::alert('alert', 'validation_failed');
                 redirect('kategori');
             } else {
                 $nama_kategori = $this->input->post('nama_kategori');

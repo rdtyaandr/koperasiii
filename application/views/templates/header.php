@@ -53,32 +53,6 @@
         media="screen,projection">
 </head>
 <style>
-    #card-alert {
-        position: fixed;
-        /* Mengambang di atas */
-        top: 20px;
-        /* Jarak dari atas */
-        right: 20px;
-        /* Jarak dari kanan */
-        z-index: 1000;
-        /* Agar tetap di atas elemen lain */
-        width: 300px;
-        /* Atur lebar sesuai kebutuhan */
-        transition: all 0.3s ease;
-        /* Efek transisi */
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        /* Bayangan untuk efek mengambang */
-        opacity: 1;
-        /* Memastikan alert terlihat */
-        border-radius: 8px;
-        /* Tambahkan border-radius */
-    }
-
-    .card {
-        margin-top: 20px;
-        /* Jarak antara card dan elemen di atasnya */
-    }
-
     /* Sembunyikan scrollbar tetapi tetap memungkinkan pengguliran */
     html {
         overflow: auto;
@@ -135,6 +109,108 @@
         #brand-logo-kop {
             margin-left: 0px !important;
         }
+    }
+
+    #custom-card-alert {
+        position: fixed;
+        bottom: 20px;
+        /* Pindah ke bawah */
+        right: 20px;
+        z-index: 1000;
+        width: 270px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        opacity: 1;
+        border-radius: 20px;
+        font-family: 'Arial', sans-serif;
+        background-color: #ffffff;
+        /* Warna latar belakang putih */
+        border: 1px solid #e0e0e0;
+        /* Border abu-abu */
+    }
+
+    .custom-card {
+        border-radius: 20px;
+        /* Meningkatkan border-radius */
+    }
+
+    .custom-card-content {
+        border-radius: 20px;
+        /* Meningkatkan border-radius */
+        position: relative;
+        /* Untuk posisi tombol close */
+        text-align: center;
+        /* Menyelaraskan teks ke tengah */
+    }
+
+    .animated {
+        animation-duration: 0.5s;
+        /* Durasi animasi */
+    }
+
+    .slideInUp {
+        animation-name: slideInUp;
+        /* Nama animasi */
+    }
+
+    @keyframes slideInUp {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .fadeOut {
+        animation-name: fadeOut;
+        /* Nama animasi untuk menghilang */
+        animation-duration: 0.5s;
+        /* Durasi animasi */
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        to {
+            opacity: 0;
+            transform: translateY(20px);
+            /* Animasi turun ke bawah */
+        }
+    }
+
+    .alert-text {
+        font-size: 1.1rem;
+        /* Ukuran font */
+        line-height: 1.5;
+        /* Jarak antar baris */
+        margin-top: 20px;
+        /* Jarak atas untuk menurunkan teks */
+    }
+
+    .close-btn {
+        position: absolute;
+        top: -10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #555;
+        /* Warna tombol close */
+        background-color: transparent !important;
+        /* Menghapus background color tombol close */
+    }
+
+    .close-btn:hover {
+        color: #333;
+        /* Warna teks saat hover */
     }
 </style>
 
@@ -435,130 +511,184 @@
 
                     <?php
                     switch ($this->session->flashdata('alert')) {
+                        case 'belum_login': ?>
+                            <div id="custom-card-alert" class="custom-card red lighten-4 animated slideInUp">
+                                <div class="custom-card-content red-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>GAGAL:</strong><br>Anda belum login.</p>
+                                </div>
+                            </div>
+                        <?php break;
+                        case 'success-reture': ?>
+                            <div id="custom-card-alert" class="custom-card green lighten-4 animated slideInUp">
+                                <div class="custom-card-content green-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>BERHASIL:</strong><br>Barang telah berhasil direture.</p>
+                                </div>
+                            </div>
+                        <?php break;
                         case 'success-insert': ?>
-                            <div id="card-alert" class="card green lighten-5 animated slideInDown">
-                                <div class="card-content green-text">
-                                    <p>BERHASIL : Data telah ditambahkan.</p>
+                            <div id="custom-card-alert" class="custom-card green lighten-4 animated slideInUp">
+                                <div class="custom-card-content green-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>BERHASIL:</strong><br>Data telah ditambahkan.</p>
                                 </div>
                             </div>
-                        <?php
-                            break;
+                        <?php break;
                         case 'error-insert': ?>
-                            <div id="card-alert" class="card red lighten-5 animated slideInDown">
-                                <div class="card-content red-text">
-                                    <p>GAGAL : Kesalahan saat menambahkan data</p>
+                            <div id="custom-card-alert" class="custom-card red lighten-4 animated slideInUp">
+                                <div class="custom-card-content red-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>GAGAL:</strong><br>Kesalahan saat menambahkan data</p>
                                 </div>
                             </div>
-                        <?php
-                            break;
+                        <?php break;
                         case 'success-delete': ?>
-                            <div id="card-alert" class="card green lighten-5 animated slideInDown">
-                                <div class="card-content green-text">
-                                    <p>BERHASIL : Data telah dihapus.</p>
+                            <div id="custom-card-alert" class="custom-card green lighten-4 animated slideInUp">
+                                <div class="custom-card-content green-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>BERHASIL:</strong><br>Data telah dihapus.</p>
                                 </div>
                             </div>
-                        <?php
-                            break;
+                        <?php break;
                         case 'error-delete': ?>
-                            <div id="card-alert" class="card red lighten-5 animated slideInDown">
-                                <div class="card-content red-text">
-                                    <p>GAGAL : Kesalahan saat menghapus data</p>
+                            <div id="custom-card-alert" class="custom-card red lighten-4 animated slideInUp">
+                                <div class="custom-card-content red-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>GAGAL:</strong><br>Kesalahan saat menghapus data</p>
                                 </div>
                             </div>
-                        <?php
-                            break;
+                        <?php break;
                         case 'error-delete-used': ?>
-                            <div id="card-alert" class="card red lighten-5 animated slideInDown">
-                                <div class="card-content red-text">
-                                    <p>GAGAL : Data ini tidak dapat dihapus karena masih digunakan.</p>
+                            <div id="custom-card-alert" class="custom-card red lighten-4 animated slideInUp">
+                                <div class="custom-card-content red-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>GAGAL:</strong><br>Data ini tidak dapat dihapus karena masih digunakan.</p>
                                 </div>
                             </div>
-                        <?php
-                            break;
+                        <?php break;
+                        case 'error-not-found': ?>
+                            <div id="custom-card-alert" class="custom-card red lighten-4 animated slideInUp">
+                                <div class="custom-card-content red-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>GAGAL:</strong><br>Data ini tidak dapat ditemukan.</p>
+                                </div>
+                            </div>
+                        <?php break;
                         case 'success-update': ?>
-                            <div id="card-alert" class="card green lighten-5 animated slideInDown">
-                                <div class="card-content green-text">
-                                    <p>BERHASIL : Data telah diubah.</p>
+                            <div id="custom-card-alert" class="custom-card green lighten-4 animated slideInUp">
+                                <div class="custom-card-content green-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>BERHASIL:</strong><br>Data telah diubah.</p>
                                 </div>
                             </div>
-                        <?php
-                            break;
+                        <?php break;
                         case 'error-update': ?>
-                            <div id="card-alert" class="card red lighten-5 animated slideInDown">
-                                <div class="card-content red-text">
-                                    <p>GAGAL : Kesalahan saat mengubah data</p>
+                            <div id="custom-card-alert" class="custom-card red lighten-4 animated slideInUp">
+                                <div class="custom-card-content red-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>GAGAL:</strong><br>Kesalahan saat mengubah data</p>
                                 </div>
                             </div>
-                        <?php
-                            break;
+                        <?php break;
                         case 'error-stock': ?>
-                            <div id="card-alert" class="card red lighten-5 animated slideInDown">
-                                <div class="card-content red-text">
-                                    <p>GAGAL : Stok barang tidak mencukupi.</p>
+                            <div id="custom-card-alert" class="custom-card red lighten-4 animated slideInUp">
+                                <div class="custom-card-content red-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>GAGAL:</strong><br>Stok barang tidak mencukupi.</p>
                                 </div>
                             </div>
-                        <?php
-                            break;
+                        <?php break;
                         case 'error-update-detail': ?>
-                            <div id="card-alert" class="card red lighten-5 animated slideInDown">
-                                <div class="card-content red-text">
-                                    <p>GAGAL : Detail barang tidak lengkap atau salah.</p>
+                            <div id="custom-card-alert" class="custom-card red lighten-4 animated slideInUp">
+                                <div class="custom-card-content red-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>GAGAL:</strong><br>Detail barang tidak lengkap atau salah.</p>
                                 </div>
                             </div>
-                        <?php
-                            break;
+                        <?php break;
                         case 'error-invalid-barang': ?>
-                            <div id="card-alert" class="card red lighten-5 animated slideInDown">
-                                <div class="card-content red-text">
-                                    <p>GAGAL : Barang tidak valid.</p>
+                            <div id="custom-card-alert" class="custom-card red lighten-4 animated slideInUp">
+                                <div class="custom-card-content red-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>GAGAL:</strong><br>Barang tidak valid.</p>
                                 </div>
                             </div>
-                        <?php
-                            break;
+                        <?php break;
+                        case 'validation_failed': ?>
+                            <div id="custom-card-alert" class="custom-card red lighten-4 animated slideInUp">
+                                <div class="custom-card-content red-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>GAGAL:</strong><br>Validasi gagal tolong ulangi lagi.</p>
+                                </div>
+                            </div>
+                        <?php break;
+                        case 'error-duplicate': ?>
+                            <div id="custom-card-alert" class="custom-card red lighten-4 animated slideInUp">
+                                <div class="custom-card-content red-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>GAGAL:</strong><br>Nama yang dipilih sudah tersedia.</p>
+                                </div>
+                            </div>
+                        <?php break;
+                        case 'success-save': ?>
+                            <div id="custom-card-alert" class="custom-card green lighten-4 animated slideInUp">
+                                <div class="custom-card-content green-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>BERHASIL:</strong><br>Limit telah berhasil diperbarui.</p>
+                                </div>
+                            </div>
+                        <?php break;
+                        case 'success-reset': ?>
+                            <div id="custom-card-alert" class="custom-card green lighten-4 animated slideInUp">
+                                <div class="custom-card-content green-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>BERHASIL:</strong><br>Limit telah berhasil direset.</p>
+                                </div>
+                            </div>
+                        <?php break;
+                        case 'success-reduce': ?>
+                            <div id="custom-card-alert" class="custom-card green lighten-4 animated slideInUp">
+                                <div class="custom-card-content green-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>BERHASIL:</strong><br>Limit telah berhasil dibayar.</p>
+                                </div>
+                            </div>
+                        <?php break;
+                        case 'error-reduce': ?>
+                            <div id="custom-card-alert" class="custom-card red lighten-4 animated slideInUp">
+                                <div class="custom-card-content red-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>GAGAL:</strong><br>Telah terjadi kesalahan.</p>
+                                </div>
+                            </div>
+                        <?php break;
                         case 'error-limit': ?>
-                            <div id="card-alert" class="card red lighten-5 animated slideInDown">
-                                <div class="card-content red-text">
-                                    <p>GAGAL : Telah mencapai batas limit.</p>
+                            <div id="custom-card-alert" class="custom-card red lighten-4 animated slideInUp">
+                                <div class="custom-card-content red-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>GAGAL:</strong><br>Telah mencapai batas limit.</p>
                                 </div>
                             </div>
-                    <?php
-                            break;
+                    <?php break;
                     }
                     ?>
+                    <script>
+                        function closeAlert(button) {
+                            const alert = button.parentElement.parentElement;
+                            alert.classList.add('fadeOut');
+                            setTimeout(() => alert.style.display = 'none', 500); // Menghilangkan setelah animasi
+                        }
 
-                    <!-- <?php if ($this->session->flashdata('alert')): ?>
-    <div class="alert <?php echo $this->session->flashdata('alert'); ?>">
-        <?php
-                                // switch ($this->session->flashdata('alert')) {
-                                //     case 'belum_login':
-                                //         echo "Anda belum login. Silakan login terlebih dahulu.";
-                                //         break;
-                                //     case 'sukses_tambah':
-                                //         echo "Pengguna berhasil ditambahkan.";
-                                //         break;
-                                //     case 'gagal_tambah':
-                                //         echo "Pengguna gagal ditambahkan.";
-                                //         break;
-                                //     case 'sukses_ubah':
-                                //         echo "Pengguna berhasil diubah.";
-                                //         break;
-                                //     case 'gagal_ubah':
-                                //         echo "Pengguna gagal diubah.";
-                                //         break;
-                                //     case 'sukses_hapus':
-                                //         echo "Pengguna berhasil dihapus.";
-                                //         break;
-                                //     case 'gagal_hapus':
-                                //         echo "Pengguna gagal dihapus.";
-                                //         break;
-                                //     default:
-                                //         echo "Terjadi kesalahan.";
-                                //         break;
-                                // }
-        ?>
-        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-    </div>
-<?php endif; ?> -->
+                        // Menghilangkan alert setelah 5 detik
+                        setTimeout(function() {
+                            const alert = document.getElementById('custom-card-alert');
+                            if (alert) {
+                                alert.classList.add('fadeOut');
+                                setTimeout(() => alert.style.display = 'none', 500); // Menghilangkan setelah animasi
+                            }
+                        }, 5000); // 5 detik
+                    </script>
 
                     <script type="text/javascript">
                         document.addEventListener('DOMContentLoaded', function() {

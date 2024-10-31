@@ -66,10 +66,10 @@ class PenggunaController extends GLOBAL_Controller
 
             if ($simpan > 0) {
                 $this->addMessage('Pengguna diubah', 'Pengguna dengan nama ' . $nama_pengguna . ' telah diubah', 'edit');
-                parent::alert('alert', 'sukses_ubah');
+                parent::alert('alert', 'success-update');
                 redirect('pengguna');
             } else {
-                parent::alert('alert', 'gagal_ubah');
+                parent::alert('alert', 'error-update');
                 redirect('pengguna');
             }
         } else {
@@ -87,10 +87,10 @@ class PenggunaController extends GLOBAL_Controller
         $hapus = parent::model('PenggunaModel')->hapus($query);
         if ($hapus > 0) {
             $this->addMessage('Pengguna dihapus', 'Pengguna dengan nama ' . $pengguna['username'] . ' telah dihapus', 'delete');
-            parent::alert('alert', 'sukses_hapus');
+            parent::alert('alert', 'success-delete');
             redirect('pengguna');
         } else {
-            parent::alert('alert', 'gagal_hapus');
+            parent::alert('alert', 'error-delete');
             redirect('pengguna');
         }
     }
@@ -116,10 +116,10 @@ class PenggunaController extends GLOBAL_Controller
 
             if ($simpan > 0) {
                 $this->addMessage('Pengguna ditambahkan', 'Pengguna dengan nama ' . $nama_pengguna . ' telah ditambahkan', 'add_circle_outline');
-                parent::alert('alert', 'sukses_tambah');
+                parent::alert('alert', 'success-insert');
                 redirect('pengguna');
             } else {
-                parent::alert('alert', 'gagal_tambah');
+                parent::alert('alert', 'error-insert');
                 redirect('pengguna');
             }
         } else {
@@ -162,7 +162,7 @@ class PenggunaController extends GLOBAL_Controller
 
             // Menampilkan total limit dengan penjelasan yang jelas
             $this->addMessage('Limit diperbarui', 'Total limit untuk pengguna dengan nama ' . $nama_pengguna . ' telah berhasil diperbarui menjadi Rp ' . number_format($total_limit, 0, ',', '.'), 'save'); // Ganti icon dengan 'save'
-            parent::alert('alert', 'sukses_ubah');
+            parent::alert('alert', 'success-save');
             redirect('limit');
         }
     }
@@ -176,7 +176,7 @@ class PenggunaController extends GLOBAL_Controller
         $nama_pengguna = $pengguna->username;
 
         $this->addMessage('Limit direset', 'Limit untuk pengguna dengan nama ' . $nama_pengguna . ' telah direset', 'refresh'); // Ganti icon dengan 'refresh'
-        parent::alert('alert', 'sukses_reset');
+        parent::alert('alert', 'success-reset');
         redirect('limit');
     }
 
@@ -187,7 +187,7 @@ class PenggunaController extends GLOBAL_Controller
 
             // Validasi jumlah yang dimasukkan
             if ($amount <= 0) {
-                parent::alert('alert', 'error-insert');
+                parent::alert('alert', 'error-reduce');
                 redirect('limit');
             }
 
@@ -196,7 +196,7 @@ class PenggunaController extends GLOBAL_Controller
 
             // Cek apakah limit cukup untuk dikurangi
             if ($current_limit < $amount) {
-                parent::alert('alert', 'error-insert');
+                parent::alert('alert', 'error-reduce');
                 redirect('limit');
             }
 
@@ -209,7 +209,7 @@ class PenggunaController extends GLOBAL_Controller
 
             // Tambahkan pesan ke history
             $this->addMessage('Limit dibayar', 'Limit untuk pengguna dengan nama ' . $nama_pengguna . ' telah dibayar sebesar Rp ' . number_format($amount, 0, ',', '.'), 'payment'); 
-            parent::alert('alert', 'success-insert');
+            parent::alert('alert', 'success-reduce');
             redirect('limit');
         } else {
             redirect('limit');

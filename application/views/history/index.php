@@ -11,10 +11,10 @@
                     <div class="row">
                         <div class="col s12" style="margin-top: 10px;">
                             <div class="search-container left">
-                                <input type="text" id="search" placeholder="Search history..." class="search-input">
+                                <input type="text" id="search" placeholder="  Search history..." class="search-input" style="border-radius: 10px;">
                                 <button class="search-button"><i class="material-icons grey-text">search</i></button>
                             </div>
-                            <select id="dropdownEntries" onchange="changeEntries()" style="border-radius: 25px; padding: 2px; width: 100px; margin-left: 20px;" class="browser-default">
+                            <select id="dropdownEntries" onchange="changeEntries()" style="border-radius: 10px; padding: 2px; width: 70px;" class="browser-default">
                                 <option value="10">10</option>
                                 <option value="20">20</option>
                                 <option value="50">50</option>

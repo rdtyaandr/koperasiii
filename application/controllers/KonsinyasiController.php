@@ -157,6 +157,9 @@ class KonsinyasiController extends GLOBAL_Controller
             // Tambahkan pesan setelah mengupdate stok
             $this->addMessage('Barang Konsinyasi telah diretur', 'Barang konsinyasi dengan nama ' . $nama_barang . ' telah diretur dengan jumlah ' . $jumlah, 'remove_circle_outline');
 
+            // Tambahkan alert success-reture
+            parent::alert('alert', 'success-reture');
+
             // Redirect kembali ke halaman konsinyasi
             redirect('konsinyasi');
         } else {
