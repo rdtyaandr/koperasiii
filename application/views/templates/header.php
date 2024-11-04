@@ -655,6 +655,38 @@
                                 </div>
                             </div>
                         <?php break;
+                        case 'success-approve': ?>
+                            <div id="custom-card-alert" class="custom-card green lighten-4 animated slideInUp">
+                                <div class="custom-card-content green-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>BERHASIL:</strong><br>Pinjaman telah berhasil disetujui.</p>
+                                </div>
+                            </div>
+                        <?php break;
+                        case 'success-cancel': ?>
+                            <div id="custom-card-alert" class="custom-card green lighten-4 animated slideInUp">
+                                <div class="custom-card-content green-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>BERHASIL:</strong><br>Pinjaman telah berhasil ditolak.</p>
+                                </div>
+                            </div>
+                        <?php break;
+                        case 'error-approve': ?>
+                            <div id="custom-card-alert" class="custom-card red lighten-4 animated slideInUp">
+                                <div class="custom-card-content red-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>GAGAL:</strong><br>Pinjaman gagal disetujui.</p>
+                                </div>
+                            </div>
+                        <?php break;
+                        case 'error-cancel': ?>
+                            <div id="custom-card-alert" class="custom-card red lighten-4 animated slideInUp">
+                                <div class="custom-card-content red-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>GAGAL:</strong><br>Pinjaman gagal ditolak.</p>
+                                </div>
+                            </div>
+                        <?php break;
                         case 'error-reduce': ?>
                             <div id="custom-card-alert" class="custom-card red lighten-4 animated slideInUp">
                                 <div class="custom-card-content red-text">
@@ -668,6 +700,22 @@
                                 <div class="custom-card-content red-text">
                                     <button class="close-btn" onclick="closeAlert(this);">&times;</button>
                                     <p class="alert-text"><strong>GAGAL:</strong><br>Telah mencapai batas limit.</p>
+                                </div>
+                            </div>
+                        <?php break;
+                        case 'error-profile-update': ?>
+                            <div id="custom-card-alert" class="custom-card red lighten-4 animated slideInUp">
+                                <div class="custom-card-content red-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>GAGAL:</strong><br>Kesalahan saat memperbarui profil.</p>
+                                </div>
+                            </div>
+                        <?php break;
+                        case 'success-profile-update': ?>
+                            <div id="custom-card-alert" class="custom-card green lighten-4 animated slideInUp">
+                                <div class="custom-card-content green-text">
+                                    <button class="close-btn" onclick="closeAlert(this);">&times;</button>
+                                    <p class="alert-text"><strong>BERHASIL:</strong><br>Profil telah berhasil diperbarui.</p>
                                 </div>
                             </div>
                     <?php break;

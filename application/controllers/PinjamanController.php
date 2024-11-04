@@ -77,9 +77,10 @@ class PinjamanController extends GLOBAL_Controller
                     'Pinjaman sebesar Rp ' . number_format($data['jumlah_pinjaman'], 0, ',', '.') . ' telah diajukan dengan nama ' . $nama_pengguna,
                     'add_circle_outline'
                 );
+                parent::alert('alert', 'success-insert'); // Menambahkan alert sukses
                 redirect('pinjaman');
             } else {
-                $this->session->set_flashdata('error', 'Gagal menyimpan pengajuan pinjaman.');
+                $this->session->set_flashdata('alert', 'error-insert'); // Mengubah alert gagal
                 redirect('pinjaman/tambah');
             }
         } else {
@@ -132,9 +133,9 @@ class PinjamanController extends GLOBAL_Controller
 
             // Tambahkan pesan ke history
             $this->addMessage('Pinjaman disetujui', 'Pinjaman dengan nama ' . $nama_pengguna . ' telah disetujui oleh Admin', 'check_circle'); // Ganti icon dengan 'check_circle'
-            $this->session->set_flashdata('message', 'Pinjaman berhasil disetujui.');
+            parent::alert('alert', 'success-approve'); // Menambahkan alert sukses
         } else {
-            $this->session->set_flashdata('message', 'Gagal menyetujui pinjaman.');
+            parent::alert('alert', 'error-approve'); // Mengubah alert gagal
         }
 
         redirect('pinjaman');
@@ -154,9 +155,9 @@ class PinjamanController extends GLOBAL_Controller
 
             // Tambahkan pesan ke history
             $this->addMessage('Pinjaman dibatalkan', 'Pinjaman dengan nama ' . $nama_pengguna . ' telah dibatalkan oleh Admin', 'cancel'); // Ganti icon dengan 'cancel'
-            $this->session->set_flashdata('message', 'Pinjaman berhasil dibatalkan.');
+            parent::alert('alert', 'success-cancel'); // Menambahkan alert sukses
         } else {
-            $this->session->set_flashdata('message', 'Gagal membatalkan pinjaman.');
+            parent::alert('alert', 'error-cancel'); // Mengubah alert gagal
         }
 
         redirect('pinjaman');
@@ -176,9 +177,9 @@ class PinjamanController extends GLOBAL_Controller
 
             // Tambahkan pesan ke history
             $this->addMessage('Pinjaman dihapus', 'Pinjaman dengan nama ' . $nama_pengguna . ' telah dihapus', 'delete');
-            $this->session->set_flashdata('message', 'Pinjaman berhasil dihapus.');
+            parent::alert('alert', 'success-cancel'); // Menambahkan alert sukses
         } else {
-            $this->session->set_flashdata('message', 'Gagal menghapus pinjaman.');
+            parent::alert('alert', 'error-cancel'); // Mengubah alert gagal
         }
 
         redirect('pinjaman');

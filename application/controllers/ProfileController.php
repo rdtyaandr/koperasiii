@@ -80,6 +80,7 @@ class ProfileController extends GLOBAL_Controller
                     echo json_encode(['status' => 'success', 'message' => 'Foto profil berhasil diperbarui']);
                 } else {
                     // Redirect ke halaman profil jika bukan AJAX
+                    parent::alert('alert', 'success-profile-update'); // Tambahkan alert
                     redirect('profile');
                 }
             } else {
@@ -89,6 +90,7 @@ class ProfileController extends GLOBAL_Controller
                 } else {
                     // Tampilkan pesan error di halaman profil
                     $this->session->set_flashdata('error', 'Gagal memperbarui foto profil di database');
+                    parent::alert('alert', 'error-profile-update'); // Tambahkan alert
                     redirect('profile');
                 }
             }
@@ -99,6 +101,7 @@ class ProfileController extends GLOBAL_Controller
                 echo json_encode(['status' => 'error', 'message' => $error]);
             } else {
                 $this->session->set_flashdata('error', $error);
+                parent::alert('alert', 'error-profile-update'); // Tambahkan alert
                 redirect('profile');
             }
         }
@@ -115,10 +118,12 @@ class ProfileController extends GLOBAL_Controller
         // Tampilkan respons JSON
         if ($update_status) {
             $this->session->set_userdata('profile_picture', 'default.png');
+            parent::alert('alert', 'success-profile-update'); // Tambahkan alert
             // Tambahkan pesan ke history
             $this->addMessage('Foto profil dihapus', 'Anda telah berhasil menghapus foto profil Anda.', 'delete');
             echo json_encode(['status' => 'success', 'message' => 'Foto profil berhasil dihapus']);
         } else {
+            parent::alert('alert', 'error-profile-update'); // Tambahkan alert
             echo json_encode(['status' => 'error', 'message' => 'Gagal menghapus foto profil']);
         }
     }
@@ -154,10 +159,10 @@ class ProfileController extends GLOBAL_Controller
             $this->session->set_userdata('email', $data['email']);
 
             // Tampilkan pesan sukses
-            parent::alert('alert', 'profile-updated');
+            parent::alert('alert', 'success-profile-update'); // Tambahkan alert
         } else {
             // Tampilkan pesan error jika update gagal
-            parent::alert('alert', 'update-error');
+            parent::alert('alert', 'error-profile-update'); // Tambahkan alert
         }
 
         redirect('profile');

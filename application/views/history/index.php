@@ -19,7 +19,7 @@
                                 <option value="20">20</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>
-                                <option value="">All</option>
+                                <option value="all">All</option>
                             </select>
                         </div>
                     </div>
@@ -201,14 +201,14 @@
     });
 
     function changeEntries() {
-        const entries = parseInt(document.getElementById("dropdownEntries").value) || 10;
+        const entries = document.getElementById("dropdownEntries").value;
         const messages = document.querySelectorAll(".message-item");
         const totalMessages = messages.length;
 
         let visibleCount = 0;
 
         for (let i = 0; i < totalMessages; i++) {
-            if (entries === "" || visibleCount < entries) {
+            if (entries === "all" || visibleCount < entries) {
                 messages[i].style.display = "";
                 visibleCount++;
             } else {
